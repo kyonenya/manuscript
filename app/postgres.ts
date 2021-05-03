@@ -1,4 +1,4 @@
-import { Pool, PoolClient, QueryConfig, QueryResult } from 'pg';
+import { Pool, QueryConfig, QueryResult } from 'pg';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -10,5 +10,10 @@ const pool = new Pool({
 
 const client = await pool.connect();
 
-export const execute = (...query: QueryConfig[]) => {
+export const execute = (...queries: QueryConfig[]) => {
+  return Promise.all(queries.map((q) => client.query(q)));
 };
+
+export const begin = client.query('BEGIN');
+
+export const commit = client.query('COMMIT');
