@@ -8,7 +8,7 @@ const pool = new Pool({
   ssl: false,
 });
 
-export const getClient: () => Promise<PoolClient> = (() => {
+const getClient: () => Promise<PoolClient> = (() => {
   let client: PoolClient;
   return async () => {
     if (!client) {
@@ -18,18 +18,21 @@ export const getClient: () => Promise<PoolClient> = (() => {
   }
 })();
 
-export const useClient = async () => {
+export const execute = async ([sql, params]: [
+  sql: string,
+  params: unknown[],
+]): Promise<QueryResult> => {
   const client = await getClient();
-
-  const execute = (query: QueryConfig): Promise<QueryResult> => client.query(query);
-  const begin = (): void => {
-    client.query('BEGIN');
-  }
-  const commit = (): void => {
-    client.query('COMMIT');
-  };
-  const rollback = (): void => {
-    client.query('ROLLBACK');
-  };
-  return { execute, begin, commit };
+  return await client.query(sql, params);
 };
+
+export const begin = async (): Promise<void> => {
+  const client = await getClient();
+  client.query('BEGIN');
+}
+//  const commit = (): void => {
+//    client.query('COMMIT');
+//  };
+//  const rollback = (): void => {
+//    client.query('ROLLBACK');
+//  };

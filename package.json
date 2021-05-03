@@ -6,7 +6,7 @@
     "build": "next build",
     "dev": "next dev -p 3450",
     "start": "next start",
-    "test": "cross-env TS_NODE_PROJECT=./tsconfig.cjs.json mocha ./app",
+    "test": "cross-env TS_NODE_PROJECT=./tsconfig.cjs.json mocha app",
     "tsc": "tsc -w --noEmit"
   },
   "dependencies": {
