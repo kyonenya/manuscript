@@ -16,7 +16,6 @@ export const selectAll = async (props: { limit: number }): Promise<any> => {
       $1
     ;`;
   const values = [props.limit];
-  const queryResult = await execute([text, values]);
-  console.log(queryResult);
-//  return queryResult.rows.map((row) => entitize(row));
+  const entries = await execute([text, values]);
+  return entries;
 };
