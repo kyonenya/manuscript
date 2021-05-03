@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "entry_script": "dev",
   "scripts": {
-    "dev": "next dev -p 3450",
     "build": "next build",
+    "dev": "next dev -p 3450",
     "start": "next start",
-    "tsc": "tsc -w --noEmit",
-    "test": "cross-env TS_NODE_PROJECT=./tsconfig.cjs.json mocha"
+    "test": "cross-env TS_NODE_PROJECT=./tsconfig.cjs.json mocha ./app",
+    "tsc": "tsc -w --noEmit"
   },
   "dependencies": {
     "dotenv": "^8.2.0",
