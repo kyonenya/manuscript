@@ -6,7 +6,8 @@
     "dev": "next dev -p 3450",
     "build": "next build",
     "start": "next start",
-    "tsc": "tsc -w --noEmit"
+    "tsc": "tsc -w --noEmit",
+    "test": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha"
   },
   "dependencies": {
     "dotenv": "^8.2.0",
@@ -16,6 +17,7 @@
     "react-dom": "^17.0.2"
   },
   "devDependencies": {
+    "@types/mocha": "^8.2.2",
     "@types/node": "^15.0.1",
     "@types/pg": "^7.14.11",
     "@types/react": "^17.0.4",
