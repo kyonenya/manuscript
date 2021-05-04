@@ -3,6 +3,11 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
+export type query = [
+  sql: string,
+  params: (string | number | boolean)[],
+];
+
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: false,
@@ -18,19 +23,13 @@ const getClient: () => Promise<PoolClient> = (() => {
   }
 })();
 
-export const execute = async <T>([sql, params]: [
-  sql: string,
-  params: unknown[],
-]): Promise<T[]> => {
+export const execute = async <T>([sql, params]: query): Promise<T[]> => {
   const client = await getClient();
   const queryResult = await client.query(sql, params);
   return queryResult.rows;
 };
 
-export const mutate = async (...props: [
-  sql: string,
-  params: unknown[],
-][]): Promise<void> => {
+export const mutate = async (...props: query[]): Promise<void> => {
   const client = await getClient();
   await client.query('BEGIN');
   try {

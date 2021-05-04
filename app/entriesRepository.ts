@@ -1,4 +1,5 @@
 import { execute } from "./postgres";
+import * as entriesQuery from './entriesQuery';
 import { Entry } from './Entry';
 
 type schema = {
@@ -22,21 +23,6 @@ const entryFactory = (row: schema): Entry => {
 };
 
 export const selectAll = async (props: { limit: number }): Promise<Entry[]> => {
-  const text = `
-    SELECT
-      entries.*
-      ,STRING_AGG(tags.tag, ',') AS taglist
-    FROM entries
-      LEFT JOIN tags
-        ON entries.uuid = tags.uuid
-    GROUP BY
-      entries.uuid
-    ORDER BY
-      entries.created_at DESC
-    LIMIT
-      $1
-    ;`;
-  const values = [props.limit];
-  const rows = await execute<schema>([text, values]);
+  const rows = await execute<schema>(entriesQuery.selectAll(props));
   return rows.map((row) => entryFactory(row));
 };
