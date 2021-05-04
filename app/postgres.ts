@@ -21,7 +21,7 @@ const getClient: () => Promise<PoolClient> = (() => {
 export const execute = async <T>([sql, params]: [
   sql: string,
   params: unknown[],
-]): Promise<T> => {
+]): Promise<T[]> => {
   const client = await getClient();
   const queryResult = await client.query(sql, params);
   return queryResult.rows;
