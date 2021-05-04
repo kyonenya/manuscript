@@ -1,5 +1,6 @@
-import { execute } from "./postgres";
+import { execute, mutate } from "./postgres";
 import * as entriesQuery from './entriesQuery';
+import * as tagsQuery from './tagsQuery';
 import { Entry } from './Entry';
 
 type schema = {
@@ -25,4 +26,12 @@ const entryFactory = (row: schema): Entry => {
 export const selectAll = async (props: { limit: number }): Promise<Entry[]> => {
   const rows = await execute<schema>(entriesQuery.selectAll(props));
   return rows.map((row) => entryFactory(row));
+};
+
+export const createOne = async (props: { entry: Entry }): Promise<void> => {
+  const rowCounts = await mutate([
+    entriesQuery.insertOne(props),
+    tagsQuery.insertAll(props.entry),
+  ]);
+  console.log(rowCounts);
 };

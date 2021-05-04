@@ -1,8 +1,10 @@
-export const createOne = (props: {
+import { query } from './postgres';
+
+export const insertAll = (props: {
   tags: string[] | null;
   uuid: string;
-}) => {
-  if (!props.tags) return;
+}): query | null => {
+  if (!props.tags) return null;
   const sql = `
     INSERT INTO tags (
       uuid

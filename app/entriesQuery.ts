@@ -19,3 +19,21 @@ export const selectAll = (props: { limit: number }): query => {
   const params = [props.limit];
   return [sql, params];
 };
+
+export const insertOne = (props: { entry: Entry }): query => {
+  const { entry } = props;
+  const sql = `
+    INSERT INTO entries (
+      text
+      ,starred
+      ,uuid
+    )
+    VALUES (
+      $1
+      ,$2
+      ,$3
+    )
+    ;`;
+  const params = [entry.text, entry.starred, entry.uuid];
+  return [sql, params];
+};

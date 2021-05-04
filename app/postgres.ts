@@ -29,14 +29,19 @@ export const execute = async <T>([sql, params]: query): Promise<T[]> => {
   return queryResult.rows;
 };
 
-export const mutate = async (...props: query[]): Promise<void> => {
+export const mutate = async (props: (query | null)[]): Promise<number[]> => {
   const client = await getClient();
   await client.query('BEGIN');
   try {
-    await Promise.all(props.map(([sql, params]) => client.query(sql, params)));
+    const queryResults = await Promise.all(
+      props
+        .filter((prop): prop is query => prop != null)
+        .map(([sql, params]) => client.query(sql, params))
+    );
+    await client.query('COMMIT');
+    return queryResults.map((row) => row.rowCount);
   } catch (err) {
     await client.query('ROLLBACK');
     throw new Error(err);
   }
-  await client.query('COMMIT');
 };
