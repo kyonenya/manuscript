@@ -1,4 +1,4 @@
-import { Pool, PoolClient, QueryConfig, QueryResult } from 'pg';
+import { Pool, PoolClient, QueryConfig, QueryResult, QueryResultRow } from 'pg';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -27,13 +27,17 @@ export const execute = async <T>([sql, params]: [
   return queryResult.rows;
 };
 
-export const begin = async (): Promise<void> => {
+export const mutate = async (...props: [
+  sql: string,
+  params: unknown[],
+][]): Promise<void> => {
   const client = await getClient();
-  client.query('BEGIN');
-}
-//  const commit = (): void => {
-//    client.query('COMMIT');
-//  };
-//  const rollback = (): void => {
-//    client.query('ROLLBACK');
-//  };
+  await client.query('BEGIN');
+  try {
+    await Promise.all(props.map(([sql, params]) => client.query(sql, params)));
+  } catch (err) {
+    await client.query('ROLLBACK');
+    throw new Error(err);
+  }
+  await client.query('COMMIT');
+};
