@@ -5,6 +5,7 @@
   "scripts": {
     "build": "next build",
     "dev": "next dev -p 3450",
+    "fmt": "prettier --write **/*.{ts,tsx,json}",
     "start": "next start",
     "test": "cross-env TS_NODE_PROJECT=./tsconfig.cjs.json NODE_ENV=test mocha",
     "tsc": "tsc -w --noEmit"
@@ -27,6 +28,7 @@
     "@types/uuid": "^8.3.0",
     "cross-env": "^7.0.3",
     "mocha": "^8.3.2",
+    "prettier": "^2.2.1",
     "ts-node": "^9.1.1",
     "typescript": "^4.2.4"
   },

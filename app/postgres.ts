@@ -3,10 +3,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-export type TQuery = [
-  sql: string,
-  params?: (string | number | boolean)[],
-];
+export type TQuery = [sql: string, params?: (string | number | boolean)[]];
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
@@ -20,7 +17,7 @@ const getClient: () => Promise<PoolClient> = (() => {
       client = await pool.connect();
     }
     return client;
-  }
+  };
 })();
 
 export const execute = async <T>([sql, params]: TQuery): Promise<T[]> => {
@@ -29,7 +26,10 @@ export const execute = async <T>([sql, params]: TQuery): Promise<T[]> => {
   return queryResult.rows;
 };
 
-export const mutate = async (queries: (TQuery | null)[], noTransaction = false): Promise<number[]> => {
+export const mutate = async (
+  queries: (TQuery | null)[],
+  noTransaction = false
+): Promise<number[]> => {
   const client = await getClient();
   if (process.env.NODE_ENV !== 'test') {
     noTransaction = true;

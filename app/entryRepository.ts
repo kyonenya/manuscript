@@ -1,4 +1,4 @@
-import { execute, mutate } from "./postgres";
+import { execute, mutate } from './postgres';
 import * as entriesQuery from './entriesQuery';
 import * as tagsQuery from './tagsQuery';
 import { Entry } from './Entry';
@@ -32,9 +32,9 @@ export const createOne = async (props: {
   entry: Entry;
   shouldCommit?: boolean;
 }): Promise<void> => {
- const rowCounts = await mutate([
-    entriesQuery.insertOne(props),
-    tagsQuery.insertAll(props.entry),
-  ], props.shouldCommit)
+  const rowCounts = await mutate(
+    [entriesQuery.insertOne(props), tagsQuery.insertAll(props.entry)],
+    props.shouldCommit
+  );
   console.log(rowCounts);
 };
