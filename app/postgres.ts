@@ -5,7 +5,7 @@ dotenv.config();
 
 export type TQuery = [
   sql: string,
-  params: (string | number | boolean)[],
+  params?: (string | number | boolean)[],
 ];
 
 const pool = new Pool({
@@ -29,23 +29,30 @@ export const execute = async <T>([sql, params]: TQuery): Promise<T[]> => {
   return queryResult.rows;
 };
 
-export const mutate = async (queries: (TQuery | null)[], shouldCommit = true): Promise<number[]> => {
+export const mutate = async (queries: (TQuery | null)[], noTransaction = false): Promise<number[]> => {
   const client = await getClient();
-  await client.query('BEGIN');
+  if (process.env.NODE_ENV !== 'test') {
+    noTransaction = true;
+  }
+  if (!noTransaction) await client.query('BEGIN');
   try {
     const queryResults = await Promise.all(
       queries
         .filter((query): query is TQuery => query !== null)
         .map(([sql, params]) => client.query(sql, params))
     );
-    if (shouldCommit) {
-      await client.query('COMMIT');
-    } else {
-      await client.query('ROLLBACK');
-    }
+    if (!noTransaction) await client.query('COMMIT');
     return queryResults.map((row) => row.rowCount);
   } catch (err) {
     await client.query('ROLLBACK');
     throw new Error(err);
   }
+};
+
+export const begin = async (): Promise<void> => {
+  await execute(['BEGIN']);
+};
+
+export const rollback = async (): Promise<void> => {
+  await execute(['ROLLBACK']);
 };
