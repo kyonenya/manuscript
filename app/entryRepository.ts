@@ -28,10 +28,13 @@ export const selectAll = async (props: { limit: number }): Promise<Entry[]> => {
   return rows.map((row) => entryFactory(row));
 };
 
-export const createOne = async (props: { entry: Entry }): Promise<void> => {
-  const rowCounts = await mutate([
+export const createOne = async (props: {
+  entry: Entry;
+  shouldCommit?: boolean;
+}): Promise<void> => {
+ const rowCounts = await mutate([
     entriesQuery.insertOne(props),
     tagsQuery.insertAll(props.entry),
-  ]);
+  ], props.shouldCommit)
   console.log(rowCounts);
 };

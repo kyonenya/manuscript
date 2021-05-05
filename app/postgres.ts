@@ -29,16 +29,20 @@ export const execute = async <T>([sql, params]: TQuery): Promise<T[]> => {
   return queryResult.rows;
 };
 
-export const mutate = async (props: (TQuery | null)[]): Promise<number[]> => {
+export const mutate = async (queries: (TQuery | null)[], shouldCommit = true): Promise<number[]> => {
   const client = await getClient();
   await client.query('BEGIN');
   try {
     const queryResults = await Promise.all(
-      props
-        .filter((prop): prop is TQuery => prop != null)
+      queries
+        .filter((query): query is TQuery => query !== null)
         .map(([sql, params]) => client.query(sql, params))
     );
-//    await client.query('COMMIT');
+    if (shouldCommit) {
+      await client.query('COMMIT');
+    } else {
+      await client.query('ROLLBACK');
+    }
     return queryResults.map((row) => row.rowCount);
   } catch (err) {
     await client.query('ROLLBACK');

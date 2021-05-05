@@ -13,6 +13,6 @@ describe('entriesRepository', () => {
       text: '新規作成された記事の本文',
       tags: ['新規記事タグ1', '新規記事タグ2'],
     });
-    await entryRepository.createOne({ entry });
+    await entryRepository.createOne({ entry, shouldCommit: false });
   });
 });
