@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import short from 'short-uuid';
 
 const translator = short();
@@ -7,8 +8,8 @@ export class Entry {
   public readonly starred: boolean;
   public readonly uuid: string;
   public readonly tags: string[] | null;
-  public readonly createdAt?: string;
-  public readonly modifiedAt?: string;
+  public readonly createdAt: string; // ISO8601
+  public readonly modifiedAt: string;
 
   constructor(props: {
     text: string;
@@ -20,9 +21,9 @@ export class Entry {
   }) {
     this.text = props.text;
     this.starred = props.starred ?? false;
-    this.uuid = props.uuid ?? translator.uuid().replace(/-/g, '');
+    this.uuid = props.uuid ?? translator.uuid().replace(/-/g, '').toUpperCase();
     this.tags = props.tags;
-    this.createdAt = props.createdAt;
-    this.modifiedAt = props.modifiedAt;
+    this.createdAt = props.createdAt ?? dayjs().format();
+    this.modifiedAt = props.modifiedAt ?? dayjs().format();
   }
 }

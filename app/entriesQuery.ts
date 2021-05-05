@@ -1,7 +1,7 @@
-import { query } from './postgres';
+import { TQuery } from './postgres';
 import { Entry } from './Entry';
 
-export const selectAll = (props: { limit: number }): query => {
+export const selectAll = (props: { limit: number }): TQuery => {
   const sql = `
     SELECT
       entries.*
@@ -20,7 +20,7 @@ export const selectAll = (props: { limit: number }): query => {
   return [sql, params];
 };
 
-export const insertOne = (props: { entry: Entry }): query => {
+export const insertOne = (props: { entry: Entry }): TQuery => {
   const { entry } = props;
   const sql = `
     INSERT INTO entries (

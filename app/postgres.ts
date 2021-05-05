@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-export type query = [
+export type TQuery = [
   sql: string,
   params: (string | number | boolean)[],
 ];
@@ -23,22 +23,22 @@ const getClient: () => Promise<PoolClient> = (() => {
   }
 })();
 
-export const execute = async <T>([sql, params]: query): Promise<T[]> => {
+export const execute = async <T>([sql, params]: TQuery): Promise<T[]> => {
   const client = await getClient();
   const queryResult = await client.query(sql, params);
   return queryResult.rows;
 };
 
-export const mutate = async (props: (query | null)[]): Promise<number[]> => {
+export const mutate = async (props: (TQuery | null)[]): Promise<number[]> => {
   const client = await getClient();
   await client.query('BEGIN');
   try {
     const queryResults = await Promise.all(
       props
-        .filter((prop): prop is query => prop != null)
+        .filter((prop): prop is TQuery => prop != null)
         .map(([sql, params]) => client.query(sql, params))
     );
-    await client.query('COMMIT');
+//    await client.query('COMMIT');
     return queryResults.map((row) => row.rowCount);
   } catch (err) {
     await client.query('ROLLBACK');
