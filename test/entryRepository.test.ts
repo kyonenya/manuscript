@@ -10,7 +10,6 @@ describe('entriesRepository', () => {
   it('selectAll', async () => {
     const entries = await entryRepository.selectAll({ limit: 1 });
     assert.strictEqual(entries.length, 1);
-    console.log(entries);
   });
 
   it('createOne', async () => {
@@ -18,6 +17,7 @@ describe('entriesRepository', () => {
       text: '新規作成された記事の本文',
       tags: ['新規記事タグ1', '新規記事タグ2'],
     });
-    await entryRepository.createOne({ entry });
+    const rowCounts = await entryRepository.createOne({ entry });
+    assert.deepStrictEqual(rowCounts, [1, 2]);
   });
 });

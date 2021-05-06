@@ -3,7 +3,7 @@ import * as entriesSQL from './entriesSQL';
 import * as tagsSQL from './tagsSQL';
 import { Entry } from './Entry';
 
-type schema = {
+type Schema = {
   text: string;
   starred: boolean;
   uuid: string;
@@ -12,7 +12,7 @@ type schema = {
   modified_at: string;
 };
 
-const entryFactory = (row: schema): Entry => {
+const entryFactory = (row: Schema): Entry => {
   return new Entry({
     text: row.text,
     starred: row.starred,
@@ -24,17 +24,13 @@ const entryFactory = (row: schema): Entry => {
 };
 
 export const selectAll = async (props: { limit: number }): Promise<Entry[]> => {
-  const rows = await query<schema>(entriesSQL.selectAll(props));
+  const rows = await query<Schema>(entriesSQL.selectAll(props));
   return rows.map((row) => entryFactory(row));
 };
 
-export const createOne = async (props: {
-  entry: Entry;
-  shouldCommit?: boolean;
-}): Promise<void> => {
-  const rowCounts = await mutate(
-    [entriesSQL.insertOne(props), tagsSQL.insertAll(props.entry)],
-    props.shouldCommit
-  );
-  console.log(rowCounts);
+export const createOne = async (props: { entry: Entry }): Promise<number[]> => {
+  return await mutate([
+    entriesSQL.insertOne(props),
+    tagsSQL.insertAll(props.entry),
+  ]);
 };
