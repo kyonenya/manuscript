@@ -3,7 +3,10 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-export type TQuery = [sql: string, params?: (string | number | boolean)[]];
+export type SQL = {
+  text: string;
+  values?: (string | number | boolean)[];
+};
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
@@ -20,39 +23,39 @@ const getClient: () => Promise<PoolClient> = (() => {
   };
 })();
 
-export const execute = async <T>([sql, params]: TQuery): Promise<T[]> => {
+export const query = async <T>(sql: SQL): Promise<T[]> => {
   const client = await getClient();
-  const queryResult = await client.query(sql, params);
+  const queryResult = await client.query(sql);
   return queryResult.rows;
 };
 
 export const mutate = async (
-  queries: (TQuery | null)[],
-  noTransaction = false
+  sqls: (SQL | null)[],
+  transacts = true
 ): Promise<number[]> => {
   const client = await getClient();
   if (process.env.NODE_ENV !== 'test') {
-    noTransaction = true;
+    transacts = false;
   }
-  if (!noTransaction) await client.query('BEGIN');
+  if (transacts) await client.query('BEGIN');
   try {
     const queryResults = await Promise.all(
-      queries
-        .filter((query): query is TQuery => query !== null)
-        .map(([sql, params]) => client.query(sql, params))
+      sqls
+        .filter((sql): sql is SQL => sql !== null)
+        .map((sql) => client.query(sql))
     );
-    if (!noTransaction) await client.query('COMMIT');
+    if (transacts) await client.query('COMMIT');
     return queryResults.map((row) => row.rowCount);
   } catch (err) {
-    await client.query('ROLLBACK');
+    if (transacts) await client.query('ROLLBACK');
     throw new Error(err);
   }
 };
 
 export const begin = async (): Promise<void> => {
-  await execute(['BEGIN']);
+  await query({ text: 'BEGIN' });
 };
 
 export const rollback = async (): Promise<void> => {
-  await execute(['ROLLBACK']);
+  await query({ text: 'ROLLBACK' });
 };

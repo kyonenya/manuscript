@@ -1,8 +1,8 @@
-import { TQuery } from './postgres';
+import { SQL } from './postgres';
 import { Entry } from './Entry';
 
-export const selectAll = (props: { limit: number }): TQuery => {
-  const sql = `
+export const selectAll = (props: { limit: number }): SQL => {
+  const text = `
     SELECT
       entries.*
       ,STRING_AGG(tags.tag, ',') AS taglist
@@ -16,13 +16,13 @@ export const selectAll = (props: { limit: number }): TQuery => {
     LIMIT
       $1
     ;`;
-  const params = [props.limit];
-  return [sql, params];
+  const values = [props.limit];
+  return { text, values };
 };
 
-export const insertOne = (props: { entry: Entry }): TQuery => {
+export const insertOne = (props: { entry: Entry }): SQL => {
   const { entry } = props;
-  const sql = `
+  const text = `
     INSERT INTO entries (
       text
       ,starred
@@ -34,6 +34,6 @@ export const insertOne = (props: { entry: Entry }): TQuery => {
       ,$3
     )
     ;`;
-  const params = [entry.text, entry.starred, entry.uuid];
-  return [sql, params];
+  const values = [entry.text, entry.starred, entry.uuid];
+  return { text, values };
 };

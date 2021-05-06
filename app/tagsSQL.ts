@@ -1,11 +1,11 @@
-import { TQuery } from './postgres';
+import { SQL } from './postgres';
 
 export const insertAll = (props: {
   tags: string[] | null;
   uuid: string;
-}): TQuery | null => {
+}): SQL | null => {
   if (!props.tags) return null;
-  const sql = `
+  const text = `
     INSERT INTO tags (
       uuid
       ,tag
@@ -19,6 +19,6 @@ export const insertAll = (props: {
       )
       .join(', ')}
     ;`;
-  const params = [props.uuid, ...props.tags];
-  return [sql, params];
+  const values = [props.uuid, ...props.tags];
+  return { text, values };
 };
