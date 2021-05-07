@@ -22,3 +22,16 @@ export const insertAll = (props: {
   const values = [props.uuid, ...props.tags];
   return { text, values };
 };
+
+export const deleteAll = (props: { uuid: string }): SQL => {
+  const text = `
+    DELETE
+    FROM
+      tags
+    WHERE
+      uuid = $1
+    ;`;
+  const values = [props.uuid];
+
+  return { text, values };
+};
