@@ -29,8 +29,8 @@ export const selectAll = async (props: { limit: number }): Promise<Entry[]> => {
 };
 
 export const createOne = async (props: { entry: Entry }): Promise<number[]> => {
-  return await mutate([
+  return await mutate(
     entriesSQL.insertOne(props),
-    tagsSQL.insertAll(props.entry),
-  ]);
+    tagsSQL.insertAll(props.entry)
+  );
 };

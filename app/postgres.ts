@@ -29,14 +29,9 @@ export const query = async <T>(sql: SQL): Promise<T[]> => {
   return queryResult.rows;
 };
 
-export const mutate = async (
-  sqls: (SQL | null)[],
-  transacts = true
-): Promise<number[]> => {
+export const mutate = async (...sqls: (SQL | null)[]): Promise<number[]> => {
   const client = await getClient();
-  if (process.env.NODE_ENV !== 'test') {
-    transacts = false;
-  }
+  const transacts = process.env.NODE_ENV !== 'test' ? false : true;
   if (transacts) await client.query('BEGIN');
   try {
     const queryResults = await Promise.all(
