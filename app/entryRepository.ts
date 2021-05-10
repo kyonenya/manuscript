@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import { query, mutate } from './postgres';
 import * as entriesSQL from './entriesSQL';
 import * as tagsSQL from './tagsSQL';
-import { Entry } from './Entry';
+import { Entry, toEntry } from './Entry';
 
 type Schema = {
   text: string;
@@ -14,13 +14,13 @@ type Schema = {
 };
 
 const entryFactory = (row: Schema): Entry => {
-  return new Entry({
+  return toEntry({
     text: row.text,
     starred: row.starred,
     uuid: row.uuid,
     tags: row.taglist?.split(',') ?? null,
-    createdAt: dayjs(row.created_at).format(),
-    modifiedAt: dayjs(row.modified_at).format(),
+    createdAt: row.created_at,
+    modifiedAt: row.modified_at,
   });
 };
 

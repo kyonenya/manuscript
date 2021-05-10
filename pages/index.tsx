@@ -7,23 +7,12 @@ import {
   Stack,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { Entry, serialize, EntryProps } from '../app/Entry';
+import { Entry } from '../app/Entry';
 import { selectAll } from '../app/entryRepository';
 import { PostListItem } from '../components/PostListItem';
 import { TopHeaderMenu } from '../components/HeaderMenu';
 
-export default function Index(props: { entries: EntryProps[] }) {
-  const entry1 = new Entry({
-    text:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Auctor neque sed imperdiet nibh lectus feugiat nunc sem.',
-    tags: ['タグ'],
-  });
-  const entry2 = new Entry({
-    text:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Auctor neque sed imperdiet nibh lectus feugiat nunc sem.',
-    tags: null,
-  });
-
+export default function Index(props: { entries: Entry[] }) {
   return (
     <Box bg={useColorModeValue('gray.100', 'gray.700')}>
       <Head>
@@ -36,16 +25,17 @@ export default function Index(props: { entries: EntryProps[] }) {
           <PostListItem entry={props.entries[0]} />
           <PostListItem entry={props.entries[1]} />
           <PostListItem entry={props.entries[2]} />
-          <PostListItem entry={entry1} />
         </SimpleGrid>
       </Container>
     </Box>
   );
 }
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getStaticProps: GetStaticProps<{
+  entries: Entry[];
+}> = async () => {
   const entries = await selectAll({ limit: 4 });
   return {
-    props: { entries: entries.map((entry) => serialize(entry)) },
+    props: { entries: entries },
   };
 };
