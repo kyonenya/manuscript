@@ -33,7 +33,13 @@ export const TopHeaderMenu = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
-    <Box px={4} bg={useColorModeValue('gray.100', 'gray.900')} boxShadow={'md'}>
+    <Box
+      px={4}
+      bg={useColorModeValue('gray.100', 'gray.900')}
+      boxShadow={'md'}
+      position={['sticky', '-webkit-sticky']}
+      top={0}
+    >
       <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
         <IconButton
           size={'md'}
