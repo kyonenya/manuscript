@@ -3,14 +3,16 @@ import * as entryRepository from '../app/entryRepository';
 import { begin, rollback } from '../app/postgres';
 import { Entry } from '../app/Entry';
 
-describe('entriesRepository', () => {
-  beforeEach(() => begin());
-  afterEach(() => rollback());
-
+describe('query-entriesRepository', () => {
   it('selectAll', async () => {
     const entries = await entryRepository.selectAll({ limit: 1 });
     assert.strictEqual(entries.length, 1);
   });
+});
+
+describe('mutation-entriesRepository', () => {
+  beforeEach(() => begin());
+  afterEach(() => rollback());
 
   it('createOne', async () => {
     const entry = new Entry({

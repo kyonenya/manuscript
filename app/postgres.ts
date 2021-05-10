@@ -31,7 +31,7 @@ export const query = async <T>(sql: SQL): Promise<T[]> => {
 
 export const mutate = async (...sqls: (SQL | null)[]): Promise<number[]> => {
   const client = await getClient();
-  const transacts = process.env.NODE_ENV !== 'test' ? false : true;
+  const transacts = process.env.NODE_ENV === 'test' ? false : true;
   if (transacts) await client.query('BEGIN');
   try {
     const queryResults = await Promise.all(
