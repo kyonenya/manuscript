@@ -27,3 +27,17 @@ export class Entry {
     this.modifiedAt = props.modifiedAt ?? dayjs().format();
   }
 }
+
+export type EntryProps = {
+  text: string;
+  starred: boolean;
+  uuid: string;
+  tags: string[] | null;
+  createdAt: string;
+  modifiedAt: string;
+};
+
+export const serialize = (entry: Entry): EntryProps => {
+  const { text, starred, uuid, tags, createdAt, modifiedAt } = entry;
+  return { text, starred, uuid, tags, createdAt, modifiedAt };
+};

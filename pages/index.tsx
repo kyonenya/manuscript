@@ -7,12 +7,12 @@ import {
   Stack,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { Entry } from '../app/Entry';
+import { Entry, serialize, EntryProps } from '../app/Entry';
 import { selectAll } from '../app/entryRepository';
 import { PostListItem } from '../components/PostListItem';
 import { TopHeaderMenu } from '../components/HeaderMenu';
 
-export default function Index(props: { entries: Entry[] }) {
+export default function Index(props: { entries: EntryProps[] }) {
   const entry1 = new Entry({
     text:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Auctor neque sed imperdiet nibh lectus feugiat nunc sem.',
@@ -31,10 +31,7 @@ export default function Index(props: { entries: Entry[] }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <TopHeaderMenu />
-      <Container
-        maxW="4xl"
-        py={4}
-      >
+      <Container maxW="4xl" py={4}>
         <SimpleGrid columns={{ base: 1, md: 2 }} spacing={{ base: 4, lg: 8 }}>
           <PostListItem entry={props.entries[0]} />
           <PostListItem entry={props.entries[1]} />
@@ -49,6 +46,6 @@ export default function Index(props: { entries: Entry[] }) {
 export const getStaticProps: GetStaticProps = async () => {
   const entries = await selectAll({ limit: 4 });
   return {
-    props: { entries: JSON.parse(JSON.stringify(entries)) },
+    props: { entries: entries.map((entry) => serialize(entry)) },
   };
 };

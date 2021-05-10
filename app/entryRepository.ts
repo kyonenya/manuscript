@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import { query, mutate } from './postgres';
 import * as entriesSQL from './entriesSQL';
 import * as tagsSQL from './tagsSQL';
@@ -8,8 +9,8 @@ type Schema = {
   starred: boolean;
   uuid: string;
   taglist: string | null;
-  created_at: string;
-  modified_at: string;
+  created_at: Date;
+  modified_at: Date;
 };
 
 const entryFactory = (row: Schema): Entry => {
@@ -18,8 +19,8 @@ const entryFactory = (row: Schema): Entry => {
     starred: row.starred,
     uuid: row.uuid,
     tags: row.taglist?.split(',') ?? null,
-    createdAt: row.created_at,
-    modifiedAt: row.modified_at,
+    createdAt: dayjs(row.created_at).format(),
+    modifiedAt: dayjs(row.modified_at).format(),
   });
 };
 

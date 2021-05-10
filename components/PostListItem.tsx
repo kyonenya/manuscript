@@ -8,9 +8,9 @@ import {
   TagLabel,
 } from '@chakra-ui/react';
 import dayjs from 'dayjs';
-import { Entry } from '../app/Entry';
+import { EntryProps } from '../app/Entry';
 
-export const PostListItem = (props: { entry: Entry }) => {
+export const PostListItem = (props: { entry: EntryProps }) => {
   const { entry } = props;
   return (
     <Stack
