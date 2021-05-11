@@ -16,10 +16,10 @@
   },
   "include": [
     // specify individually for build performance
-    "app/**.ts",
-    "components/**.ts*",
-    "pages/**.ts*",
-    "test/**.ts",
+    "app/**/*.ts",
+    "components/**/*.ts*",
+    "pages/**/*.ts*",
+    "test/**/*.ts",
     "next-env.d.ts"
   ],
   "exclude": ["node_modules", ".next"]
