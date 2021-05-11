@@ -50,7 +50,7 @@ const PostListItem = (props: { entry: Entry }) => {
 export const PostList = (props: { entries: Entry[] }) => {
   return (
     <SimpleGrid columns={{ base: 1, md: 2 }} spacing={{ base: 4, lg: 8 }}>
-      {props.entries.map(entry => (
+      {props.entries.map((entry) => (
         <PostListItem entry={entry} key={entry.uuid} />
       ))}
     </SimpleGrid>

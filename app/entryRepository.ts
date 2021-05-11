@@ -24,8 +24,16 @@ const entryFactory = (row: Schema): Entry => {
   });
 };
 
-export const selectAll = async (props: { limit: number }): Promise<Entry[]> => {
+export const readMany = async (props: { limit: number }): Promise<Entry[]> => {
   const rows = await query<Schema>(entriesSQL.selectAll(props));
+  return rows.map((row) => entryFactory(row));
+};
+
+export const findByKeyword = async (props: {
+  keyword: string;
+  limit: number;
+}): Promise<Entry[]> => {
+  const rows = await query<Schema>(entriesSQL.selectByKeyword(props));
   return rows.map((row) => entryFactory(row));
 };
 

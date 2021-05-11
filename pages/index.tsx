@@ -8,7 +8,7 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import { Entry } from '../app/Entry';
-import { selectAll } from '../app/entryRepository';
+import { readMany } from '../app/entryRepository';
 import { PostList } from '../components/PostList';
 import { TopHeaderMenu } from '../components/HeaderMenu';
 
@@ -30,7 +30,7 @@ export default function Index(props: { entries: Entry[] }) {
 export const getStaticProps: GetStaticProps<{
   entries: Entry[];
 }> = async () => {
-  const entries = await selectAll({ limit: 4 });
+  const entries = await readMany({ limit: 4 });
   return {
     props: { entries: entries },
   };

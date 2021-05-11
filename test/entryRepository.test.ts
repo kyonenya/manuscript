@@ -3,15 +3,19 @@ import * as entryRepository from '../app/entryRepository';
 import { begin, rollback } from '../app/postgres';
 import { toEntry } from '../app/Entry';
 
-describe('query_entriesRepository', () => {
-  it('selectAll', async () => {
-    const entries = await entryRepository.selectAll({ limit: 1 });
+describe('entriesRepository', () => {
+  beforeEach(() => begin());
+
+  it('readMany', async () => {
+    const entries = await entryRepository.readMany({ limit: 1 });
     assert.strictEqual(entries.length, 1);
   });
-});
 
-describe('mutation_entriesRepository', () => {
-  beforeEach(() => begin());
+  it('findByKeyword', async () => {
+    const keyword = '。';
+    const entries = await entryRepository.findByKeyword({ keyword, limit: 1 });
+    assert.strictEqual(entries.length, 1);
+  });
 
   it('createOne', async () => {
     const entry = toEntry({
