@@ -3,14 +3,15 @@ import {
   Text,
   Stack,
   Container,
-  useColorModeValue,
+  SimpleGrid,
   Tag,
   TagLabel,
+  useColorModeValue,
 } from '@chakra-ui/react';
 import dayjs from 'dayjs';
 import { Entry } from '../app/Entry';
 
-export const PostListItem = (props: { entry: Entry }) => {
+const PostListItem = (props: { entry: Entry }) => {
   const { entry } = props;
   return (
     <Stack
@@ -43,5 +44,15 @@ export const PostListItem = (props: { entry: Entry }) => {
         </Stack>
       </Stack>
     </Stack>
+  );
+};
+
+export const PostList = (props: { entries: Entry[] }) => {
+  return (
+    <SimpleGrid columns={{ base: 1, md: 2 }} spacing={{ base: 4, lg: 8 }}>
+      {props.entries.map(entry => (
+        <PostListItem entry={entry} key={entry.uuid} />
+      ))}
+    </SimpleGrid>
   );
 };

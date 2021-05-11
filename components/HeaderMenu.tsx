@@ -37,8 +37,8 @@ export const TopHeaderMenu = () => {
       px={4}
       bg={useColorModeValue('gray.100', 'gray.900')}
       boxShadow={'md'}
-      position={['sticky', '-webkit-sticky']}
-      top={0}
+//      position={['sticky', '-webkit-sticky']}
+//      top={0}
     >
       <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
         <IconButton

@@ -9,7 +9,7 @@ import {
 } from '@chakra-ui/react';
 import { Entry } from '../app/Entry';
 import { selectAll } from '../app/entryRepository';
-import { PostListItem } from '../components/PostListItem';
+import { PostList } from '../components/PostList';
 import { TopHeaderMenu } from '../components/HeaderMenu';
 
 export default function Index(props: { entries: Entry[] }) {
@@ -21,11 +21,7 @@ export default function Index(props: { entries: Entry[] }) {
       </Head>
       <TopHeaderMenu />
       <Container maxW="4xl" py={4}>
-        <SimpleGrid columns={{ base: 1, md: 2 }} spacing={{ base: 4, lg: 8 }}>
-          <PostListItem entry={props.entries[0]} />
-          <PostListItem entry={props.entries[1]} />
-          <PostListItem entry={props.entries[2]} />
-        </SimpleGrid>
+        <PostList entries={props.entries} />
       </Container>
     </Box>
   );
