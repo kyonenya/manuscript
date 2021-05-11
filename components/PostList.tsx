@@ -27,7 +27,7 @@ const PostListItem = (props: { entry: Entry }) => {
         color={useColorModeValue('gray.700', 'gray.300')}
         fontSize={'md'}
       >
-        {entry.text}
+        {entry.text.substr(0, 125)}
       </Text>
       <Stack direction={'row'} spacing={4}>
         <Box>
