@@ -1,4 +1,4 @@
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import short from 'short-uuid';
 
 const translator = short();
@@ -17,8 +17,8 @@ export const toEntry = (props: {
   starred?: boolean;
   uuid?: string;
   tags?: string[] | null;
-  createdAt?: string | Date;
-  modifiedAt?: string | Date;
+  createdAt?: string | Date | Dayjs;
+  modifiedAt?: string | Date | Dayjs;
 }): Entry => {
   return {
     text: props.text,

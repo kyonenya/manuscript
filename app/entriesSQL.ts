@@ -1,22 +1,22 @@
 import { SQL } from './postgres';
 import { Entry } from './Entry';
 
-export const selectAll = (props: { limit: number }): SQL => {
+export const selectAll = (props: { limit: number; offset?: number }): SQL => {
   const text = `
     SELECT
       entries.*
       ,STRING_AGG(tags.tag, ',') AS taglist
-    FROM entries
+    FROM
+      entries
       LEFT JOIN tags
         ON entries.uuid = tags.uuid
     GROUP BY
       entries.uuid
     ORDER BY
       entries.created_at DESC
-    LIMIT
-      $1
+    LIMIT $1 OFFSET $2
     ;`;
-  const values = [props.limit];
+  const values = [props.limit, props.offset ?? 0];
   return { text, values };
 };
 
@@ -40,6 +40,7 @@ export const selectOne = (props: { uuid: string }): SQL => {
 export const selectByKeyword = (props: {
   keyword: string;
   limit: number;
+  offset?: number;
 }): SQL => {
   const text = `
     SELECT
@@ -55,8 +56,8 @@ export const selectByKeyword = (props: {
     HAVING entries.text LIKE '%' || $1 || '%'
     ORDER BY
       entries.created_at DESC
-    LIMIT $2;`;
-  const values = [props.keyword, props.limit];
+    LIMIT $2 OFFSET $3;`;
+  const values = [props.keyword, props.limit, props.offset ?? 0];
   return { text, values };
 };
 

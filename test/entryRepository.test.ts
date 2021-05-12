@@ -1,31 +1,40 @@
 import assert from 'assert';
+import dayjs from 'dayjs';
 import * as entryRepository from '../app/entryRepository';
 import { begin, rollback } from '../app/postgres';
 import { toEntry } from '../app/Entry';
 
 describe('queries_entriesRepository', () => {
+  const olderEntry = toEntry({
+    text: 'これは過去の記事です。',
+    createdAt: dayjs().subtract(1, 's'),
+  });
+  const newestEntry = toEntry({
+    text: 'これは最新の記事です。',
+    tags: ['タグ1', 'タグ2'],
+    createdAt: dayjs(),
+  });
+
   before(async () => {
     await begin();
-    const entry1 = toEntry({
-      text: 'これは一つ目のサンプルの記事です。',
-      tags: ['タグ1', 'タグ2'],
-    });
-    const entry2 = toEntry({
-      text: 'これは二つ目のサンプルの記事です。',
-    });
-    await entryRepository.createOne({ entry: entry1 });
-    await entryRepository.createOne({ entry: entry2 });
+    await entryRepository.createOne({ entry: olderEntry });
+    await entryRepository.createOne({ entry: newestEntry });
   });
 
   it('readMany', async () => {
-    const entries = await entryRepository.readMany({ limit: 1 });
+    const entries = await entryRepository.readMany({ limit: 1, offset: 1 });
     assert.strictEqual(entries.length, 1);
+    assert.strictEqual(entries[0].text, olderEntry.text); // offset
   });
 
   it('findByKeyword', async () => {
-    const keyword = '。';
-    const entries = await entryRepository.findByKeyword({ keyword, limit: 1 });
+    const entries = await entryRepository.findByKeyword({
+      keyword: '。',
+      limit: 1,
+      offset: 1,
+    });
     assert.strictEqual(entries.length, 1);
+    assert.strictEqual(entries[0].text, olderEntry.text); // offset
   });
 
   after(() => rollback());
