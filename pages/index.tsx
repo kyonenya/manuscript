@@ -43,13 +43,13 @@ export default function Index(props: { entries: Entry[] }) {
       <Box align="center">
         <IconButton
           aria-label={'もっと読む'}
-          onClick={fetchNextPage}
+          onClick={() => fetchNextPage()}
           icon={<AddIcon />}
           size={'sm'}
         />
       </Box>
       <Container maxW="4xl" py={4}>
-        {!isFetching && <PostList entries={data.pages.flat()} />}
+        {data && <PostList entries={data.pages.flat()} />}
       </Container>
     </Box>
   );
