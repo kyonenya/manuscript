@@ -1,31 +1,37 @@
 import { GetStaticProps } from 'next';
 import Head from 'next/head';
-import { useQuery } from 'react-query';
+import { useInfiniteQuery } from 'react-query';
 import {
   Box,
   Container,
+  IconButton,
   SimpleGrid,
   Stack,
   useColorModeValue,
 } from '@chakra-ui/react';
+import { AddIcon } from '@chakra-ui/icons';
 import { Entry } from '../app/Entry';
 import { readMany } from '../app/entryRepository';
 import { PostList } from '../components/PostList';
 import { TopHeaderMenu } from '../components/HeaderMenu';
 
+const limit = 3;
+
 export default function Index(props: { entries: Entry[] }) {
-  const { data, error } = useQuery(['search', { keyword: '演技' }], () =>
+  const { data, fetchNextPage, isFetching } = useInfiniteQuery<Entry>(['search', { keyword: '演技' }], ({ pageParam = 0 }) =>
     fetch('/api/search', {
       method: 'POST',
       body: JSON.stringify({
         keyword: '演技',
-        limit: 5,
-        //        offset: 5,
+        limit,
+        offset: pageParam * limit,
       }),
       headers: new Headers({ 'Content-Type': 'application/json' }),
       credentials: 'same-origin',
     }).then((res) => res.json())
-  );
+  , {
+    getNextPageParam: (lastPage, pages) => pages.length
+  });
 
   return (
     <Box bg={useColorModeValue('gray.100', 'gray.700')}>
@@ -34,8 +40,16 @@ export default function Index(props: { entries: Entry[] }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <TopHeaderMenu />
+      <Box align="center">
+        <IconButton
+          aria-label={'もっと読む'}
+          onClick={fetchNextPage}
+          icon={<AddIcon />}
+          size={'sm'}
+        />
+      </Box>
       <Container maxW="4xl" py={4}>
-        {data && <PostList entries={data} />}
+        {!isFetching && <PostList entries={data.pages.flat()} />}
       </Container>
     </Box>
   );
