@@ -18,20 +18,23 @@ import { TopHeaderMenu } from '../components/HeaderMenu';
 const limit = 3;
 
 export default function Index(props: { entries: Entry[] }) {
-  const { data, fetchNextPage, isFetching } = useInfiniteQuery<Entry>(['search', { keyword: '演技' }], ({ pageParam = 0 }) =>
-    fetch('/api/search', {
-      method: 'POST',
-      body: JSON.stringify({
-        keyword: '演技',
-        limit,
-        offset: pageParam * limit,
-      }),
-      headers: new Headers({ 'Content-Type': 'application/json' }),
-      credentials: 'same-origin',
-    }).then((res) => res.json())
-  , {
-    getNextPageParam: (lastPage, pages) => pages.length
-  });
+  const { data, fetchNextPage, isFetching } = useInfiniteQuery<Entry>(
+    ['search', { keyword: '演技' }],
+    ({ pageParam = 0 }) =>
+      fetch('/api/search', {
+        method: 'POST',
+        body: JSON.stringify({
+          keyword: '演技',
+          limit,
+          offset: pageParam * limit,
+        }),
+        headers: new Headers({ 'Content-Type': 'application/json' }),
+        credentials: 'same-origin',
+      }).then((res) => res.json()),
+    {
+      getNextPageParam: (lastPage, pages) => pages.length,
+    }
+  );
 
   return (
     <Box bg={useColorModeValue('gray.100', 'gray.700')}>

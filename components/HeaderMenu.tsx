@@ -6,6 +6,7 @@ import {
   IconButton,
   InputGroup,
   Input,
+  InputLeftElement,
   InputRightAddon,
   Link,
   Stack,
@@ -48,24 +49,31 @@ export const TopHeaderMenu = () => {
         />
 
         <HStack spacing={8} alignItems={'center'}>
-          <InputGroup size="md">
-            <Input
-              type="text"
-              placeholder="Enter Search Word"
-              aria-label="Serach Form"
-              borderColor={useColorModeValue('gray.300', 'gray.700')}
-            />
-            <InputRightAddon
-              p={1}
-              borderColor={useColorModeValue('gray.300', 'gray.700')}
-            >
-              <IconButton
-                size="sm"
-                aria-label="検索"
-                icon={<SearchIcon />}
-              ></IconButton>
-            </InputRightAddon>
-          </InputGroup>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              console.log('searched!');
+            }}
+          >
+            <InputGroup size="md">
+              <InputLeftElement
+                p={1}
+                borderColor={useColorModeValue('gray.300', 'gray.700')}
+              >
+                <IconButton
+                  size="sm"
+                  aria-label="検索"
+                  icon={<SearchIcon />}
+                ></IconButton>
+              </InputLeftElement>
+              <Input
+                type="text"
+                placeholder="Enter Search Word"
+                aria-label="Serach Form"
+                borderColor={useColorModeValue('gray.300', 'gray.700')}
+              />
+            </InputGroup>
+          </form>
         </HStack>
 
         <Flex alignItems={'center'}>
