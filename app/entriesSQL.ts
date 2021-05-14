@@ -96,14 +96,24 @@ export const insertOne = (props: { entry: Entry }): SQL => {
       text
       ,starred
       ,uuid
+      ,created_at
+      ,modified_at
     )
     VALUES (
       $1
       ,$2
       ,$3
+      ,$4
+      ,$5
     )
     ;`;
-  const values = [entry.text, entry.starred, entry.uuid];
+  const values = [
+    entry.text,
+    entry.starred,
+    entry.uuid,
+    entry.createdAt,
+    entry.modifiedAt,
+  ];
   return { text, values };
 };
 
@@ -115,10 +125,18 @@ export const updateOne = (props: { entry: Entry }): SQL => {
     SET
       text = $1
       ,starred = $2
+      ,created_at = $3
+      ,modified_at = $4
     WHERE
-      uuid = $3
+      uuid = $5
     ;`;
-  const values = [entry.text, entry.starred, entry.uuid];
+  const values = [
+    entry.text,
+    entry.starred,
+    entry.createdAt,
+    entry.modifiedAt,
+    entry.uuid,
+  ];
   return { text, values };
 };
 

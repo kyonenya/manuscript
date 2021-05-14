@@ -32,7 +32,7 @@ export const readMany = async (props: {
   return rows.map((row) => entryFactory(row));
 };
 
-export const findByKeyword = async (props: {
+export const searchKeyword = async (props: {
   keyword: string;
   limit: number;
   offset?: number;

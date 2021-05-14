@@ -1,5 +1,5 @@
 import { NextApiHandler, NextApiRequest } from 'next';
-import { findByKeyword } from '../../app/entryRepository';
+import { searchKeyword } from '../../app/entryRepository';
 
 const validateRequest = (reqBody: NextApiRequest['body']) => {
   return {
@@ -10,7 +10,7 @@ const validateRequest = (reqBody: NextApiRequest['body']) => {
 };
 
 const handler: NextApiHandler = async (req, res) => {
-  const entries = await findByKeyword(validateRequest(req.body));
+  const entries = await searchKeyword(validateRequest(req.body));
   await res.json(entries);
 };
 

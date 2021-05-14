@@ -24,17 +24,25 @@ describe('queries_entriesRepository', () => {
   it('readMany', async () => {
     const entries = await entryRepository.readMany({ limit: 1, offset: 1 });
     assert.strictEqual(entries.length, 1);
-    assert.strictEqual(entries[0].text, olderEntry.text); // offset
+    assert.strictEqual(entries[0].text, olderEntry.text);
   });
 
-  it('findByKeyword', async () => {
-    const entries = await entryRepository.findByKeyword({
+  it('searchKeyword', async () => {
+    const entries = await entryRepository.searchKeyword({
       keyword: '。',
       limit: 1,
       offset: 1,
     });
     assert.strictEqual(entries.length, 1);
-    assert.strictEqual(entries[0].text, olderEntry.text); // offset
+    assert.strictEqual(entries[0].text, olderEntry.text);
+  });
+  it('searchKeyword_emptyKeyword', async () => {
+    const entries = await entryRepository.searchKeyword({
+      keyword: '',
+      limit: 1,
+    });
+    // same as readMany
+    assert.strictEqual(entries[0].text, newestEntry.text);
   });
 
   after(() => rollback());
