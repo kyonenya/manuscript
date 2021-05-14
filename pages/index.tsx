@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { GetStaticProps } from 'next';
 import Head from 'next/head';
 import { useInfiniteQuery } from 'react-query';
@@ -18,13 +19,14 @@ import { TopHeaderMenu } from '../components/HeaderMenu';
 const limit = 3;
 
 export default function Index(props: { entries: Entry[] }) {
-  const { data, fetchNextPage, isFetching } = useInfiniteQuery<Entry>(
-    ['search', { keyword: '演技' }],
+  const [keyword, setKeyword] = useState('');
+  const { data, fetchNextPage, isFetching, refetch } = useInfiniteQuery<Entry>(
+    ['search', { keyword }],
     ({ pageParam = 0 }) =>
       fetch('/api/search', {
         method: 'POST',
         body: JSON.stringify({
-          keyword: '演技',
+          keyword,
           limit,
           offset: pageParam * limit,
         }),
@@ -42,7 +44,7 @@ export default function Index(props: { entries: Entry[] }) {
         <title>manuscript</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <TopHeaderMenu />
+      <TopHeaderMenu onSearch={({ keyword }) => setKeyword(keyword)} />
       <Box align="center">
         <IconButton
           aria-label={'もっと読む'}

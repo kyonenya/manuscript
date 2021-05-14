@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+import { useForm } from 'react-hook-form';
 import {
   Box,
   Flex,
@@ -15,22 +16,10 @@ import {
 } from '@chakra-ui/react';
 import { ArrowBackIcon, SearchIcon, SettingsIcon } from '@chakra-ui/icons';
 
-const NavLink = ({ children }: { children: ReactNode }) => (
-  <Link
-    px={2}
-    py={1}
-    rounded={'md'}
-    _hover={{
-      textDecoration: 'none',
-      bg: useColorModeValue('gray.200', 'gray.700'),
-    }}
-    href={'#'}
-  >
-    {children}
-  </Link>
-);
+type Form = { keyword: string };
 
-export const TopHeaderMenu = () => {
+export const TopHeaderMenu = (props: { onSearch: (data: Form) => void }) => {
+  const { register, handleSubmit } = useForm<Form>();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -48,41 +37,30 @@ export const TopHeaderMenu = () => {
           aria-label={'Back to Top'}
         />
 
-        <HStack spacing={8} alignItems={'center'}>
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              console.log('searched!');
-            }}
-          >
-            <InputGroup size="md">
-              <InputLeftElement
-                p={1}
-                borderColor={useColorModeValue('gray.300', 'gray.700')}
-              >
-                <IconButton
-                  size="sm"
-                  aria-label="検索"
-                  icon={<SearchIcon />}
-                ></IconButton>
-              </InputLeftElement>
-              <Input
-                type="text"
-                placeholder="Enter Search Word"
-                aria-label="Serach Form"
-                borderColor={useColorModeValue('gray.300', 'gray.700')}
-              />
-            </InputGroup>
-          </form>
-        </HStack>
+        <form onSubmit={handleSubmit(props.onSearch)}>
+          <InputGroup size="md">
+            <InputLeftElement
+              p={1}
+              borderColor={useColorModeValue('gray.300', 'gray.700')}
+              children={
+                <IconButton aria-label="検索" icon={<SearchIcon />} size="sm" />
+              }
+            />
+            <Input
+              {...register('keyword')}
+              type="text"
+              aria-label="記事検索フォーム"
+              placeholder="Search"
+              borderColor={useColorModeValue('gray.300', 'gray.700')}
+            />
+          </InputGroup>
+        </form>
 
-        <Flex alignItems={'center'}>
-          <IconButton
-            icon={<SettingsIcon />}
-            aria-label="設定"
-            onClick={isOpen ? onClose : onOpen}
-          />
-        </Flex>
+        <IconButton
+          icon={<SettingsIcon />}
+          aria-label="設定"
+          onClick={isOpen ? onClose : onOpen}
+        />
       </Flex>
     </Box>
   );
