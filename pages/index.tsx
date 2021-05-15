@@ -54,7 +54,12 @@ export default function Index(props: { entries: Entry[] }) {
         />
       </Box>
       <Container maxW="4xl" py={4}>
-        {data && <PostList entries={data.pages.flat()} />}
+        {data && (
+          <PostList
+            entries={data.pages.flat()}
+            keyword={keyword === '' ? undefined : keyword}
+          />
+        )}
       </Container>
     </Box>
   );

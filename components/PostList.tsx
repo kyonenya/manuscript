@@ -9,9 +9,9 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import dayjs from 'dayjs';
-import { Entry } from '../app/Entry';
+import { Entry, toSearchedSummary } from '../app/Entry';
 
-const ListItemText = (props: { text: string }) => {
+const Summary = (props: { text: string }) => {
   return (
     <Box>
       <Text color={useColorModeValue('gray.700', 'gray.300')}>
@@ -21,29 +21,27 @@ const ListItemText = (props: { text: string }) => {
   );
 };
 
-const SearchedListItemText = () => {
-  const beforeElipsed = true;
-  const afterElipsed = true;
+const SearchedSummary = (props: { text: string; keyword: string }) => {
+  const summary = toSearchedSummary(props);
 
   return (
     <Box>
       <Text color={useColorModeValue('gray.700', 'gray.300')} as="span">
-        {beforeElipsed && '…'}
-        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-        quis nostrud
+        {summary.isBeforeEllipsed && '…'}
+        {summary.beforeText}
       </Text>
       <Text as="span" bg="yellow.100" color="orange.800" p={0.5} mx={1}>
-        exercitation
+        {summary.keyword}
       </Text>
       <Text color={useColorModeValue('gray.700', 'gray.300')} as="span">
-        ullamco laboris nisi ut aliquip ex ea commodo consequat
-        {afterElipsed && '…'}
+        {summary.afterText}
+        {summary.isAfterEllipsed && '…'}
       </Text>
     </Box>
   );
 };
 
-const ListItem = (props: { entry: Entry }) => {
+const ListItem = (props: { entry: Entry; keyword?: string }) => {
   const { entry } = props;
   return (
     <Stack
@@ -55,7 +53,12 @@ const ListItem = (props: { entry: Entry }) => {
       pos={'relative'}
       as="li"
     >
-      <SearchedListItemText />
+      {props.keyword ? (
+        <SearchedSummary text={entry.text} keyword={props.keyword} />
+      ) : (
+        <Summary text={entry.text} />
+      )}
+
       <Stack direction={'row'} spacing={4}>
         <Box>
           <Text color="gray.500">
@@ -74,7 +77,7 @@ const ListItem = (props: { entry: Entry }) => {
   );
 };
 
-export const PostList = (props: { entries: Entry[] }) => {
+export const PostList = (props: { entries: Entry[]; keyword?: string }) => {
   return (
     <SimpleGrid
       columns={{ base: 1, md: 2 }}
@@ -82,7 +85,7 @@ export const PostList = (props: { entries: Entry[] }) => {
       as="ul"
     >
       {props.entries.map((entry) => (
-        <ListItem entry={entry} key={entry.uuid} />
+        <ListItem entry={entry} keyword={props.keyword} key={entry.uuid} />
       ))}
     </SimpleGrid>
   );
