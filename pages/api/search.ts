@@ -1,5 +1,5 @@
 import { NextApiHandler, NextApiRequest } from 'next';
-import { searchKeyword } from '../../app/entryRepository';
+import { searchKeyword } from '../../infra/entryRepository';
 
 const validateRequest = (reqBody: NextApiRequest['body']) => {
   return {

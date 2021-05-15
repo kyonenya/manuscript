@@ -1,5 +1,5 @@
 import { SQL } from './postgres';
-import { Entry } from './Entry';
+import { Entry } from '../app/Entry';
 
 export const selectAll = (props: { limit: number; offset?: number }): SQL => {
   const text = `

@@ -1,5 +1,5 @@
 import assert from 'assert';
-import { toSearchedSummary } from '../app/Entry';
+import { toSearchedSummary } from '../Entry';
 
 describe('toSearchedSummary', () => {
   const text =

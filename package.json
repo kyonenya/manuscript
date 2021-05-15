@@ -7,7 +7,8 @@
     "dev": "next dev -p 3450",
     "fmt": "prettier --write **/*.{ts,tsx}",
     "start": "next start",
-    "test": "cross-env TS_NODE_PROJECT=./tsconfig.cjs.json NODE_ENV=test mocha",
+    "test:app": "cross-env TS_NODE_PROJECT=./tsconfig.cjs.json NODE_ENV=test mocha ./app/__tests__/**.ts",
+    "test:infra": "cross-env TS_NODE_PROJECT=./tsconfig.cjs.json NODE_ENV=test mocha ./infra/__tests__/**.ts",
     "tsc": "tsc -w --noEmit"
   },
   "dependencies": {

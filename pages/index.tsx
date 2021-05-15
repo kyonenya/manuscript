@@ -12,7 +12,7 @@ import {
 } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
 import { Entry } from '../app/Entry';
-import { readMany } from '../app/entryRepository';
+import { readMany } from '../infra/entryRepository';
 import { PostList } from '../components/PostList';
 import { TopHeaderMenu } from '../components/HeaderMenu';
 

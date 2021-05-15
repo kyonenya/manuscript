@@ -15,11 +15,11 @@
     "jsx": "preserve"
   },
   "include": [
-    // specify individually for build performance
+    // specify manually for build performance
     "app/**/*.ts",
     "components/**/*.ts*",
+    "infra/**/*.ts",
     "pages/**/*.ts*",
-    "test/**/*.ts",
     "next-env.d.ts"
   ],
   "exclude": ["node_modules", ".next"]
