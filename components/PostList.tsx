@@ -11,7 +11,39 @@ import {
 import dayjs from 'dayjs';
 import { Entry } from '../app/Entry';
 
-const PostListItem = (props: { entry: Entry }) => {
+const ListItemText = (props: { text: string }) => {
+  return (
+    <Box>
+      <Text color={useColorModeValue('gray.700', 'gray.300')}>
+        {props.text.substr(0, 125)}
+      </Text>
+    </Box>
+  );
+};
+
+const SearchedListItemText = () => {
+  const beforeElipsed = true;
+  const afterElipsed = true;
+
+  return (
+    <Box>
+      <Text color={useColorModeValue('gray.700', 'gray.300')} as="span">
+        {beforeElipsed && '…'}
+        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+        quis nostrud
+      </Text>
+      <Text as="span" bg="yellow.100" color="orange.800" p={0.5} mx={1}>
+        exercitation
+      </Text>
+      <Text color={useColorModeValue('gray.700', 'gray.300')} as="span">
+        ullamco laboris nisi ut aliquip ex ea commodo consequat
+        {afterElipsed && '…'}
+      </Text>
+    </Box>
+  );
+};
+
+const ListItem = (props: { entry: Entry }) => {
   const { entry } = props;
   return (
     <Stack
@@ -23,13 +55,7 @@ const PostListItem = (props: { entry: Entry }) => {
       pos={'relative'}
       as="li"
     >
-      <Text
-        textAlign={'left'}
-        color={useColorModeValue('gray.700', 'gray.300')}
-        fontSize={'md'}
-      >
-        {entry.text.substr(0, 125)}
-      </Text>
+      <SearchedListItemText />
       <Stack direction={'row'} spacing={4}>
         <Box>
           <Text color="gray.500">
@@ -56,7 +82,7 @@ export const PostList = (props: { entries: Entry[] }) => {
       as="ul"
     >
       {props.entries.map((entry) => (
-        <PostListItem entry={entry} key={entry.uuid} />
+        <ListItem entry={entry} key={entry.uuid} />
       ))}
     </SimpleGrid>
   );
