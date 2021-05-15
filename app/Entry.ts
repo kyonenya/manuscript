@@ -29,3 +29,32 @@ export const toEntry = (props: {
     modifiedAt: dayjs(props.modifiedAt).format(),
   };
 };
+
+export type SearchedSummary = {
+  isBeforeEllipsed: boolean;
+  beforeText: string;
+  keyword: string;
+  afterText: string;
+  isAfterEllipsed: boolean;
+};
+
+export const toSearchedSummary = (props: {
+  keyword: string;
+  text: Entry['text'];
+}): SearchedSummary => {
+  const { keyword, text } = props;
+  const resultLength = 50;
+  const beforeLength = 20;
+  const afterLength = resultLength - beforeLength - keyword.length;
+  const keywordIndex = text.indexOf(keyword);
+  const beforeIndex = keywordIndex - beforeLength;
+  const afterIndex = keywordIndex + keyword.length;
+
+  return {
+    isBeforeEllipsed: true,
+    beforeText: text.substr(beforeIndex, beforeLength),
+    keyword: text.substr(keywordIndex, keyword.length),
+    afterText: text.substr(afterIndex, afterLength),
+    isAfterEllipsed: beforeIndex + resultLength < text.length,
+  };
+};
