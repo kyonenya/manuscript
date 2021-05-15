@@ -43,18 +43,24 @@ export const toSearchedSummary = (props: {
   text: Entry['text'];
 }): SearchedSummary => {
   const { keyword, text } = props;
-  const resultLength = 50;
+  const wholeLength = 50;
   const beforeLength = 20;
-  const afterLength = resultLength - beforeLength - keyword.length;
+
+  const afterLength = wholeLength - beforeLength - keyword.length;
   const keywordIndex = text.indexOf(keyword);
   const beforeIndex = keywordIndex - beforeLength;
   const afterIndex = keywordIndex + keyword.length;
+  const isNearTop = beforeIndex <= 0;
 
   return {
-    isBeforeEllipsed: true,
-    beforeText: text.substr(beforeIndex, beforeLength),
+    isBeforeEllipsed: !isNearTop,
+    beforeText: isNearTop
+      ? text.substr(0, keywordIndex)
+      : text.substr(beforeIndex, beforeLength),
     keyword: text.substr(keywordIndex, keyword.length),
-    afterText: text.substr(afterIndex, afterLength),
-    isAfterEllipsed: beforeIndex + resultLength < text.length,
+    afterText: isNearTop
+      ? text.substr(afterIndex, wholeLength - afterIndex)
+      : text.substr(afterIndex, afterLength),
+    isAfterEllipsed: beforeIndex + wholeLength < text.length,
   };
 };

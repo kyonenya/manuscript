@@ -19,10 +19,8 @@ describe('toSearchedSummary', () => {
     assert.strictEqual(summary.isAfterEllipsed, false);
   });
   it('near the top', () => {
-    // TODO: to be passed
     const keyword = '正当に選挙';
     const summary = toSearchedSummary({ text, keyword });
-    console.log(summary);
     assert.strictEqual(summary.keyword, keyword);
     assert.strictEqual(summary.isBeforeEllipsed, false);
     assert.strictEqual(summary.isAfterEllipsed, true);
