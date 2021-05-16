@@ -18,7 +18,7 @@ import { TopHeaderMenu } from '../components/HeaderMenu';
 
 const limit = 3;
 
-export default function Index(props: { entries: Entry[] }) {
+export default function (props: { entries: Entry[] }) {
   const [keyword, setKeyword] = useState('');
   const { data, fetchNextPage, isFetching, refetch } = useInfiniteQuery<Entry>(
     ['search', { keyword }],
