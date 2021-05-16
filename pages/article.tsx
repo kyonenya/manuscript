@@ -1,6 +1,3 @@
-import { useState } from 'react';
-import { GetStaticProps, GetStaticPaths } from 'next';
-import Head from 'next/head';
 import {
   Box,
   Container,
@@ -9,6 +6,9 @@ import {
   Stack,
   useColorModeValue,
 } from '@chakra-ui/react';
+import { GetStaticProps, GetStaticPaths } from 'next';
+import Head from 'next/head';
+import { useState } from 'react';
 import { Article } from '../components/Article';
 import { TopHeaderMenu } from '../components/HeaderMenu';
 

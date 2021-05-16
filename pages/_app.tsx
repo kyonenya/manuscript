@@ -1,5 +1,5 @@
-import { AppProps } from 'next/app';
 import { ChakraProvider } from '@chakra-ui/react';
+import { AppProps } from 'next/app';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { theme } from '../components/theme';

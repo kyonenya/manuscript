@@ -1,8 +1,8 @@
 import assert from 'assert';
 import dayjs from 'dayjs';
+import { toEntry } from '../../app/Entry';
 import * as entryRepository from '../entryRepository';
 import { begin, rollback } from '../postgres';
-import { toEntry } from '../../app/Entry';
 
 describe('queries_entriesRepository', () => {
   const olderEntry = toEntry({

@@ -1,8 +1,8 @@
 import dayjs from 'dayjs';
-import { query, mutate } from './postgres';
-import * as entriesSQL from './entriesSQL';
-import * as tagsSQL from './tagsSQL';
 import { Entry, toEntry } from '../app/Entry';
+import * as entriesSQL from './entriesSQL';
+import { query, mutate } from './postgres';
+import * as tagsSQL from './tagsSQL';
 
 type Schema = {
   text: string;

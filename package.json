@@ -5,8 +5,8 @@
   "scripts": {
     "build": "next build",
     "dev": "next dev -p 3450",
-    "fmt": "prettier --write **/*.{ts,tsx}",
-    "lint": "eslint **/*.{ts,tsx}",
+    "fmt": "prettier --write **/*.{ts,tsx,json}",
+    "lint": "eslint --fix **/*.{ts,tsx}",
     "start": "next start",
     "test:app": "cross-env TS_NODE_PROJECT=./tsconfig.cjs.json NODE_ENV=test mocha ./app/__tests__/**.ts",
     "test:infra": "cross-env TS_NODE_PROJECT=./tsconfig.cjs.json NODE_ENV=test mocha ./infra/__tests__/**.ts",
@@ -40,6 +40,7 @@
     "cross-env": "^7.0.3",
     "eslint": "^7.26.0",
     "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.23.2",
     "eslint-plugin-react": "^7.23.2",
     "mocha": "^8.3.2",
     "prettier": "^2.2.1",

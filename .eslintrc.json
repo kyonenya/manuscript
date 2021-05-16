@@ -4,12 +4,10 @@
     "plugin:react/recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:import/errors",
     "prettier"
   ],
-  "plugins": [
-    "@typescript-eslint",
-    "react"
-  ],
+  "plugins": ["@typescript-eslint", "react", "import"],
   "parser": "@typescript-eslint/parser",
   "env": {
     "browser": true,
@@ -25,9 +23,21 @@
   "settings": {
     "react": {
       "version": "detect"
+    },
+    "import/resolver": {
+      "node": {
+        "extensions": [".ts", ".tsx", ".js", ".jsx"]
+      }
     }
   },
   "rules": {
-    "react/react-in-jsx-scope": "off"
+    "react/react-in-jsx-scope": "off",
+    "sort-imports": "off",
+    "import/order": [
+      "error",
+      {
+        "alphabetize": { "order": "asc" }
+      }
+    ]
   }
 }

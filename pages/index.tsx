@@ -1,7 +1,4 @@
-import { useState } from 'react';
-import { GetStaticProps } from 'next';
-import Head from 'next/head';
-import { useInfiniteQuery } from 'react-query';
+import { AddIcon } from '@chakra-ui/icons';
 import {
   Box,
   Container,
@@ -10,11 +7,14 @@ import {
   Stack,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { AddIcon } from '@chakra-ui/icons';
+import { GetStaticProps } from 'next';
+import Head from 'next/head';
+import { useState } from 'react';
+import { useInfiniteQuery } from 'react-query';
 import { Entry } from '../app/Entry';
-import { readMany } from '../infra/entryRepository';
-import { PostList } from '../components/PostList';
 import { TopHeaderMenu } from '../components/HeaderMenu';
+import { PostList } from '../components/PostList';
+import { readMany } from '../infra/entryRepository';
 
 const limit = 3;
 
