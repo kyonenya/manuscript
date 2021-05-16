@@ -2,7 +2,6 @@ import {
   Box,
   Text,
   Stack,
-  Container,
   SimpleGrid,
   Tag,
   TagLabel,

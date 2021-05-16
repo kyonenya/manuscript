@@ -1,4 +1,3 @@
-import dayjs from 'dayjs';
 import { Entry, toEntry } from '../app/Entry';
 import * as entriesSQL from './entriesSQL';
 import { query, mutate } from './postgres';

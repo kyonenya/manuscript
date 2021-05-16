@@ -2,18 +2,13 @@ import { ArrowBackIcon, SearchIcon, SettingsIcon } from '@chakra-ui/icons';
 import {
   Box,
   Flex,
-  HStack,
   IconButton,
   InputGroup,
   Input,
   InputLeftElement,
-  InputRightAddon,
-  Link,
-  Stack,
   useDisclosure,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { ReactNode } from 'react';
 import { useForm } from 'react-hook-form';
 
 type Form = { keyword: string };

@@ -1,11 +1,9 @@
 import {
   Box,
-  Text,
   Stack,
-  Container,
-  SimpleGrid,
   Tag,
   TagLabel,
+  Text,
   useColorModeValue,
 } from '@chakra-ui/react';
 import dayjs from 'dayjs';

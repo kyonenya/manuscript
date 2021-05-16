@@ -3,8 +3,6 @@ import {
   Box,
   Container,
   IconButton,
-  SimpleGrid,
-  Stack,
   useColorModeValue,
 } from '@chakra-ui/react';
 import { GetStaticProps } from 'next';
@@ -20,7 +18,7 @@ const limit = 3;
 
 export default function Index(props: { entries: Entry[] }) {
   const [keyword, setKeyword] = useState('');
-  const { data, fetchNextPage, isFetching, refetch } = useInfiniteQuery<Entry>(
+  const { data, fetchNextPage, isFetching } = useInfiniteQuery<Entry>(
     ['search', { keyword }],
     ({ pageParam = 0 }) =>
       fetch('/api/search', {
