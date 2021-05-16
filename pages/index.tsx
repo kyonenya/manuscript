@@ -18,7 +18,7 @@ import { readMany } from '../infra/entryRepository';
 
 const limit = 3;
 
-export default function (props: { entries: Entry[] }) {
+export default function Index(props: { entries: Entry[] }) {
   const [keyword, setKeyword] = useState('');
   const { data, fetchNextPage, isFetching, refetch } = useInfiniteQuery<Entry>(
     ['search', { keyword }],
@@ -70,6 +70,6 @@ export const getStaticProps: GetStaticProps<{
 }> = async () => {
   const entries = await readMany({ limit: 4 });
   return {
-    props: { entries: entries },
+    props: { entries },
   };
 };
