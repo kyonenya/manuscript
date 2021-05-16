@@ -32,6 +32,11 @@ export const readMany = async (props: {
   return rows.map((row) => entryFactory(row));
 };
 
+export const readOne = async (props: { uuid: string }): Promise<Entry> => {
+  const rows = await query<Schema>(entriesSQL.selectOne(props));
+  return entryFactory(rows[0]);
+};
+
 export const searchKeyword = async (props: {
   keyword: string;
   limit: number;

@@ -27,6 +27,11 @@ describe('queries_entriesRepository', () => {
     assert.strictEqual(entries[0].text, olderEntry.text);
   });
 
+  it('readOne', async () => {
+    const entry = await entryRepository.readOne({ uuid: newestEntry.uuid });
+    assert.strictEqual(entry.text, newestEntry.text);
+  });
+
   it('searchKeyword', async () => {
     const entries = await entryRepository.searchKeyword({
       keyword: '。',
