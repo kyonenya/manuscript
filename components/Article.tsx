@@ -7,6 +7,7 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import dayjs from 'dayjs';
+import ReactMarkdown from 'react-markdown';
 import { Entry } from '../app/Entry';
 
 export const Article = (props: { entry: Entry }) => {
@@ -21,9 +22,19 @@ export const Article = (props: { entry: Entry }) => {
       as="li"
     >
       <Box>
-        <Text color={useColorModeValue('gray.700', 'gray.300')}>
+        <ReactMarkdown
+          components={{
+            h2: ({ node, ...props }) => (
+              <Text
+                color={useColorModeValue('gray.700', 'gray.300')}
+                {...props}
+              />
+            ),
+          }}
+        >
           {props.entry.text}
-        </Text>
+        </ReactMarkdown>
+        <Text color={useColorModeValue('gray.700', 'gray.300')}></Text>
       </Box>
 
       <Stack direction={'row'} spacing={4}>
