@@ -18,8 +18,8 @@ const limit = 3;
 
 export default function Index(props: { entries: Entry[] }) {
   const [keyword, setKeyword] = useState('');
-  const { data, fetchNextPage, isFetching } = useInfiniteQuery<Entry>(
-    ['search', { keyword }],
+  const { data, fetchNextPage } = useInfiniteQuery<Entry>(
+    ['entries', { keyword }],
     ({ pageParam = 0 }) =>
       fetch('/api/search', {
         method: 'POST',
