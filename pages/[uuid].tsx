@@ -1,20 +1,30 @@
 import { Box, Container, useColorModeValue } from '@chakra-ui/react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient, InfiniteData } from 'react-query';
 import { Entry } from '../app/Entry';
 import { Article } from '../components/Article';
 import { TopHeaderMenu } from '../components/HeaderMenu';
 
 export default function ArticlePage() {
-  const { uuid } = useRouter().query;
-  const { data } = useQuery(['entry', { uuid }], () =>
-    fetch('/api/getEntry', {
-      method: 'POST',
-      body: JSON.stringify({ uuid }),
-      headers: new Headers({ 'Content-Type': 'application/json' }),
-      credentials: 'same-origin',
-    }).then((res) => res.json())
+  const router = useRouter();
+  const { uuid } = router.query;
+  const queryClient = useQueryClient();
+  const { data } = useQuery<Entry>(
+    ['entry', { uuid }],
+    () =>
+      fetch('/api/getEntry', {
+        method: 'POST',
+        body: JSON.stringify({ uuid }),
+        headers: new Headers({ 'Content-Type': 'application/json' }),
+        credentials: 'same-origin',
+      }).then((res) => res.json()),
+    {
+      initialData: queryClient
+        .getQueryData<InfiniteData<Entry>>('entries')
+        ?.pages.flat()
+        .find((entry) => entry.uuid === uuid),
+    }
   );
 
   return (

@@ -8,7 +8,7 @@ import {
 import { GetStaticProps } from 'next';
 import Head from 'next/head';
 import { useState } from 'react';
-import { useInfiniteQuery } from 'react-query';
+import { useInfiniteQuery, useQueryClient } from 'react-query';
 import { Entry } from '../app/Entry';
 import { TopHeaderMenu } from '../components/HeaderMenu';
 import { PostList } from '../components/PostList';
@@ -18,8 +18,9 @@ const limit = 3;
 
 export default function Index(props: { entries: Entry[] }) {
   const [keyword, setKeyword] = useState('');
+  const queryClient = useQueryClient();
   const { data, fetchNextPage } = useInfiniteQuery<Entry>(
-    ['entries', { keyword }],
+    'entries',
     ({ pageParam = 0 }) =>
       fetch('/api/search', {
         method: 'POST',

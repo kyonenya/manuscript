@@ -1,5 +1,5 @@
 import { Link as ChakraLink } from '@chakra-ui/react';
-import NextLink from 'next/link';
+import NextLink, { LinkProps } from 'next/link';
 import { ReactNode } from 'react';
 
 /**
@@ -13,9 +13,9 @@ export const Link = ({
   ...rest
 }: {
   children: ReactNode;
-  href: string;
-  prefetch: boolean;
-  rest: unknown[];
+  href: LinkProps['href'];
+  prefetch?: boolean;
+  rest?: unknown[];
 }) => {
   return (
     <NextLink passHref href={href} prefetch={prefetch}>

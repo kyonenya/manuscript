@@ -9,6 +9,7 @@ import {
 } from '@chakra-ui/react';
 import dayjs from 'dayjs';
 import { Entry, toSearchedSummary } from '../app/Entry';
+import { Link } from './Link';
 
 const Summary = (props: { text: string }) => {
   return (
@@ -52,12 +53,13 @@ const ListItem = (props: { entry: Entry; keyword?: string }) => {
       pos={'relative'}
       as="li"
     >
-      {props.keyword ? (
-        <SearchedSummary text={entry.text} keyword={props.keyword} />
-      ) : (
-        <Summary text={entry.text} />
-      )}
-
+      <Link href={`/${entry.uuid}`}>
+        {props.keyword ? (
+          <SearchedSummary text={entry.text} keyword={props.keyword} />
+        ) : (
+          <Summary text={entry.text} />
+        )}
+      </Link>
       <Stack direction={'row'} spacing={4}>
         <Box>
           <Text color="gray.500">
