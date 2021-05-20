@@ -19,9 +19,9 @@ export default function Index() {
   const queryClient = useQueryClient();
   const { data, fetchNextPage } = useInfiniteQuery<Entry>(
     ['entries', { keyword }],
-    ({ pageParam = 0 }) => {
+    async ({ pageParam = 0 }) => {
       queryClient.setQueryData('currentKeyword', keyword);
-      return fetch('/api/search', {
+      const res = await fetch('/api/search', {
         method: 'POST',
         body: JSON.stringify({
           keyword,
@@ -30,7 +30,9 @@ export default function Index() {
         }),
         headers: new Headers({ 'Content-Type': 'application/json' }),
         credentials: 'same-origin',
-      }).then((res) => res.json());
+      });
+      if (!res.ok) throw new Error('Network response was not ok');
+      return res.json();
     },
     {
       getNextPageParam: (lastPage, pages) => pages.length,

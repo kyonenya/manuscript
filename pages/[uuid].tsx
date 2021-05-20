@@ -12,13 +12,16 @@ export default function ArticlePage() {
   const queryClient = useQueryClient();
   const { data } = useQuery<Entry>(
     ['entry', { uuid }],
-    () =>
-      fetch('/api/getEntry', {
+    async () => {
+      const res = await fetch('/api/getEntry', {
         method: 'POST',
         body: JSON.stringify({ uuid }),
         headers: new Headers({ 'Content-Type': 'application/json' }),
         credentials: 'same-origin',
-      }).then((res) => res.json()),
+      });
+      if (!res.ok) throw new Error('Network response was not ok');
+      return res.json();
+    },
     {
       initialData: queryClient
         .getQueryData<InfiniteData<Entry>>([
