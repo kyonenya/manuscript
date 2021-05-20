@@ -13,6 +13,7 @@ export default function ArticlePage() {
   const { data } = useQuery<Entry>(
     ['entry', { uuid }],
     async () => {
+      if (!uuid) return;
       const res = await fetch('/api/getEntry', {
         method: 'POST',
         body: JSON.stringify({ uuid }),

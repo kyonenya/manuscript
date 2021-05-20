@@ -6,6 +6,7 @@ import {
   Text,
   useColorModeValue,
 } from '@chakra-ui/react';
+import ChakraUIRenderer from 'chakra-ui-markdown-renderer';
 import dayjs from 'dayjs';
 import ReactMarkdown from 'react-markdown';
 import { Entry } from '../app/Entry';
@@ -22,16 +23,7 @@ export const Article = (props: { entry: Entry }) => {
       as="li"
     >
       <Box>
-        <ReactMarkdown
-          components={{
-            h2: ({ node, ...props }) => (
-              <Text
-                color={useColorModeValue('gray.700', 'gray.300')}
-                {...props}
-              />
-            ),
-          }}
-        >
+        <ReactMarkdown components={ChakraUIRenderer()}>
           {props.entry.text}
         </ReactMarkdown>
         <Text color={useColorModeValue('gray.700', 'gray.300')}></Text>
