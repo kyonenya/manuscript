@@ -37,10 +37,9 @@ export const TopHeaderMenu = (props: { onSearch: (data: Form) => void }) => {
             <InputLeftElement
               p={1}
               borderColor={useColorModeValue('gray.300', 'gray.700')}
-              children={
-                <IconButton aria-label="検索" icon={<SearchIcon />} size="sm" />
-              }
-            />
+            >
+              <IconButton aria-label="検索" icon={<SearchIcon />} size="sm" />
+            </InputLeftElement>
             <Input
               {...register('keyword')}
               type="text"

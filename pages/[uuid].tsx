@@ -21,7 +21,10 @@ export default function ArticlePage() {
       }).then((res) => res.json()),
     {
       initialData: queryClient
-        .getQueryData<InfiniteData<Entry>>('entries')
+        .getQueryData<InfiniteData<Entry>>([
+          'entries',
+          { keyword: queryClient.getQueryData('currentKeyword') },
+        ])
         ?.pages.flat()
         .find((entry) => entry.uuid === uuid),
     }

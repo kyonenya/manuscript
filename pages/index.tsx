@@ -5,24 +5,23 @@ import {
   IconButton,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { GetStaticProps } from 'next';
 import Head from 'next/head';
 import { useState } from 'react';
 import { useInfiniteQuery, useQueryClient } from 'react-query';
 import { Entry } from '../app/Entry';
 import { TopHeaderMenu } from '../components/HeaderMenu';
 import { PostList } from '../components/PostList';
-import { readMany } from '../infra/entryRepository';
 
 const limit = 3;
 
-export default function Index(props: { entries: Entry[] }) {
+export default function Index() {
   const [keyword, setKeyword] = useState('');
   const queryClient = useQueryClient();
   const { data, fetchNextPage } = useInfiniteQuery<Entry>(
-    'entries',
-    ({ pageParam = 0 }) =>
-      fetch('/api/search', {
+    ['entries', { keyword }],
+    ({ pageParam = 0 }) => {
+      queryClient.setQueryData('currentKeyword', keyword);
+      return fetch('/api/search', {
         method: 'POST',
         body: JSON.stringify({
           keyword,
@@ -31,7 +30,8 @@ export default function Index(props: { entries: Entry[] }) {
         }),
         headers: new Headers({ 'Content-Type': 'application/json' }),
         credentials: 'same-origin',
-      }).then((res) => res.json()),
+      }).then((res) => res.json());
+    },
     {
       getNextPageParam: (lastPage, pages) => pages.length,
     }
@@ -63,12 +63,3 @@ export default function Index(props: { entries: Entry[] }) {
     </Box>
   );
 }
-
-export const getStaticProps: GetStaticProps<{
-  entries: Entry[];
-}> = async () => {
-  const entries = await readMany({ limit: 4 });
-  return {
-    props: { entries },
-  };
-};
