@@ -12,7 +12,7 @@ const customeTheme = {
   ),
 };
 
-export const MarkdownText = (props: { children: ReactNode }) => {
+export const MarkdownText = (props: { children: string }) => {
   return (
     <ReactMarkdown components={ChakraUIRenderer(customeTheme)}>
       {props.children}
