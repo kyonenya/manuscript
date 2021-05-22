@@ -16,7 +16,7 @@ const limit = 3;
 
 export default function Index() {
   const queryClient = useQueryClient();
-  const [keyword, setKeyword] = useState(
+  const [keyword, setKeyword] = useState<string | undefined>(
     queryClient.getQueryData<string>('currentKeyword')
   );
   const { data, fetchNextPage } = useInfiniteQuery<Entry>(
@@ -47,7 +47,9 @@ export default function Index() {
         <title>manuscript</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <TopHeaderMenu onSearch={({ keyword }) => setKeyword(keyword)} />
+      <TopHeaderMenu onSearch={({ keyword }) => setKeyword(
+        keyword === '' ? undefined : keyword
+      )} />
       <Box align="center">
         <IconButton
           aria-label={'もっと読む'}
@@ -60,7 +62,7 @@ export default function Index() {
         {data && (
           <PostList
             entries={data.pages.flat()}
-            keyword={keyword === '' ? undefined : keyword}
+            keyword={keyword}
           />
         )}
       </Container>
