@@ -20,9 +20,8 @@ export default function ArticlePage() {
         headers: new Headers({ 'Content-Type': 'application/json' }),
         credentials: 'same-origin',
       });
-      const result = await res.json();
       if (!res.ok) throw new Error(res.statusText);
-      return result;
+      return await res.json();
     },
     {
       initialData: queryClient

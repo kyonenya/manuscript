@@ -15,8 +15,10 @@ import { PostList } from '../components/PostList';
 const limit = 3;
 
 export default function Index() {
-  const [keyword, setKeyword] = useState('');
   const queryClient = useQueryClient();
+  const [keyword, setKeyword] = useState(
+    queryClient.getQueryData<string>('currentKeyword')
+  );
   const { data, fetchNextPage } = useInfiniteQuery<Entry>(
     ['entries', { keyword }],
     async ({ pageParam = 0 }) => {
@@ -31,8 +33,8 @@ export default function Index() {
         headers: new Headers({ 'Content-Type': 'application/json' }),
         credentials: 'same-origin',
       });
-      if (!res.ok) throw new Error('Network response was not ok');
-      return res.json();
+      if (!res.ok) throw new Error(res.statusText);
+      return await res.json();
     },
     {
       getNextPageParam: (lastPage, pages) => pages.length,
