@@ -20,8 +20,9 @@ export default function ArticlePage() {
         headers: new Headers({ 'Content-Type': 'application/json' }),
         credentials: 'same-origin',
       });
-      if (!res.ok) throw new Error('Network response was not ok');
-      return res.json();
+      const result = await res.json();
+      if (!res.ok) throw new Error(res.statusText);
+      return result;
     },
     {
       initialData: queryClient

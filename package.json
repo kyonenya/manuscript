@@ -10,7 +10,7 @@
     "start": "next start",
     "test:app": "cross-env TS_NODE_PROJECT=./tsconfig.cjs.json NODE_ENV=test mocha ./app/__tests__/**.ts",
     "test:infra": "cross-env TS_NODE_PROJECT=./tsconfig.cjs.json NODE_ENV=test mocha ./infra/__tests__/**.ts",
-    "tsc": "tsc -w --noEmit"
+    "_tsc": "tsc -w --noEmit"
   },
   "dependencies": {
     "@chakra-ui/icons": "^1.0.13",
@@ -28,7 +28,8 @@
     "react-hook-form": "^7.5.3",
     "react-markdown": "^6.0.2",
     "react-query": "^3.16.0",
-    "short-uuid": "^4.1.0"
+    "short-uuid": "^4.1.0",
+    "zod": "^3.0.2"
   },
   "devDependencies": {
     "@types/mocha": "^8.2.2",
