@@ -47,9 +47,11 @@ export default function Index() {
         <title>manuscript</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <TopHeaderMenu onSearch={({ keyword }) => setKeyword(
-        keyword === '' ? undefined : keyword
-      )} />
+      <TopHeaderMenu
+        onSearch={({ keyword }) =>
+          setKeyword(keyword === '' ? undefined : keyword)
+        }
+      />
       <Box align="center">
         <IconButton
           aria-label={'もっと読む'}
@@ -59,12 +61,7 @@ export default function Index() {
         />
       </Box>
       <Container maxW="4xl" py={4}>
-        {data && (
-          <PostList
-            entries={data.pages.flat()}
-            keyword={keyword}
-          />
-        )}
+        {data && <PostList entries={data.pages.flat()} keyword={keyword} />}
       </Container>
     </Box>
   );
