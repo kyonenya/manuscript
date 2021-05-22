@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 import { Text } from '@chakra-ui/react';
 import ChakraUIRenderer from 'chakra-ui-markdown-renderer';
 import { ReactNode } from 'react';
