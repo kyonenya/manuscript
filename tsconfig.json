@@ -20,6 +20,7 @@
     "components/**/*.ts*",
     "infra/**/*.ts",
     "pages/**/*.ts*",
+    "usecases/**/*.ts*",
     "next-env.d.ts"
   ],
   "exclude": ["node_modules", ".next"]

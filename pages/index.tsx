@@ -23,7 +23,7 @@ export default function Index() {
     ['entries', { keyword }],
     async ({ pageParam = 0 }) => {
       queryClient.setQueryData('currentKeyword', keyword);
-      const res = await fetch('/api/search', {
+      const res = await fetch('/api/searchEntries', {
         method: 'POST',
         body: JSON.stringify({
           keyword,

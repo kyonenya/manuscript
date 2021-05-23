@@ -1,16 +1,10 @@
 import { NextApiHandler } from 'next';
-import { z } from 'zod';
-import { readOne } from '../../infra/entryRepository';
-
-const Request = z.object({
-  uuid: z.string(),
-});
-type Request = z.infer<typeof Request>;
+import { getEntry, getEntryRequest } from '../../usecases/getEntry';
 
 const handler: NextApiHandler = async (req, res) => {
-  const parsed = Request.safeParse(req.body);
+  const parsed = getEntryRequest.safeParse(req.body);
   if (!parsed.success) return res.status(400).json({ error: parsed.error });
-  const entry = await readOne(parsed.data);
+  const entry = await getEntry(parsed.data);
   return res.json(entry);
 };
 
