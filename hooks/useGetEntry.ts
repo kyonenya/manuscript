@@ -1,19 +1,18 @@
 import { useQuery, useQueryClient, InfiniteData } from 'react-query';
 import { Entry } from '../app/Entry';
+import { getEntryEndpoint, GetEntry } from '../app/entryUseCase';
+import { fetcher } from '../infra/fetcher';
+
+const fetchGetEntry = fetcher(getEntryEndpoint) as GetEntry;
 
 export const useGetEntry = ({ uuid }: { uuid?: string }) => {
   const queryClient = useQueryClient();
-  return useQuery<Entry>(
+  return useQuery(
     ['entry', { uuid }],
-    async () => {
-      const res = await fetch('/api/getEntry', {
-        method: 'POST',
-        body: JSON.stringify({ uuid }),
-        headers: new Headers({ 'Content-Type': 'application/json' }),
-        credentials: 'same-origin',
-      });
-      if (!res.ok) throw new Error(res.statusText);
-      return await res.json();
+    () => {
+      if (!uuid) return;
+      const result = fetchGetEntry({ uuid });
+      return result;
     },
     {
       enabled: !!uuid,

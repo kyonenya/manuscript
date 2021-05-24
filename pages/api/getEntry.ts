@@ -1,5 +1,5 @@
 import { NextApiHandler } from 'next';
-import { getEntry, GetEntryRequest } from '../../usecases/getEntry';
+import { getEntry, GetEntryRequest } from '../../app/entryUseCase';
 
 const handler: NextApiHandler = async (req, res) => {
   const parsed = GetEntryRequest.safeParse(req.body);
