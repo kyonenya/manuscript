@@ -2,7 +2,7 @@ import { NextApiHandler } from 'next';
 import { GetEntry, GetEntryRequest } from '../../app/entryUseCase';
 import { readOne } from '../../infra/entryRepository';
 
-const getEntry: GetEntry = (input: GetEntryRequest) => {
+const getEntry: GetEntry = (input) => {
   return readOne(input);
 };
 

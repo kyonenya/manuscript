@@ -1,15 +1,15 @@
 import { z } from 'zod';
 import { Entry } from '../app/Entry';
-// import * as entryRepository from '../infra/entryRepository';
+import { fetcher } from '../infra/fetcher';
 
 /**
  * getEntry
  */
-export const getEntryEndpoint = '/api/getEntry';
-
 export const GetEntryRequest = z.object({
   uuid: z.string(),
 });
-type GetEntryRequest = z.infer<typeof GetEntryRequest>;
+type GetEntryInput = z.infer<typeof GetEntryRequest>;
 
-export type GetEntry = (req: GetEntryRequest) => Promise<Entry>;
+export type GetEntry = (input: GetEntryInput) => Promise<Entry>;
+
+export const getEntry = fetcher<GetEntry>('/api/getEntry');

@@ -1,28 +1,21 @@
 import { useQuery, useQueryClient, InfiniteData } from 'react-query';
 import { Entry } from '../app/Entry';
-import { getEntryEndpoint, GetEntry } from '../app/entryUseCase';
-import { fetcher } from '../infra/fetcher';
+import { getEntry } from '../app/entryUseCase';
 
-const fetchGetEntry = fetcher<GetEntry>(getEntryEndpoint);
-
-export const useGetEntry = ({ uuid }: { uuid?: string }) => {
+export const useGetEntry = (props: { uuid?: string }) => {
   const queryClient = useQueryClient();
   return useQuery(
-    ['entry', { uuid }],
-    () => {
-      if (!uuid) return;
-      const result = fetchGetEntry({ uuid });
-      return result;
-    },
+    ['entry', { uuid: props.uuid }],
+    () => getEntry({ uuid: props.uuid! }),
     {
-      enabled: !!uuid,
+      enabled: !!props.uuid,
       initialData: queryClient
         .getQueryData<InfiniteData<Entry>>([
           'entries',
           { keyword: queryClient.getQueryData('currentKeyword') },
         ])
         ?.pages.flat()
-        .find((entry) => entry.uuid === uuid),
+        .find((entry) => entry.uuid === props.uuid),
     }
   );
 };
