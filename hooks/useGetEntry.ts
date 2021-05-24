@@ -3,7 +3,7 @@ import { Entry } from '../app/Entry';
 import { getEntryEndpoint, GetEntry } from '../app/entryUseCase';
 import { fetcher } from '../infra/fetcher';
 
-const fetchGetEntry = fetcher(getEntryEndpoint) as GetEntry;
+const fetchGetEntry = fetcher<GetEntry>(getEntryEndpoint);
 
 export const useGetEntry = ({ uuid }: { uuid?: string }) => {
   const queryClient = useQueryClient();
