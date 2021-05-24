@@ -13,18 +13,19 @@ import { useForm } from 'react-hook-form';
 
 type Form = { keyword: string };
 
-export const TopHeaderMenu = (props: { onSearch: (data: Form) => void }) => {
-  const { register, handleSubmit } = useForm<Form>();
+export const TopHeaderMenu = (props: {
+  keyword?: string;
+  onSearch: (data: Form) => void;
+}) => {
+  const { register, handleSubmit } = useForm<Form>({
+    defaultValues: {
+      keyword: props.keyword,
+    },
+  });
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
-    <Box
-      px={4}
-      bg={useColorModeValue('gray.100', 'gray.900')}
-      boxShadow={'md'}
-      //      position={['sticky', '-webkit-sticky']}
-      //      top={0}
-    >
+    <Box px={4} bg={useColorModeValue('gray.100', 'gray.900')} boxShadow={'md'}>
       <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
         <IconButton
           size={'md'}

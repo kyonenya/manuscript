@@ -1,19 +1,14 @@
 import { NextApiHandler } from 'next';
-import { z } from 'zod';
+import { SearchEntries, SearchEntriesRequest } from '../../app/entryUseCase';
 import { searchKeyword } from '../../infra/entryRepository';
 
-const Request = z.object({
-  keyword: z.string().default(''),
-  limit: z.number(),
-  offset: z.number().default(0),
-});
-type Request = z.infer<typeof Request>;
+const searchEntries: SearchEntries = (input) => searchKeyword(input);
 
 const handler: NextApiHandler = async (req, res) => {
-  const parsed = Request.safeParse(req.body);
+  const parsed = SearchEntriesRequest.safeParse(req.body);
   if (!parsed.success) return res.status(400).json({ error: parsed.error });
-  const entries = await searchKeyword(parsed.data);
-  await res.json(entries);
+
+  await res.json(await searchEntries(parsed.data));
 };
 
 export default handler;

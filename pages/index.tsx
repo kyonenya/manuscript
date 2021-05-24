@@ -6,40 +6,16 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import Head from 'next/head';
-import { useState } from 'react';
-import { useInfiniteQuery, useQueryClient } from 'react-query';
-import { Entry } from '../app/Entry';
 import { TopHeaderMenu } from '../components/HeaderMenu';
 import { PostList } from '../components/PostList';
+import { useSearchEntries } from '../hooks/useSearchEntries';
 
 const limit = 3;
 
 export default function Index() {
-  const queryClient = useQueryClient();
-  const [keyword, setKeyword] = useState<string | undefined>(
-    queryClient.getQueryData<string>('currentKeyword')
-  );
-  const { data, fetchNextPage } = useInfiniteQuery<Entry>(
-    ['entries', { keyword }],
-    async ({ pageParam = 0 }) => {
-      queryClient.setQueryData('currentKeyword', keyword);
-      const res = await fetch('/api/searchEntries', {
-        method: 'POST',
-        body: JSON.stringify({
-          keyword,
-          limit,
-          offset: pageParam * limit,
-        }),
-        headers: new Headers({ 'Content-Type': 'application/json' }),
-        credentials: 'same-origin',
-      });
-      if (!res.ok) throw new Error(res.statusText);
-      return await res.json();
-    },
-    {
-      getNextPageParam: (lastPage, pages) => pages.length,
-    }
-  );
+  const { data, fetchNextPage, keyword, setKeyword } = useSearchEntries({
+    limit,
+  });
 
   return (
     <Box bg={useColorModeValue('gray.100', 'gray.700')}>
@@ -48,6 +24,7 @@ export default function Index() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <TopHeaderMenu
+        keyword={keyword}
         onSearch={({ keyword }) =>
           setKeyword(keyword === '' ? undefined : keyword)
         }
