@@ -2,11 +2,11 @@ import { z } from 'zod';
 import { Entry } from '../app/Entry';
 import { readOne } from '../infra/entryRepository';
 
-export const getEntryRequest = z.object({
+export const GetEntryRequest = z.object({
   uuid: z.string(),
 });
-type getEntryInput = z.infer<typeof getEntryRequest>;
+export type GetEntryRequest = z.infer<typeof GetEntryRequest>;
 
-export const getEntry = (input: getEntryInput): Promise<Entry> => {
+export const getEntry = (input: GetEntryRequest): Promise<Entry> => {
   return readOne(input);
 };

@@ -18,6 +18,7 @@
     // specify manually for build performance
     "app/**/*.ts",
     "components/**/*.ts*",
+    "hooks/**/*.ts*",
     "infra/**/*.ts",
     "pages/**/*.ts*",
     "usecases/**/*.ts*",
