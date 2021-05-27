@@ -9,6 +9,7 @@ import {
   useDisclosure,
   useColorModeValue,
 } from '@chakra-ui/react';
+import Router from 'next/router';
 import { useForm } from 'react-hook-form';
 
 type Form = { keyword: string };
@@ -28,9 +29,10 @@ export const TopHeaderMenu = (props: {
     <Box px={4} bg={useColorModeValue('gray.100', 'gray.900')} boxShadow={'md'}>
       <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
         <IconButton
-          size={'md'}
           icon={<ArrowBackIcon />}
           aria-label={'Back to Top'}
+          onClick={() => Router.back()}
+          size={'md'}
         />
 
         <form onSubmit={handleSubmit(props.onSearch)}>

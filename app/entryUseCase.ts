@@ -6,9 +6,9 @@ import { fetcher } from '../infra/fetcher';
  * searchEntries
  */
 export const SearchEntriesRequest = z.object({
-  keyword: z.string() /*.default('')*/,
+  keyword: z.string(),
   limit: z.number(),
-  offset: z.number() /*.default(0)*/,
+  offset: z.number(),
 });
 type SearchEntriesInput = z.infer<typeof SearchEntriesRequest>;
 
