@@ -2,7 +2,7 @@ import { Box, Container, useColorModeValue } from '@chakra-ui/react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { Article } from '../components/Article';
-import { TopHeaderMenu } from '../components/HeaderMenu';
+import { ArticleHeaderMenu } from '../components/HeaderMenu';
 import { useGetEntry } from '../hooks/useGetEntry';
 
 export default function ArticlePage() {
@@ -15,10 +15,7 @@ export default function ArticlePage() {
         <title>manuscript</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <TopHeaderMenu
-        // TODO: replace header type
-        onSearch={({ keyword }) => null}
-      />
+      <ArticleHeaderMenu createdAt={data?.createdAt} />
       <Container maxW="3xl" px={0} py={4}>
         {data && <Article entry={data} />}
       </Container>

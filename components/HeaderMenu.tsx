@@ -12,19 +12,17 @@ import {
   PopoverContent,
   PopoverHeader,
   PopoverBody,
-  PopoverFooter,
   PopoverArrow,
   PopoverCloseButton,
   useDisclosure,
   useColorModeValue,
 } from '@chakra-ui/react';
+import dayjs from 'dayjs';
 import Router from 'next/router';
 import { ReactNode } from 'react';
 import { useForm } from 'react-hook-form';
 
-type Form = { keyword: string };
-
-const HeaderContainer = (props: { children: ReactNode }) => {
+const HeaderMenuContainer = (props: { children: ReactNode }) => {
   return (
     <Box px={4} bg={useColorModeValue('gray.100', 'gray.900')} boxShadow={'md'}>
       <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
@@ -34,11 +32,9 @@ const HeaderContainer = (props: { children: ReactNode }) => {
   );
 };
 
-export const EditorHeaderMenu = () => {
-  //  const { isOpen, onOpen, onClose } = useDisclosure();
-
+export const ArticleHeaderMenu = (props: { createdAt: string | undefined }) => {
   return (
-    <HeaderContainer>
+    <HeaderMenuContainer>
       <IconButton
         icon={<ArrowBackIcon />}
         aria-label={'Back to Top'}
@@ -46,18 +42,15 @@ export const EditorHeaderMenu = () => {
         size={'md'}
       />
 
-      <Popover
-      // isOpen={isOpen}
-      // onClose={onClose}
-      >
+      <Popover>
         <PopoverTrigger>
-          <Button
-          // onClick={onOpen}
-          >
-            Trigger
+          <Button>
+            {props.createdAt
+              ? dayjs(props.createdAt).format('YYYY-MM-DD')
+              : '...'}
           </Button>
         </PopoverTrigger>
-        <PopoverContent>
+        <PopoverContent w={{ base: '90vw', md: '60vw' }}>
           <PopoverArrow />
           <PopoverCloseButton />
           <PopoverHeader>Confirmation!</PopoverHeader>
@@ -68,9 +61,11 @@ export const EditorHeaderMenu = () => {
       </Popover>
 
       <IconButton icon={<SettingsIcon />} aria-label="設定" />
-    </HeaderContainer>
+    </HeaderMenuContainer>
   );
 };
+
+type Form = { keyword: string };
 
 export const TopHeaderMenu = (props: {
   keyword?: string;
@@ -84,7 +79,7 @@ export const TopHeaderMenu = (props: {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
-    <HeaderContainer>
+    <HeaderMenuContainer>
       <IconButton
         icon={<ArrowBackIcon />}
         aria-label={'Back to Top'}
@@ -115,6 +110,6 @@ export const TopHeaderMenu = (props: {
         aria-label="設定"
         onClick={isOpen ? onClose : onOpen}
       />
-    </HeaderContainer>
+    </HeaderMenuContainer>
   );
 };
