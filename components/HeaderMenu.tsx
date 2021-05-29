@@ -1,4 +1,10 @@
-import { ArrowBackIcon, SearchIcon, SettingsIcon } from '@chakra-ui/icons';
+import {
+  ArrowBackIcon,
+  EditIcon,
+  PlusSquareIcon,
+  SearchIcon,
+  SettingsIcon,
+} from '@chakra-ui/icons';
 import {
   Box,
   Button,
@@ -14,7 +20,7 @@ import {
   PopoverBody,
   PopoverArrow,
   PopoverCloseButton,
-  useDisclosure,
+  Text,
   useColorModeValue,
 } from '@chakra-ui/react';
 import dayjs from 'dayjs';
@@ -25,7 +31,7 @@ import { useForm } from 'react-hook-form';
 const HeaderMenuContainer = (props: { children: ReactNode }) => {
   return (
     <Box px={4} bg={useColorModeValue('gray.100', 'gray.900')} boxShadow={'md'}>
-      <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
+      <Flex h={14} alignItems={'center'} justifyContent={'space-between'}>
         {props.children}
       </Flex>
     </Box>
@@ -60,7 +66,7 @@ export const ArticleHeaderMenu = (props: { createdAt: string | undefined }) => {
         </PopoverContent>
       </Popover>
 
-      <IconButton icon={<SettingsIcon />} aria-label="設定" />
+      <IconButton icon={<EditIcon />} aria-label="編集" />
     </HeaderMenuContainer>
   );
 };
@@ -76,16 +82,10 @@ export const TopHeaderMenu = (props: {
       keyword: props.keyword,
     },
   });
-  const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <HeaderMenuContainer>
-      <IconButton
-        icon={<ArrowBackIcon />}
-        aria-label={'Back to Top'}
-        onClick={() => Router.back()}
-        size={'md'}
-      />
+      <IconButton icon={<SettingsIcon />} aria-label="設定" />
 
       <form onSubmit={handleSubmit(props.onSearch)}>
         <InputGroup size="md">
@@ -105,11 +105,7 @@ export const TopHeaderMenu = (props: {
         </InputGroup>
       </form>
 
-      <IconButton
-        icon={<SettingsIcon />}
-        aria-label="設定"
-        onClick={isOpen ? onClose : onOpen}
-      />
+      <IconButton icon={<PlusSquareIcon />} aria-label="新規作成" />
     </HeaderMenuContainer>
   );
 };

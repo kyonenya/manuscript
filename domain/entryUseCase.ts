@@ -1,6 +1,6 @@
 import { z } from 'zod';
-import { Entry } from './Entry';
 import { fetcher } from '../infra/fetcher';
+import { Entry } from './Entry';
 
 /**
  * searchEntries
