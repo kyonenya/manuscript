@@ -87,7 +87,7 @@ export const PostList = (props: { entries: Entry[]; keyword?: string }) => {
   return (
     <SimpleGrid
       columns={{ base: 1, md: 2 }}
-      spacing={{ base: 4, md: 2, lg: 4 }}
+      spacing={{ base: 4, lg: 6 }}
       as="ul"
     >
       {props.entries.map((entry) => (

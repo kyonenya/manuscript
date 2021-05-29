@@ -30,8 +30,12 @@ import { useForm } from 'react-hook-form';
 
 const HeaderMenuContainer = (props: { children: ReactNode }) => {
   return (
-    <Box px={4} bg={useColorModeValue('gray.100', 'gray.900')} boxShadow={'md'}>
-      <Flex h={14} alignItems={'center'} justifyContent={'space-between'}>
+    <Box px={4} bg={useColorModeValue('gray.100', 'gray.900')} boxShadow="md">
+      <Flex
+        h={{ base: 14, md: 16 }}
+        alignItems="center"
+        justifyContent="space-between"
+      >
         {props.children}
       </Flex>
     </Box>
@@ -45,7 +49,7 @@ export const ArticleHeaderMenu = (props: { createdAt: string | undefined }) => {
         icon={<ArrowBackIcon />}
         aria-label={'Back to Top'}
         onClick={() => Router.back()}
-        size={'md'}
+        size="md"
       />
 
       <Popover>
@@ -56,7 +60,7 @@ export const ArticleHeaderMenu = (props: { createdAt: string | undefined }) => {
               : '...'}
           </Button>
         </PopoverTrigger>
-        <PopoverContent w={{ base: '90vw', md: '60vw' }}>
+        <PopoverContent w={{ base: '90vw', md: 'sm' }}>
           <PopoverArrow />
           <PopoverCloseButton />
           <PopoverHeader>Confirmation!</PopoverHeader>
@@ -88,7 +92,7 @@ export const TopHeaderMenu = (props: {
       <IconButton icon={<SettingsIcon />} aria-label="設定" />
 
       <form onSubmit={handleSubmit(props.onSearch)}>
-        <InputGroup w={{ base: '50vw' }} maxW={400}>
+        <InputGroup w={{ base: '60vw', md: 'sm' }}>
           <InputLeftElement
             p={1}
             borderColor={useColorModeValue('gray.300', 'gray.700')}
