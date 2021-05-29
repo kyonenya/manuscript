@@ -8,7 +8,7 @@ import {
 import Head from 'next/head';
 import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
-import { TopHeaderMenu } from '../components/HeaderMenu';
+import { TopHeaderMenu, EditorHeaderMenu } from '../components/HeaderMenu';
 import { PostList } from '../components/PostList';
 import { useSearchEntries } from '../hooks/useSearchEntries';
 
@@ -31,12 +31,13 @@ export default function Index() {
         <title>manuscript</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <TopHeaderMenu
+      {/*<TopHeaderMenu
         keyword={keyword}
         onSearch={({ keyword }) =>
           setKeyword(keyword === '' ? undefined : keyword)
         }
-      />
+      />*/}
+      <EditorHeaderMenu />
       <Container maxW="4xl" py={4}>
         {data && <PostList entries={data.pages.flat()} keyword={keyword} />}
         <Box align="center" ref={ref}>
