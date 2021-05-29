@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useInfiniteQuery, useQueryClient } from 'react-query';
-import { searchEntries } from '../app/entryUseCase';
+import { searchEntries } from '../domain/entryUseCase';
 
 export const useSearchEntries = (props: { limit: number }) => {
   const queryClient = useQueryClient();

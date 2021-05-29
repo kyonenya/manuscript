@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { Entry } from '../app/Entry';
+import { Entry } from './Entry';
 import { fetcher } from '../infra/fetcher';
 
 /**

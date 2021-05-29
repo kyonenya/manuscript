@@ -1,4 +1,4 @@
-import { Entry, toEntry } from '../app/Entry';
+import { Entry, toEntry } from '../domain/Entry';
 import * as entriesSQL from './entriesSQL';
 import { query, mutate } from './postgres';
 import * as tagsSQL from './tagsSQL';

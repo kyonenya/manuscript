@@ -12,7 +12,7 @@ import { TopHeaderMenu } from '../components/HeaderMenu';
 import { PostList } from '../components/PostList';
 import { useSearchEntries } from '../hooks/useSearchEntries';
 
-const limit = 5;
+const limit = 6;
 
 export default function Index() {
   const { data, fetchNextPage, keyword, setKeyword } = useSearchEntries({

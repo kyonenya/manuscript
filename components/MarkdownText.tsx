@@ -4,7 +4,7 @@ import ChakraUIRenderer from 'chakra-ui-markdown-renderer';
 import { ReactNode } from 'react';
 import ReactMarkdown from 'react-markdown';
 
-const customeTheme = {
+const customTheme = {
   p: (props: { children: ReactNode }) => (
     <Text align="justify" mb={2}>
       {props.children}
@@ -14,7 +14,7 @@ const customeTheme = {
 
 export const MarkdownText = (props: { children: string }) => {
   return (
-    <ReactMarkdown components={ChakraUIRenderer(customeTheme)}>
+    <ReactMarkdown components={ChakraUIRenderer(customTheme)}>
       {props.children}
     </ReactMarkdown>
   );

@@ -1,6 +1,6 @@
 import assert from 'assert';
 import dayjs from 'dayjs';
-import { toEntry } from '../../app/Entry';
+import { toEntry } from '../../domain/Entry';
 import * as entryRepository from '../entryRepository';
 import { begin, rollback } from '../postgres';
 

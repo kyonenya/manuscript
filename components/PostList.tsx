@@ -8,8 +8,8 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import dayjs from 'dayjs';
-import { Entry } from '../app/Entry';
-import { toSearchedSummary } from '../app/SearchedSummary';
+import { Entry } from '../domain/Entry';
+import { toSearchedSummary } from '../domain/SearchedSummary';
 import { Link } from './Link';
 
 const Summary = (props: { text: string }) => {

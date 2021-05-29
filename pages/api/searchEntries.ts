@@ -1,5 +1,5 @@
 import { NextApiHandler } from 'next';
-import { SearchEntries, SearchEntriesRequest } from '../../app/entryUseCase';
+import { SearchEntries, SearchEntriesRequest } from '../../domain/entryUseCase';
 import { searchKeyword } from '../../infra/entryRepository';
 
 const searchEntries: SearchEntries = (input) => searchKeyword(input);

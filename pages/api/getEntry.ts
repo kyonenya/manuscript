@@ -1,5 +1,5 @@
 import { NextApiHandler } from 'next';
-import { GetEntry, GetEntryRequest } from '../../app/entryUseCase';
+import { GetEntry, GetEntryRequest } from '../../domain/entryUseCase';
 import { readOne } from '../../infra/entryRepository';
 
 const getEntry: GetEntry = (input) => readOne(input);

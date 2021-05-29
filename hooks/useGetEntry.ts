@@ -1,6 +1,6 @@
 import { useQuery, useQueryClient, InfiniteData } from 'react-query';
-import { Entry } from '../app/Entry';
-import { getEntry } from '../app/entryUseCase';
+import { Entry } from '../domain/Entry';
+import { getEntry } from '../domain/entryUseCase';
 
 export const useGetEntry = (props: { uuid?: string }) => {
   const queryClient = useQueryClient();

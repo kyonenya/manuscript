@@ -9,7 +9,7 @@
     "fmt": "prettier --write **/*.{ts,tsx,json}",
     "lint": "eslint --fix **/*.{ts,tsx}",
     "start": "next start",
-    "test:app": "cross-env TS_NODE_PROJECT=./tsconfig.cjs.json NODE_ENV=test mocha ./app/__tests__/**.ts",
+    "test:domain": "cross-env TS_NODE_PROJECT=./tsconfig.cjs.json NODE_ENV=test mocha ./domain/__tests__/**.ts",
     "test:infra": "cross-env TS_NODE_PROJECT=./tsconfig.cjs.json NODE_ENV=test mocha ./infra/__tests__/**.ts"
   },
   "dependencies": {

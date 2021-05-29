@@ -16,12 +16,11 @@
   },
   "include": [
     // specify manually for build performance
-    "app/**/*.ts",
     "components/**/*.ts*",
+    "domain/**/*.ts",
     "hooks/**/*.ts*",
     "infra/**/*.ts",
     "pages/**/*.ts*",
-    "usecases/**/*.ts*",
     "next-env.d.ts"
   ],
   "exclude": ["node_modules", ".next"]

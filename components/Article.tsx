@@ -7,7 +7,7 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import dayjs from 'dayjs';
-import { Entry } from '../app/Entry';
+import { Entry } from '../domain/Entry';
 import { MarkdownText } from './MarkdownText';
 
 export const Article = (props: { entry: Entry }) => {
