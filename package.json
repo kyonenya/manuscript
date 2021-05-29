@@ -1,16 +1,16 @@
 {
   "name": "manuscript",
   "version": "1.0.0",
-  "entry_script": "_tsc",
+  "entry_script": "dev",
   "scripts": {
+    "-tsc": "tsc -w --noEmit",
     "build": "next build",
     "dev": "next dev -p 3450",
     "fmt": "prettier --write **/*.{ts,tsx,json}",
     "lint": "eslint --fix **/*.{ts,tsx}",
     "start": "next start",
     "test:app": "cross-env TS_NODE_PROJECT=./tsconfig.cjs.json NODE_ENV=test mocha ./app/__tests__/**.ts",
-    "test:infra": "cross-env TS_NODE_PROJECT=./tsconfig.cjs.json NODE_ENV=test mocha ./infra/__tests__/**.ts",
-    "_tsc": "tsc -w --noEmit"
+    "test:infra": "cross-env TS_NODE_PROJECT=./tsconfig.cjs.json NODE_ENV=test mocha ./infra/__tests__/**.ts"
   },
   "dependencies": {
     "@chakra-ui/icons": "^1.0.13",
@@ -20,7 +20,7 @@
     "chakra-ui-markdown-renderer": "^3.0.1",
     "dayjs": "^1.10.4",
     "dotenv": "^8.2.0",
-    "framer-motion": "^4.1.13",
+    "framer-motion": "^4.1.11",
     "next": "^10.2.2",
     "node-fetch": "^2.6.1",
     "pg": "^8.6.0",
