@@ -13,7 +13,7 @@ const pool = new Pool({
   ssl: false,
 });
 
-const getClient: () => Promise<PoolClient> = (() => {
+const getSameClient: () => Promise<PoolClient> = (() => {
   let client: PoolClient;
   return async () => {
     if (!client) {
@@ -24,13 +24,13 @@ const getClient: () => Promise<PoolClient> = (() => {
 })();
 
 export const query = async <T>(sql: SQL): Promise<T[]> => {
-  const client = await getClient();
+  const client = await getSameClient();
   const queryResult = await client.query(sql);
   return queryResult.rows;
 };
 
 export const mutate = async (...sqls: (SQL | null)[]): Promise<number[]> => {
-  const client = await getClient();
+  const client = await getSameClient();
   const transacts = process.env.NODE_ENV === 'test' ? false : true;
   if (transacts) await client.query('BEGIN');
   try {
