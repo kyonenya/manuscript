@@ -1,5 +1,6 @@
 import {
   ArrowBackIcon,
+  ChevronDownIcon,
   EditIcon,
   PlusSquareIcon,
   SearchIcon,
@@ -20,7 +21,6 @@ import {
   PopoverBody,
   PopoverArrow,
   PopoverCloseButton,
-  Text,
   useColorModeValue,
 } from '@chakra-ui/react';
 import dayjs from 'dayjs';
@@ -50,7 +50,7 @@ export const ArticleHeaderMenu = (props: { createdAt: string | undefined }) => {
 
       <Popover>
         <PopoverTrigger>
-          <Button>
+          <Button rightIcon={<ChevronDownIcon />} fontWeight="normal">
             {props.createdAt
               ? dayjs(props.createdAt).format('YYYY-MM-DD')
               : '...'}
@@ -88,7 +88,7 @@ export const TopHeaderMenu = (props: {
       <IconButton icon={<SettingsIcon />} aria-label="設定" />
 
       <form onSubmit={handleSubmit(props.onSearch)}>
-        <InputGroup size="md">
+        <InputGroup w={{ base: '50vw' }} maxW={400}>
           <InputLeftElement
             p={1}
             borderColor={useColorModeValue('gray.300', 'gray.700')}

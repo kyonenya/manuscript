@@ -37,7 +37,7 @@ export default function Index() {
           setKeyword(keyword === '' ? undefined : keyword)
         }
       />
-      <Container maxW="4xl" py={4}>
+      <Container maxW="4xl" py={{ base: 6 }}>
         {data && <PostList entries={data.pages.flat()} keyword={keyword} />}
         <Box align="center" ref={ref}>
           <IconButton

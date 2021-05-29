@@ -13,10 +13,14 @@ import { toSearchedSummary } from '../domain/SearchedSummary';
 import { Link } from './Link';
 
 const Summary = (props: { text: string }) => {
+  const limit = 120;
+
   return (
     <Box>
       <Text color={useColorModeValue('gray.700', 'gray.300')}>
-        {props.text.substr(0, 125)}
+        {props.text.length > limit
+          ? `${props.text.substr(0, limit)}…`
+          : props.text}
       </Text>
     </Box>
   );
@@ -83,7 +87,7 @@ export const PostList = (props: { entries: Entry[]; keyword?: string }) => {
   return (
     <SimpleGrid
       columns={{ base: 1, md: 2 }}
-      spacing={{ base: 4, lg: 8 }}
+      spacing={{ base: 4, md: 2, lg: 4 }}
       as="ul"
     >
       {props.entries.map((entry) => (
