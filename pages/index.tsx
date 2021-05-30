@@ -1,10 +1,4 @@
-import { AddIcon } from '@chakra-ui/icons';
-import {
-  Box,
-  Container,
-  IconButton,
-  useColorModeValue,
-} from '@chakra-ui/react';
+import { Box, Container, Spinner, useColorModeValue } from '@chakra-ui/react';
 import Head from 'next/head';
 import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
@@ -15,7 +9,13 @@ import { useSearchEntries } from '../hooks/useSearchEntries';
 const limit = 6;
 
 export default function Index() {
-  const { data, fetchNextPage, keyword, setKeyword } = useSearchEntries({
+  const {
+    data,
+    fetchNextPage,
+    isFetching,
+    keyword,
+    setKeyword,
+  } = useSearchEntries({
     limit,
   });
   const { ref, inView } = useInView();
@@ -39,15 +39,10 @@ export default function Index() {
       />
       <Container maxW="4xl" py={{ base: 6 }}>
         {data && <PostList entries={data.pages.flat()} keyword={keyword} />}
-        <Box align="center" ref={ref}>
-          <IconButton
-            aria-label={'もっと読む'}
-            onClick={() => fetchNextPage()}
-            icon={<AddIcon />}
-            size={'sm'}
-          />
-        </Box>
       </Container>
+      <Box align="center" ref={ref}>
+        {isFetching && <Spinner color="blue.500" />}
+      </Box>
     </Box>
   );
 }
