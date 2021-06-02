@@ -43,6 +43,12 @@ const HeaderMenuContainer = (props: { children: ReactNode }) => {
 };
 
 export const ArticleHeaderMenu = (props: { createdAt: string | undefined }) => {
+  const { register, handleSubmit } = useForm<{ createdAt: string }>({
+    defaultValues: {
+      createdAt: dayjs(props.createdAt).format('YYYY-MM-DDTHH:mm'),
+    },
+  });
+
   return (
     <HeaderMenuContainer>
       <IconButton
@@ -65,7 +71,7 @@ export const ArticleHeaderMenu = (props: { createdAt: string | undefined }) => {
           <PopoverCloseButton />
           <PopoverHeader>Confirmation!</PopoverHeader>
           <PopoverBody>
-            Are you sure you want to have that milkshake?
+            <Input type="datetime-local" {...register('createdAt')} />
           </PopoverBody>
         </PopoverContent>
       </Popover>
