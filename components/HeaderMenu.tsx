@@ -22,11 +22,13 @@ import {
   PopoverArrow,
   PopoverCloseButton,
   useColorModeValue,
+  useDisclosure,
 } from '@chakra-ui/react';
 import dayjs from 'dayjs';
 import Router from 'next/router';
 import { ReactNode } from 'react';
 import { useForm } from 'react-hook-form';
+import { CustomAlertDialog } from './CustomAlertDialog';
 
 const HeaderMenuContainer = (props: { children: ReactNode }) => {
   return (
@@ -48,6 +50,7 @@ export const ArticleHeaderMenu = (props: { createdAt: string | undefined }) => {
       createdAt: dayjs(props.createdAt).format('YYYY-MM-DDTHH:mm'),
     },
   });
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <HeaderMenuContainer>
@@ -71,6 +74,14 @@ export const ArticleHeaderMenu = (props: { createdAt: string | undefined }) => {
           <PopoverCloseButton />
           <PopoverHeader>Confirmation!</PopoverHeader>
           <PopoverBody>
+            <Button colorScheme="red" onClick={onOpen}>
+              Delete
+            </Button>
+            <CustomAlertDialog
+              isOpen={isOpen}
+              onClose={onClose}
+              onSubmit={onClose}
+            />
             <Input type="datetime-local" {...register('createdAt')} />
           </PopoverBody>
         </PopoverContent>
