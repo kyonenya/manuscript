@@ -23,6 +23,10 @@ const entryFactory = (row: Schema): Entry => {
   });
 };
 
+/**
+ * Queries
+ */
+
 export const readMany = async (props: {
   limit: number;
   offset?: number;
@@ -44,6 +48,10 @@ export const searchKeyword = async (props: {
   const rows = await query<Schema>(entriesSQL.selectByKeyword(props));
   return rows.map((row) => entryFactory(row));
 };
+
+/**
+ * Mutations
+ */
 
 export const createOne = async (props: { entry: Entry }): Promise<number[]> => {
   return await mutate(

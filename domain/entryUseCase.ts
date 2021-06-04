@@ -2,9 +2,7 @@ import { z } from 'zod';
 import { fetcher } from '../infra/fetcher';
 import { Entry } from './Entry';
 
-/**
- * searchEntries
- */
+/** searchEntries */
 export const SearchEntriesRequest = z.object({
   keyword: z.string(),
   limit: z.number(),
@@ -16,9 +14,7 @@ export type SearchEntries = (input: SearchEntriesInput) => Promise<Entry[]>;
 
 export const searchEntries = fetcher<SearchEntries>('/api/searchEntries');
 
-/**
- * getEntry
- */
+/** getEntry */
 export const GetEntryRequest = z.object({
   uuid: z.string(),
 });
@@ -27,3 +23,13 @@ type GetEntryInput = z.infer<typeof GetEntryRequest>;
 export type GetEntry = (input: GetEntryInput) => Promise<Entry>;
 
 export const getEntry = fetcher<GetEntry>('/api/getEntry');
+
+/** deleteEntry */
+export const DeleteEntryRequest = z.object({
+  uuid: z.string(),
+});
+type DeleteEntryInput = z.infer<typeof DeleteEntryRequest>;
+
+export type DeleteEntry = (input: DeleteEntryInput) => Promise<void>;
+
+export const deleteEntry = fetcher<DeleteEntry>('/api/deleteEntry');
