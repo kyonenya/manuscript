@@ -51,3 +51,7 @@ export const createOne = async (props: { entry: Entry }): Promise<number[]> => {
     tagsSQL.insertAll(props.entry)
   );
 };
+
+export const deleteOne = async (props: { uuid: string }): Promise<number[]> => {
+  return await mutate(tagsSQL.deleteAll(props), entriesSQL.deleteOne(props));
+};
