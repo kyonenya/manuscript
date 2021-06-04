@@ -44,7 +44,10 @@ const HeaderMenuContainer = (props: { children: ReactNode }) => {
   );
 };
 
-export const ArticleHeaderMenu = (props: { createdAt: string | undefined }) => {
+export const ArticleHeaderMenu = (props: {
+  createdAt: string | undefined;
+  onDelete: () => void;
+}) => {
   const { register, handleSubmit } = useForm<{ createdAt: string }>({
     defaultValues: {
       createdAt: dayjs(props.createdAt).format('YYYY-MM-DDTHH:mm'),
@@ -80,7 +83,10 @@ export const ArticleHeaderMenu = (props: { createdAt: string | undefined }) => {
             <CustomAlertDialog
               isOpen={isOpen}
               onClose={onClose}
-              onSubmit={onClose}
+              onSubmit={() => {
+                props.onDelete();
+                onClose();
+              }}
             />
             <Input type="datetime-local" {...register('createdAt')} />
           </PopoverBody>
