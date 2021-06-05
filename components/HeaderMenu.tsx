@@ -14,13 +14,6 @@ import {
   InputGroup,
   Input,
   InputLeftElement,
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-  PopoverHeader,
-  PopoverBody,
-  PopoverArrow,
-  PopoverCloseButton,
   useColorModeValue,
   useDisclosure,
 } from '@chakra-ui/react';
@@ -29,6 +22,7 @@ import Router from 'next/router';
 import { ReactNode } from 'react';
 import { useForm } from 'react-hook-form';
 import { CustomAlertDialog } from './CustomAlertDialog';
+import { CustomPopover } from './CustomPopover';
 
 const HeaderMenuContainer = (props: { children: ReactNode }) => {
   return (
@@ -64,34 +58,28 @@ export const ArticleHeaderMenu = (props: {
         size="md"
       />
 
-      <Popover>
-        <PopoverTrigger>
+      <CustomPopover
+        triggerButton={
           <Button rightIcon={<ChevronDownIcon />} fontWeight="normal">
             {props.createdAt
               ? dayjs(props.createdAt).format('YYYY-MM-DD')
               : '...'}
           </Button>
-        </PopoverTrigger>
-        <PopoverContent w={{ base: '90vw', md: 'sm' }}>
-          <PopoverArrow />
-          <PopoverCloseButton />
-          <PopoverHeader>Confirmation!</PopoverHeader>
-          <PopoverBody>
-            <Button colorScheme="red" onClick={onOpen}>
-              Delete
-            </Button>
-            <CustomAlertDialog
-              isOpen={isOpen}
-              onClose={onClose}
-              onSubmit={() => {
-                props.onDelete();
-                onClose();
-              }}
-            />
-            <Input type="datetime-local" {...register('createdAt')} />
-          </PopoverBody>
-        </PopoverContent>
-      </Popover>
+        }
+      >
+        <Input type="datetime-local" {...register('createdAt')} />
+        <Button colorScheme="red" onClick={onOpen}>
+          Delete
+        </Button>      
+        <CustomAlertDialog
+          isOpen={isOpen}
+          onClose={onClose}
+          onSubmit={() => {
+            props.onDelete();
+            onClose();
+          }}
+        />        
+      </CustomPopover>
 
       <IconButton icon={<EditIcon />} aria-label="編集" />
     </HeaderMenuContainer>
