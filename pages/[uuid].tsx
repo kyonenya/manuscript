@@ -9,7 +9,7 @@ import { useGetEntry } from '../hooks/useGetEntry';
 export default function ArticlePage() {
   const uuid = useRouter().query.uuid as string | undefined;
   const { data } = useGetEntry({ uuid });
-  const { mutate } = useDeleteEntry({ uuid: uuid! }); // TODO: enabled
+  const { mutate } = useDeleteEntry();
 
   return (
     <Box bg={useColorModeValue('gray.100', 'gray.700')}>
@@ -17,7 +17,10 @@ export default function ArticlePage() {
         <title>manuscript</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <ArticleHeaderMenu createdAt={data?.createdAt} onDelete={mutate} />
+      <ArticleHeaderMenu
+        createdAt={data?.createdAt}
+        onDelete={() => mutate({ uuid: uuid! })}
+      />
       <Container maxW="3xl" px={0} py={4}>
         {data && <Article entry={data} />}
       </Container>

@@ -10,7 +10,7 @@ const handler: NextApiHandler = async (req, res) => {
   const parsed = DeleteEntryRequest.safeParse(req.body);
   if (!parsed.success) return res.status(400).json({ error: parsed.error });
 
-  return res.json(await deleteEntry(parsed.data));
+  return res.json(await deleteEntry('success!'));
 };
 
 export default handler;
