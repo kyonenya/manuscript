@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "entry_script": "dev",
   "scripts": {
-    "-tsc": "tsc -w --noEmit",
+    "_tsc": "tsc -w",
     "build": "next build",
     "dev": "next dev -p 3450",
     "fmt": "prettier --write **/*.{ts,tsx,json}",

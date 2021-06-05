@@ -1,25 +1,20 @@
-import { useState } from 'react';
-import { useInfiniteQuery, useQueryClient } from 'react-query';
+import { useInfiniteQuery } from 'react-query';
 import { searchEntries } from '../domain/entryUseCase';
 
-export const useSearchEntries = (props: { limit: number }) => {
-  const queryClient = useQueryClient();
-  const [keyword, setKeyword] = useState<string | undefined>(
-    queryClient.getQueryData<string>('currentKeyword')
-  );
-  const result = useInfiniteQuery(
-    ['entries', { keyword }],
-    ({ pageParam = 0 }) => {
-      queryClient.setQueryData('currentKeyword', keyword);
-      return searchEntries({
-        keyword: keyword ?? '',
+export const useSearchEntries = (props: {
+  limit: number;
+  keyword: string | undefined;
+}) => {
+  return useInfiniteQuery(
+    ['entries', { keyword: props.keyword }],
+    ({ pageParam = 0 }) =>
+      searchEntries({
+        keyword: props.keyword ?? '',
         limit: props.limit,
         offset: pageParam * props.limit,
-      });
-    },
+      }),
     {
       getNextPageParam: (lastPage, pages) => pages.length,
     }
   );
-  return { keyword, setKeyword, ...result };
 };

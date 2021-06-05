@@ -4,19 +4,16 @@ import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { TopHeaderMenu } from '../components/HeaderMenu';
 import { PostList } from '../components/PostList';
+import { useCurrentKeyword } from '../hooks/useCurrentKeyword';
 import { useSearchEntries } from '../hooks/useSearchEntries';
 
 const limit = 6;
 
 export default function Index() {
-  const {
-    data,
-    fetchNextPage,
-    isFetching,
-    keyword,
-    setKeyword,
-  } = useSearchEntries({
+  const { keyword, setKeyword } = useCurrentKeyword();
+  const { data, fetchNextPage, isFetching } = useSearchEntries({
     limit,
+    keyword,
   });
   const { ref, inView } = useInView();
 
@@ -33,9 +30,7 @@ export default function Index() {
       </Head>
       <TopHeaderMenu
         keyword={keyword}
-        onSearch={({ keyword }) =>
-          setKeyword(keyword === '' ? undefined : keyword)
-        }
+        onSearch={({ keyword }) => setKeyword(keyword)}
       />
       <Container maxW="4xl" py={{ base: 6 }}>
         {data && <PostList entries={data.pages.flat()} keyword={keyword} />}
