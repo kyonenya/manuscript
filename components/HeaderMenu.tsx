@@ -69,7 +69,7 @@ export const ArticleHeaderMenu = (props: {
           </Button>
         }
       >
-        <Stack direction="column" spacing={4} padding={2}>
+        <Stack direction="column" spacing={4} px={2} py={4}>
           <Input type="datetime-local" {...register('createdAt')} />
           <Button onClick={onOpen} leftIcon={<DeleteIcon />} color="red.500">
             Delete

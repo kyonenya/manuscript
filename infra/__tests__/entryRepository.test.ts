@@ -65,6 +65,22 @@ describe('mutation_entriesRepository', () => {
     assert.deepStrictEqual(rowCounts, [1, 2]);
   });
 
+  it('updateOne', async () => {
+    const oldEntry = toEntry({
+      text: '新規作成された記事の本文',
+    });
+    await entryRepository.createOne({ entry: oldEntry });
+    const newEntry = toEntry({
+      text: '更新された記事の本文',
+      tags: ['タグ1', 'タグ2'],
+      uuid: oldEntry.uuid,
+    });
+    await entryRepository.updateOne({ entry: newEntry });
+    const resultEntry = await entryRepository.readOne({ uuid: oldEntry.uuid });
+    assert.strictEqual(resultEntry.text, newEntry.text);
+    assert.deepStrictEqual(resultEntry.tags, newEntry.tags);
+  });
+
   it('deleteOne', async () => {
     const entry = toEntry({
       text: '新規作成された記事の本文',

@@ -60,6 +60,14 @@ export const createOne = async (props: { entry: Entry }): Promise<number[]> => {
   );
 };
 
+export const updateOne = async (props: { entry: Entry }): Promise<number[]> => {
+  await mutate(tagsSQL.deleteAll(props.entry));
+  return await mutate(
+    entriesSQL.updateOne(props),
+    tagsSQL.insertAll(props.entry)
+  );
+};
+
 export const deleteOne = async (props: { uuid: string }): Promise<number[]> => {
   return await mutate(tagsSQL.deleteAll(props), entriesSQL.deleteOne(props));
 };
