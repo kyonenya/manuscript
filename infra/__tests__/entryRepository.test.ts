@@ -4,7 +4,7 @@ import { toEntry } from '../../domain/Entry';
 import * as entryRepository from '../entryRepository';
 import { begin, rollback } from '../postgres';
 
-describe('Queries: entriesRepository', () => {
+describe('Query:entriesRepository', () => {
   const olderEntry = toEntry({
     text: 'これは過去の記事です。',
     createdAt: dayjs().subtract(1, 's'),
@@ -29,7 +29,7 @@ describe('Queries: entriesRepository', () => {
 
   it('readOne', async () => {
     const entry = await entryRepository.readOne({ uuid: newestEntry.uuid });
-    assert.strictEqual(entry.text, newestEntry.text);
+    assert.strictEqual(entry?.text, newestEntry.text);
   });
 
   it('readOne:empty', async () => {
@@ -60,7 +60,7 @@ describe('Queries: entriesRepository', () => {
   after(() => rollback());
 });
 
-describe('Mutations: entriesRepository', () => {
+describe('Mutation:entriesRepository', () => {
   beforeEach(() => begin());
 
   it('createOne', async () => {
@@ -84,8 +84,8 @@ describe('Mutations: entriesRepository', () => {
     });
     await entryRepository.updateOne({ entry: newEntry });
     const resultEntry = await entryRepository.readOne({ uuid: oldEntry.uuid });
-    assert.strictEqual(resultEntry.text, newEntry.text);
-    assert.deepStrictEqual(resultEntry.tags, newEntry.tags);
+    assert.strictEqual(resultEntry?.text, newEntry.text);
+    assert.deepStrictEqual(resultEntry?.tags, newEntry.tags);
   });
 
   it('deleteOne', async () => {

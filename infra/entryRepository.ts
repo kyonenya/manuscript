@@ -24,9 +24,8 @@ const entryFactory = (row: Schema): Entry => {
 };
 
 /**
- * Queries
+ * Query
  */
-
 export const readMany = async (props: {
   limit: number;
   offset?: number;
@@ -52,9 +51,8 @@ export const searchKeyword = async (props: {
 };
 
 /**
- * Mutations
+ * Mutation
  */
-
 export const createOne = async (props: { entry: Entry }): Promise<number[]> => {
   return await mutate(
     entriesSQL.insertOne(props),

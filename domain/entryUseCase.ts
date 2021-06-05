@@ -2,6 +2,9 @@ import { z } from 'zod';
 import { fetcher } from '../infra/fetcher';
 import { Entry } from './Entry';
 
+/**
+ * Query
+ */
 /** searchEntries */
 export const SearchEntriesRequest = z.object({
   keyword: z.string(),
@@ -20,10 +23,13 @@ export const GetEntryRequest = z.object({
 });
 type GetEntryInput = z.infer<typeof GetEntryRequest>;
 
-export type GetEntry = (input: GetEntryInput) => Promise<Entry>;
+export type GetEntry = (input: GetEntryInput) => Promise<Entry | undefined>;
 
 export const getEntry = fetcher<GetEntry>('/api/getEntry');
 
+/**
+ * Mutation
+ */
 /** deleteEntry */
 export const DeleteEntryRequest = z.object({
   uuid: z.string(),
