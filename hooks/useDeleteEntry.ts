@@ -6,13 +6,16 @@ export const useDeleteEntry = (props: { uuid: string | undefined }) => {
   const queryClient = useQueryClient();
   const router = useRouter();
 
-  return useMutation(async () => {
-    if (!props.uuid) return;
-    await deleteEntry({ uuid: props.uuid });
-  }, {
-    onSuccess: () => {
-      router.push('/');
-      queryClient.invalidateQueries('entries')
+  return useMutation(
+    async () => {
+      if (!props.uuid) return;
+      await deleteEntry({ uuid: props.uuid });
     },
-  });
+    {
+      onSuccess: () => {
+        router.push('/');
+        queryClient.invalidateQueries('entries');
+      },
+    }
+  );
 };

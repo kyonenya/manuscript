@@ -17,10 +17,7 @@ export default function ArticlePage() {
         <title>manuscript</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <ArticleHeaderMenu
-        createdAt={data?.createdAt}
-        onDelete={mutate}
-      />
+      <ArticleHeaderMenu createdAt={data?.createdAt} onDelete={mutate} />
       <Container maxW="3xl" px={0} py={4}>
         {data && <Article entry={data} />}
       </Container>
