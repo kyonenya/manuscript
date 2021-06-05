@@ -9,16 +9,14 @@ import { ReactNode } from 'react';
 export const Link = ({
   children,
   href,
-  prefetch = true,
   ...rest
 }: {
   children: ReactNode;
   href: LinkProps['href'];
-  prefetch?: boolean;
   rest?: unknown[];
 }) => {
   return (
-    <NextLink passHref href={href} prefetch={prefetch}>
+    <NextLink passHref href={href}>
       <ChakraLink {...rest}>{children}</ChakraLink>
     </NextLink>
   );

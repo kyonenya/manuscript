@@ -15,6 +15,7 @@ import {
   InputGroup,
   Input,
   InputLeftElement,
+  Stack,
   useColorModeValue,
   useDisclosure,
 } from '@chakra-ui/react';
@@ -68,18 +69,20 @@ export const ArticleHeaderMenu = (props: {
           </Button>
         }
       >
-        <Input type="datetime-local" {...register('createdAt')} />
-        <Button onClick={onOpen} leftIcon={<DeleteIcon />} color="red.500">
-          Delete
-        </Button>      
-        <CustomAlertDialog
-          isOpen={isOpen}
-          onClose={onClose}
-          onSubmit={() => {
-            props.onDelete();
-            onClose();
-          }}
-        />        
+        <Stack direction="column" spacing={4} padding={2}>
+          <Input type="datetime-local" {...register('createdAt')} />
+          <Button onClick={onOpen} leftIcon={<DeleteIcon />} color="red.500">
+            Delete
+          </Button>
+          <CustomAlertDialog
+            isOpen={isOpen}
+            onClose={onClose}
+            onSubmit={() => {
+              props.onDelete();
+              onClose();
+            }}
+          />
+        </Stack>
       </CustomPopover>
 
       <IconButton icon={<EditIcon />} aria-label="編集" />

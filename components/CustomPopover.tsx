@@ -5,7 +5,6 @@ import {
   PopoverBody,
   PopoverArrow,
   PopoverCloseButton,
-  Stack,
 } from '@chakra-ui/react';
 import { ReactElement, ReactNode } from 'react';
 
@@ -19,11 +18,7 @@ export const CustomPopover = (props: {
       <PopoverContent w={{ base: '90vw', md: 'sm' }}>
         <PopoverArrow />
         <PopoverCloseButton />
-        <PopoverBody>
-          <Stack direction="column" spacing={4} padding={2}>
-            {props.children}
-          </Stack>
-        </PopoverBody>
+        <PopoverBody>{props.children}</PopoverBody>
       </PopoverContent>
     </Popover>
   );
