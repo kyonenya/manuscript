@@ -1,6 +1,7 @@
 import {
   ArrowBackIcon,
   ChevronDownIcon,
+  DeleteIcon,
   EditIcon,
   PlusSquareIcon,
   SearchIcon,
@@ -68,7 +69,7 @@ export const ArticleHeaderMenu = (props: {
         }
       >
         <Input type="datetime-local" {...register('createdAt')} />
-        <Button colorScheme="red" onClick={onOpen}>
+        <Button onClick={onOpen} leftIcon={<DeleteIcon />} color="red.500">
           Delete
         </Button>      
         <CustomAlertDialog
