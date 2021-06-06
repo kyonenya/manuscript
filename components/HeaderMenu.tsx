@@ -15,8 +15,6 @@ import {
   InputGroup,
   Input,
   InputLeftElement,
-  Stack,
-  useColorMode,
   useColorModeValue,
   useDisclosure,
 } from '@chakra-ui/react';
@@ -24,6 +22,7 @@ import dayjs from 'dayjs';
 import Router from 'next/router';
 import { ReactNode } from 'react';
 import { useForm } from 'react-hook-form';
+import { ColorModeButton } from './ColorModeButton';
 import { CustomAlertDialog } from './CustomAlertDialog';
 import { CustomPopover } from './CustomPopover';
 
@@ -70,20 +69,18 @@ export const ArticleHeaderMenu = (props: {
           </Button>
         }
       >
-        <Stack direction="column" spacing={4} px={2} py={4}>
-          <Input type="datetime-local" {...register('createdAt')} />
-          <Button onClick={onOpen} leftIcon={<DeleteIcon />} color="red.500">
-            Delete
-          </Button>
-          <CustomAlertDialog
-            isOpen={isOpen}
-            onClose={onClose}
-            onSubmit={() => {
-              props.onDelete();
-              onClose();
-            }}
-          />
-        </Stack>
+        <Input type="datetime-local" {...register('createdAt')} />
+        <Button onClick={onOpen} leftIcon={<DeleteIcon />} color="red.500">
+          Delete
+        </Button>
+        <CustomAlertDialog
+          isOpen={isOpen}
+          onClose={onClose}
+          onSubmit={() => {
+            props.onDelete();
+            onClose();
+          }}
+        />
       </CustomPopover>
 
       <IconButton icon={<EditIcon />} aria-label="編集" />
@@ -102,7 +99,6 @@ export const TopHeaderMenu = (props: {
       keyword: props.keyword,
     },
   });
-  const { colorMode, toggleColorMode } = useColorMode();
 
   return (
     <HeaderMenuContainer>
@@ -110,11 +106,7 @@ export const TopHeaderMenu = (props: {
         placement="bottom-end"
         triggerButton={<IconButton icon={<SettingsIcon />} aria-label="設定" />}
       >
-        <Stack direction="column" spacing={4} px={2} py={4}>
-          <Button onClick={toggleColorMode}>
-            Toggle {colorMode === 'light' ? 'Dark' : 'Light'}
-          </Button>
-        </Stack>
+        <ColorModeButton />
       </CustomPopover>
 
       <form onSubmit={handleSubmit(props.onSearch)}>
