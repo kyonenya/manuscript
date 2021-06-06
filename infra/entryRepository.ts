@@ -17,7 +17,7 @@ const entryFactory = (row: Schema): Entry => {
     text: row.text,
     starred: row.starred,
     uuid: row.uuid,
-    tags: row.taglist?.split(',') ?? null,
+    tags: row.taglist?.split(',') ?? [],
     createdAt: row.created_at,
     modifiedAt: row.modified_at,
   });
