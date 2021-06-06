@@ -4,9 +4,10 @@ import { createBreakpoints } from '@chakra-ui/theme-tools';
 const fonts = { mono: `'Menlo', monospace` };
 
 const breakpoints = createBreakpoints({
-  sm: '40em',
-  md: '52em',
-  lg: '64em',
+  // (20em: iPad 1/3) (iPhone)
+  sm: '30em', // (iPad 1/2)
+  md: '42em', // (iPad 2/3) default: '48em'
+  lg: '62em', // (iPad 1/1)
   xl: '80em',
 });
 
