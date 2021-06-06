@@ -104,7 +104,18 @@ export const TopHeaderMenu = (props: {
 
   return (
     <HeaderMenuContainer>
-      <IconButton icon={<SettingsIcon />} aria-label="設定" />
+      <CustomPopover
+        placement="bottom-end"
+        triggerButton={
+          <IconButton icon={<SettingsIcon />} aria-label="設定" />
+        }
+      >
+        <Stack direction="column" spacing={4} px={2} py={4}>
+          <SettingsIcon />
+          <SettingsIcon />
+          <SettingsIcon />
+        </Stack>
+      </CustomPopover>
 
       <form onSubmit={handleSubmit(props.onSearch)}>
         <InputGroup w={{ base: '60vw', md: 'sm' }}>

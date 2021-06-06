@@ -11,9 +11,10 @@ import { ReactElement, ReactNode } from 'react';
 export const CustomPopover = (props: {
   triggerButton: ReactElement;
   children: ReactNode;
+  placement?: string;
 }) => {
   return (
-    <Popover>
+    <Popover placement={props.placement}>
       <PopoverTrigger>{props.triggerButton}</PopoverTrigger>
       <PopoverContent w={{ base: '90vw', md: 'sm' }}>
         <PopoverArrow />
