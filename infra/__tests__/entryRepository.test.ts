@@ -83,7 +83,9 @@ describe('Mutation:entriesRepository', () => {
       uuid: oldEntry.uuid,
     });
     await entryRepository.updateOne({ entry: newEntry });
-    const resultEntry = await entryRepository.selectOne({ uuid: oldEntry.uuid });
+    const resultEntry = await entryRepository.selectOne({
+      uuid: oldEntry.uuid,
+    });
     assert.strictEqual(resultEntry?.text, newEntry.text);
     assert.deepStrictEqual(resultEntry?.tags, newEntry.tags);
   });
