@@ -16,6 +16,7 @@ import {
   Input,
   InputLeftElement,
   Stack,
+  useColorMode,
   useColorModeValue,
   useDisclosure,
 } from '@chakra-ui/react';
@@ -101,19 +102,18 @@ export const TopHeaderMenu = (props: {
       keyword: props.keyword,
     },
   });
+  const { colorMode, toggleColorMode } = useColorMode();
 
   return (
     <HeaderMenuContainer>
       <CustomPopover
         placement="bottom-end"
-        triggerButton={
-          <IconButton icon={<SettingsIcon />} aria-label="設定" />
-        }
+        triggerButton={<IconButton icon={<SettingsIcon />} aria-label="設定" />}
       >
         <Stack direction="column" spacing={4} px={2} py={4}>
-          <SettingsIcon />
-          <SettingsIcon />
-          <SettingsIcon />
+          <Button onClick={toggleColorMode}>
+            Toggle {colorMode === 'light' ? 'Dark' : 'Light'}
+          </Button>
         </Stack>
       </CustomPopover>
 

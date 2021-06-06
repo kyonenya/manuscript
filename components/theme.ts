@@ -23,4 +23,6 @@ export const theme = extendTheme({
   fonts,
   fontWeights,
   breakpoints,
+  initialColorMode: 'light',
+  useSystemColorMode: true,
 });
