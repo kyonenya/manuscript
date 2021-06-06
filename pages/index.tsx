@@ -36,7 +36,7 @@ export default function Index() {
         {data && <PostList entries={data.pages.flat()} keyword={keyword} />}
       </Container>
       <Box align="center" ref={ref}>
-        {isFetching && <Spinner color="blue.500" />}
+        {isFetching && <Spinner emptyColor="gray.300" speed="0.65s" />}
       </Box>
     </Box>
   );
