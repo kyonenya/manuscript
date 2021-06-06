@@ -5,13 +5,14 @@ import {
   PopoverBody,
   PopoverArrow,
   PopoverCloseButton,
+  Placement,
 } from '@chakra-ui/react';
 import { ReactElement, ReactNode } from 'react';
 
 export const CustomPopover = (props: {
   triggerButton: ReactElement;
   children: ReactNode;
-  placement?: string;
+  placement?: Placement;
 }) => {
   return (
     <Popover placement={props.placement}>
