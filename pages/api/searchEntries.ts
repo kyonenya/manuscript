@@ -1,8 +1,8 @@
 import { NextApiHandler } from 'next';
 import { SearchEntries, SearchEntriesRequest } from '../../domain/entryUseCase';
-import { searchKeyword } from '../../infra/entryRepository';
+import { selectByKeyword } from '../../infra/entryRepository';
 
-const searchEntries: SearchEntries = (input) => searchKeyword(input);
+const searchEntries: SearchEntries = (input) => selectByKeyword(input);
 
 const handler: NextApiHandler = async (req, res) => {
   const parsed = SearchEntriesRequest.safeParse(req.body);

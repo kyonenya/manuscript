@@ -21,26 +21,26 @@ describe('Query:entriesRepository', () => {
     await entryRepository.createOne({ entry: newestEntry });
   });
 
-  it('readMany', async () => {
-    const entries = await entryRepository.readMany({ limit: 1, offset: 1 });
+  it('selectMany', async () => {
+    const entries = await entryRepository.selectMany({ limit: 1, offset: 1 });
     assert.strictEqual(entries.length, 1);
     assert.strictEqual(entries[0].text, olderEntry.text);
   });
 
-  it('readOne', async () => {
-    const entry = await entryRepository.readOne({ uuid: newestEntry.uuid });
+  it('selectOne', async () => {
+    const entry = await entryRepository.selectOne({ uuid: newestEntry.uuid });
     assert.strictEqual(entry?.text, newestEntry.text);
   });
 
-  it('readOne:empty', async () => {
-    const result = await entryRepository.readOne({
+  it('selectOne:empty', async () => {
+    const result = await entryRepository.selectOne({
       uuid: 'thisisadummyuuidthisisadummyuuid',
     });
     assert.strictEqual(result, undefined);
   });
 
-  it('searchKeyword', async () => {
-    const entries = await entryRepository.searchKeyword({
+  it('selectByKeyword', async () => {
+    const entries = await entryRepository.selectByKeyword({
       keyword: '。',
       limit: 1,
       offset: 1,
@@ -49,7 +49,7 @@ describe('Query:entriesRepository', () => {
     assert.strictEqual(entries[0].text, olderEntry.text);
   });
   it('searchKeyword:emptyKeyword', async () => {
-    const entries = await entryRepository.searchKeyword({
+    const entries = await entryRepository.selectByKeyword({
       keyword: '',
       limit: 1,
     });
@@ -83,7 +83,7 @@ describe('Mutation:entriesRepository', () => {
       uuid: oldEntry.uuid,
     });
     await entryRepository.updateOne({ entry: newEntry });
-    const resultEntry = await entryRepository.readOne({ uuid: oldEntry.uuid });
+    const resultEntry = await entryRepository.selectOne({ uuid: oldEntry.uuid });
     assert.strictEqual(resultEntry?.text, newEntry.text);
     assert.deepStrictEqual(resultEntry?.tags, newEntry.tags);
   });
@@ -95,7 +95,7 @@ describe('Mutation:entriesRepository', () => {
     });
     await entryRepository.createOne({ entry });
     await entryRepository.deleteOne({ uuid: entry.uuid });
-    const result = await entryRepository.readOne({ uuid: entry.uuid });
+    const result = await entryRepository.selectOne({ uuid: entry.uuid });
     assert.strictEqual(result, undefined);
   });
 

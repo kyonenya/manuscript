@@ -26,7 +26,7 @@ const entryFactory = (row: Schema): Entry => {
 /**
  * Query
  */
-export const readMany = async (props: {
+export const selectMany = async (props: {
   limit: number;
   offset?: number;
 }): Promise<Entry[]> => {
@@ -34,14 +34,14 @@ export const readMany = async (props: {
   return rows.map((row) => entryFactory(row));
 };
 
-export const readOne = async (props: {
+export const selectOne = async (props: {
   uuid: string;
 }): Promise<Entry | undefined> => {
   const rows = await query<Schema>(entriesSQL.selectOne(props));
   return rows.length > 0 ? entryFactory(rows[0]) : undefined;
 };
 
-export const searchKeyword = async (props: {
+export const selectByKeyword = async (props: {
   keyword: string;
   limit: number;
   offset?: number;
