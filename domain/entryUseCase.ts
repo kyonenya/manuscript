@@ -30,6 +30,21 @@ export const getEntry = fetcher<GetEntry>('/api/getEntry');
 /**
  * Mutation
  */
+/** updateEntry */
+export const UpdateEntryRequest = z.object({
+  text: z.string(),
+  starred: z.boolean(),
+  uuid: z.string(),
+  tags: z.array(z.string()),
+  createdAt: z.string(),
+  modifiedAt: z.string(),
+});
+type UpdateEntryInput = z.infer<typeof UpdateEntryRequest>;
+
+export type UpdateEntry = (input: UpdateEntryInput) => Promise<void>;
+
+export const UpdateEntry = fetcher<UpdateEntry>('/api/updateEntry');
+
 /** deleteEntry */
 export const DeleteEntryRequest = z.object({
   uuid: z.string(),
