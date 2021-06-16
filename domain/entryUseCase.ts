@@ -43,7 +43,7 @@ type UpdateEntryInput = z.infer<typeof UpdateEntryRequest>;
 
 export type UpdateEntry = (input: UpdateEntryInput) => Promise<void>;
 
-export const UpdateEntry = fetcher<UpdateEntry>('/api/updateEntry');
+export const updateEntry = fetcher<UpdateEntry>('/api/updateEntry');
 
 /** deleteEntry */
 export const DeleteEntryRequest = z.object({
