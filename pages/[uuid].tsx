@@ -5,11 +5,13 @@ import { Article } from '../components/Article';
 import { ArticleHeaderMenu } from '../components/HeaderMenu';
 import { useDeleteEntry } from '../hooks/useDeleteEntry';
 import { useGetEntry } from '../hooks/useGetEntry';
+import { useUpdateEntry } from '../hooks/useUpdateEntry';
 
 export default function ArticlePage() {
   const uuid = useRouter().query.uuid as string | undefined;
   const { data } = useGetEntry({ uuid });
   const { mutate } = useDeleteEntry({ uuid });
+  const { mutate: mutateUpdate } = useUpdateEntry();
 
   return (
     <Box bg={useColorModeValue('gray.100', 'gray.700')}>
@@ -17,7 +19,11 @@ export default function ArticlePage() {
         <title>manuscript</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <ArticleHeaderMenu createdAt={data?.createdAt} onDelete={mutate} />
+      <ArticleHeaderMenu
+        createdAt={data?.createdAt}
+        onUpdate={({ createdAt }) => mutateUpdate({ ...data!, createdAt })}
+        onDelete={mutate}
+      />
       <Container maxW="3xl" px={0} py={4}>
         {data && <Article entry={data} />}
       </Container>

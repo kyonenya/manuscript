@@ -42,6 +42,7 @@ const HeaderMenuContainer = (props: { children: ReactNode }) => {
 
 export const ArticleHeaderMenu = (props: {
   createdAt: string | undefined;
+  onUpdate: (props: { createdAt: string }) => void;
   onDelete: () => void;
 }) => {
   const { register, handleSubmit } = useForm<{ createdAt: string }>({
@@ -83,7 +84,11 @@ export const ArticleHeaderMenu = (props: {
         />
       </CustomPopover>
 
-      <IconButton icon={<EditIcon />} aria-label="編集" />
+      <IconButton
+        onClick={handleSubmit(props.onUpdate)}
+        icon={<EditIcon />}
+        aria-label="編集"
+      />
     </HeaderMenuContainer>
   );
 };
