@@ -25,6 +25,7 @@ import { useForm } from 'react-hook-form';
 import { ColorModeButton } from './ColorModeButton';
 import { CustomAlertDialog } from './CustomAlertDialog';
 import { CustomPopover } from './CustomPopover';
+import { TagsSelect } from './TagsSelect';
 
 const HeaderMenuContainer = (props: { children: ReactNode }) => {
   return (
@@ -71,6 +72,7 @@ export const ArticleHeaderMenu = (props: {
         }
       >
         <Input type="datetime-local" {...register('createdAt')} />
+        <TagsSelect />
         <Button onClick={onOpen} leftIcon={<DeleteIcon />} color="red.500">
           Delete
         </Button>
