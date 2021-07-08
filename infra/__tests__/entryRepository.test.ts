@@ -7,6 +7,7 @@ import { begin, rollback } from '../postgres';
 describe('Query:entriesRepository', () => {
   const olderEntry = toEntry({
     text: 'これは過去の記事です。',
+    tags: ['タグ1', 'タグ2'],
     createdAt: dayjs().subtract(1, 's'),
   });
   const newestEntry = toEntry({
@@ -75,6 +76,7 @@ describe('Mutation:entriesRepository', () => {
   it('updateOne', async () => {
     const oldEntry = toEntry({
       text: '新規作成された記事の本文',
+      tags: ['タグ1', 'タグ2'],
     });
     await entryRepository.createOne({ entry: oldEntry });
     const newEntry = toEntry({
