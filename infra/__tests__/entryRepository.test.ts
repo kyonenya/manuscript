@@ -58,6 +58,11 @@ describe('Query:entriesRepository', () => {
     assert.strictEqual(entries[0].text, newestEntry.text);
   });
 
+  it('selectTagList', async () => {
+    const tagList = await entryRepository.selectTagList();
+    assert.ok(tagList.includes(olderEntry.tags[0]));
+  });
+
   after(() => rollback());
 });
 

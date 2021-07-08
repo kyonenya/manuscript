@@ -1,5 +1,15 @@
 import { SQL } from './postgres';
 
+export const selectDistinct = (): SQL => {
+  const text = `
+    SELECT DISTINCT
+      tag
+    FROM
+      tags
+  ;`;
+  return { text };
+};
+
 export const insertAll = (props: {
   tags: string[];
   uuid: string;
