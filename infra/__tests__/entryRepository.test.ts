@@ -73,6 +73,14 @@ describe('Mutation:entriesRepository', () => {
     assert.deepStrictEqual(rowCounts, [1, 2]);
   });
 
+  it('createOne_noTag', async () => {
+    const entry = toEntry({
+      text: '新規作成された記事の本文',
+    });
+    const rowCounts = await entryRepository.createOne({ entry });
+    assert.deepStrictEqual(rowCounts, [1]);
+  });
+
   it('updateOne', async () => {
     const oldEntry = toEntry({
       text: '新規作成された記事の本文',

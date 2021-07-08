@@ -1,10 +1,10 @@
 import { SQL } from './postgres';
 
 export const insertAll = (props: {
-  tags: string[] | null;
+  tags: string[];
   uuid: string;
 }): SQL | null => {
-  if (!props.tags) return null;
+  if (props.tags.length < 1) return null;
   const text = `
     INSERT INTO tags (
       uuid
