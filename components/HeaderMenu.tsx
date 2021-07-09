@@ -43,6 +43,7 @@ const HeaderMenuContainer = (props: { children: ReactNode }) => {
 
 export const ArticleHeaderMenu = (props: {
   createdAt: string | undefined;
+  tagList: string[];
   onUpdate: (props: { createdAt: string }) => void;
   onDelete: () => void;
 }) => {
@@ -72,7 +73,7 @@ export const ArticleHeaderMenu = (props: {
         }
       >
         <Input type="datetime-local" {...register('createdAt')} />
-        <TagsSelect />
+        <TagsSelect tagList={props.tagList} />
         <Button onClick={onOpen} leftIcon={<DeleteIcon />} color="red.500">
           Delete
         </Button>

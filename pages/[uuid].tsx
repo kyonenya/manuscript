@@ -1,5 +1,5 @@
 import { Box, Container, useColorModeValue } from '@chakra-ui/react';
-import { GetStaticProps } from 'next';
+import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { Article } from '../components/Article';
@@ -15,7 +15,6 @@ export default function ArticlePage(props: { tagList: string[] }) {
   const { data } = useGetEntry({ uuid });
   const { mutate } = useDeleteEntry({ uuid });
   const { mutate: mutateUpdate } = useUpdateEntry();
-  console.log(props.tagList);
 
   return (
     <Box bg={useColorModeValue('gray.100', 'gray.700')}>
@@ -25,6 +24,7 @@ export default function ArticlePage(props: { tagList: string[] }) {
       </Head>
       <ArticleHeaderMenu
         createdAt={data?.createdAt}
+        tagList={props.tagList}
         onUpdate={({ createdAt }) => mutateUpdate({ ...data!, createdAt })}
         onDelete={mutate}
       />
@@ -35,7 +35,7 @@ export default function ArticlePage(props: { tagList: string[] }) {
   );
 }
 
-export const getServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async () => {
   const tagList = await selectTagList();
   return { props: { tagList } };
 };
