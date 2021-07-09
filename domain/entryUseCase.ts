@@ -27,6 +27,9 @@ export type GetEntry = (input: GetEntryInput) => Promise<Entry | undefined>;
 
 export const getEntry = fetcher<GetEntry>('/api/getEntry');
 
+/** getTagList */
+export type GetTagList = () => Promise<string[]>;
+
 /**
  * Mutation
  */

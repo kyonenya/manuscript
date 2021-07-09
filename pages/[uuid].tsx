@@ -1,17 +1,21 @@
 import { Box, Container, useColorModeValue } from '@chakra-ui/react';
+import { GetStaticProps } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { Article } from '../components/Article';
 import { ArticleHeaderMenu } from '../components/HeaderMenu';
+import { GetTagList } from '../domain/entryUseCase';
 import { useDeleteEntry } from '../hooks/useDeleteEntry';
 import { useGetEntry } from '../hooks/useGetEntry';
 import { useUpdateEntry } from '../hooks/useUpdateEntry';
+import { selectTagList } from '../infra/entryRepository';
 
-export default function ArticlePage() {
+export default function ArticlePage(props: { tagList: string[] }) {
   const uuid = useRouter().query.uuid as string | undefined;
   const { data } = useGetEntry({ uuid });
   const { mutate } = useDeleteEntry({ uuid });
   const { mutate: mutateUpdate } = useUpdateEntry();
+  console.log(props.tagList);
 
   return (
     <Box bg={useColorModeValue('gray.100', 'gray.700')}>
@@ -30,3 +34,8 @@ export default function ArticlePage() {
     </Box>
   );
 }
+
+export const getServerSideProps = async () => {
+  const tagList = await selectTagList();
+  return { props: { tagList } };
+};
