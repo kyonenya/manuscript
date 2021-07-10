@@ -74,7 +74,7 @@ export const ArticleHeaderMenu = (props: {
         }
       >
         <Input type="datetime-local" {...register('createdAt')} />
-        <TagsSelect tagList={props.tagList} />
+        <TagsSelect defaultTags={props.entry?.tags} tagList={props.tagList} />
         <Button onClick={onOpen} leftIcon={<DeleteIcon />} color="red.500">
           Delete
         </Button>
