@@ -23,7 +23,7 @@ export default function ArticlePage(props: { tagList: string[] }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <ArticleHeaderMenu
-        createdAt={data?.createdAt}
+        entry={data}
         tagList={props.tagList}
         onUpdate={({ createdAt }) => mutateUpdate({ ...data!, createdAt })}
         onDelete={mutate}

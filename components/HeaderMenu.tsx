@@ -22,6 +22,7 @@ import dayjs from 'dayjs';
 import Router from 'next/router';
 import { ReactNode } from 'react';
 import { useForm } from 'react-hook-form';
+import { Entry } from '../domain/Entry';
 import { ColorModeButton } from './ColorModeButton';
 import { CustomAlertDialog } from './CustomAlertDialog';
 import { CustomPopover } from './CustomPopover';
@@ -42,14 +43,14 @@ const HeaderMenuContainer = (props: { children: ReactNode }) => {
 };
 
 export const ArticleHeaderMenu = (props: {
-  createdAt: string | undefined;
+  entry: Entry | undefined;
   tagList: string[];
   onUpdate: (props: { createdAt: string }) => void;
   onDelete: () => void;
 }) => {
   const { register, handleSubmit } = useForm<{ createdAt: string }>({
     defaultValues: {
-      createdAt: dayjs(props.createdAt).format('YYYY-MM-DDTHH:mm'),
+      createdAt: dayjs(props.entry?.createdAt).format('YYYY-MM-DDTHH:mm'),
     },
   });
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -66,8 +67,8 @@ export const ArticleHeaderMenu = (props: {
       <CustomPopover
         triggerButton={
           <Button rightIcon={<ChevronDownIcon />} fontWeight="normal">
-            {props.createdAt
-              ? dayjs(props.createdAt).format('YYYY-MM-DD')
+            {props.entry?.createdAt
+              ? dayjs(props.entry?.createdAt).format('YYYY-MM-DD')
               : '...'}
           </Button>
         }
