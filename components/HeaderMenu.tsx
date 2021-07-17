@@ -1,8 +1,8 @@
 import {
   ArrowBackIcon,
   ChevronDownIcon,
+  CheckIcon,
   DeleteIcon,
-  EditIcon,
   PlusSquareIcon,
   SearchIcon,
   SettingsIcon,
@@ -45,7 +45,7 @@ const HeaderMenuContainer = (props: { children: ReactNode }) => {
 export const ArticleHeaderMenu = (props: {
   entry: Entry;
   tagList: string[];
-  onUpdate: (props: { createdAt: string }) => void;
+  onUpdate: (props: { createdAt: string; tags: string[] }) => void;
   onDelete: () => void;
 }) => {
   const { register, setValue, control, handleSubmit } = useForm<{
@@ -61,49 +61,47 @@ export const ArticleHeaderMenu = (props: {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
-    <HeaderMenuContainer>
-      <IconButton
-        icon={<ArrowBackIcon />}
-        aria-label={'Back to Top'}
-        onClick={() => Router.back()}
-        size="md"
-      />
+    <form onSubmit={handleSubmit(props.onUpdate)}>
+      <HeaderMenuContainer>
+        <IconButton
+          icon={<ArrowBackIcon />}
+          aria-label={'Back to Top'}
+          onClick={() => Router.back()}
+          size="md"
+        />
 
-      <CustomPopover
-        triggerButton={
-          <Button rightIcon={<ChevronDownIcon />} fontWeight="normal">
-            {dayjs(props.entry.createdAt).format('YYYY-MM-DD')}
+        <CustomPopover
+          triggerButton={
+            <Button rightIcon={<ChevronDownIcon />} fontWeight="normal">
+              {dayjs(props.entry.createdAt).format('YYYY-MM-DD')}
+            </Button>
+          }
+        >
+          <Input type="datetime-local" {...register('createdAt')} />
+
+          <CustomSelect
+            value={tags}
+            onSelect={(tags) => setValue('tags', tags)}
+            options={props.tagList}
+            {...register('tags')}
+          />
+
+          <Button onClick={onOpen} leftIcon={<DeleteIcon />} color="red.500">
+            Delete
           </Button>
-        }
-      >
-        <Input type="datetime-local" {...register('createdAt')} />
+          <CustomAlertDialog
+            isOpen={isOpen}
+            onClose={onClose}
+            onSubmit={() => {
+              props.onDelete();
+              onClose();
+            }}
+          />
+        </CustomPopover>
 
-        <CustomSelect
-          value={tags}
-          onSelect={(tags) => setValue('tags', tags)}
-          options={props.tagList}
-          {...register('tags')}
-        />
-
-        <Button onClick={onOpen} leftIcon={<DeleteIcon />} color="red.500">
-          Delete
-        </Button>
-        <CustomAlertDialog
-          isOpen={isOpen}
-          onClose={onClose}
-          onSubmit={() => {
-            props.onDelete();
-            onClose();
-          }}
-        />
-      </CustomPopover>
-
-      <IconButton
-        onClick={handleSubmit(props.onUpdate)}
-        icon={<EditIcon />}
-        aria-label="編集"
-      />
-    </HeaderMenuContainer>
+        <IconButton type="submit" icon={<CheckIcon />} aria-label="更新" />
+      </HeaderMenuContainer>
+    </form>
   );
 };
 

@@ -25,7 +25,9 @@ export default function ArticlePage(props: { tagList: string[] }) {
         <ArticleHeaderMenu
           entry={entry}
           tagList={props.tagList}
-          onUpdate={({ createdAt }) => mutateUpdate({ ...entry, createdAt })}
+          onUpdate={({ createdAt, tags }) =>
+            mutateUpdate({ ...entry, createdAt, tags })
+          }
           onDelete={mutate}
         />
       )}
