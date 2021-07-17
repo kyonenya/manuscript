@@ -1,15 +1,17 @@
 import Select from 'react-select';
 
 export const TagsSelect = (props: {
-  defaultTags: string[] | undefined,
-  tagList: string[],
+  values: string[];
+  onSelect: (values: string[]) => void;
+  options: string[];
 }) => {
-  const options = props.tagList.map((tag) => ({ value: tag, label: tag }));
-
-  return <Select
-    isMulti
-    name="tags"
-    options={options}
-    value={props.defaultTags?.map(tag => ({ value: tag, label: tag }))}
-  />;
+  return (
+    <Select
+      isMulti
+      name="tags"
+      value={props.values.map((value) => ({ value, label: value }))}
+      onChange={(values) => props.onSelect(values.map((v) => v.value))}
+      options={props.options.map((value) => ({ value, label: value }))}
+    />
+  );
 };

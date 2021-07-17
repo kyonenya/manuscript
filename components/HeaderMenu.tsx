@@ -20,7 +20,7 @@ import {
 } from '@chakra-ui/react';
 import dayjs from 'dayjs';
 import Router from 'next/router';
-import { ReactNode } from 'react';
+import { useState, ReactNode } from 'react';
 import { useForm } from 'react-hook-form';
 import { Entry } from '../domain/Entry';
 import { ColorModeButton } from './ColorModeButton';
@@ -53,6 +53,7 @@ export const ArticleHeaderMenu = (props: {
       createdAt: dayjs(props.entry?.createdAt).format('YYYY-MM-DDTHH:mm'),
     },
   });
+  const [tags, setTags] = useState<string[]>(props.entry?.tags ?? []);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -74,7 +75,13 @@ export const ArticleHeaderMenu = (props: {
         }
       >
         <Input type="datetime-local" {...register('createdAt')} />
-        <TagsSelect defaultTags={props.entry?.tags} tagList={props.tagList} />
+
+        <TagsSelect
+          values={tags}
+          onSelect={(tags) => setTags(tags)}
+          options={props.tagList}
+        />
+
         <Button onClick={onOpen} leftIcon={<DeleteIcon />} color="red.500">
           Delete
         </Button>
