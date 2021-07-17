@@ -12,7 +12,7 @@ import { selectTagList } from '../infra/entryRepository';
 
 export default function ArticlePage(props: { tagList: string[] }) {
   const uuid = useRouter().query.uuid as string | undefined;
-  const { data } = useGetEntry({ uuid });
+  const { data: entry } = useGetEntry({ uuid });
   const { mutate } = useDeleteEntry({ uuid });
   const { mutate: mutateUpdate } = useUpdateEntry();
 
@@ -22,14 +22,16 @@ export default function ArticlePage(props: { tagList: string[] }) {
         <title>manuscript</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <ArticleHeaderMenu
-        entry={data}
-        tagList={props.tagList}
-        onUpdate={({ createdAt }) => mutateUpdate({ ...data!, createdAt })}
-        onDelete={mutate}
-      />
+      {entry && (
+        <ArticleHeaderMenu
+          entry={entry}
+          tagList={props.tagList}
+          onUpdate={({ createdAt }) => mutateUpdate({ ...entry, createdAt })}
+          onDelete={mutate}
+        />
+      )}
       <Container maxW="3xl" px={0} py={4}>
-        {data && <Article entry={data} />}
+        {entry && <Article entry={entry} />}
       </Container>
     </Box>
   );
