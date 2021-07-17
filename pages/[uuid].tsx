@@ -12,8 +12,8 @@ import { selectTagList } from '../infra/entryRepository';
 export default function ArticlePage(props: { tagList: string[] }) {
   const uuid = useRouter().query.uuid as string | undefined;
   const { data: entry } = useGetEntry({ uuid });
-  const { mutate } = useDeleteEntry({ uuid });
-  const { mutate: mutateUpdate } = useUpdateEntry();
+  const { mutate: mutateDelete } = useDeleteEntry({ uuid });
+  const { mutate: mutateUpdate, isLoading: isUpdateLoading } = useUpdateEntry();
 
   return (
     <Box bg={useColorModeValue('gray.100', 'gray.700')}>
@@ -28,7 +28,8 @@ export default function ArticlePage(props: { tagList: string[] }) {
           onUpdate={({ createdAt, tags }) =>
             mutateUpdate({ ...entry, createdAt, tags })
           }
-          onDelete={mutate}
+          onDelete={mutateDelete}
+          isLoading={isUpdateLoading}
         />
       )}
       <Container maxW="3xl" px={0} py={4}>

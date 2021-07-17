@@ -4,7 +4,13 @@ import {
   CheckIcon,
   DeleteIcon,
 } from '@chakra-ui/icons';
-import { Button, IconButton, Input, useDisclosure } from '@chakra-ui/react';
+import {
+  Button,
+  IconButton,
+  Input,
+  Spinner,
+  useDisclosure,
+} from '@chakra-ui/react';
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
@@ -30,6 +36,7 @@ export const ArticleHeader = (props: {
   tagList: string[];
   onUpdate: (props: Form) => void;
   onDelete: () => void;
+  isLoading: boolean;
 }) => {
   const { register, setValue, control, handleSubmit } = useForm<Form>({
     defaultValues: {
@@ -86,7 +93,17 @@ export const ArticleHeader = (props: {
           />
         </CustomPopover>
 
-        <IconButton type="submit" icon={<CheckIcon />} aria-label="更新" />
+        <IconButton
+          type="submit"
+          icon={
+            props.isLoading ? (
+              <Spinner emptyColor="gray.300" speed="0.65s" />
+            ) : (
+              <CheckIcon />
+            )
+          }
+          aria-label="更新"
+        />
       </HeaderContainer>
     </form>
   );
