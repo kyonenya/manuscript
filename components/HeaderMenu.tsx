@@ -19,6 +19,8 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import dayjs from 'dayjs';
+import timezone from 'dayjs/plugin/timezone';
+import utc from 'dayjs/plugin/utc';
 import Router from 'next/router';
 import { ReactNode } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
@@ -27,6 +29,10 @@ import { ColorModeButton } from './ColorModeButton';
 import { CustomAlertDialog } from './CustomAlertDialog';
 import { CustomPopover } from './CustomPopover';
 import { CustomSelect } from './CustomSelect';
+
+dayjs.extend(timezone);
+dayjs.extend(utc);
+dayjs.tz.setDefault('Asia/Tokyo');
 
 const HeaderMenuContainer = (props: { children: ReactNode }) => {
   return (
@@ -61,7 +67,14 @@ export const ArticleHeaderMenu = (props: {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
-    <form onSubmit={handleSubmit(props.onUpdate)}>
+    <form
+      onSubmit={handleSubmit((data) => {
+        props.onUpdate({
+          ...data,
+          createdAt: dayjs(data.createdAt).tz().format(),
+        });
+      })}
+    >
       <HeaderMenuContainer>
         <IconButton
           icon={<ArrowBackIcon />}
