@@ -21,12 +21,12 @@ import {
 import dayjs from 'dayjs';
 import Router from 'next/router';
 import { ReactNode } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import { Entry } from '../domain/Entry';
 import { ColorModeButton } from './ColorModeButton';
 import { CustomAlertDialog } from './CustomAlertDialog';
 import { CustomPopover } from './CustomPopover';
-import { TagsSelect } from './TagsSelect';
+import { CustomSelect } from './CustomSelect';
 
 const HeaderMenuContainer = (props: { children: ReactNode }) => {
   return (
@@ -48,7 +48,7 @@ export const ArticleHeaderMenu = (props: {
   onUpdate: (props: { createdAt: string }) => void;
   onDelete: () => void;
 }) => {
-  const { register, setValue, getValues, handleSubmit } = useForm<{
+  const { register, setValue, control, handleSubmit } = useForm<{
     createdAt: string;
     tags: string[];
   }>({
@@ -57,6 +57,7 @@ export const ArticleHeaderMenu = (props: {
       tags: props.entry.tags,
     },
   });
+  const tags = useWatch({ name: 'tags', control });
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -77,8 +78,8 @@ export const ArticleHeaderMenu = (props: {
       >
         <Input type="datetime-local" {...register('createdAt')} />
 
-        <TagsSelect
-          values={getValues('tags')}
+        <CustomSelect
+          value={tags}
           onSelect={(tags) => setValue('tags', tags)}
           options={props.tagList}
           {...register('tags')}

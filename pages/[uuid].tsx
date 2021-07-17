@@ -4,7 +4,6 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { Article } from '../components/Article';
 import { ArticleHeaderMenu } from '../components/HeaderMenu';
-import { GetTagList } from '../domain/entryUseCase';
 import { useDeleteEntry } from '../hooks/useDeleteEntry';
 import { useGetEntry } from '../hooks/useGetEntry';
 import { useUpdateEntry } from '../hooks/useUpdateEntry';
