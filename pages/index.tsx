@@ -2,8 +2,8 @@ import { Box, Container, Spinner, useColorModeValue } from '@chakra-ui/react';
 import Head from 'next/head';
 import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
-import { TopHeaderMenu } from '../components/HeaderMenu';
 import { PostList } from '../components/PostList';
+import { PostListHeader } from '../components/PostListHeader';
 import { useCurrentKeyword } from '../hooks/useCurrentKeyword';
 import { useSearchEntries } from '../hooks/useSearchEntries';
 
@@ -32,7 +32,7 @@ export default function Index() {
         <title>manuscript</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <TopHeaderMenu
+      <PostListHeader
         keyword={keyword}
         onSearch={({ keyword }) => setKeyword(keyword)}
       />

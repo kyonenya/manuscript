@@ -3,7 +3,7 @@ import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { Article } from '../components/Article';
-import { ArticleHeaderMenu } from '../components/HeaderMenu';
+import { ArticleHeader } from '../components/ArticleHeader';
 import { useDeleteEntry } from '../hooks/useDeleteEntry';
 import { useGetEntry } from '../hooks/useGetEntry';
 import { useUpdateEntry } from '../hooks/useUpdateEntry';
@@ -22,7 +22,7 @@ export default function ArticlePage(props: { tagList: string[] }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       {entry && (
-        <ArticleHeaderMenu
+        <ArticleHeader
           entry={entry}
           tagList={props.tagList}
           onUpdate={({ createdAt, tags }) =>
