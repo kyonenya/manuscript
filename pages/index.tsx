@@ -11,7 +11,11 @@ const limit = 6;
 
 export default function Index() {
   const { keyword, setKeyword } = useCurrentKeyword();
-  const { data, fetchNextPage, isFetching } = useSearchEntries({
+  const {
+    data: entries,
+    fetchNextPage,
+    isFetching,
+  } = useSearchEntries({
     limit,
     keyword,
   });
@@ -33,7 +37,9 @@ export default function Index() {
         onSearch={({ keyword }) => setKeyword(keyword)}
       />
       <Container maxW="4xl" py={{ base: 6 }}>
-        {data && <PostList entries={data.pages.flat()} keyword={keyword} />}
+        {entries && (
+          <PostList entries={entries.pages.flat()} keyword={keyword} />
+        )}
       </Container>
       <Box align="center" ref={ref}>
         {isFetching && <Spinner emptyColor="gray.300" speed="0.65s" />}
