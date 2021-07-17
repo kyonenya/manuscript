@@ -20,7 +20,7 @@ import {
 } from '@chakra-ui/react';
 import dayjs from 'dayjs';
 import Router from 'next/router';
-import { useState, ReactNode } from 'react';
+import { ReactNode } from 'react';
 import { useForm } from 'react-hook-form';
 import { Entry } from '../domain/Entry';
 import { ColorModeButton } from './ColorModeButton';
@@ -43,17 +43,20 @@ const HeaderMenuContainer = (props: { children: ReactNode }) => {
 };
 
 export const ArticleHeaderMenu = (props: {
-  entry: Entry | undefined;
+  entry: Entry;
   tagList: string[];
   onUpdate: (props: { createdAt: string }) => void;
   onDelete: () => void;
 }) => {
-  const { register, handleSubmit } = useForm<{ createdAt: string }>({
+  const { register, setValue, getValues, handleSubmit } = useForm<{
+    createdAt: string;
+    tags: string[];
+  }>({
     defaultValues: {
-      createdAt: dayjs(props.entry?.createdAt).format('YYYY-MM-DDTHH:mm'),
+      createdAt: dayjs(props.entry.createdAt).format('YYYY-MM-DDTHH:mm'),
+      tags: props.entry.tags,
     },
   });
-  const [tags, setTags] = useState<string[]>(props.entry?.tags ?? []);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -68,18 +71,17 @@ export const ArticleHeaderMenu = (props: {
       <CustomPopover
         triggerButton={
           <Button rightIcon={<ChevronDownIcon />} fontWeight="normal">
-            {props.entry?.createdAt
-              ? dayjs(props.entry?.createdAt).format('YYYY-MM-DD')
-              : '...'}
+            {dayjs(props.entry.createdAt).format('YYYY-MM-DD')}
           </Button>
         }
       >
         <Input type="datetime-local" {...register('createdAt')} />
 
         <TagsSelect
-          values={tags}
-          onSelect={(tags) => setTags(tags)}
+          values={getValues('tags')}
+          onSelect={(tags) => setValue('tags', tags)}
           options={props.tagList}
+          {...register('tags')}
         />
 
         <Button onClick={onOpen} leftIcon={<DeleteIcon />} color="red.500">
