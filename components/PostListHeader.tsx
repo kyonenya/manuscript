@@ -1,4 +1,4 @@
-import { PlusSquareIcon, SearchIcon, SettingsIcon } from '@chakra-ui/icons';
+import { CopyIcon, SearchIcon, SettingsIcon } from '@chakra-ui/icons';
 import {
   IconButton,
   InputGroup,
@@ -16,6 +16,7 @@ type Form = { keyword: string };
 export const PostListHeader = (props: {
   keyword?: string;
   onSearch: (data: Form) => void;
+  toggleSelectMode: () => void;
 }) => {
   const { register, handleSubmit } = useForm<Form>({
     defaultValues: {
@@ -50,7 +51,11 @@ export const PostListHeader = (props: {
         </InputGroup>
       </form>
 
-      <IconButton icon={<PlusSquareIcon />} aria-label="新規作成" />
+      <IconButton
+        icon={<CopyIcon />}
+        aria-label="複数選択"
+        onClick={props.toggleSelectMode}
+      />
     </HeaderContainer>
   );
 };

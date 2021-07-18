@@ -8,7 +8,7 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import dayjs from 'dayjs';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Entry } from '../domain/Entry';
 import { toSearchedSummary } from '../domain/SearchedSummary';
 import { Link } from './Link';
@@ -101,6 +101,12 @@ export const PostList = (props: {
 }) => {
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
 
+  useEffect(() => {
+    if (!props.isSelectMode) {
+      setSelectedIds([]);
+    }
+  }, [props.isSelectMode]);
+
   return (
     <SimpleGrid
       columns={{ base: 1, md: 2 }}
@@ -113,7 +119,7 @@ export const PostList = (props: {
           keyword={props.keyword}
           key={entry.uuid}
           isSelectMode={props.isSelectMode}
-          isSelected={selectedIds.includes(entry.uuid)}
+          isSelected={props.isSelectMode && selectedIds.includes(entry.uuid)}
           onSelect={() =>
             setSelectedIds((prevIds) => {
               if (prevIds.includes(entry.uuid)) {
