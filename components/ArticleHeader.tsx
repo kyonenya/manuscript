@@ -34,9 +34,9 @@ type Form = {
 export const ArticleHeader = (props: {
   entry: Entry;
   tagList: string[];
+  isLoading: boolean;
   onUpdate: (props: Form) => void;
   onDelete: () => void;
-  isLoading: boolean;
 }) => {
   const { register, setValue, control, handleSubmit } = useForm<Form>({
     defaultValues: {

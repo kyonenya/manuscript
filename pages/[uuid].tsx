@@ -1,9 +1,8 @@
-import { Box, Container, useColorModeValue } from '@chakra-ui/react';
+import { Box, useColorModeValue } from '@chakra-ui/react';
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { Article } from '../components/Article';
-import { ArticleHeader } from '../components/ArticleHeader';
 import { useDeleteEntry } from '../hooks/useDeleteEntry';
 import { useGetEntry } from '../hooks/useGetEntry';
 import { useUpdateEntry } from '../hooks/useUpdateEntry';
@@ -21,7 +20,7 @@ export default function ArticlePage(props: { tagList: string[] }) {
         <title>manuscript</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      {entry && (
+      {/* {entry && (
         <ArticleHeader
           entry={entry}
           tagList={props.tagList}
@@ -31,10 +30,18 @@ export default function ArticlePage(props: { tagList: string[] }) {
           onDelete={mutateDelete}
           isLoading={isUpdateLoading}
         />
+      )} */}
+      {entry && (
+        <Article
+          entry={entry}
+          tagList={props.tagList}
+          onUpdate={({ createdAt, tags }) =>
+            mutateUpdate({ ...entry, createdAt, tags })
+          }
+          onDelete={mutateDelete}
+          isLoading={isUpdateLoading}
+        />
       )}
-      <Container maxW="3xl" px={0} py={4}>
-        {entry && <Article entry={entry} />}
-      </Container>
     </Box>
   );
 }
