@@ -1,5 +1,6 @@
 import {
   Box,
+  Container,
   Text,
   Stack,
   SimpleGrid,
@@ -12,6 +13,7 @@ import { useEffect, useState } from 'react';
 import { Entry } from '../domain/Entry';
 import { toSearchedSummary } from '../domain/SearchedSummary';
 import { Link } from './Link';
+import { PostListHeader } from './PostListHeader';
 
 const Summary = (props: { text: string }) => {
   const limit = 120;
@@ -97,39 +99,49 @@ const ListItem = (props: {
 export const PostList = (props: {
   entries: Entry[];
   keyword?: string;
-  isSelectMode: boolean;
+  onSearch: (data: { keyword: string }) => void;
 }) => {
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
-
-  useEffect(() => {
-    if (!props.isSelectMode) {
-      setSelectedIds([]);
-    }
-  }, [props.isSelectMode]);
+  const [isSelectMode, setIsSelectMode] = useState(false);
 
   return (
-    <SimpleGrid
-      columns={{ base: 1, md: 2 }}
-      spacing={{ base: 4, lg: 6 }}
-      as="ul"
-    >
-      {props.entries.map((entry) => (
-        <ListItem
-          entry={entry}
-          keyword={props.keyword}
-          key={entry.uuid}
-          isSelectMode={props.isSelectMode}
-          isSelected={props.isSelectMode && selectedIds.includes(entry.uuid)}
-          onSelect={() =>
-            setSelectedIds((prevIds) => {
-              if (prevIds.includes(entry.uuid)) {
-                return prevIds.filter((id) => id !== entry.uuid);
+    <>
+      <PostListHeader
+        keyword={props.keyword}
+        isSelectMode={isSelectMode}
+        onSearch={props.onSearch}
+        toggleSelectMode={() =>
+          setIsSelectMode((prevMode) => {
+            if (!prevMode) setSelectedIds([]);
+            return !prevMode;
+          })
+        }
+      />
+      <Container maxW="4xl" py={{ base: 6 }}>
+        <SimpleGrid
+          columns={{ base: 1, md: 2 }}
+          spacing={{ base: 4, lg: 6 }}
+          as="ul"
+        >
+          {props.entries.map((entry) => (
+            <ListItem
+              entry={entry}
+              keyword={props.keyword}
+              key={entry.uuid}
+              isSelectMode={isSelectMode}
+              isSelected={isSelectMode && selectedIds.includes(entry.uuid)}
+              onSelect={() =>
+                setSelectedIds((prevIds) => {
+                  if (prevIds.includes(entry.uuid)) {
+                    return prevIds.filter((id) => id !== entry.uuid);
+                  }
+                  return [entry.uuid, ...prevIds];
+                })
               }
-              return [entry.uuid, ...prevIds];
-            })
-          }
-        />
-      ))}
-    </SimpleGrid>
+            />
+          ))}
+        </SimpleGrid>
+      </Container>
+    </>
   );
 };

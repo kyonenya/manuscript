@@ -1,9 +1,8 @@
-import { Box, Container, Spinner, useColorModeValue } from '@chakra-ui/react';
+import { Box, Spinner, useColorModeValue } from '@chakra-ui/react';
 import Head from 'next/head';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { PostList } from '../components/PostList';
-import { PostListHeader } from '../components/PostListHeader';
 import { useCurrentKeyword } from '../hooks/useCurrentKeyword';
 import { useSearchEntries } from '../hooks/useSearchEntries';
 
@@ -19,7 +18,6 @@ export default function Index() {
     limit,
     keyword,
   });
-  const [isSelectMode, setIsSelectMode] = useState(false);
   const { ref, inView } = useInView();
 
   useEffect(() => {
@@ -33,21 +31,13 @@ export default function Index() {
         <title>manuscript</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <PostListHeader
-        keyword={keyword}
-        isSelectMode={isSelectMode}
-        onSearch={({ keyword }) => setKeyword(keyword)}
-        toggleSelectMode={() => setIsSelectMode((prev) => !prev)}
-      />
-      <Container maxW="4xl" py={{ base: 6 }}>
-        {entries && (
-          <PostList
-            entries={entries.pages.flat()}
-            keyword={keyword}
-            isSelectMode={isSelectMode}
-          />
-        )}
-      </Container>
+      {entries && (
+        <PostList
+          entries={entries.pages.flat()}
+          keyword={keyword}
+          onSearch={({ keyword }) => setKeyword(keyword)}
+        />
+      )}
       <Box align="center" ref={ref}>
         {isFetching && <Spinner emptyColor="gray.300" speed="0.65s" />}
       </Box>
