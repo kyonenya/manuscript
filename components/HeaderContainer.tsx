@@ -3,7 +3,14 @@ import { ReactNode } from 'react';
 
 export const HeaderContainer = (props: { children: ReactNode }) => {
   return (
-    <Box px={4} bg={useColorModeValue('gray.100', 'gray.900')} boxShadow="md">
+    <Box
+      px={4}
+      bg={useColorModeValue('gray.100', 'gray.900')}
+      boxShadow="md"
+      position={['sticky', '-webkit-sticky']}
+      top={0}
+      zIndex={100}
+    >
       <Flex
         h={{ base: 14, md: 16 }}
         alignItems="center"
