@@ -38,7 +38,11 @@ export default function Index() {
       />
       <Container maxW="4xl" py={{ base: 6 }}>
         {entries && (
-          <PostList entries={entries.pages.flat()} keyword={keyword} />
+          <PostList
+            entries={entries.pages.flat()}
+            keyword={keyword}
+            isSelectMode={true} // TODO
+          />
         )}
       </Container>
       <Box align="center" ref={ref}>

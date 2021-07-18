@@ -8,6 +8,7 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import dayjs from 'dayjs';
+import { useState } from 'react';
 import { Entry } from '../domain/Entry';
 import { toSearchedSummary } from '../domain/SearchedSummary';
 import { Link } from './Link';
@@ -46,11 +47,21 @@ const SearchedSummary = (props: { text: string; keyword: string }) => {
   );
 };
 
-const ListItem = (props: { entry: Entry; keyword?: string }) => {
+const ListItem = (props: {
+  entry: Entry;
+  keyword?: string;
+  isSelected: boolean;
+  isSelectMode: boolean;
+  onSelect: () => void;
+}) => {
   const { entry } = props;
   return (
     <Stack
-      bg={useColorModeValue('white', 'gray.800')}
+      onClick={props.isSelectMode ? props.onSelect : undefined}
+      bg={useColorModeValue(
+        props.isSelected ? 'yellow.100' : 'white',
+        props.isSelected ? 'gray.600' : 'gray.800'
+      )}
       boxShadow={'lg'}
       p={6}
       rounded={'xl'}
@@ -83,7 +94,13 @@ const ListItem = (props: { entry: Entry; keyword?: string }) => {
   );
 };
 
-export const PostList = (props: { entries: Entry[]; keyword?: string }) => {
+export const PostList = (props: {
+  entries: Entry[];
+  keyword?: string;
+  isSelectMode: boolean;
+}) => {
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
+
   return (
     <SimpleGrid
       columns={{ base: 1, md: 2 }}
@@ -91,7 +108,21 @@ export const PostList = (props: { entries: Entry[]; keyword?: string }) => {
       as="ul"
     >
       {props.entries.map((entry) => (
-        <ListItem entry={entry} keyword={props.keyword} key={entry.uuid} />
+        <ListItem
+          entry={entry}
+          keyword={props.keyword}
+          key={entry.uuid}
+          isSelectMode={props.isSelectMode}
+          isSelected={selectedIds.includes(entry.uuid)}
+          onSelect={() =>
+            setSelectedIds((prevIds) => {
+              if (prevIds.includes(entry.uuid)) {
+                return prevIds.filter((id) => id !== entry.uuid);
+              }
+              return [entry.uuid, ...prevIds];
+            })
+          }
+        />
       ))}
     </SimpleGrid>
   );
