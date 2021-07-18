@@ -9,7 +9,7 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import dayjs from 'dayjs';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Entry } from '../domain/Entry';
 import { toSearchedSummary } from '../domain/SearchedSummary';
 import { Link } from './Link';
