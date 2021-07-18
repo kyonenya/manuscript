@@ -35,6 +35,7 @@ export default function Index() {
       </Head>
       <PostListHeader
         keyword={keyword}
+        isSelectMode={isSelectMode}
         onSearch={({ keyword }) => setKeyword(keyword)}
         toggleSelectMode={() => setIsSelectMode((prev) => !prev)}
       />

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { CopyIcon, SearchIcon, SettingsIcon } from '@chakra-ui/icons';
 import {
   IconButton,
@@ -15,6 +16,7 @@ type Form = { keyword: string };
 
 export const PostListHeader = (props: {
   keyword?: string;
+  isSelectMode: boolean;
   onSearch: (data: Form) => void;
   toggleSelectMode: () => void;
 }) => {
@@ -55,6 +57,11 @@ export const PostListHeader = (props: {
         icon={<CopyIcon />}
         aria-label="複数選択"
         onClick={props.toggleSelectMode}
+        bg={
+          props.isSelectMode
+            ? useColorModeValue('gray.300', 'gray.700')
+            : undefined
+        }
       />
     </HeaderContainer>
   );
