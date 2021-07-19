@@ -6,16 +6,18 @@ import ReactMarkdown from 'react-markdown';
 
 const customTheme = {
   p: (props: { children: ReactNode }) => (
-    <Text align="justify" mb={2}>
+    <Text align="justify" mb={2} style={{ textIndent: '1em' }}>
       {props.children}
     </Text>
   ),
 };
 
 export const MarkdownText = (props: { children: string }) => {
+  const text = props.children.replaceAll(/\n/g, '\n\n');
+
   return (
     <ReactMarkdown components={ChakraUIRenderer(customTheme)}>
-      {props.children}
+      {text}
     </ReactMarkdown>
   );
 };
