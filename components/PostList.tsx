@@ -103,7 +103,7 @@ export const PostList = (props: {
   onSearch: (data: { keyword: string }) => void;
   isPreviewMode: boolean;
 }) => {
-  const [selectedIds, setSelectedIds] = useState<string[]>([]);
+  const [selectedEntries, setSelectedEntries] = useState<Entry[]>([]);
   const [isSelectMode, setIsSelectMode] = useState(false);
 
   return props.isPreviewMode ? (
@@ -116,7 +116,7 @@ export const PostList = (props: {
         onSearch={props.onSearch}
         toggleSelectMode={() =>
           setIsSelectMode((prevMode) => {
-            if (!prevMode) setSelectedIds([]);
+            if (!prevMode) setSelectedEntries([]);
             return !prevMode;
           })
         }
@@ -133,13 +133,15 @@ export const PostList = (props: {
               keyword={props.keyword}
               key={entry.uuid}
               isSelectMode={isSelectMode}
-              isSelected={isSelectMode && selectedIds.includes(entry.uuid)}
+              isSelected={isSelectMode && selectedEntries.includes(entry)}
               onSelect={() =>
-                setSelectedIds((prevIds) => {
-                  if (prevIds.includes(entry.uuid)) {
-                    return prevIds.filter((id) => id !== entry.uuid);
+                setSelectedEntries((prevEntries) => {
+                  if (prevEntries.includes(entry)) {
+                    return prevEntries.filter(
+                      (prevEntry) => prevEntry !== entry
+                    );
                   }
-                  return [entry.uuid, ...prevIds];
+                  return [entry, ...prevEntries];
                 })
               }
             />
