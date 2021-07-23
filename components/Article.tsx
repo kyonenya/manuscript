@@ -11,6 +11,7 @@ import dayjs from 'dayjs';
 import { Entry } from '../domain/Entry';
 import { ArticleHeader } from './ArticleHeader';
 import { MarkdownText } from './MarkdownText';
+import { Tags } from './Tags';
 
 export const Article = (props: {
   entry: Entry;
@@ -49,18 +50,7 @@ export const Article = (props: {
                 {dayjs(props.entry.createdAt).format('YYYY-MM-DD')}
               </Text>
             </Box>
-            <Stack direction={'row'}>
-              {props.entry.tags?.map((tag) => (
-                <Tag
-                  size="md"
-                  key="md"
-                  variant="subtle"
-                  colorScheme="blackAlpha"
-                >
-                  <TagLabel fontWeight={'400'}>#{tag}</TagLabel>
-                </Tag>
-              ))}
-            </Stack>
+            <Tags tags={props.entry.tags} />
           </Stack>
         </Stack>
       </Container>
