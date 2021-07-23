@@ -107,7 +107,9 @@ export const PostList = (props: {
   const [isSelectMode, setIsSelectMode] = useState(false);
 
   return props.isPreviewMode ? (
-    <Previews entries={props.entries} />
+    <Previews
+      entries={selectedEntries.length > 0 ? selectedEntries : props.entries}
+    />
   ) : (
     <Box bg={useColorModeValue('gray.100', 'gray.700')}>
       <PostListHeader

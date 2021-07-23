@@ -1,11 +1,13 @@
-import { CopyIcon, SearchIcon, SettingsIcon } from '@chakra-ui/icons';
+import { CopyIcon, SearchIcon, SettingsIcon, ViewIcon } from '@chakra-ui/icons';
 import {
   IconButton,
   InputGroup,
   Input,
   InputLeftElement,
+  Stack,
   useColorModeValue,
 } from '@chakra-ui/react';
+import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import { ColorModeButton } from './ColorModeButton';
 import { CustomPopover } from './CustomPopover';
@@ -19,6 +21,7 @@ export const PostListHeader = (props: {
   onSearch: (data: Form) => void;
   toggleSelectMode: () => void;
 }) => {
+  const router = useRouter();
   const { register, handleSubmit } = useForm<Form>({
     defaultValues: {
       keyword: props.keyword,
@@ -52,16 +55,23 @@ export const PostListHeader = (props: {
         </InputGroup>
       </form>
 
-      <IconButton
-        icon={<CopyIcon />}
-        aria-label="複数選択"
-        onClick={props.toggleSelectMode}
-        bg={
-          props.isSelectMode
-            ? useColorModeValue('gray.300', 'gray.700')
-            : undefined
-        }
-      />
+      <Stack direction="row">
+        <IconButton
+          icon={<ViewIcon />}
+          aria-label="プレビュー"
+          onClick={() => router.push('?preview=true')}
+        />
+        <IconButton
+          icon={<CopyIcon />}
+          aria-label="複数選択"
+          onClick={props.toggleSelectMode}
+          bg={
+            props.isSelectMode
+              ? useColorModeValue('gray.300', 'gray.700')
+              : undefined
+          }
+        />
+      </Stack>
     </HeaderContainer>
   );
 };

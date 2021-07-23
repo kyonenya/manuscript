@@ -45,7 +45,9 @@ export default function Index() {
         />
       )}
       <Box align="center" ref={ref}>
-        {isFetching && <Spinner emptyColor="gray.300" speed="0.65s" />}
+        {!isPreviewMode && isFetching && (
+          <Spinner emptyColor="gray.300" speed="0.65s" />
+        )}
       </Box>
     </>
   );
