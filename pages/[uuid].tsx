@@ -20,17 +20,6 @@ export default function ArticlePage(props: { tagList: string[] }) {
         <title>manuscript</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      {/* {entry && (
-        <ArticleHeader
-          entry={entry}
-          tagList={props.tagList}
-          onUpdate={({ createdAt, tags }) =>
-            mutateUpdate({ ...entry, createdAt, tags })
-          }
-          onDelete={mutateDelete}
-          isLoading={isUpdateLoading}
-        />
-      )} */}
       {entry && (
         <Article
           entry={entry}

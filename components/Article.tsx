@@ -20,7 +20,7 @@ export const Article = (props: {
   onUpdate: (props: { createdAt: string; tags: string[] }) => void;
 }) => {
   return (
-    <>
+    <Box display="flex" flexDirection="column" minHeight="100vh">
       <ArticleHeader
         entry={props.entry}
         tagList={props.tagList}
@@ -29,7 +29,7 @@ export const Article = (props: {
         onDelete={props.onDelete}
       />
 
-      <Container maxW="3xl" px={0} py={4}>
+      <Container maxW="3xl" px={0} py={4} flex={1}>
         <Stack
           bg={useColorModeValue('white', 'gray.800')}
           boxShadow={'lg'}
@@ -64,6 +64,6 @@ export const Article = (props: {
           </Stack>
         </Stack>
       </Container>
-    </>
+    </Box>
   );
 };
