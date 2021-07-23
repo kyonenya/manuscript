@@ -2,8 +2,6 @@ import {
   Box,
   Container,
   Stack,
-  Tag,
-  TagLabel,
   Text,
   useColorModeValue,
 } from '@chakra-ui/react';
