@@ -1,4 +1,4 @@
-import { Box, Spinner, useColorModeValue } from '@chakra-ui/react';
+import { Box, Spinner } from '@chakra-ui/react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';

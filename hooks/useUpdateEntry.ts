@@ -12,6 +12,7 @@ export const useUpdateEntry = () => {
     {
       onSuccess: (_, entry) => {
         queryClient.invalidateQueries(['entry', { uuid: entry.uuid }]);
+        queryClient.invalidateQueries(['entries']);
       },
     }
   );
