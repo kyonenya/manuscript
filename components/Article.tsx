@@ -38,16 +38,11 @@ export const Article = (props: {
           pos={'relative'}
           as="li"
         >
-          <Box>
-            <MarkdownText>{props.entry.text}</MarkdownText>
-          </Box>
-
-          <Stack direction={'row'} spacing={4}>
-            <Box>
-              <Text color="gray.500">
-                {dayjs(props.entry.createdAt).format('YYYY-MM-DD')}
-              </Text>
-            </Box>
+          <MarkdownText>{props.entry.text}</MarkdownText>
+          <Stack direction={'row'} spacing={3}>
+            <Text color="gray.500">
+              {dayjs(props.entry.createdAt).format('YYYY-MM-DD')}
+            </Text>
             <Tags tags={props.entry.tags} />
           </Stack>
         </Stack>
