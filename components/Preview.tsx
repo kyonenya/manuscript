@@ -19,3 +19,13 @@ export const Preview = (props: { entry: Entry }) => {
     </Container>
   );
 };
+
+export const Previews = (props: { entries: Entry[] }) => {
+  return (
+    <>
+      {props.entries.map((entry) => (
+        <Preview entry={entry} key={entry.uuid} />
+      ))}
+    </>
+  );
+};

@@ -14,6 +14,7 @@ import { Entry } from '../domain/Entry';
 import { toSearchedSummary } from '../domain/SearchedSummary';
 import { Link } from './Link';
 import { PostListHeader } from './PostListHeader';
+import { Previews } from './Preview';
 
 const Summary = (props: { text: string }) => {
   const limit = 120;
@@ -100,12 +101,15 @@ export const PostList = (props: {
   entries: Entry[];
   keyword?: string;
   onSearch: (data: { keyword: string }) => void;
+  isPreviewMode: boolean;
 }) => {
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [isSelectMode, setIsSelectMode] = useState(false);
 
-  return (
-    <>
+  return props.isPreviewMode ? (
+    <Previews entries={props.entries} />
+  ) : (
+    <Box bg={useColorModeValue('gray.100', 'gray.700')}>
       <PostListHeader
         keyword={props.keyword}
         isSelectMode={isSelectMode}
@@ -142,6 +146,6 @@ export const PostList = (props: {
           ))}
         </SimpleGrid>
       </Container>
-    </>
+    </Box>
   );
 };
