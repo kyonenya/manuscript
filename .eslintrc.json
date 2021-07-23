@@ -17,18 +17,12 @@
   },
   "parserOptions": {
     "sourceType": "module",
-    "ecmaFeatures": {
-      "jsx": true
-    }
+    "ecmaFeatures": { "jsx": true }
   },
   "settings": {
-    "react": {
-      "version": "detect"
-    },
+    "react": { "version": "detect" },
     "import/resolver": {
-      "node": {
-        "extensions": [".ts", ".tsx", ".js", ".jsx"]
-      }
+      "node": { "extensions": [".ts", ".tsx", ".js", ".jsx"] }
     }
   },
   "rules": {
@@ -36,11 +30,7 @@
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/no-non-null-assertion": "off",
     "sort-imports": "off",
-    "import/order": [
-      "error",
-      {
-        "alphabetize": { "order": "asc" }
-      }
-    ]
+    "import/order": ["warn", { "alphabetize": { "order": "asc" } }],
+    "react-hooks/rules-of-hooks": "off"
   }
 }

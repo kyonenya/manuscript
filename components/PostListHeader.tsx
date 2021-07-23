@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import { CopyIcon, SearchIcon, SettingsIcon } from '@chakra-ui/icons';
 import {
   IconButton,
