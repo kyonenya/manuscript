@@ -30,6 +30,8 @@ export const getEntry = fetcher<GetEntry>('/api/getEntry');
 /** getTagList */
 export type GetTagList = () => Promise<string[]>;
 
+export const getTagList = fetcher<GetTagList>('/api/getTagList');
+
 /**
  * Mutation
  */

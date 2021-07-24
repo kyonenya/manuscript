@@ -1,18 +1,18 @@
 import { Box, useColorModeValue } from '@chakra-ui/react';
-import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { Article } from '../components/Article';
 import { Preview } from '../components/Preview';
 import { useDeleteEntry } from '../hooks/useDeleteEntry';
 import { useGetEntry } from '../hooks/useGetEntry';
+import { useTagListQuery } from '../hooks/useTagListQuery';
 import { useUpdateEntry } from '../hooks/useUpdateEntry';
-import { selectTagList } from '../infra/entryRepository';
 
-export default function ArticlePage(props: { tagList: string[] }) {
+export default function ArticlePage() {
   const router = useRouter();
   const { uuid, preview } = router.query as { uuid?: string; preview?: string };
   const { data: entry } = useGetEntry({ uuid });
+  const { data: tagList } = useTagListQuery();
   const { mutate: mutateDelete } = useDeleteEntry({ uuid });
   const { mutate: mutateUpdate, isLoading: isUpdateLoading } = useUpdateEntry();
 
@@ -29,7 +29,7 @@ export default function ArticlePage(props: { tagList: string[] }) {
           {entry && (
             <Article
               entry={entry}
-              tagList={props.tagList}
+              tagList={tagList ?? []}
               onUpdate={({ createdAt, tags }) =>
                 mutateUpdate({ ...entry, createdAt, tags })
               }
@@ -43,8 +43,3 @@ export default function ArticlePage(props: { tagList: string[] }) {
     </>
   );
 }
-
-export const getServerSideProps: GetServerSideProps = async () => {
-  const tagList = await selectTagList();
-  return { props: { tagList } };
-};
