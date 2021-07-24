@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import { useMutation, useQueryClient } from 'react-query';
 import { deleteEntry, DeleteEntryInput } from '../domain/entryUseCase';
 
-export const useDeleteEntry = () => {
+export const useDeleteEntryMutation = () => {
   const queryClient = useQueryClient();
   const router = useRouter();
 

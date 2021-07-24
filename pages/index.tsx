@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { PostList } from '../components/PostList';
 import { useCurrentKeyword } from '../hooks/useCurrentKeyword';
-import { useSearchEntries } from '../hooks/useSearchEntries';
+import { useSearchEntriesQuery } from '../hooks/useSearchEntriesQuery';
 
 const limit = 6;
 
@@ -17,7 +17,7 @@ export default function Index() {
     data: entries,
     fetchNextPage,
     isFetching,
-  } = useSearchEntries({
+  } = useSearchEntriesQuery({
     limit,
     keyword,
   });

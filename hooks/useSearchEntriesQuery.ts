@@ -1,7 +1,7 @@
 import { useInfiniteQuery } from 'react-query';
 import { searchEntries } from '../domain/entryUseCase';
 
-export const useSearchEntries = (props: {
+export const useSearchEntriesQuery = (props: {
   limit: number;
   keyword: string | undefined;
 }) => {

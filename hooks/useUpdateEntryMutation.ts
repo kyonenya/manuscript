@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from 'react-query';
 import { Entry } from '../domain/Entry';
 import { updateEntry } from '../domain/entryUseCase';
 
-export const useUpdateEntry = () => {
+export const useUpdateEntryMutation = () => {
   const queryClient = useQueryClient();
 
   return useMutation(

@@ -3,18 +3,19 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { Article } from '../components/Article';
 import { Preview } from '../components/Preview';
-import { useDeleteEntry } from '../hooks/useDeleteEntry';
-import { useGetEntry } from '../hooks/useGetEntry';
+import { useDeleteEntryMutation } from '../hooks/useDeleteEntryMutation';
+import { useEntryQuery } from '../hooks/useEntryQuery';
 import { useTagListQuery } from '../hooks/useTagListQuery';
-import { useUpdateEntry } from '../hooks/useUpdateEntry';
+import { useUpdateEntryMutation } from '../hooks/useUpdateEntryMutation';
 
 export default function ArticlePage() {
   const router = useRouter();
   const { uuid, preview } = router.query as { uuid: string; preview?: string };
-  const { data: entry } = useGetEntry({ uuid });
+  const { data: entry } = useEntryQuery({ uuid });
   const { data: tagList } = useTagListQuery();
-  const { mutate: mutateDelete } = useDeleteEntry();
-  const { mutate: mutateUpdate, isLoading: isUpdateLoading } = useUpdateEntry();
+  const { mutate: mutateDelete } = useDeleteEntryMutation();
+  const { mutate: mutateUpdate, isLoading: isUpdateLoading } =
+    useUpdateEntryMutation();
 
   const isPreview = !!preview;
 
