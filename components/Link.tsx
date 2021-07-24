@@ -9,15 +9,19 @@ import { ReactNode } from 'react';
 export const Link = ({
   children,
   href,
+  isEnabled = true,
   ...rest
 }: {
   children: ReactNode;
   href: LinkProps['href'];
+  isEnabled?: boolean;
   rest?: unknown[];
 }) => {
-  return (
+  return isEnabled ? (
     <NextLink passHref href={href}>
       <ChakraLink {...rest}>{children}</ChakraLink>
     </NextLink>
+  ) : (
+    <>{children}</>
   );
 };

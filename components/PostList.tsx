@@ -72,7 +72,7 @@ const ListItem = (props: {
       pos={'relative'}
       as="li"
     >
-      <Link href={`/${entry.uuid}`}>
+      <Link href={`/${entry.uuid}`} isEnabled={!props.isSelectMode}>
         {props.keyword ? (
           <SearchedSummary text={entry.text} keyword={props.keyword} />
         ) : (
