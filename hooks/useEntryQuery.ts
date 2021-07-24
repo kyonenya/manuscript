@@ -2,13 +2,12 @@ import { useQuery, useQueryClient, InfiniteData } from 'react-query';
 import { Entry } from '../domain/Entry';
 import { getEntry } from '../domain/entryUseCase';
 
-export const useEntryQuery = (props: { uuid?: string }) => {
+export const useEntryQuery = (props: { uuid: string }) => {
   const queryClient = useQueryClient();
   return useQuery(
     ['entry', { uuid: props.uuid }],
-    () => getEntry({ uuid: props.uuid! }),
+    () => getEntry({ uuid: props.uuid }),
     {
-      enabled: !!props.uuid,
       initialData: queryClient
         .getQueryData<InfiniteData<Entry>>([
           'entries',

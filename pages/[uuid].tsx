@@ -8,8 +8,8 @@ import {
   useDeleteEntryMutation,
   useUpdateEntryMutation,
 } from '../hooks/mutations';
+import { useTagListQuery } from '../hooks/queries';
 import { useEntryQuery } from '../hooks/useEntryQuery';
-import { useTagListQuery } from '../hooks/useTagListQuery';
 
 export default function ArticlePage() {
   const router = useRouter();
