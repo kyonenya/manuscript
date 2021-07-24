@@ -1,14 +1,13 @@
 import { useRouter } from 'next/router';
 import { useMutation, useQueryClient } from 'react-query';
-import { deleteEntry } from '../domain/entryUseCase';
+import { deleteEntry, DeleteEntryInput } from '../domain/entryUseCase';
 
-export const useDeleteEntry = (props: { uuid: string | undefined }) => {
+export const useDeleteEntry = () => {
   const queryClient = useQueryClient();
   const router = useRouter();
 
   return useMutation(
-    async () => {
-      if (!props.uuid) return;
+    async (props: DeleteEntryInput) => {
       await deleteEntry({ uuid: props.uuid });
     },
     {

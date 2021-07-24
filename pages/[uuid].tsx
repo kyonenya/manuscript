@@ -10,10 +10,10 @@ import { useUpdateEntry } from '../hooks/useUpdateEntry';
 
 export default function ArticlePage() {
   const router = useRouter();
-  const { uuid, preview } = router.query as { uuid?: string; preview?: string };
+  const { uuid, preview } = router.query as { uuid: string; preview?: string };
   const { data: entry } = useGetEntry({ uuid });
   const { data: tagList } = useTagListQuery();
-  const { mutate: mutateDelete } = useDeleteEntry({ uuid });
+  const { mutate: mutateDelete } = useDeleteEntry();
   const { mutate: mutateUpdate, isLoading: isUpdateLoading } = useUpdateEntry();
 
   const isPreview = !!preview;
@@ -33,7 +33,7 @@ export default function ArticlePage() {
               onUpdate={({ createdAt, tags }) =>
                 mutateUpdate({ ...entry, createdAt, tags })
               }
-              onDelete={mutateDelete}
+              onDelete={() => mutateDelete({ uuid })}
               isLoading={isUpdateLoading}
             />
           )}

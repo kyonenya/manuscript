@@ -11,7 +11,7 @@ export const SearchEntriesRequest = z.object({
   limit: z.number(),
   offset: z.number(),
 });
-type SearchEntriesInput = z.infer<typeof SearchEntriesRequest>;
+export type SearchEntriesInput = z.infer<typeof SearchEntriesRequest>;
 
 export type SearchEntries = (input: SearchEntriesInput) => Promise<Entry[]>;
 
@@ -21,7 +21,7 @@ export const searchEntries = fetcher<SearchEntries>('/api/searchEntries');
 export const GetEntryRequest = z.object({
   uuid: z.string(),
 });
-type GetEntryInput = z.infer<typeof GetEntryRequest>;
+export type GetEntryInput = z.infer<typeof GetEntryRequest>;
 
 export type GetEntry = (input: GetEntryInput) => Promise<Entry | undefined>;
 
@@ -44,7 +44,7 @@ export const UpdateEntryRequest = z.object({
   createdAt: z.string(),
   modifiedAt: z.string(),
 });
-type UpdateEntryInput = z.infer<typeof UpdateEntryRequest>;
+export type UpdateEntryInput = z.infer<typeof UpdateEntryRequest>;
 
 export type UpdateEntry = (input: UpdateEntryInput) => Promise<void>;
 
@@ -54,7 +54,7 @@ export const updateEntry = fetcher<UpdateEntry>('/api/updateEntry');
 export const DeleteEntryRequest = z.object({
   uuid: z.string(),
 });
-type DeleteEntryInput = z.infer<typeof DeleteEntryRequest>;
+export type DeleteEntryInput = z.infer<typeof DeleteEntryRequest>;
 
 export type DeleteEntry = (input: DeleteEntryInput) => Promise<void>;
 
