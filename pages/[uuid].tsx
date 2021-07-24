@@ -7,8 +7,8 @@ import { Preview } from '../components/Preview';
 import {
   useDeleteEntryMutation,
   useUpdateEntryMutation,
-} from '../hooks/mutations';
-import { useTagListQuery } from '../hooks/queries';
+  useTagListQuery,
+} from '../domain/entryUseCase';
 import { useEntryQuery } from '../hooks/useEntryQuery';
 
 export default function ArticlePage() {
