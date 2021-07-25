@@ -50,6 +50,15 @@ export const selectByKeyword = async (props: {
   return rows.map((row) => entryFactory(row));
 };
 
+export const selectByTag = async (props: {
+  tag: string;
+  limit: number;
+  offset?: number;
+}): Promise<Entry[]> => {
+  const rows = await query<Schema>(entriesSQL.selectByTag(props));
+  return rows.map((row) => entryFactory(row));
+};
+
 export const selectTagList = async () => {
   const rows = await query<{ tag: string }>(tagsSQL.selectDistinct());
   return rows.map((row) => row.tag);

@@ -12,7 +12,6 @@ describe('Query:entriesRepository', () => {
   });
   const newestEntry = toEntry({
     text: 'これは最新の記事です。',
-    tags: ['タグ1', 'タグ2'],
     createdAt: dayjs(),
   });
 
@@ -49,13 +48,21 @@ describe('Query:entriesRepository', () => {
     assert.strictEqual(entries.length, 1);
     assert.strictEqual(entries[0].text, olderEntry.text);
   });
-  it('searchKeyword:emptyKeyword', async () => {
+  it('selectByKeyword:emptyKeyword', async () => {
     const entries = await entryRepository.selectByKeyword({
       keyword: '',
       limit: 1,
     });
     // same as readMany
     assert.strictEqual(entries[0].text, newestEntry.text);
+  });
+
+  it('selectByTag', async () => {
+    const entries = await entryRepository.selectByTag({
+      tag: 'タグ1',
+      limit: 1,
+    });
+    assert.strictEqual(entries[0].text, olderEntry.text);
   });
 
   it('selectTagList', async () => {

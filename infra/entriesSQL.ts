@@ -61,7 +61,11 @@ export const selectByKeyword = (props: {
   return { text, values };
 };
 
-export const selectByTag = (props: { tag: string; limit: number }): SQL => {
+export const selectByTag = (props: {
+  tag: string;
+  limit: number;
+  offset?: number;
+}): SQL => {
   const text = `
     SELECT
       entries.*
@@ -83,9 +87,9 @@ export const selectByTag = (props: { tag: string; limit: number }): SQL => {
     )
     ORDER BY
       entries.created_at DESC
-    LIMIT $2
+    LIMIT $2 OFFSET $3
     ;`;
-  const values = [props.tag, props.limit];
+  const values = [props.tag, props.limit, props.offset ?? 0];
   return { text, values };
 };
 
