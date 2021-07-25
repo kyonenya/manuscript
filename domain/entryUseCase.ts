@@ -9,6 +9,7 @@ import { Entry } from './Entry';
 /** searchEntries */
 export const SearchEntriesRequest = z.object({
   keyword: z.string().optional(),
+  tag: z.string().optional(),
   limit: z.number(),
   offset: z.number(),
 });
