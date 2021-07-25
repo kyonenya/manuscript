@@ -9,7 +9,7 @@ export const selectAll = (props: { limit: number; offset?: number }): SQL => {
     FROM
       entries
       LEFT JOIN tags
-        ON entries.uuid = tags.uuid
+        ON  entries.uuid = tags.uuid
     GROUP BY
       entries.uuid
     ORDER BY
@@ -27,7 +27,7 @@ export const selectOne = (props: { uuid: string }): SQL => {
       ,STRING_AGG(tags.tag, ',') AS taglist
     FROM entries
       LEFT JOIN tags
-        ON entries.uuid = tags.uuid
+        ON  entries.uuid = tags.uuid
     GROUP BY
       entries.uuid
     HAVING
@@ -50,31 +50,33 @@ export const selectByKeyword = (props: {
       entries
       LEFT JOIN
         tags
-      ON entries.uuid = tags.uuid
+      ON  entries.uuid = tags.uuid
     GROUP BY
       entries.uuid
     HAVING entries.text LIKE '%' || $1 || '%'
     ORDER BY
       entries.created_at DESC
-    LIMIT $2 OFFSET $3;`;
+    LIMIT $2 OFFSET $3
+    ;`;
   const values = [props.keyword, props.limit, props.offset ?? 0];
   return { text, values };
 };
 
 export const selectByTag = (props: {
   tag: string;
+  keyword?: string;
   limit: number;
   offset?: number;
 }): SQL => {
   const text = `
     SELECT
-      entries.*
-      ,STRING_AGG(tags.tag, ',') AS taglist
+      entries.*,
+      STRING_AGG(tags.tag, ',') AS taglist
     FROM
       entries
       LEFT JOIN
         tags
-      ON entries.uuid = tags.uuid
+      ON  entries.uuid = tags.uuid
     GROUP BY
       entries.uuid
     HAVING entries.uuid IN(
@@ -85,11 +87,17 @@ export const selectByTag = (props: {
       WHERE
         tag = $1
     )
+    AND entries.text LIKE '%' || $2 || '%'
     ORDER BY
       entries.created_at DESC
-    LIMIT $2 OFFSET $3
+    LIMIT $3 OFFSET $4
     ;`;
-  const values = [props.tag, props.limit, props.offset ?? 0];
+  const values = [
+    props.tag,
+    props.keyword ?? '',
+    props.limit,
+    props.offset ?? 0,
+  ];
   return { text, values };
 };
 

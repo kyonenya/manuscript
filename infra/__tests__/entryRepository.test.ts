@@ -64,6 +64,14 @@ describe('Query:entriesRepository', () => {
     });
     assert.strictEqual(entries[0].text, olderEntry.text);
   });
+  it('selectByTag:withKeyword', async () => {
+    const entries = await entryRepository.selectByTag({
+      tag: 'タグ1',
+      keyword: 'これは',
+      limit: 1,
+    });
+    assert.strictEqual(entries[0].text, olderEntry.text);
+  });
 
   it('selectTagList', async () => {
     const tagList = await entryRepository.selectTagList();
