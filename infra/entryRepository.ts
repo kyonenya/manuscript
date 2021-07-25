@@ -42,7 +42,7 @@ export const selectOne = async (props: {
 };
 
 export const selectByKeyword = async (props: {
-  keyword: string;
+  keyword?: string;
   limit: number;
   offset?: number;
 }): Promise<Entry[]> => {

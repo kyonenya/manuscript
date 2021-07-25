@@ -38,7 +38,7 @@ export const selectOne = (props: { uuid: string }): SQL => {
 };
 
 export const selectByKeyword = (props: {
-  keyword: string;
+  keyword?: string;
   limit: number;
   offset?: number;
 }): SQL => {
@@ -58,7 +58,7 @@ export const selectByKeyword = (props: {
       entries.created_at DESC
     LIMIT $2 OFFSET $3
     ;`;
-  const values = [props.keyword, props.limit, props.offset ?? 0];
+  const values = [props.keyword ?? '', props.limit, props.offset ?? 0];
   return { text, values };
 };
 
