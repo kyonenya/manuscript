@@ -93,7 +93,7 @@ describe('Mutation:entriesRepository', () => {
     assert.deepStrictEqual(rowCounts, [1, 2]);
   });
 
-  it('createOne_noTag', async () => {
+  it('createOne:noTag', async () => {
     const entry = toEntry({
       text: '新規作成された記事の本文',
     });
