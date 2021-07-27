@@ -1,4 +1,4 @@
-export type SearchedSummary = {
+export type searchSummary = {
   isBeforeEllipsed: boolean;
   beforeText: string;
   keyword: string;
@@ -6,10 +6,10 @@ export type SearchedSummary = {
   isAfterEllipsed: boolean;
 };
 
-export const toSearchedSummary = (props: {
+export const toSearchSummary = (props: {
   keyword: string;
   text: string;
-}): SearchedSummary => {
+}): searchSummary => {
   const { keyword, text } = props;
   const wholeLength = 50;
   const beforeLength = 20;

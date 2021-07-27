@@ -11,7 +11,7 @@ import {
 import dayjs from 'dayjs';
 import { useState } from 'react';
 import { Entry } from '../domain/Entry';
-import { toSearchedSummary } from '../domain/SearchedSummary';
+import { toSearchSummary } from '../domain/SearchSummary';
 import { Link } from './Link';
 import { PostListHeader } from './PostListHeader';
 import { Previews } from './Preview';
@@ -30,8 +30,8 @@ const Summary = (props: { text: string }) => {
   );
 };
 
-const SearchedSummary = (props: { text: string; keyword: string }) => {
-  const summary = toSearchedSummary(props);
+const SearchSummary = (props: { text: string; keyword: string }) => {
+  const summary = toSearchSummary(props);
 
   return (
     <Box>
@@ -74,7 +74,7 @@ const ListItem = (props: {
     >
       <Link href={`/${entry.uuid}`} isEnabled={!props.isSelectMode}>
         {props.keyword ? (
-          <SearchedSummary text={entry.text} keyword={props.keyword} />
+          <SearchSummary text={entry.text} keyword={props.keyword} />
         ) : (
           <Summary text={entry.text} />
         )}
