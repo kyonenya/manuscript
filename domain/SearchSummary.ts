@@ -11,8 +11,8 @@ export const toSearchSummary = (props: {
   text: string;
 }): searchSummary => {
   const { keyword, text } = props;
-  const wholeLength = 50;
-  const beforeLength = 20;
+  const wholeLength = 100;
+  const beforeLength = 40;
 
   const afterLength = wholeLength - beforeLength - keyword.length;
   const keywordIndex = text.indexOf(keyword);

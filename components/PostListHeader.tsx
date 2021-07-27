@@ -16,7 +16,7 @@ import { HeaderContainer } from './HeaderContainer';
 type Form = { searchStr: string };
 
 export const PostListHeader = (props: {
-  searchStr?: string;
+  searchStr: string | undefined;
   isSelectMode: boolean;
   onSearch: (data: Form) => void;
   toggleSelectMode: () => void;

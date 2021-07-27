@@ -11,6 +11,7 @@ import {
 import dayjs from 'dayjs';
 import { useState } from 'react';
 import { Entry } from '../domain/Entry';
+import { SearchQuery } from '../domain/SearchQuery';
 import { toSearchSummary } from '../domain/SearchSummary';
 import { Link } from './Link';
 import { PostListHeader } from './PostListHeader';
@@ -30,19 +31,22 @@ const Summary = (props: { text: string }) => {
   );
 };
 
-const SearchSummary = (props: { text: string; keyword: string }) => {
-  const summary = toSearchSummary(props); // TODO -> props.searchQuery.keyword
+const SearchSummary = (props: { text: string; searchQuery: SearchQuery }) => {
+  const summary = toSearchSummary({
+    text: props.text,
+    keyword: props.searchQuery.keyword,
+  });
 
   return (
     <Box>
-      <Text color={useColorModeValue('gray.700', 'gray.300')} as="span">
+      <Text as="span" color={useColorModeValue('gray.700', 'gray.300')}>
         {summary.isBeforeEllipsed && '…'}
         {summary.beforeText}
       </Text>
       <Text as="span" bg="yellow.100" color="orange.800" p={0.5} mx={1}>
         {summary.keyword}
       </Text>
-      <Text color={useColorModeValue('gray.700', 'gray.300')} as="span">
+      <Text as="span" color={useColorModeValue('gray.700', 'gray.300')}>
         {summary.afterText}
         {summary.isAfterEllipsed && '…'}
       </Text>
@@ -52,19 +56,21 @@ const SearchSummary = (props: { text: string; keyword: string }) => {
 
 const ListItem = (props: {
   entry: Entry;
-  searchStr?: string;
+  searchQuery: SearchQuery | undefined;
   isSelected: boolean;
   isSelectMode: boolean;
   onSelect: () => void;
 }) => {
   const { entry } = props;
+
   return (
     <Stack
       onClick={props.isSelectMode ? props.onSelect : undefined}
-      bg={useColorModeValue(
-        props.isSelected ? 'yellow.100' : 'white',
-        props.isSelected ? 'gray.600' : 'gray.800'
-      )}
+      bg={
+        props.isSelected
+          ? useColorModeValue('yellow.100', 'gray.600')
+          : useColorModeValue('white', 'gray.800')
+      }
       boxShadow={'lg'}
       p={6}
       rounded={'xl'}
@@ -73,8 +79,8 @@ const ListItem = (props: {
       as="li"
     >
       <Link href={`/${entry.uuid}`} isEnabled={!props.isSelectMode}>
-        {props.searchStr ? (
-          <SearchSummary text={entry.text} keyword={props.searchStr} /> // TODO -> props.searchQuery
+        {props.searchQuery ? (
+          <SearchSummary text={entry.text} searchQuery={props.searchQuery} />
         ) : (
           <Summary text={entry.text} />
         )}
@@ -99,7 +105,8 @@ const ListItem = (props: {
 
 export const PostList = (props: {
   entries: Entry[];
-  searchStr?: string;
+  searchQuery: SearchQuery | undefined;
+  searchStr: string | undefined;
   onSearch: (data: { searchStr: string }) => void;
   isPreviewMode: boolean;
 }) => {
@@ -132,8 +139,7 @@ export const PostList = (props: {
           {props.entries.map((entry) => (
             <ListItem
               entry={entry}
-              searchStr={props.searchStr}
-              key={entry.uuid}
+              searchQuery={props.searchQuery}
               isSelectMode={isSelectMode}
               isSelected={isSelectMode && selectedEntries.includes(entry)}
               onSelect={() =>
@@ -146,6 +152,7 @@ export const PostList = (props: {
                   return [entry, ...prevEntries];
                 })
               }
+              key={entry.uuid}
             />
           ))}
         </SimpleGrid>

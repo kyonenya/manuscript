@@ -13,23 +13,23 @@ const limit = 6;
 export default function Index() {
   const router = useRouter();
   const { preview } = router.query as { preview?: string };
+  const isPreviewMode = !!preview;
+
   const { searchStr, setSearchStr } = useCurrentSearchStr();
+  const searchQuery = searchStr ? toSearchQuery(searchStr) : undefined;
+
   const {
     data: entries,
     fetchNextPage,
     isFetching,
-  } = useEntriesQuery({
-    searchQuery: toSearchQuery(searchStr ?? ''),
-    limit,
-  });
+  } = useEntriesQuery({ searchQuery, limit });
+
   const { ref, inView } = useInView();
 
   useEffect(() => {
     if (!inView) return;
     fetchNextPage();
   }, [inView, fetchNextPage]);
-
-  const isPreviewMode = !!preview;
 
   return (
     <>
@@ -40,7 +40,8 @@ export default function Index() {
       {entries && (
         <PostList
           entries={entries.pages.flat()}
-          searchStr={searchStr} // TODO -> searchQuery
+          searchStr={searchStr}
+          searchQuery={searchQuery}
           onSearch={({ searchStr }) => setSearchStr(searchStr)}
           isPreviewMode={isPreviewMode}
         />

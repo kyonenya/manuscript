@@ -3,10 +3,10 @@ import { SearchQuery } from '../domain/SearchQuery';
 import { getEntries } from '../domain/entryUseCase';
 
 export const useEntriesQuery = (props: {
-  searchQuery: SearchQuery;
+  searchQuery: SearchQuery | undefined;
   limit: number;
 }) => {
-  const { keyword, tag } = props.searchQuery;
+  const { keyword, tag } = props.searchQuery ?? {};
 
   return useInfiniteQuery(
     ['entries', { keyword, tag }],
