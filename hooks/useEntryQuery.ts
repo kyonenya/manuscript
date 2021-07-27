@@ -8,7 +8,7 @@ export const useEntryQuery = (props: GetEntryInput) => {
     initialData: queryClient
       .getQueryData<InfiniteData<Entry>>([
         'entries',
-        { keyword: queryClient.getQueryData('currentKeyword') },
+        { keyword: queryClient.getQueryData('currentSearchStr') }, // TODO: query key
       ])
       ?.pages.flat()
       .find((entry) => entry.uuid === props.uuid),

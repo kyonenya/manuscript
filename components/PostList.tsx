@@ -31,7 +31,7 @@ const Summary = (props: { text: string }) => {
 };
 
 const SearchSummary = (props: { text: string; keyword: string }) => {
-  const summary = toSearchSummary(props);
+  const summary = toSearchSummary(props); // TODO -> props.searchQuery.keyword
 
   return (
     <Box>
@@ -52,7 +52,7 @@ const SearchSummary = (props: { text: string; keyword: string }) => {
 
 const ListItem = (props: {
   entry: Entry;
-  keyword?: string;
+  searchStr?: string;
   isSelected: boolean;
   isSelectMode: boolean;
   onSelect: () => void;
@@ -73,8 +73,8 @@ const ListItem = (props: {
       as="li"
     >
       <Link href={`/${entry.uuid}`} isEnabled={!props.isSelectMode}>
-        {props.keyword ? (
-          <SearchSummary text={entry.text} keyword={props.keyword} />
+        {props.searchStr ? (
+          <SearchSummary text={entry.text} keyword={props.searchStr} /> // TODO -> props.searchQuery
         ) : (
           <Summary text={entry.text} />
         )}
@@ -99,8 +99,8 @@ const ListItem = (props: {
 
 export const PostList = (props: {
   entries: Entry[];
-  keyword?: string;
-  onSearch: (data: { keyword: string }) => void;
+  searchStr?: string;
+  onSearch: (data: { searchStr: string }) => void;
   isPreviewMode: boolean;
 }) => {
   const [selectedEntries, setSelectedEntries] = useState<Entry[]>([]);
@@ -113,7 +113,7 @@ export const PostList = (props: {
   ) : (
     <Box bg={useColorModeValue('gray.100', 'gray.700')}>
       <PostListHeader
-        keyword={props.keyword}
+        searchStr={props.searchStr}
         isSelectMode={isSelectMode}
         onSearch={props.onSearch}
         toggleSelectMode={() =>
@@ -132,7 +132,7 @@ export const PostList = (props: {
           {props.entries.map((entry) => (
             <ListItem
               entry={entry}
-              keyword={props.keyword}
+              searchStr={props.searchStr}
               key={entry.uuid}
               isSelectMode={isSelectMode}
               isSelected={isSelectMode && selectedEntries.includes(entry)}

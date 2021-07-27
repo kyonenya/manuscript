@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { PostList } from '../components/PostList';
 import { toSearchQuery } from '../domain/SearchQuery';
-import { useCurrentKeyword } from '../hooks/useCurrentKeyword';
+import { useCurrentSearchStr } from '../hooks/useCurrentSearchStr';
 import { useSearchEntriesQuery } from '../hooks/useSearchEntriesQuery';
 
 const limit = 6;
@@ -13,13 +13,13 @@ const limit = 6;
 export default function Index() {
   const router = useRouter();
   const { preview } = router.query as { preview?: string };
-  const { keyword, setKeyword } = useCurrentKeyword();
+  const { searchStr, setSearchStr } = useCurrentSearchStr();
   const {
     data: entries,
     fetchNextPage,
     isFetching,
   } = useSearchEntriesQuery({
-    searchQuery: toSearchQuery(keyword ?? ''),
+    searchQuery: toSearchQuery(searchStr ?? ''),
     limit,
   });
   const { ref, inView } = useInView();
@@ -40,8 +40,8 @@ export default function Index() {
       {entries && (
         <PostList
           entries={entries.pages.flat()}
-          keyword={keyword}
-          onSearch={({ keyword }) => setKeyword(keyword)}
+          searchStr={searchStr} // TODO -> searchQuery
+          onSearch={({ searchStr }) => setSearchStr(searchStr)}
           isPreviewMode={isPreviewMode}
         />
       )}

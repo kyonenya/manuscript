@@ -13,10 +13,10 @@ import { ColorModeButton } from './ColorModeButton';
 import { CustomPopover } from './CustomPopover';
 import { HeaderContainer } from './HeaderContainer';
 
-type Form = { keyword: string };
+type Form = { searchStr: string };
 
 export const PostListHeader = (props: {
-  keyword?: string;
+  searchStr?: string;
   isSelectMode: boolean;
   onSearch: (data: Form) => void;
   toggleSelectMode: () => void;
@@ -24,7 +24,7 @@ export const PostListHeader = (props: {
   const router = useRouter();
   const { register, handleSubmit } = useForm<Form>({
     defaultValues: {
-      keyword: props.keyword,
+      searchStr: props.searchStr,
     },
   });
 
@@ -46,7 +46,7 @@ export const PostListHeader = (props: {
             <IconButton aria-label="検索" icon={<SearchIcon />} size="sm" />
           </InputLeftElement>
           <Input
-            {...register('keyword')}
+            {...register('searchStr')}
             type="text"
             aria-label="記事検索フォーム"
             placeholder="Search"
