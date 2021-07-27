@@ -54,9 +54,8 @@ export type UpdateEntry = (input: UpdateEntryInput) => Promise<void>;
 
 export const updateEntry = fetcher<UpdateEntry>('/api/updateEntry');
 
-export const useUpdateEntryMutation = () => {
-  return useMutation((input: UpdateEntryInput) => updateEntry(input));
-};
+export const useUpdateEntryMutation = () =>
+  useMutation((input: UpdateEntryInput) => updateEntry(input));
 
 /** deleteEntry */
 export const DeleteEntryRequest = z.object({
@@ -68,6 +67,5 @@ export type DeleteEntry = (input: DeleteEntryInput) => Promise<void>;
 
 export const deleteEntry = fetcher<DeleteEntry>('/api/deleteEntry');
 
-export const useDeleteEntryMutation = () => {
-  return useMutation((input: DeleteEntryInput) => deleteEntry(input));
-};
+export const useDeleteEntryMutation = () =>
+  useMutation((input: DeleteEntryInput) => deleteEntry(input));
