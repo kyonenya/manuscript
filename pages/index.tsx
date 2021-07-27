@@ -6,7 +6,7 @@ import { useInView } from 'react-intersection-observer';
 import { PostList } from '../components/PostList';
 import { toSearchQuery } from '../domain/SearchQuery';
 import { useCurrentSearchStr } from '../hooks/useCurrentSearchStr';
-import { useSearchEntriesQuery } from '../hooks/useSearchEntriesQuery';
+import { useEntriesQuery } from '../hooks/useEntriesQuery';
 
 const limit = 6;
 
@@ -18,7 +18,7 @@ export default function Index() {
     data: entries,
     fetchNextPage,
     isFetching,
-  } = useSearchEntriesQuery({
+  } = useEntriesQuery({
     searchQuery: toSearchQuery(searchStr ?? ''),
     limit,
   });

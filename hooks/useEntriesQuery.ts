@@ -1,8 +1,8 @@
 import { useInfiniteQuery } from 'react-query';
 import { SearchQuery } from '../domain/SearchQuery';
-import { searchEntries } from '../domain/entryUseCase';
+import { getEntries } from '../domain/entryUseCase';
 
-export const useSearchEntriesQuery = (props: {
+export const useEntriesQuery = (props: {
   searchQuery: SearchQuery;
   limit: number;
 }) => {
@@ -11,7 +11,7 @@ export const useSearchEntriesQuery = (props: {
   return useInfiniteQuery(
     ['entries', { keyword, tag }],
     ({ pageParam = 0 }) =>
-      searchEntries({
+      getEntries({
         keyword,
         tag,
         limit: props.limit,

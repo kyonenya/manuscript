@@ -6,18 +6,18 @@ import { Entry } from './Entry';
 /**
  * Query
  */
-/** searchEntries */
-export const SearchEntriesRequest = z.object({
+/** getEntries */
+export const GetEntriesRequest = z.object({
   keyword: z.string().optional(),
   tag: z.string().optional(),
   limit: z.number(),
   offset: z.number(),
 });
-export type SearchEntriesInput = z.infer<typeof SearchEntriesRequest>;
+export type GetEntriesInput = z.infer<typeof GetEntriesRequest>;
 
-export type SearchEntries = (input: SearchEntriesInput) => Promise<Entry[]>;
+export type GetEntries = (input: GetEntriesInput) => Promise<Entry[]>;
 
-export const searchEntries = fetcher<SearchEntries>('/api/searchEntries');
+export const getEntries = fetcher<GetEntries>('/api/getEntries');
 
 /** getEntry */
 export const GetEntryRequest = z.object({
