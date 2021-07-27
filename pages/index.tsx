@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { PostList } from '../components/PostList';
+import { toSearchQuery } from '../domain/SearchQuery';
 import { useCurrentKeyword } from '../hooks/useCurrentKeyword';
 import { useSearchEntriesQuery } from '../hooks/useSearchEntriesQuery';
 
@@ -18,8 +19,8 @@ export default function Index() {
     fetchNextPage,
     isFetching,
   } = useSearchEntriesQuery({
+    searchQuery: toSearchQuery(keyword ?? ''),
     limit,
-    keyword,
   });
   const { ref, inView } = useInView();
 

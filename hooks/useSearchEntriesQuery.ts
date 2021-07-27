@@ -1,15 +1,19 @@
 import { useInfiniteQuery } from 'react-query';
-import { searchEntries, SearchEntriesInput } from '../domain/entryUseCase';
+import { SearchQuery } from '../domain/SearchQuery';
+import { searchEntries } from '../domain/entryUseCase';
 
-export const useSearchEntriesQuery = (
-  props: Omit<SearchEntriesInput, 'offset'>
-) => {
+export const useSearchEntriesQuery = (props: {
+  searchQuery: SearchQuery;
+  limit: number;
+}) => {
+  const { keyword, tag } = props.searchQuery;
+
   return useInfiniteQuery(
-    ['entries', { keyword: props.keyword, tag: props.tag }],
+    ['entries', { keyword, tag }],
     ({ pageParam = 0 }) =>
       searchEntries({
-        keyword: props.keyword,
-        tag: props.tag,
+        keyword,
+        tag,
         limit: props.limit,
         offset: pageParam * props.limit,
       }),
