@@ -129,6 +129,39 @@ export const insertOne = (props: { entry: Entry }): SQL => {
   return { text, values };
 };
 
+export const insertAll = (props: { entries: Entry[] }): SQL => {
+  const text = `
+    INSERT INTO entries (
+      text
+      ,starred
+      ,uuid
+      ,created_at
+      ,modified_at
+    )
+    VALUES ${props.entries
+      .map(
+        (_, i) => `(
+      $${1 + i * 5}
+      ,$${2 + i * 5}
+      ,$${3 + i * 5}
+      ,$${4 + i * 5}
+      ,$${5 + i * 5}
+    )`
+      )
+      .join(', ')}
+    ;`;
+  const values = props.entries
+    .map((entry) => [
+      entry.text,
+      entry.starred,
+      entry.uuid,
+      entry.createdAt,
+      entry.modifiedAt,
+    ])
+    .flat();
+  return { text, values };
+};
+
 export const updateOne = (props: { entry: Entry }): SQL => {
   const { entry } = props;
   const text = `

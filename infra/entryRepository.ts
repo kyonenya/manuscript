@@ -75,6 +75,15 @@ export const createOne = async (props: { entry: Entry }): Promise<number[]> => {
   );
 };
 
+export const createAll = async (props: {
+  entries: Entry[];
+}): Promise<number[]> => {
+  return await mutate(
+    entriesSQL.insertAll(props),
+    ...props.entries.map((entry) => tagsSQL.insertAll(entry))
+  );
+};
+
 export const updateOne = async (props: { entry: Entry }): Promise<number[]> => {
   await mutate(tagsSQL.deleteAll(props.entry));
   return await mutate(

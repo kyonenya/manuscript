@@ -8,7 +8,7 @@ describe('Query:entriesRepository', () => {
   const olderEntry = toEntry({
     text: 'これは過去の記事です。',
     tags: ['タグ1', 'タグ2'],
-    createdAt: dayjs().subtract(1, 's'),
+    createdAt: dayjs().subtract(1, 'm'),
   });
   const newestEntry = toEntry({
     text: 'これは最新の記事です。',
@@ -99,6 +99,22 @@ describe('Mutation:entriesRepository', () => {
     });
     const rowCounts = await entryRepository.createOne({ entry });
     assert.deepStrictEqual(rowCounts, [1]);
+  });
+
+  it('createAll', async () => {
+    const entry1 = toEntry({
+      text: '新規作成された記事の本文',
+      tags: ['タグ1'],
+      createdAt: dayjs().subtract(1, 's'),
+    });
+    const entry2 = toEntry({
+      text: '新規作成された記事の本文',
+      tags: ['タグ1', 'タグ2'],
+    });
+    const rowCounts = await entryRepository.createAll({
+      entries: [entry1, entry2],
+    });
+    assert.deepStrictEqual(rowCounts, [2, 1, 2]);
   });
 
   it('updateOne', async () => {
