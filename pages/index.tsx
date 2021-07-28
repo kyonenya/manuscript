@@ -1,12 +1,11 @@
 import { Box, Spinner } from '@chakra-ui/react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
-import { useInView } from 'react-intersection-observer';
 import { PostList } from '../components/PostList';
 import { toSearchQuery } from '../domain/SearchQuery';
 import { useCurrentSearchStr } from '../hooks/useCurrentSearchStr';
 import { useEntriesQuery } from '../hooks/useEntriesQuery';
+import { useInfiniteScroll } from '../hooks/useInfiniteScroll';
 
 const limit = 6;
 
@@ -24,12 +23,7 @@ export default function Index() {
     isFetching,
   } = useEntriesQuery({ searchQuery, limit });
 
-  const { ref, inView } = useInView();
-
-  useEffect(() => {
-    if (!inView) return;
-    fetchNextPage();
-  }, [inView, fetchNextPage]);
+  const { scrollerRef } = useInfiniteScroll({ onScroll: fetchNextPage });
 
   return (
     <>
@@ -46,7 +40,7 @@ export default function Index() {
           isPreviewMode={isPreviewMode}
         />
       )}
-      <Box align="center" ref={ref}>
+      <Box align="center" ref={scrollerRef}>
         {!isPreviewMode && isFetching && (
           <Spinner emptyColor="gray.300" speed="0.65s" />
         )}
