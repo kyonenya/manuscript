@@ -86,7 +86,7 @@ describe('Mutation:entriesRepository', () => {
 
   it('createOne', async () => {
     const entry = toEntry({
-      text: '新規作成された記事の本文',
+      text: 'これはサンプルの記事です。',
       tags: ['タグ1', 'タグ2'],
     });
     const rowCounts = await entryRepository.createOne({ entry });
@@ -94,38 +94,36 @@ describe('Mutation:entriesRepository', () => {
   });
 
   it('createOne:noTag', async () => {
-    const entry = toEntry({
-      text: '新規作成された記事の本文',
-    });
+    const entry = toEntry({ text: 'これはタグのない記事です。' });
     const rowCounts = await entryRepository.createOne({ entry });
     assert.deepStrictEqual(rowCounts, [1]);
   });
 
   it('createAll', async () => {
     const entry1 = toEntry({
-      text: '新規作成された記事の本文',
+      text: 'これは１つ目の記事です。',
       tags: ['タグ1'],
       createdAt: dayjs().subtract(1, 's'),
     });
     const entry2 = toEntry({
-      text: '新規作成された記事の本文',
-      tags: ['タグ1', 'タグ2'],
+      text: 'これは２つ目の記事です。',
+      tags: ['タグ1', 'タグ2', 'タグ3'],
     });
     const rowCounts = await entryRepository.createAll({
       entries: [entry1, entry2],
     });
-    assert.deepStrictEqual(rowCounts, [2, 1, 2]);
+    assert.deepStrictEqual(rowCounts, [2, 1, 3]);
   });
 
   it('updateOne', async () => {
     const oldEntry = toEntry({
-      text: '新規作成された記事の本文',
+      text: 'これはサンプルの記事です。',
       tags: ['タグ1', 'タグ2'],
     });
     await entryRepository.createOne({ entry: oldEntry });
     const newEntry = toEntry({
-      text: '更新された記事の本文',
-      tags: ['タグ1', 'タグ2'],
+      text: 'これは更新された記事です。',
+      tags: ['新しいタグ1', '新しいタグ2'],
       uuid: oldEntry.uuid,
     });
     await entryRepository.updateOne({ entry: newEntry });
@@ -138,13 +136,13 @@ describe('Mutation:entriesRepository', () => {
 
   it('deleteOne', async () => {
     const entry = toEntry({
-      text: '新規作成された記事の本文',
+      text: 'これはサンプルの記事です。',
       tags: ['タグ1', 'タグ2'],
     });
     await entryRepository.createOne({ entry });
     await entryRepository.deleteOne({ uuid: entry.uuid });
-    const result = await entryRepository.selectOne({ uuid: entry.uuid });
-    assert.strictEqual(result, undefined);
+    const resultEntry = await entryRepository.selectOne({ uuid: entry.uuid });
+    assert.strictEqual(resultEntry, undefined);
   });
 
   afterEach(() => rollback());
