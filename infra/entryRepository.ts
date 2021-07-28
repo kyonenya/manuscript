@@ -26,7 +26,7 @@ const entryFactory = (row: Schema): Entry => {
 /**
  * Query
  */
-export const selectMany = async (props: {
+export const readMany = async (props: {
   limit: number;
   offset?: number;
 }): Promise<Entry[]> => {
@@ -34,14 +34,14 @@ export const selectMany = async (props: {
   return rows.map((row) => entryFactory(row));
 };
 
-export const selectOne = async (props: {
+export const readOne = async (props: {
   uuid: string;
 }): Promise<Entry | undefined> => {
   const rows = await query<Schema>(entriesSQL.selectOne(props));
   return rows.length > 0 ? entryFactory(rows[0]) : undefined;
 };
 
-export const selectByKeyword = async (props: {
+export const readByKeyword = async (props: {
   keyword?: string;
   limit: number;
   offset?: number;
@@ -50,7 +50,7 @@ export const selectByKeyword = async (props: {
   return rows.map((row) => entryFactory(row));
 };
 
-export const selectByTag = async (props: {
+export const readByTag = async (props: {
   tag: string;
   keyword?: string;
   limit: number;
@@ -60,7 +60,7 @@ export const selectByTag = async (props: {
   return rows.map((row) => entryFactory(row));
 };
 
-export const selectTagList = async () => {
+export const readTagList = async () => {
   const rows = await query<{ tag: string }>(tagsSQL.selectDistinct());
   return rows.map((row) => row.tag);
 };

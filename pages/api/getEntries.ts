@@ -1,10 +1,10 @@
 import { GetEntries, GetEntriesRequest } from '../../domain/entryUseCase';
 import { apiFactory } from '../../infra/apiFactory';
-import { selectByKeyword, selectByTag } from '../../infra/entryRepository';
+import { readByKeyword, readByTag } from '../../infra/entryRepository';
 
 const getEntries: GetEntries = (input) => {
-  if (input.tag) return selectByTag({ tag: input.tag, ...input });
-  return selectByKeyword(input);
+  if (input.tag) return readByTag({ tag: input.tag, ...input });
+  return readByKeyword(input);
 };
 
 export default apiFactory(getEntries, GetEntriesRequest);

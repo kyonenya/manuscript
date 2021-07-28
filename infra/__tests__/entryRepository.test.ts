@@ -21,26 +21,26 @@ describe('Query:entriesRepository', () => {
     await entryRepository.createOne({ entry: newestEntry });
   });
 
-  it('selectMany', async () => {
-    const entries = await entryRepository.selectMany({ limit: 1, offset: 1 });
+  it('readMany', async () => {
+    const entries = await entryRepository.readMany({ limit: 1, offset: 1 });
     assert.strictEqual(entries.length, 1);
     assert.strictEqual(entries[0].text, olderEntry.text);
   });
 
-  it('selectOne', async () => {
-    const entry = await entryRepository.selectOne({ uuid: newestEntry.uuid });
+  it('readOne', async () => {
+    const entry = await entryRepository.readOne({ uuid: newestEntry.uuid });
     assert.strictEqual(entry?.text, newestEntry.text);
   });
 
-  it('selectOne:empty', async () => {
-    const result = await entryRepository.selectOne({
+  it('readOne:empty', async () => {
+    const result = await entryRepository.readOne({
       uuid: 'thisisadummyuuidthisisadummyuuid',
     });
     assert.strictEqual(result, undefined);
   });
 
-  it('selectByKeyword', async () => {
-    const entries = await entryRepository.selectByKeyword({
+  it('readByKeyword', async () => {
+    const entries = await entryRepository.readByKeyword({
       keyword: '。',
       limit: 1,
       offset: 1,
@@ -48,8 +48,8 @@ describe('Query:entriesRepository', () => {
     assert.strictEqual(entries.length, 1);
     assert.strictEqual(entries[0].text, olderEntry.text);
   });
-  it('selectByKeyword:emptyKeyword', async () => {
-    const entries = await entryRepository.selectByKeyword({
+  it('readByKeyword:emptyKeyword', async () => {
+    const entries = await entryRepository.readByKeyword({
       keyword: '',
       limit: 1,
     });
@@ -57,15 +57,15 @@ describe('Query:entriesRepository', () => {
     assert.strictEqual(entries[0].text, newestEntry.text);
   });
 
-  it('selectByTag', async () => {
-    const entries = await entryRepository.selectByTag({
+  it('readByTag', async () => {
+    const entries = await entryRepository.readByTag({
       tag: 'タグ1',
       limit: 1,
     });
     assert.strictEqual(entries[0].text, olderEntry.text);
   });
-  it('selectByTag:withKeyword', async () => {
-    const entries = await entryRepository.selectByTag({
+  it('readByTag:withKeyword', async () => {
+    const entries = await entryRepository.readByTag({
       tag: 'タグ1',
       keyword: 'これは',
       limit: 1,
@@ -73,8 +73,8 @@ describe('Query:entriesRepository', () => {
     assert.strictEqual(entries[0].text, olderEntry.text);
   });
 
-  it('selectTagList', async () => {
-    const tagList = await entryRepository.selectTagList();
+  it('readTagList', async () => {
+    const tagList = await entryRepository.readTagList();
     assert.ok(tagList.includes(olderEntry.tags[0]));
   });
 
@@ -127,7 +127,7 @@ describe('Mutation:entriesRepository', () => {
       uuid: oldEntry.uuid,
     });
     await entryRepository.updateOne({ entry: newEntry });
-    const resultEntry = await entryRepository.selectOne({
+    const resultEntry = await entryRepository.readOne({
       uuid: oldEntry.uuid,
     });
     assert.strictEqual(resultEntry?.text, newEntry.text);
@@ -141,7 +141,7 @@ describe('Mutation:entriesRepository', () => {
     });
     await entryRepository.createOne({ entry });
     await entryRepository.deleteOne({ uuid: entry.uuid });
-    const resultEntry = await entryRepository.selectOne({ uuid: entry.uuid });
+    const resultEntry = await entryRepository.readOne({ uuid: entry.uuid });
     assert.strictEqual(resultEntry, undefined);
   });
 

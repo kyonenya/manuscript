@@ -1,7 +1,7 @@
 import { GetTagList } from '../../domain/entryUseCase';
 import { apiFactory } from '../../infra/apiFactory';
-import { selectTagList } from '../../infra/entryRepository';
+import { readTagList } from '../../infra/entryRepository';
 
-const getTagList: GetTagList = () => selectTagList();
+const getTagList: GetTagList = () => readTagList();
 
 export default apiFactory(getTagList);
