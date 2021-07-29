@@ -11,8 +11,8 @@ import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import { ColorModeButton } from './ColorModeButton';
 import { CustomPopover } from './CustomPopover';
-import { FileInput } from './FileInput';
 import { HeaderContainer } from './HeaderContainer';
+import { JsonInput } from './JsonInput';
 
 type Form = { searchStr: string };
 
@@ -36,7 +36,7 @@ export const PostListHeader = (props: {
         triggerButton={<IconButton icon={<SettingsIcon />} aria-label="設定" />}
       >
         <ColorModeButton />
-        <FileInput />
+        <JsonInput onUpload={({ obj }) => console.dir(obj)} />
       </CustomPopover>
 
       <form onSubmit={handleSubmit(props.onSearch)}>
