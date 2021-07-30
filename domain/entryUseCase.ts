@@ -3,6 +3,15 @@ import { z } from 'zod';
 import { fetcher } from '../infra/fetcher';
 import { Entry } from './Entry';
 
+const entryObject = z.object({
+  text: z.string(),
+  starred: z.boolean(),
+  uuid: z.string(),
+  tags: z.array(z.string()),
+  createdAt: z.string(),
+  modifiedAt: z.string(),
+});
+
 /**
  * Query
  */
@@ -39,15 +48,19 @@ export const useTagListQuery = () => useQuery(['tagList'], () => getTagList());
 /**
  * Mutation
  */
+/** createEntries */
+export const CreateEntriesRequest = z.array(entryObject);
+export type CreateEntriesInput = z.infer<typeof CreateEntriesRequest>;
+
+export type CreateEntries = (input: CreateEntriesInput) => Promise<void>;
+
+export const createEntries = fetcher<CreateEntries>('/api/createEntries');
+
+export const useCreateEntriesMutation = () =>
+  useMutation((input: CreateEntriesInput) => createEntries(input));
+
 /** updateEntry */
-export const UpdateEntryRequest = z.object({
-  text: z.string(),
-  starred: z.boolean(),
-  uuid: z.string(),
-  tags: z.array(z.string()),
-  createdAt: z.string(),
-  modifiedAt: z.string(),
-});
+export const UpdateEntryRequest = entryObject;
 export type UpdateEntryInput = z.infer<typeof UpdateEntryRequest>;
 
 export type UpdateEntry = (input: UpdateEntryInput) => Promise<void>;

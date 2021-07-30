@@ -4,7 +4,7 @@ import { z } from 'zod';
 
 export const apiFactory = (
   usecase: (input?: any /* Input */) => Promise<any /* Output */>,
-  request?: z.ZodObject<any /* Input */>
+  request?: z.ZodTypeAny /* Input */
 ): NextApiHandler => {
   const handler: NextApiHandler = async (req, res) => {
     if (!request) {
