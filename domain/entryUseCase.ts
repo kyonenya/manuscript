@@ -49,7 +49,7 @@ export const useTagListQuery = () => useQuery(['tagList'], () => getTagList());
  * Mutation
  */
 /** createEntries */
-export const CreateEntriesRequest = z.array(entryObject);
+export const CreateEntriesRequest = z.object({ entries: z.array(entryObject) });
 export type CreateEntriesInput = z.infer<typeof CreateEntriesRequest>;
 
 export type CreateEntries = (input: CreateEntriesInput) => Promise<void>;

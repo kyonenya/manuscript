@@ -12,7 +12,7 @@ import { useForm } from 'react-hook-form';
 import { ColorModeButton } from './ColorModeButton';
 import { CustomPopover } from './CustomPopover';
 import { HeaderContainer } from './HeaderContainer';
-import { JsonInput } from './JsonInput';
+import { JsonImport } from './JsonImport';
 
 type Form = { searchStr: string };
 
@@ -36,7 +36,7 @@ export const PostListHeader = (props: {
         triggerButton={<IconButton icon={<SettingsIcon />} aria-label="設定" />}
       >
         <ColorModeButton />
-        <JsonInput onUpload={({ obj }) => console.dir(obj)} />
+        <JsonImport />
       </CustomPopover>
 
       <form onSubmit={handleSubmit(props.onSearch)}>

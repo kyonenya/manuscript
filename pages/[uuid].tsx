@@ -13,15 +13,16 @@ import { useEntryQuery } from '../hooks/useEntryQuery';
 
 export default function ArticlePage() {
   const router = useRouter();
-  const queryClient = useQueryClient();
   const { uuid, preview } = router.query as { uuid: string; preview?: string };
+  const isPreview = !!preview;
+
   const { data: entry } = useEntryQuery({ uuid });
   const { data: tagList } = useTagListQuery();
   const { mutate: mutateDelete } = useDeleteEntryMutation();
   const { mutate: mutateUpdate, isLoading: isUpdateLoading } =
     useUpdateEntryMutation();
 
-  const isPreview = !!preview;
+  const queryClient = useQueryClient();
 
   return (
     <>
