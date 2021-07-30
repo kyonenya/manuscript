@@ -1,4 +1,4 @@
-import { Entry, toEntry } from '../domain/Entry';
+import { Entry, newEntry } from '../domain/Entry';
 import * as entriesSQL from './entriesSQL';
 import { query, mutate } from './postgres';
 import * as tagsSQL from './tagsSQL';
@@ -13,7 +13,7 @@ type Schema = {
 };
 
 const entryFactory = (row: Schema): Entry => {
-  return toEntry({
+  return newEntry({
     text: row.text,
     starred: row.starred,
     uuid: row.uuid,

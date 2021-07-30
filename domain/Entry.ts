@@ -12,7 +12,7 @@ export type Entry = {
   modifiedAt: string;
 };
 
-export const toEntry = (props: {
+export const newEntry = (props: {
   text: string;
   starred?: boolean;
   uuid?: string;

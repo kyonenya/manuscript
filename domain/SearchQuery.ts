@@ -3,7 +3,7 @@ export type SearchQuery = {
   tag?: string;
 };
 
-export const toSearchQuery = (searchStr: string): SearchQuery => {
+export const newSearchQuery = (searchStr: string): SearchQuery => {
   const commandRegex = /\w+:\S+/g;
   const keyword = searchStr.replace(commandRegex, '').trim();
   const commands = searchStr.match(commandRegex)?.reduce((acc, commandStr) => {

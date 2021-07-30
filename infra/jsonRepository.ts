@@ -1,5 +1,5 @@
 import fs from 'fs';
-import { Entry, toEntry } from '../domain/Entry';
+import { Entry, newEntry } from '../domain/Entry';
 
 type jsonEntry = {
   text: string | null;
@@ -17,7 +17,7 @@ export const unescape = (text: string) =>
     .replace(/[\u200B-\u200D\uFEFF]/g, ''); // remove zero width space
 
 const entryFactory = (row: jsonEntry) =>
-  toEntry({
+  newEntry({
     text: unescape(row.text ?? ''),
     tags: row.tags,
     starred: row.starred,

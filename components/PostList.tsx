@@ -12,7 +12,7 @@ import dayjs from 'dayjs';
 import { useState } from 'react';
 import { Entry } from '../domain/Entry';
 import { SearchQuery } from '../domain/SearchQuery';
-import { toSearchSummary } from '../domain/SearchSummary';
+import { newSearchSummary } from '../domain/SearchSummary';
 import { Link } from './Link';
 import { PostListHeader } from './PostListHeader';
 import { Previews } from './Preview';
@@ -32,7 +32,7 @@ const Summary = (props: { text: string }) => {
 };
 
 const SearchSummary = (props: { text: string; searchQuery: SearchQuery }) => {
-  const summary = toSearchSummary({
+  const summary = newSearchSummary({
     text: props.text,
     keyword: props.searchQuery.keyword,
   });

@@ -6,7 +6,7 @@ export type searchSummary = {
   isAfterEllipsed: boolean;
 };
 
-export const toSearchSummary = (props: {
+export const newSearchSummary = (props: {
   keyword: string;
   text: string;
 }): searchSummary => {

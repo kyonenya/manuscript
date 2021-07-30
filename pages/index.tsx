@@ -2,7 +2,7 @@ import { Box, Spinner } from '@chakra-ui/react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { PostList } from '../components/PostList';
-import { toSearchQuery } from '../domain/SearchQuery';
+import { newSearchQuery } from '../domain/SearchQuery';
 import { useCurrentSearchStr } from '../hooks/useCurrentSearchStr';
 import { useEntriesQuery } from '../hooks/useEntriesQuery';
 import { useInfiniteScroll } from '../hooks/useInfiniteScroll';
@@ -15,7 +15,7 @@ export default function Index() {
   const isPreviewMode = !!preview;
 
   const { searchStr, setSearchStr } = useCurrentSearchStr();
-  const searchQuery = searchStr ? toSearchQuery(searchStr) : undefined;
+  const searchQuery = searchStr ? newSearchQuery(searchStr) : undefined;
 
   const {
     data: entries,
