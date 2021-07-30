@@ -3,7 +3,7 @@ import { apiFactory } from '../../infra/apiFactory';
 import { updateOne } from '../../infra/entryRepository';
 
 const updateEntry: UpdateEntry = async (input) => {
-  await updateOne({ entry: input });
+  await updateOne(input);
 };
 
 export default apiFactory(updateEntry, UpdateEntryRequest);

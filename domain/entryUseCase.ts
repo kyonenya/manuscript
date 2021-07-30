@@ -60,7 +60,7 @@ export const useCreateEntriesMutation = () =>
   useMutation((input: CreateEntriesInput) => createEntries(input));
 
 /** updateEntry */
-export const UpdateEntryRequest = entryObject;
+export const UpdateEntryRequest = z.object({ entry: entryObject });
 export type UpdateEntryInput = z.infer<typeof UpdateEntryRequest>;
 
 export type UpdateEntry = (input: UpdateEntryInput) => Promise<void>;

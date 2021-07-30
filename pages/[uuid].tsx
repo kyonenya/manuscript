@@ -38,14 +38,14 @@ export default function ArticlePage() {
               tagList={tagList ?? []}
               onUpdate={({ createdAt, tags }) =>
                 mutateUpdate(
-                  { ...entry, createdAt, tags },
+                  { entry: { ...entry, createdAt, tags } },
                   {
                     onSuccess: () => {
                       queryClient.invalidateQueries([
                         'entry',
                         { uuid: entry.uuid },
                       ]);
-                      queryClient.invalidateQueries(['entries']);
+                      queryClient.invalidateQueries('entries');
                     },
                   }
                 )
