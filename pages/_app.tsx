@@ -1,8 +1,10 @@
 import { ChakraProvider } from '@chakra-ui/react';
+import { Auth } from '@supabase/ui';
 import { AppProps } from 'next/app';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { theme } from '../components/theme';
+import { supabase } from '../infra/supabase';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -18,8 +20,10 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <QueryClientProvider client={queryClient}>
       <ChakraProvider theme={theme}>
-        <Component {...pageProps} />
-        <ReactQueryDevtools initialIsOpen={false} />
+        <Auth.UserContextProvider supabaseClient={supabase}>
+          <Component {...pageProps} />
+          <ReactQueryDevtools initialIsOpen={false} />
+        </Auth.UserContextProvider>
       </ChakraProvider>
     </QueryClientProvider>
   );

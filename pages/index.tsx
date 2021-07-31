@@ -1,4 +1,5 @@
-import { Box, Spinner } from '@chakra-ui/react';
+import { Box, Container, Spinner } from '@chakra-ui/react';
+import { Auth, Card, Typography, Space, Button, Icon } from '@supabase/ui';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { PostList } from '../components/PostList';
@@ -6,6 +7,7 @@ import { newSearchQuery } from '../domain/SearchQuery';
 import { useCurrentSearchStr } from '../hooks/useCurrentSearchStr';
 import { useEntriesQuery } from '../hooks/useEntriesQuery';
 import { useInfiniteScroll } from '../hooks/useInfiniteScroll';
+import { supabase } from '../infra/supabase';
 
 const limit = 6;
 
@@ -24,6 +26,22 @@ export default function Index() {
   } = useEntriesQuery({ searchQuery, limit });
 
   const { scrollerRef } = useInfiniteScroll({ onScroll: fetchNextPage });
+
+  const { user } = Auth.useUser();
+
+  if (!user)
+    return (
+      <Container maxW="3xl" py={{ base: 6 }}>
+        <Typography.Title level={3}>Welcome to Supabase Auth</Typography.Title>
+        <Auth
+          supabaseClient={supabase}
+          providers={['github']}
+          view="sign_in"
+          socialLayout="horizontal"
+          socialButtonSize="xlarge"
+        />
+      </Container>
+    );
 
   return (
     <>

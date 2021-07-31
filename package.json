@@ -17,6 +17,8 @@
     "@chakra-ui/react": "^1.6.3",
     "@emotion/react": "^11.4.0",
     "@emotion/styled": "^11.3.0",
+    "@supabase/supabase-js": "^1.21.0",
+    "@supabase/ui": "^0.31.0",
     "chakra-ui-markdown-renderer": "^3.0.1",
     "dayjs": "^1.10.4",
     "dotenv": "^8.2.0",
