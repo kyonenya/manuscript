@@ -107,8 +107,9 @@ export const PostList = (props: {
   entries: Entry[];
   searchQuery: SearchQuery | undefined;
   searchStr: string | undefined;
-  onSearch: (data: { searchStr: string }) => void;
   isPreviewMode: boolean;
+  onSearch: (data: { searchStr: string }) => void;
+  onSignOut: () => void;
 }) => {
   const [selectedEntries, setSelectedEntries] = useState<Entry[]>([]);
   const [isSelectMode, setIsSelectMode] = useState(false);
@@ -123,6 +124,7 @@ export const PostList = (props: {
         searchStr={props.searchStr}
         isSelectMode={isSelectMode}
         onSearch={props.onSearch}
+        onSignOut={props.onSignOut}
         toggleSelectMode={() =>
           setIsSelectMode((prevMode) => {
             if (!prevMode) setSelectedEntries([]);

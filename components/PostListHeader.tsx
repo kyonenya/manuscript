@@ -1,5 +1,6 @@
 import { CopyIcon, SearchIcon, SettingsIcon, ViewIcon } from '@chakra-ui/icons';
 import {
+  Button,
   IconButton,
   InputGroup,
   Input,
@@ -7,6 +8,7 @@ import {
   Stack,
   useColorModeValue,
 } from '@chakra-ui/react';
+import { IconLogOut } from '@supabase/ui';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import { ColorModeButton } from './ColorModeButton';
@@ -20,6 +22,7 @@ export const PostListHeader = (props: {
   searchStr: string | undefined;
   isSelectMode: boolean;
   onSearch: (data: Form) => void;
+  onSignOut: () => void;
   toggleSelectMode: () => void;
 }) => {
   const router = useRouter();
@@ -37,6 +40,9 @@ export const PostListHeader = (props: {
       >
         <ColorModeButton />
         <JsonImport />
+        <Button onClick={props.onSignOut} leftIcon={<IconLogOut />}>
+          Sign Out
+        </Button>
       </CustomPopover>
 
       <form onSubmit={handleSubmit(props.onSearch)}>

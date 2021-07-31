@@ -1,5 +1,5 @@
-import { Box, Container, Spinner } from '@chakra-ui/react';
-import { Auth, Card, Typography, Space, Button, Icon } from '@supabase/ui';
+import { Box, Container, Heading, Spinner } from '@chakra-ui/react';
+import { Auth, Typography } from '@supabase/ui';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { PostList } from '../components/PostList';
@@ -32,10 +32,11 @@ export default function Index() {
   if (!user)
     return (
       <Container maxW="3xl" py={{ base: 6 }}>
-        <Typography.Title level={3}>Welcome to Supabase Auth</Typography.Title>
+        <Heading as="h2" size="lg">
+          Sign in manuscript
+        </Heading>
         <Auth
           supabaseClient={supabase}
-          providers={['github']}
           view="sign_in"
           socialLayout="horizontal"
           socialButtonSize="xlarge"
@@ -54,8 +55,9 @@ export default function Index() {
           entries={entries.pages.flat()}
           searchStr={searchStr}
           searchQuery={searchQuery}
-          onSearch={({ searchStr }) => setSearchStr(searchStr)}
           isPreviewMode={isPreviewMode}
+          onSearch={({ searchStr }) => setSearchStr(searchStr)}
+          onSignOut={() => supabase.auth.signOut()}
         />
       )}
       <Box align="center" ref={scrollerRef}>
