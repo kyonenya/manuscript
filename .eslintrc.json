@@ -1,36 +1,17 @@
 {
   "extends": [
     "eslint:recommended",
-    "plugin:react/recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:@typescript-eslint/eslint-recommended",
-    "plugin:react-hooks/recommended",
-    "plugin:import/errors",
+    "next",
     "prettier"
   ],
-  "plugins": ["@typescript-eslint", "react", "import"],
+  "plugins": ["@typescript-eslint"],
   "parser": "@typescript-eslint/parser",
-  "env": {
-    "browser": true,
-    "node": true,
-    "es2020": true
-  },
-  "parserOptions": {
-    "sourceType": "module",
-    "ecmaFeatures": { "jsx": true }
-  },
-  "settings": {
-    "react": { "version": "detect" },
-    "import/resolver": {
-      "node": { "extensions": [".ts", ".tsx", ".js", ".jsx"] }
-    }
-  },
   "rules": {
-    "react/react-in-jsx-scope": "off",
-    "@typescript-eslint/explicit-module-boundary-types": "off",
-    "@typescript-eslint/no-non-null-assertion": "off",
-    "sort-imports": "off",
     "import/order": ["warn", { "alphabetize": { "order": "asc" } }],
-    "react-hooks/rules-of-hooks": "off"
+    "@typescript-eslint/explicit-module-boundary-types": "off", // Missing return type on function
+    "sort-imports": "off", // Imports should be sorted alphabetically
+    "react-hooks/rules-of-hooks": "off" // React Hook "useColorModeValue" is called conditionally.
   }
 }

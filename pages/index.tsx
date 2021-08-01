@@ -1,5 +1,5 @@
 import { Box, Container, Heading, Spinner } from '@chakra-ui/react';
-import { Auth, Typography } from '@supabase/ui';
+import { Auth } from '@supabase/ui';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { PostList } from '../components/PostList';
