@@ -1,4 +1,4 @@
-import { CopyIcon, SearchIcon, SettingsIcon, ViewIcon } from '@chakra-ui/icons';
+import { SearchIcon, SettingsIcon, ViewIcon } from '@chakra-ui/icons';
 import {
   Button,
   IconButton,
@@ -8,7 +8,7 @@ import {
   Stack,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { IconLogOut } from '@supabase/ui';
+import { IconCheckSquare, IconLogOut } from '@supabase/ui';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import { ColorModeButton } from './ColorModeButton';
@@ -40,7 +40,10 @@ export const PostListHeader = (props: {
       >
         <ColorModeButton />
         <JsonImport />
-        <Button onClick={props.onSignOut} leftIcon={<IconLogOut />}>
+        <Button
+          onClick={props.onSignOut}
+          leftIcon={<IconLogOut strokeWidth={2} />}
+        >
           Sign Out
         </Button>
       </CustomPopover>
@@ -64,18 +67,20 @@ export const PostListHeader = (props: {
       </form>
 
       <Stack direction="row">
+        {props.isSelectMode && (
+          <IconButton
+            icon={<ViewIcon />}
+            aria-label="プレビュー"
+            onClick={() => router.push('?preview=true')}
+          />
+        )}
         <IconButton
-          icon={<ViewIcon />}
-          aria-label="プレビュー"
-          onClick={() => router.push('?preview=true')}
-        />
-        <IconButton
-          icon={<CopyIcon />}
+          icon={<IconCheckSquare strokeWidth={2} size={18} />}
           aria-label="複数選択"
           onClick={props.toggleSelectMode}
           bg={
             props.isSelectMode
-              ? useColorModeValue('gray.300', 'gray.700')
+              ? useColorModeValue('yellow.200', 'gray.500')
               : undefined
           }
         />

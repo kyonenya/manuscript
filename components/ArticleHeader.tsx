@@ -60,7 +60,7 @@ export const ArticleHeader = (props: {
         <IconButton
           icon={<ArrowBackIcon />}
           aria-label={'Back to Top'}
-          onClick={() => Router.back()}
+          onClick={() => Router.push('/')}
           size="md"
         />
 
