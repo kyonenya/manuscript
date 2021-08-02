@@ -78,7 +78,10 @@ const ListItem = (props: {
       pos={'relative'}
       as="li"
     >
-      <Link href={`/${entry.uuid}`} isEnabled={!props.isSelectMode}>
+      <Link
+        href={`/${entry.uuid.toLowerCase()}`}
+        isEnabled={!props.isSelectMode}
+      >
         {props.searchQuery ? (
           <SearchSummary text={entry.text} searchQuery={props.searchQuery} />
         ) : (
@@ -104,7 +107,7 @@ const ListItem = (props: {
 };
 
 export const PostList = (props: {
-  entries: Entry[];
+  entries: Entry[] | undefined;
   searchQuery: SearchQuery | undefined;
   searchStr: string | undefined;
   isPreviewMode: boolean;
@@ -114,12 +117,12 @@ export const PostList = (props: {
   const [selectedEntries, setSelectedEntries] = useState<Entry[]>([]);
   const [isSelectMode, setIsSelectMode] = useState(false);
 
-  return props.isPreviewMode ? (
+  return props.isPreviewMode && props.entries ? (
     <Previews
       entries={selectedEntries.length > 0 ? selectedEntries : props.entries}
     />
   ) : (
-    <Box bg={useColorModeValue('gray.100', 'gray.700')}>
+    <Box>
       <PostListHeader
         searchStr={props.searchStr}
         isSelectMode={isSelectMode}
@@ -138,25 +141,26 @@ export const PostList = (props: {
           spacing={{ base: 4, lg: 6 }}
           as="ul"
         >
-          {props.entries.map((entry) => (
-            <ListItem
-              entry={entry}
-              searchQuery={props.searchQuery}
-              isSelectMode={isSelectMode}
-              isSelected={isSelectMode && selectedEntries.includes(entry)}
-              onSelect={() =>
-                setSelectedEntries((prevEntries) => {
-                  if (prevEntries.includes(entry)) {
-                    return prevEntries.filter(
-                      (prevEntry) => prevEntry !== entry
-                    );
-                  }
-                  return [entry, ...prevEntries];
-                })
-              }
-              key={entry.uuid}
-            />
-          ))}
+          {props.entries &&
+            props.entries.map((entry) => (
+              <ListItem
+                entry={entry}
+                searchQuery={props.searchQuery}
+                isSelectMode={isSelectMode}
+                isSelected={isSelectMode && selectedEntries.includes(entry)}
+                onSelect={() =>
+                  setSelectedEntries((prevEntries) => {
+                    if (prevEntries.includes(entry)) {
+                      return prevEntries.filter(
+                        (prevEntry) => prevEntry !== entry
+                      );
+                    }
+                    return [entry, ...prevEntries];
+                  })
+                }
+                key={entry.uuid}
+              />
+            ))}
         </SimpleGrid>
       </Container>
     </Box>

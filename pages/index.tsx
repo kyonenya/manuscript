@@ -1,4 +1,10 @@
-import { Box, Container, Heading, Spinner } from '@chakra-ui/react';
+import {
+  Box,
+  Container,
+  Heading,
+  Spinner,
+  useColorModeValue,
+} from '@chakra-ui/react';
 import { Auth } from '@supabase/ui';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
@@ -9,7 +15,7 @@ import { useEntriesQuery } from '../hooks/useEntriesQuery';
 import { useInfiniteScroll } from '../hooks/useInfiniteScroll';
 import { supabase } from '../infra/supabase';
 
-const limit = 6;
+const limit = 20;
 
 export default function Index() {
   const router = useRouter();
@@ -50,20 +56,20 @@ export default function Index() {
         <title>manuscript</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      {entries && (
+      <Box minHeight="100vh" bg={useColorModeValue('gray.100', 'gray.700')}>
         <PostList
-          entries={entries.pages.flat()}
+          entries={entries?.pages.flat()}
           searchStr={searchStr}
           searchQuery={searchQuery}
           isPreviewMode={isPreviewMode}
           onSearch={({ searchStr }) => setSearchStr(searchStr)}
           onSignOut={() => supabase.auth.signOut()}
         />
-      )}
-      <Box align="center" ref={scrollerRef}>
-        {!isPreviewMode && isFetching && (
-          <Spinner emptyColor="gray.300" speed="0.65s" />
-        )}
+        <Box align="center" ref={scrollerRef}>
+          {!isPreviewMode && isFetching && (
+            <Spinner emptyColor="gray.300" speed="0.65s" />
+          )}
+        </Box>
       </Box>
     </>
   );

@@ -33,7 +33,7 @@ export const selectOne = (props: { uuid: string }): SQL => {
     HAVING
       entries.uuid = $1
     ;`;
-  const values = [props.uuid];
+  const values = [props.uuid.toUpperCase()];
   return { text, values };
 };
 
