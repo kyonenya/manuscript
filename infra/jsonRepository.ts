@@ -1,7 +1,6 @@
 import fs from 'fs';
-import { DayOneEntry } from '../domain/DayOneEntry';
 
-export const readAll = async (filePath: string): Promise<DayOneEntry[]> => {
+export const readAll = async <T>(filePath: string): Promise<T> => {
   const json = await fs.promises.readFile(filePath, 'utf-8');
-  return JSON.parse(json).entries;
+  return JSON.parse(json) as T;
 };

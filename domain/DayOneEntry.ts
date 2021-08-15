@@ -18,9 +18,9 @@ export type DayOneEntry = {
   richText?: string;
 };
 
-export type DayOneJson = {
+export type DayOneData = {
   metadata: {
-    version: string;
+    version: string; // '1.0'
   };
   entries: DayOneEntry[];
 };
