@@ -7,6 +7,22 @@ export type DayOneEntry = {
   uuid: string;
   creationDate: string;
   modifiedDate: string;
+  timeZone: string; // 'Asia/Tokyo'
+  creationDeviceType?: string; // 'iPad'
+  creationDevice?: string; // 'TakashiのiPad'
+  creationDeviceModel?: string; // 'iPad6,11'
+  creationOSName?: string; // 'iOS'
+  creationOSVersion?: string; // '14.4.2'
+  duration?: number; // 0
+  editingTime?: number;
+  richText?: string;
+};
+
+export type DayOneJson = {
+  metadata: {
+    version: string;
+  };
+  entries: DayOneEntry[];
 };
 
 export const unescape = (text: string) =>
