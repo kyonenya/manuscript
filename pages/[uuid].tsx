@@ -13,7 +13,11 @@ import { useEntryQuery } from '../hooks/useEntryQuery';
 
 export default function ArticlePage() {
   const router = useRouter();
-  const { uuid, preview } = router.query as { uuid: string; preview?: string };
+  const { uuid: lowerUuid, preview } = router.query as {
+    uuid?: string;
+    preview?: string;
+  };
+  const uuid = lowerUuid?.toUpperCase();
   const isPreview = !!preview;
 
   const { data: entry } = useEntryQuery({ uuid });
@@ -50,7 +54,8 @@ export default function ArticlePage() {
                   }
                 )
               }
-              onDelete={() =>
+              onDelete={() => {
+                if (!uuid) return;
                 mutateDelete(
                   { uuid },
                   {
@@ -59,8 +64,8 @@ export default function ArticlePage() {
                       queryClient.invalidateQueries('entries');
                     },
                   }
-                )
-              }
+                );
+              }}
               isLoading={isUpdateLoading}
             />
           )}
