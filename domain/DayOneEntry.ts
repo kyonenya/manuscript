@@ -1,11 +1,12 @@
-import { newEntry } from './Entry';
+import dayjs from '../infra/dayjs';
+import { Entry, newEntry } from './Entry';
 
 export type DayOneEntry = {
   text: string;
   tags: string[];
   starred: boolean;
   uuid: string;
-  creationDate: string;
+  creationDate: string; // '2021-04-12T11:01:28Z' (UTC)
   modifiedDate: string;
   timeZone: string; // 'Asia/Tokyo'
   creationDeviceType?: string; // 'iPad'
@@ -40,3 +41,13 @@ export const toEntry = (row: DayOneEntry) =>
     createdAt: row.creationDate,
     modifiedAt: row.modifiedDate,
   });
+
+export const fromEntry = (row: Entry): DayOneEntry => ({
+  text: row.text,
+  tags: row.tags,
+  starred: row.starred,
+  uuid: row.uuid,
+  creationDate: dayjs(row.createdAt).utc().format(),
+  modifiedDate: dayjs(row.createdAt).utc().format(),
+  timeZone: 'Asia/Tokyo',
+});

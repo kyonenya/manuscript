@@ -11,20 +11,14 @@ import {
   Spinner,
   useDisclosure,
 } from '@chakra-ui/react';
-import dayjs from 'dayjs';
-import timezone from 'dayjs/plugin/timezone';
-import utc from 'dayjs/plugin/utc';
 import Router from 'next/router';
 import { useForm, useWatch } from 'react-hook-form';
 import { Entry } from '../domain/Entry';
+import dayjs from '../infra/dayjs';
 import { CustomAlertDialog } from './CustomAlertDialog';
 import { CustomPopover } from './CustomPopover';
 import { CustomSelect } from './CustomSelect';
 import { HeaderContainer } from './HeaderContainer';
-
-dayjs.extend(timezone);
-dayjs.extend(utc);
-dayjs.tz.setDefault('Asia/Tokyo');
 
 type Form = {
   createdAt: string;
