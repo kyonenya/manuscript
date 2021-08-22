@@ -8,7 +8,7 @@ import {
 import { Auth } from '@supabase/ui';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { PostList } from '../components/PostList';
+import { PostListPage } from '../components/PostListPage';
 import { newSearchQuery } from '../domain/SearchQuery';
 import { useCurrentSearchStr } from '../hooks/useCurrentSearchStr';
 import { useEntriesQuery } from '../hooks/useEntriesQuery';
@@ -57,7 +57,7 @@ export default function Index() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Box minHeight="100vh" bg={useColorModeValue('gray.100', 'gray.700')}>
-        <PostList
+        <PostListPage
           entries={entries?.pages.flat()}
           searchStr={searchStr}
           searchQuery={searchQuery}

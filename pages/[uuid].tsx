@@ -2,7 +2,7 @@ import { Box, useColorModeValue } from '@chakra-ui/react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useQueryClient } from 'react-query';
-import { Article } from '../components/Article';
+import { ArticlePage } from '../components/ArticlePage';
 import { Preview } from '../components/Preview';
 import {
   useDeleteEntryMutation,
@@ -11,7 +11,7 @@ import {
 } from '../domain/entryUseCase';
 import { useEntryQuery } from '../hooks/useEntryQuery';
 
-export default function ArticlePage() {
+export default function Article() {
   const router = useRouter();
   const { uuid: lowerUuid, preview } = router.query as {
     uuid?: string;
@@ -37,7 +37,7 @@ export default function ArticlePage() {
             <link rel="icon" href="/favicon.ico" />
           </Head>
           {entry && (
-            <Article
+            <ArticlePage
               entry={entry}
               tagList={tagList ?? []}
               onUpdate={({ createdAt, tags }) =>

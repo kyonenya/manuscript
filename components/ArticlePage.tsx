@@ -11,7 +11,7 @@ import { ArticleHeader } from './ArticleHeader';
 import { MarkdownText } from './MarkdownText';
 import { Tags } from './Tags';
 
-export const Article = (props: {
+export const ArticlePage = (props: {
   entry: Entry;
   tagList: string[];
   isLoading: boolean;

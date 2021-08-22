@@ -106,7 +106,7 @@ const ListItem = (props: {
   );
 };
 
-export const PostList = (props: {
+export const PostListPage = (props: {
   entries: Entry[] | undefined;
   searchQuery: SearchQuery | undefined;
   searchStr: string | undefined;
