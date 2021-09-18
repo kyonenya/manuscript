@@ -10,6 +10,7 @@ import {
   FormLabel,
   Heading,
   Input,
+  Spacer,
   Stack,
   Text,
   useColorModeValue,
@@ -20,8 +21,8 @@ export const SettingsPage = () => {
   return (
     <Box bg={useColorModeValue('gray.50', 'inherit')}>
       <Container maxW="4xl">
-        <Box p={10}>
-          <Box mt={[10, 0]}>
+        <Box py={10}>
+          <Box>
             <Box px={[4, 0]} mb={4}>
               <Heading fontSize="lg" fontWeight="medium" lineHeight="6">
                 エクスポート
@@ -37,7 +38,7 @@ export const SettingsPage = () => {
               >
                 <Stack
                   direction={{ base: 'column', md: 'row' }}
-                  spacing={{ base: 4 }}
+                  spacing={{ base: 2 }}
                 >
                   <FormControl>
                     <FormLabel
@@ -97,7 +98,7 @@ export const SettingsPage = () => {
                     _focus={{ shadow: '' }}
                     fontWeight="md"
                   >
-                    Save
+                    Export
                   </Button>
                 </Center>
               </Stack>
@@ -106,7 +107,7 @@ export const SettingsPage = () => {
 
           <Divider my={10} colorScheme="gray" />
 
-          <Box mt={[10, 0]}>
+          <Box>
             <Box px={[4, 0]} mb={4}>
               <Heading fontSize="lg" fontWeight="medium" lineHeight="6">
                 インポート
