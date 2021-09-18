@@ -10,9 +10,14 @@ describe('Query:entriesRepository', () => {
     createdAt: dayjs(),
   });
   const entry2 = newEntry({
-    text: 'これは過去の記事です。',
+    text: 'これは一日前の記事です。',
     tags: ['タグ1', 'タグ2'],
-    createdAt: dayjs().subtract(1, 'm'),
+    createdAt: dayjs().subtract(1, 'd'),
+  });
+  const entry3 = newEntry({
+    text: 'これは一ヶ月前の記事です。',
+    tags: ['タグ1', 'タグ2'],
+    createdAt: dayjs().subtract(1, 'M'),
   });
 
   before(async () => {
@@ -25,18 +30,6 @@ describe('Query:entriesRepository', () => {
     const entries = await entryRepository.readMany({ limit: 1, offset: 1 });
     assert.strictEqual(entries.length, 1);
     assert.strictEqual(entries[0].text, entry2.text);
-  });
-
-  it('readOne', async () => {
-    const entry = await entryRepository.readOne({ uuid: entry1.uuid });
-    assert.strictEqual(entry?.text, entry1.text);
-  });
-
-  it('readOne:empty', async () => {
-    const result = await entryRepository.readOne({
-      uuid: 'thisisadummyuuidthisisadummyuuid',
-    });
-    assert.strictEqual(result, undefined);
   });
 
   it('readByKeyword', async () => {
@@ -71,6 +64,28 @@ describe('Query:entriesRepository', () => {
       limit: 1,
     });
     assert.strictEqual(entries[0].text, entry2.text);
+  });
+
+  it('readByDate', async () => {
+    const entries = await entryRepository.readByDate({
+      since: dayjs(entry3.createdAt).add(1, 'd').toDate(),
+      until: dayjs(entry1.createdAt).subtract(1, 's').toDate(),
+      limit: 3,
+    });
+    assert.strictEqual(entries.length, 1);
+    assert.strictEqual(entries[0].text, entry2.text);
+  });
+
+  it('readOne', async () => {
+    const entry = await entryRepository.readOne({ uuid: entry1.uuid });
+    assert.strictEqual(entry?.text, entry1.text);
+  });
+
+  it('readOne:empty', async () => {
+    const result = await entryRepository.readOne({
+      uuid: 'thisisadummyuuidthisisadummyuuid',
+    });
+    assert.strictEqual(result, undefined);
   });
 
   it('readTagList', async () => {

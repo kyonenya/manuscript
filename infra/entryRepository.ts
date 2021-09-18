@@ -34,13 +34,6 @@ export const readMany = async (props: {
   return rows.map((row) => entryFactory(row));
 };
 
-export const readOne = async (props: {
-  uuid: string;
-}): Promise<Entry | undefined> => {
-  const rows = await query<Schema>(entriesSQL.selectOne(props));
-  return rows.length > 0 ? entryFactory(rows[0]) : undefined;
-};
-
 export const readByKeyword = async (props: {
   keyword?: string;
   limit: number;
@@ -58,6 +51,23 @@ export const readByTag = async (props: {
 }): Promise<Entry[]> => {
   const rows = await query<Schema>(entriesSQL.selectByTag(props));
   return rows.map((row) => entryFactory(row));
+};
+
+export const readByDate = async (props: {
+  since?: Date;
+  until?: Date;
+  limit: number;
+  offset?: number;
+}): Promise<Entry[]> => {
+  const rows = await query<Schema>(entriesSQL.selectByDate(props));
+  return rows.map((row) => entryFactory(row));
+};
+
+export const readOne = async (props: {
+  uuid: string;
+}): Promise<Entry | undefined> => {
+  const rows = await query<Schema>(entriesSQL.selectOne(props));
+  return rows.length > 0 ? entryFactory(rows[0]) : undefined;
 };
 
 export const readTagList = async () => {

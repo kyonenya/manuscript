@@ -20,23 +20,6 @@ export const selectAll = (props: { limit: number; offset?: number }): SQL => {
   return { text, values };
 };
 
-export const selectOne = (props: { uuid: string }): SQL => {
-  const text = `
-    SELECT
-      entries.*
-      ,STRING_AGG(tags.tag, ',') AS taglist
-    FROM entries
-      LEFT JOIN tags
-        ON  entries.uuid = tags.uuid
-    GROUP BY
-      entries.uuid
-    HAVING
-      entries.uuid = $1
-    ;`;
-  const values = [props.uuid.toUpperCase()];
-  return { text, values };
-};
-
 export const selectByKeyword = (props: {
   keyword?: string;
   limit: number;
@@ -98,6 +81,54 @@ export const selectByTag = (props: {
     props.limit,
     props.offset ?? 0,
   ];
+  return { text, values };
+};
+
+export const selectByDate = (props: {
+  since?: Date;
+  until?: Date;
+  limit: number;
+  offset?: number;
+}): SQL => {
+  const text = `
+    SELECT
+      entries.*,
+      STRING_AGG(tags.tag, ',') AS taglist
+    FROM
+      entries
+      LEFT JOIN
+        tags
+      ON  entries.uuid = tags.uuid
+    GROUP BY
+      entries.uuid
+    HAVING entries.created_at BETWEEN $1 AND $2
+    ORDER BY
+      entries.created_at DESC
+    LIMIT $3 OFFSET $4
+    ;`;
+  const values = [
+    props.since ?? new Date(1970, 1, 1),
+    props.until ?? new Date(),
+    props.limit,
+    props.offset ?? 0,
+  ];
+  return { text, values };
+};
+
+export const selectOne = (props: { uuid: string }): SQL => {
+  const text = `
+    SELECT
+      entries.*
+      ,STRING_AGG(tags.tag, ',') AS taglist
+    FROM entries
+      LEFT JOIN tags
+        ON  entries.uuid = tags.uuid
+    GROUP BY
+      entries.uuid
+    HAVING
+      entries.uuid = $1
+    ;`;
+  const values = [props.uuid.toUpperCase()];
   return { text, values };
 };
 

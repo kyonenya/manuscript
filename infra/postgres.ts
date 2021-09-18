@@ -5,7 +5,7 @@ dotenv.config();
 
 export type SQL = {
   text: string;
-  values?: (string | number | boolean)[];
+  values?: (string | number | boolean | Date)[];
 };
 
 const pool = new Pool({
