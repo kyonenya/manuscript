@@ -1,7 +1,7 @@
 import { Entry } from '../domain/Entry';
 import { SQL } from './postgres';
 
-export const selectAll = (props: { limit: number; offset?: number }): SQL => {
+export const selectMany = (props: { limit: number; offset?: number }): SQL => {
   const text = `
     SELECT
       entries.*
@@ -160,7 +160,7 @@ export const insertOne = (props: { entry: Entry }): SQL => {
   return { text, values };
 };
 
-export const insertAll = (props: { entries: Entry[] }): SQL => {
+export const insertMany = (props: { entries: Entry[] }): SQL => {
   const text = `
     INSERT INTO entries (
       text

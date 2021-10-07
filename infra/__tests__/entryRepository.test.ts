@@ -114,7 +114,7 @@ describe('Mutation:entriesRepository', () => {
     assert.deepStrictEqual(rowCounts, [1]);
   });
 
-  it('createAll', async () => {
+  it('createMany', async () => {
     const entry1 = newEntry({
       text: 'これは１つ目の記事です。',
       tags: ['タグ1'],
@@ -124,7 +124,7 @@ describe('Mutation:entriesRepository', () => {
       text: 'これは２つ目の記事です。',
       tags: ['タグ1', 'タグ2', 'タグ3'],
     });
-    const rowCounts = await entryRepository.createAll({
+    const rowCounts = await entryRepository.createMany({
       entries: [entry1, entry2],
     });
     assert.deepStrictEqual(rowCounts, [2, 1, 3]);

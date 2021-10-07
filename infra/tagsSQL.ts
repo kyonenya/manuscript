@@ -10,7 +10,7 @@ export const selectDistinct = (): SQL => {
   return { text };
 };
 
-export const insertAll = (props: {
+export const insertMany = (props: {
   tags: string[];
   uuid: string;
 }): SQL | null => {
@@ -33,7 +33,7 @@ export const insertAll = (props: {
   return { text, values };
 };
 
-export const deleteAll = (props: { uuid: string }): SQL => {
+export const deleteMany = (props: { uuid: string }): SQL => {
   const text = `
     DELETE
     FROM

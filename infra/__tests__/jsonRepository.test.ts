@@ -1,11 +1,11 @@
 import assert from 'assert';
 import path from 'path';
 import { DayOneData } from '../../domain/DayOneEntry';
-import { readAll } from '../jsonRepository';
+import { read } from '../jsonRepository';
 
 describe('jsonRepository', () => {
-  it('readAll', async () => {
-    const dayOneData = await readAll<DayOneData>(
+  it('read', async () => {
+    const dayOneData = await read<DayOneData>(
       path.resolve(__dirname, '210320_dayone.json')
     );
     assert.ok(

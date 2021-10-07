@@ -30,7 +30,7 @@ export const readMany = async (props: {
   limit: number;
   offset?: number;
 }): Promise<Entry[]> => {
-  const rows = await query<Schema>(entriesSQL.selectAll(props));
+  const rows = await query<Schema>(entriesSQL.selectMany(props));
   return rows.map((row) => entryFactory(row));
 };
 
@@ -81,27 +81,27 @@ export const readTagList = async () => {
 export const createOne = async (props: { entry: Entry }): Promise<number[]> => {
   return await mutate(
     entriesSQL.insertOne(props),
-    tagsSQL.insertAll(props.entry)
+    tagsSQL.insertMany(props.entry)
   );
 };
 
-export const createAll = async (props: {
+export const createMany = async (props: {
   entries: Entry[];
 }): Promise<number[]> => {
   return await mutate(
-    entriesSQL.insertAll(props),
-    ...props.entries.map((entry) => tagsSQL.insertAll(entry))
+    entriesSQL.insertMany(props),
+    ...props.entries.map((entry) => tagsSQL.insertMany(entry))
   );
 };
 
 export const updateOne = async (props: { entry: Entry }): Promise<number[]> => {
-  await mutate(tagsSQL.deleteAll(props.entry));
+  await mutate(tagsSQL.deleteMany(props.entry));
   return await mutate(
     entriesSQL.updateOne(props),
-    tagsSQL.insertAll(props.entry)
+    tagsSQL.insertMany(props.entry)
   );
 };
 
 export const deleteOne = async (props: { uuid: string }): Promise<number[]> => {
-  return await mutate(tagsSQL.deleteAll(props), entriesSQL.deleteOne(props));
+  return await mutate(tagsSQL.deleteMany(props), entriesSQL.deleteOne(props));
 };
