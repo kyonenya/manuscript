@@ -43,7 +43,7 @@ export const mutate = async (...sqls: (SQL | null)[]): Promise<number[]> => {
     return queryResults.map((row) => row.rowCount);
   } catch (err) {
     if (transacts) await client.query('ROLLBACK');
-    throw new Error(err);
+    throw err;
   }
 };
 
