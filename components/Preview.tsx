@@ -7,12 +7,12 @@ import { Tags } from './Tags';
 
 export const Preview = (props: { entry: Entry }) => {
   return (
-    <Container maxW="3xl" px={0} py={4}>
+    <Container maxW="3xl" px={10} pt={10}>
       <Stack direction="row" mb={3} alignItems="center">
-        <Text color="gray.500">
+        <Text color="gray.500" fontSize="xl">
           {dayjs(props.entry.createdAt).format('YYYY-MM-DD HH:mm')}
         </Text>
-        {props.entry.starred && <StarIcon color="yellow.300" />}
+        {props.entry.starred && <StarIcon color="yellow.400" />}
         <Tags tags={props.entry.tags} />
       </Stack>
       <MarkdownText>{props.entry.text}</MarkdownText>

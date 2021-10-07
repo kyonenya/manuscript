@@ -122,7 +122,7 @@ export const PostListPage = (props: {
       entries={selectedEntries.length > 0 ? selectedEntries : props.entries}
     />
   ) : (
-    <Box>
+    <Box bg={useColorModeValue('gray.100', 'gray.700')}>
       <PostListHeader
         searchStr={props.searchStr}
         isSelectMode={isSelectMode}
