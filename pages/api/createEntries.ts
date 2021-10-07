@@ -6,4 +6,10 @@ const createEntries: CreateEntries = async (input) => {
   await createAll(input);
 };
 
+export const config = {
+  api: {
+    bodyParser: { sizeLimit: '100mb' },
+  },
+};
+
 export default apiFactory(createEntries, CreateEntriesRequest);
