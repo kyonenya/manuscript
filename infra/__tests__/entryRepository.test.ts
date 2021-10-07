@@ -10,14 +10,14 @@ describe('Query:entriesRepository', () => {
     createdAt: dayjs(),
   });
   const entry2 = newEntry({
-    text: 'これは一日前の記事です。',
+    text: 'これは一つ前の記事です。',
     tags: ['タグ1', 'タグ2'],
-    createdAt: dayjs().subtract(1, 'd'),
+    createdAt: dayjs().subtract(1, 'm'),
   });
   const entry3 = newEntry({
-    text: 'これは一ヶ月前の記事です。',
+    text: 'これは二つ前の記事です。',
     tags: ['タグ1', 'タグ2'],
-    createdAt: dayjs().subtract(1, 'M'),
+    createdAt: dayjs().subtract(2, 'm'),
   });
 
   before(async () => {
@@ -68,7 +68,7 @@ describe('Query:entriesRepository', () => {
 
   it('readByDate', async () => {
     const entries = await entryRepository.readByDate({
-      since: dayjs(entry3.createdAt).add(1, 'd').toDate(),
+      since: dayjs(entry3.createdAt).add(1, 's').toDate(),
       until: dayjs(entry1.createdAt).subtract(1, 's').toDate(),
       limit: 3,
     });
@@ -158,6 +158,24 @@ describe('Mutation:entriesRepository', () => {
     await entryRepository.deleteOne({ uuid: entry.uuid });
     const resultEntry = await entryRepository.readOne({ uuid: entry.uuid });
     assert.strictEqual(resultEntry, undefined);
+  });
+
+  it('deleteAll', async () => {
+    const entry1 = newEntry({
+      text: 'これは１つ目の記事です。',
+      tags: ['タグ1'],
+      createdAt: dayjs().subtract(1, 's'),
+    });
+    const entry2 = newEntry({
+      text: 'これは２つ目の記事です。',
+      tags: ['タグ1', 'タグ2', 'タグ3'],
+    });
+    await entryRepository.createMany({
+      entries: [entry1, entry2],
+    });
+    await entryRepository.deleteAll();
+    const entries = await entryRepository.readMany({ limit: 2 });
+    assert.strictEqual(entries.length, 0);
   });
 
   afterEach(() => rollback());

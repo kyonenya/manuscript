@@ -105,3 +105,7 @@ export const updateOne = async (props: { entry: Entry }): Promise<number[]> => {
 export const deleteOne = async (props: { uuid: string }): Promise<number[]> => {
   return await mutate(tagsSQL.deleteMany(props), entriesSQL.deleteOne(props));
 };
+
+export const deleteAll = async (): Promise<number[]> => {
+  return await mutate(tagsSQL.deleteAll(), entriesSQL.deleteAll());
+};

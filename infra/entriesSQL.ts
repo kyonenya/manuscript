@@ -227,3 +227,12 @@ export const deleteOne = (props: { uuid: string }): SQL => {
   const values = [props.uuid];
   return { text, values };
 };
+
+export const deleteAll = (): SQL => {
+  const text = `
+    DELETE
+    FROM
+      entries
+    ;`;
+  return { text };
+};

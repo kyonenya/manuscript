@@ -45,3 +45,12 @@ export const deleteMany = (props: { uuid: string }): SQL => {
 
   return { text, values };
 };
+
+export const deleteAll = (): SQL => {
+  const text = `
+    DELETE
+    FROM
+      tags
+    ;`;
+  return { text };
+};

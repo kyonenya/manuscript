@@ -82,3 +82,12 @@ export const deleteEntry = fetcher<DeleteEntry>('/api/deleteEntry');
 
 export const useDeleteEntryMutation = () =>
   useMutation((input: DeleteEntryInput) => deleteEntry(input));
+
+/** deleteAllEntries */
+export type DeleteAllEntries = () => Promise<void>;
+
+export const deleteAllEntries = fetcher<DeleteAllEntries>(
+  '/api/deleteAllEntries'
+);
+
+export const useDeleteAllEntriesMutation = () => useMutation(deleteAllEntries);
