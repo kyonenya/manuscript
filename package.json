@@ -33,7 +33,7 @@
     "react-markdown": "^6.0.2",
     "react-query": "^3.16.0",
     "react-select": "^4.3.1",
-    "search-summary": "^1.0.0",
+    "search-summary": "^1.1.1",
     "short-uuid": "^4.1.0",
     "zod": "^3.5.1"
   },

@@ -10,9 +10,9 @@ import {
 } from '@chakra-ui/react';
 import dayjs from 'dayjs';
 import { useState } from 'react';
+import { generateSummaryEntity, SummaryEntity } from 'search-summary';
 import { Entry } from '../domain/Entry';
 import { SearchQuery } from '../domain/SearchQuery';
-import { newSearchSummary } from '../domain/SearchSummary';
 import { Link } from './Link';
 import { PostListHeader } from './PostListHeader';
 import { Previews } from './Preview';
@@ -31,11 +31,8 @@ const Summary = (props: { text: string }) => {
   );
 };
 
-const SearchSummary = (props: { text: string; searchQuery: SearchQuery }) => {
-  const summary = newSearchSummary({
-    text: props.text,
-    keyword: props.searchQuery.keyword,
-  });
+const SearchSummary = (props: { summary: SummaryEntity }) => {
+  const { summary } = props;
 
   return (
     <Box>
@@ -62,6 +59,7 @@ const ListItem = (props: {
   onSelect: () => void;
 }) => {
   const { entry } = props;
+  const summary = generateSummaryEntity(entry.text, props.searchQuery?.keyword);
 
   return (
     <Stack
@@ -82,8 +80,8 @@ const ListItem = (props: {
         href={`/${entry.uuid.toLowerCase()}`}
         isEnabled={!props.isSelectMode}
       >
-        {props.searchQuery ? (
-          <SearchSummary text={entry.text} searchQuery={props.searchQuery} />
+        {summary ? (
+          <SearchSummary summary={summary} />
         ) : (
           <Summary text={entry.text} />
         )}
