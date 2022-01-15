@@ -13,25 +13,24 @@ const pool = new Pool({
   ssl: false,
 });
 
-const getSameClient: () => Promise<PoolClient> = (() => {
-  let client: PoolClient;
-  return async () => {
-    if (!client) {
-      client = await pool.connect();
-    }
-    return client;
-  };
-})();
+let client: PoolClient;
+
+const getClient = async () => {
+  if (!client) {
+    client = await pool.connect();
+  }
+  return client;
+};
 
 export const query = async <T>(sql: SQL): Promise<T[]> => {
-  const client = await getSameClient();
+  const client = await getClient();
   const queryResult = await client.query(sql);
   return queryResult.rows;
 };
 
 export const mutate = async (...sqls: (SQL | null)[]): Promise<number[]> => {
-  const client = await getSameClient();
-  const transacts = process.env.NODE_ENV === 'test' ? false : true;
+  const client = await getClient();
+  const transacts = process.env.NODE_ENV !== 'test';
   if (transacts) await client.query('BEGIN');
   try {
     const queryResults = await Promise.all(
