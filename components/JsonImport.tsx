@@ -1,12 +1,12 @@
 import { ArrowUpIcon, CheckIcon } from '@chakra-ui/icons';
 import { IconButton, Input, Stack, Spinner } from '@chakra-ui/react';
-import { useState } from 'react';
 import { useQueryClient } from 'react-query';
-import { DayOneEntry, toEntry } from '../domain/DayOneEntry';
+import { DayOneData, toEntry } from '../domain/DayOneEntry';
 import { useCreateEntriesMutation } from '../domain/entryUseCase';
+import { useJsonImport } from '../hooks/useJsonImport';
 
 export const JsonImport = () => {
-  const [entries, setEntries] = useState<DayOneEntry[]>([]);
+  const { load, data } = useJsonImport<DayOneData>();
   const { mutate, isLoading, isSuccess } = useCreateEntriesMutation();
   const queryClient = useQueryClient();
 
@@ -18,15 +18,7 @@ export const JsonImport = () => {
         onChange={(e) => {
           const jsonFile = e.target.files?.item(0);
           if (jsonFile == null) return;
-
-          const fileReader = new FileReader();
-          fileReader.onload = (e) => {
-            if (!e.target?.result) return;
-            const result = JSON.parse(e.target.result as string);
-            setEntries(result.entries);
-          };
-
-          fileReader.readAsText(jsonFile);
+          load(jsonFile);
         }}
       />
       <IconButton
@@ -34,12 +26,13 @@ export const JsonImport = () => {
         icon={
           isSuccess ? <CheckIcon /> : isLoading ? <Spinner /> : <ArrowUpIcon />
         }
-        onClick={() =>
+        onClick={() => {
+          if (!data) return;
           mutate(
-            { entries: entries.map((entry) => toEntry(entry)) },
+            { entries: data.entries.map((entry) => toEntry(entry)) },
             { onSuccess: () => queryClient.invalidateQueries(['entries']) }
-          )
-        }
+          );
+        }}
       />
     </Stack>
   );
