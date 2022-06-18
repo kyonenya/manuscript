@@ -24,3 +24,6 @@
 
 - react-markdownは6系で止めておく。"TypeError: A dynamic import callback was not specified."エラーが出るため
 - chakra-ui-markdown-rendererは3系で止めておく。4.0.0は不安定で動作せず
+- eslintは7系で止めておく。8系は"Error [ERR_REQUIRE_ESM]: Must use import to load ES Module:"エラーが出るため
+- nextは11系で止めておく。12系はwasmを使うのでiPadで動作しない
+- eslint-config-nextは11系で止めておく。Next.js本体のバージョンに追従
