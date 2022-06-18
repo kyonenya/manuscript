@@ -19,3 +19,7 @@
     - [feat: アプリの方針そのものの見直し · Issue #6 · kyonenya/manuscript](https://github.com/kyonenya/manuscript/issues/6)
     - 自分が普段使いしている日記ソフトのクローンアプリとして、とくに理由なく一通りの機能を実装しようとしていた
     - そのためマークダウンエディタを用意して記事の作成や編集をできるようにした結果、記事データの二重管理になってしまい、アプリを使わなくなった
+
+## メモ
+
+- react-markdownは6系で止めておく。"TypeError: A dynamic import callback was not specified."エラーが出るため
