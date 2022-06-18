@@ -20,10 +20,11 @@
     - 自分が普段使いしている日記ソフトのクローンアプリとして、とくに理由なく一通りの機能を実装しようとしていた
     - そのためマークダウンエディタを用意して記事の作成や編集をできるようにした結果、記事データの二重管理になってしまい、アプリを使わなくなった
 
-## メモ（2022/06/19）
+## パッケージのバージョンに関するメモ（2022/06/19）
 
 - react-markdownは6系で止めておく。"TypeError: A dynamic import callback was not specified."エラーが出るため
 - chakra-ui-markdown-rendererは3系で止めておく。4.0.0は不安定で動作せず
 - eslintは7系で止めておく。8系は"Error [ERR_REQUIRE_ESM]: Must use import to load ES Module:"エラーが出るため
 - nextは11系で止めておく。12系はwasmを使うのでiPadで動作しない
-- eslint-config-nextは11系で止めておく。Next.js本体のバージョンに追従
+- eslint-config-nextは11系で止めておく。Next.js本体のバージョンに追従する
+- mochaは9系で止めておく。10系はESModuleまわりのエラーが出るため
