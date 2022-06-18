@@ -81,7 +81,7 @@ export const SettingsPage = () => {
                 </FormControl>
                 <FormControl>
                   <FormLabel
-                    for="state"
+                    htmlFor="state"
                     fontSize="sm"
                     fontWeight="md"
                     color={useColorModeValue('gray.700', 'gray.50')}
