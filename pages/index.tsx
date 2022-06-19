@@ -59,7 +59,7 @@ export default function Index() {
           onSearch={({ searchStr }) => setSearchStr(searchStr)}
           onSignOut={() => supabase.auth.signOut()}
         />
-        <Flex alignItems="center" ref={scrollerRef}>
+        <Flex justifyContent="center" ref={scrollerRef}>
           {!isPreviewMode && isFetching && (
             <Spinner emptyColor="gray.300" speed="0.65s" />
           )}
