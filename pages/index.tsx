@@ -1,4 +1,4 @@
-import { Box, Container, Heading, Spinner } from '@chakra-ui/react';
+import { Box, Container, Flex, Heading, Spinner } from '@chakra-ui/react';
 import { Auth } from '@supabase/ui';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
@@ -59,11 +59,11 @@ export default function Index() {
           onSearch={({ searchStr }) => setSearchStr(searchStr)}
           onSignOut={() => supabase.auth.signOut()}
         />
-        <Box align="center" ref={scrollerRef}>
+        <Flex justifyContent="center" ref={scrollerRef}>
           {!isPreviewMode && isFetching && (
             <Spinner emptyColor="gray.300" speed="0.65s" />
           )}
-        </Box>
+        </Flex>
       </Box>
     </>
   );
