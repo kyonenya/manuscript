@@ -1,6 +1,7 @@
 import { useQuery, useMutation } from 'react-query';
 import { z } from 'zod';
 import { fetcher } from '../infra/fetcher';
+import { entriesQueue } from '../infra/queue';
 import { Entry } from './Entry';
 
 const entryObject = z.object({
@@ -58,6 +59,23 @@ export const createEntries = fetcher<CreateEntries>('/api/createEntries');
 
 export const useCreateEntriesMutation = () =>
   useMutation((input: CreateEntriesInput) => createEntries(input));
+
+/** createEntriesQueue */
+export const CreateEntriesQueueRequest = CreateEntriesRequest;
+export type CreateEntriesQueueInput = CreateEntriesInput;
+
+export type CreateEntriesQueue = CreateEntries;
+
+export const createEntriesQueue = async (input: CreateEntriesQueueInput) =>
+  await entriesQueue({
+    func: fetcher<CreateEntriesQueue>('/api/createEntries'),
+    entries: input.entries,
+    each: 300,
+    concurrency: 3,
+  });
+
+export const useCreateEntriesQueueMutation = () =>
+  useMutation((input: CreateEntriesQueueInput) => createEntriesQueue(input));
 
 /** updateEntry */
 export const UpdateEntryRequest = z.object({ entry: entryObject });
