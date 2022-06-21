@@ -28,7 +28,7 @@ export default function Index() {
     isFetching,
   } = useEntriesQuery({ searchQuery, limit });
   const { mutate: mutateDeleteAll } = useMutation(deleteAllEntries, {
-    onSuccess: () => queryClient.invalidateQueries('entries'),
+    onSuccess: () => queryClient.invalidateQueries(['entries', {}]),
   });
 
   const { scrollerRef } = useInfiniteScroll({ onScroll: fetchNextPage });
