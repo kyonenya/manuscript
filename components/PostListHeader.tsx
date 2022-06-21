@@ -1,4 +1,9 @@
-import { SearchIcon, SettingsIcon, ViewIcon } from '@chakra-ui/icons';
+import {
+  DeleteIcon,
+  SearchIcon,
+  SettingsIcon,
+  ViewIcon,
+} from '@chakra-ui/icons';
 import {
   Button,
   IconButton,
@@ -7,11 +12,13 @@ import {
   InputLeftElement,
   Stack,
   useColorModeValue,
+  useDisclosure,
 } from '@chakra-ui/react';
 import { IconCheckSquare, IconLogOut } from '@supabase/ui';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import { ColorModeButton } from './ColorModeButton';
+import { CustomAlertDialog } from './CustomAlertDialog';
 import { CustomPopover } from './CustomPopover';
 import { HeaderContainer } from './HeaderContainer';
 import { JsonImport } from './JsonImport';
@@ -21,6 +28,7 @@ type Form = { searchStr: string };
 export const PostListHeader = (props: {
   searchStr: string | undefined;
   isSelectMode: boolean;
+  onDeleteAll: () => void;
   onSearch: (data: Form) => void;
   onSignOut: () => void;
   toggleSelectMode: () => void;
@@ -31,6 +39,7 @@ export const PostListHeader = (props: {
       searchStr: props.searchStr,
     },
   });
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <HeaderContainer>
@@ -40,6 +49,17 @@ export const PostListHeader = (props: {
       >
         <ColorModeButton />
         <JsonImport />
+        <Button onClick={onOpen} leftIcon={<DeleteIcon />} color="red.500">
+          Delete
+        </Button>
+        <CustomAlertDialog
+          isOpen={isOpen}
+          onClose={onClose}
+          onSubmit={() => {
+            props.onDeleteAll();
+            onClose();
+          }}
+        />
         <Button
           onClick={props.onSignOut}
           leftIcon={<IconLogOut strokeWidth={2} />}

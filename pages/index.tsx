@@ -2,8 +2,10 @@ import { Box, Container, Flex, Heading, Spinner } from '@chakra-ui/react';
 import { Auth } from '@supabase/ui';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import { useMutation, useQueryClient } from 'react-query';
 import { PostListPage } from '../components/PostListPage';
 import { newSearchQuery } from '../domain/SearchQuery';
+import { deleteAllEntries } from '../domain/entryUseCase';
 import { useCurrentSearchStr } from '../hooks/useCurrentSearchStr';
 import { useEntriesQuery } from '../hooks/useEntriesQuery';
 import { useInfiniteScroll } from '../hooks/useInfiniteScroll';
@@ -12,6 +14,7 @@ import { supabase } from '../infra/supabase';
 const limit = 20;
 
 export default function Index() {
+  const queryClient = useQueryClient();
   const router = useRouter();
   const { preview } = router.query as { preview?: string };
   const isPreviewMode = !!preview;
@@ -24,6 +27,9 @@ export default function Index() {
     fetchNextPage,
     isFetching,
   } = useEntriesQuery({ searchQuery, limit });
+  const { mutate: mutateDeleteAll } = useMutation(deleteAllEntries, {
+    onSuccess: () => queryClient.invalidateQueries('entries'),
+  });
 
   const { scrollerRef } = useInfiniteScroll({ onScroll: fetchNextPage });
 
@@ -56,6 +62,7 @@ export default function Index() {
           searchStr={searchStr}
           searchQuery={searchQuery}
           isPreviewMode={isPreviewMode}
+          onDeleteAll={mutateDeleteAll}
           onSearch={({ searchStr }) => setSearchStr(searchStr)}
           onSignOut={() => supabase.auth.signOut()}
         />

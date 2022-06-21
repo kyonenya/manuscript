@@ -57,8 +57,8 @@ export type CreateEntries = (input: CreateEntriesInput) => Promise<void>;
 
 export const createEntries = fetcher<CreateEntries>('/api/createEntries');
 
-export const useCreateEntriesMutation = () =>
-  useMutation((input: CreateEntriesInput) => createEntries(input));
+//export const useCreateEntriesMutation = () =>
+//  useMutation((input: CreateEntriesInput) => createEntries(input));
 
 /** createEntriesQueue */
 export const CreateEntriesQueueRequest = CreateEntriesRequest;
@@ -108,4 +108,4 @@ export const deleteAllEntries = fetcher<DeleteAllEntries>(
   '/api/deleteAllEntries'
 );
 
-export const useDeleteAllEntriesMutation = () => useMutation(deleteAllEntries);
+//export const useDeleteAllEntriesMutation = () => useMutation(deleteAllEntries);
