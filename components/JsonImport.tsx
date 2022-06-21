@@ -2,12 +2,12 @@ import { ArrowUpIcon, CheckIcon } from '@chakra-ui/icons';
 import { IconButton, Input, Stack, Spinner } from '@chakra-ui/react';
 import { useQueryClient } from 'react-query';
 import { DayOneData, toEntry } from '../domain/DayOneEntry';
-import { useCreateEntriesMutation } from '../domain/entryUseCase';
+import { useCreateEntriesQueueMutation } from '../domain/entryUseCase';
 import { useJsonImport } from '../hooks/useJsonImport';
 
 export const JsonImport = () => {
   const { load, data } = useJsonImport<DayOneData>();
-  const { mutate, isLoading, isSuccess } = useCreateEntriesMutation();
+  const { mutate, isLoading, isSuccess } = useCreateEntriesQueueMutation();
   const queryClient = useQueryClient();
 
   return (
@@ -30,7 +30,7 @@ export const JsonImport = () => {
           if (!data) return;
           mutate(
             { entries: data.entries.map((entry) => toEntry(entry)) },
-            { onSuccess: () => queryClient.invalidateQueries(['entries']) }
+            { onSuccess: () => queryClient.invalidateQueries(['entries', {}]) }
           );
         }}
       />

@@ -109,6 +109,7 @@ export const PostListPage = (props: {
   searchQuery: SearchQuery | undefined;
   searchStr: string | undefined;
   isPreviewMode: boolean;
+  onDeleteAll: () => void;
   onSearch: (data: { searchStr: string }) => void;
   onSignOut: () => void;
 }) => {
@@ -124,6 +125,7 @@ export const PostListPage = (props: {
       <PostListHeader
         searchStr={props.searchStr}
         isSelectMode={isSelectMode}
+        onDeleteAll={props.onDeleteAll}
         onSearch={props.onSearch}
         onSignOut={props.onSignOut}
         toggleSelectMode={() =>
