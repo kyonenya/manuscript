@@ -3,6 +3,7 @@ import dayjs from 'dayjs';
 import { newEntry } from '../../domain/Entry';
 import * as entryRepository from '../entryRepository';
 import { begin, rollback } from '../postgres';
+import { entriesQueue } from '../queue';
 
 describe('Query:entriesRepository', () => {
   const entry1 = newEntry({
@@ -128,6 +129,34 @@ describe('Mutation:entriesRepository', () => {
       entries: [entry1, entry2],
     });
     assert.deepStrictEqual(rowCounts, [2, 1, 3]);
+  });
+
+  it('createMany:queued', async () => {
+    const entries = [
+      newEntry({
+        text: 'これは最新の記事です。',
+        createdAt: dayjs(),
+      }),
+      newEntry({
+        text: 'これは一つ前の記事です。',
+        createdAt: dayjs().subtract(1, 'm'),
+      }),
+      newEntry({
+        text: 'これは二つ前の記事です。',
+        createdAt: dayjs().subtract(2, 'm'),
+      }),
+      newEntry({
+        text: 'これは三つ前の記事です。',
+        createdAt: dayjs().subtract(3, 'm'),
+      }),
+    ];
+    const rowCounts = await entriesQueue({
+      func: entryRepository.createMany,
+      entries,
+      each: 2,
+      concurrency: Infinity,
+    });
+    assert.deepStrictEqual(rowCounts, [[2], [2]]);
   });
 
   it('updateOne', async () => {

@@ -1,5 +1,6 @@
-export const splitArray = (items: unknown[], n: number): unknown[][] =>
+export const splitArray = <T>(items: T[], each: number): T[][] =>
   items.reduce(
-    (acc: unknown[][], _item, i) => (i % n ? acc : [...acc, items.slice(i, i + n)]),
+    (acc: T[][], _item, i) =>
+      i % each ? acc : [...acc, items.slice(i, i + each)],
     []
   );
