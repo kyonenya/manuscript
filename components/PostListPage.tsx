@@ -109,9 +109,12 @@ export const PostListPage = (props: {
   searchQuery: SearchQuery | undefined;
   searchStr: string | undefined;
   isPreviewMode: boolean;
-  onDeleteAll: () => void;
+  isImported: boolean;
+  isImporting: boolean;
   onSearch: (data: { searchStr: string }) => void;
   onSignOut: () => void;
+  onImport: (props: { entries: Entry[] }) => void;
+  onDeleteAll: () => void;
 }) => {
   const [selectedEntries, setSelectedEntries] = useState<Entry[]>([]);
   const [isSelectMode, setIsSelectMode] = useState(false);
@@ -125,7 +128,8 @@ export const PostListPage = (props: {
       <PostListHeader
         searchStr={props.searchStr}
         isSelectMode={isSelectMode}
-        onDeleteAll={props.onDeleteAll}
+        isImported={props.isImported}
+        isImporting={props.isImporting}
         onSearch={props.onSearch}
         onSignOut={props.onSignOut}
         toggleSelectMode={() =>
@@ -134,6 +138,8 @@ export const PostListPage = (props: {
             return !prevMode;
           })
         }
+        onImport={props.onImport}
+        onDeleteAll={props.onDeleteAll}
       />
       <Container maxW="4xl" py={{ base: 6 }}>
         <SimpleGrid

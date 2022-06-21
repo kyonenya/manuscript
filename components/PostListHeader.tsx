@@ -17,6 +17,7 @@ import {
 import { IconCheckSquare, IconLogOut } from '@supabase/ui';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
+import { Entry } from '../domain/Entry';
 import { ColorModeButton } from './ColorModeButton';
 import { CustomAlertDialog } from './CustomAlertDialog';
 import { CustomPopover } from './CustomPopover';
@@ -28,10 +29,13 @@ type Form = { searchStr: string };
 export const PostListHeader = (props: {
   searchStr: string | undefined;
   isSelectMode: boolean;
-  onDeleteAll: () => void;
+  isImported: boolean;
+  isImporting: boolean;
   onSearch: (data: Form) => void;
   onSignOut: () => void;
   toggleSelectMode: () => void;
+  onImport: (props: { entries: Entry[] }) => void;
+  onDeleteAll: () => void;
 }) => {
   const router = useRouter();
   const { register, handleSubmit } = useForm<Form>({
@@ -48,7 +52,11 @@ export const PostListHeader = (props: {
         triggerButton={<IconButton icon={<SettingsIcon />} aria-label="設定" />}
       >
         <ColorModeButton />
-        <JsonImport />
+        <JsonImport
+          isImported={props.isImported}
+          isImporting={props.isImporting}
+          onImport={props.onImport}
+        />
         <Button onClick={onOpen} leftIcon={<DeleteIcon />} color="red.500">
           Delete
         </Button>

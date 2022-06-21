@@ -5,7 +5,10 @@ import { useRouter } from 'next/router';
 import { useQueryClient } from 'react-query';
 import { PostListPage } from '../components/PostListPage';
 import { newSearchQuery } from '../domain/SearchQuery';
-import { useDeleteAllEntriesMutation } from '../domain/entryUseCase';
+import {
+  useCreateEntriesMutation,
+  useDeleteAllEntriesMutation,
+} from '../domain/entryUseCase';
 import { useCurrentSearchStr } from '../hooks/useCurrentSearchStr';
 import { useEntriesQuery } from '../hooks/useEntriesQuery';
 import { useInfiniteScroll } from '../hooks/useInfiniteScroll';
@@ -27,6 +30,11 @@ export default function Index() {
   } = useEntriesQuery({ searchQuery, limit });
   const queryClient = useQueryClient();
   const { mutate: mutateDeleteAll } = useDeleteAllEntriesMutation(queryClient);
+  const {
+    mutate: mutateCreate,
+    isSuccess: isCreated,
+    isLoading: isCreating,
+  } = useCreateEntriesMutation(queryClient);
 
   const { scrollerRef } = useInfiniteScroll({ onScroll: fetchNextPage });
 
@@ -59,9 +67,12 @@ export default function Index() {
           searchStr={searchStr}
           searchQuery={searchQuery}
           isPreviewMode={isPreviewMode}
-          onDeleteAll={mutateDeleteAll}
+          isImported={isCreated}
+          isImporting={isCreating}
           onSearch={({ searchStr }) => setSearchStr(searchStr)}
           onSignOut={() => supabase.auth.signOut()}
+          onImport={mutateCreate}
+          onDeleteAll={mutateDeleteAll}
         />
         <Flex justifyContent="center" ref={scrollerRef}>
           {!isPreviewMode && isFetching && (
