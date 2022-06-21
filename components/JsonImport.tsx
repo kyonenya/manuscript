@@ -30,7 +30,7 @@ export const JsonImport = () => {
           if (!data) return;
           mutate(
             { entries: data.entries.map((entry) => toEntry(entry)) },
-            { onSuccess: () => queryClient.invalidateQueries(['entries', {}]) }
+            { onSuccess: () => queryClient.invalidateQueries('entries') }
           );
         }}
       />

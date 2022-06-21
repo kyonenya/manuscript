@@ -1,4 +1,4 @@
-import { useQuery, useMutation } from 'react-query';
+import { useQuery, useMutation, QueryClient } from 'react-query';
 import { z } from 'zod';
 import { fetcher } from '../infra/fetcher';
 import { entriesQueue } from '../infra/queue';
@@ -85,8 +85,13 @@ export type UpdateEntry = (input: UpdateEntryInput) => Promise<void>;
 
 export const updateEntry = fetcher<UpdateEntry>('/api/updateEntry');
 
-export const useUpdateEntryMutation = () =>
-  useMutation((input: UpdateEntryInput) => updateEntry(input));
+export const useUpdateEntryMutation = (queryClient: QueryClient) =>
+  useMutation((input: UpdateEntryInput) => updateEntry(input), {
+    onSuccess: (data, variables) => {
+      queryClient.invalidateQueries(['entry', { uuid: variables.entry.uuid }]);
+      queryClient.invalidateQueries('entries');
+    },
+  });
 
 /** deleteEntry */
 export const DeleteEntryRequest = z.object({
@@ -98,8 +103,10 @@ export type DeleteEntry = (input: DeleteEntryInput) => Promise<void>;
 
 export const deleteEntry = fetcher<DeleteEntry>('/api/deleteEntry');
 
-export const useDeleteEntryMutation = () =>
-  useMutation((input: DeleteEntryInput) => deleteEntry(input));
+export const useDeleteEntryMutation = (queryClient: QueryClient) =>
+  useMutation((input: DeleteEntryInput) => deleteEntry(input), {
+    onSuccess: () => queryClient.invalidateQueries('entries'),
+  });
 
 /** deleteAllEntries */
 export type DeleteAllEntries = () => Promise<void>;
@@ -108,4 +115,7 @@ export const deleteAllEntries = fetcher<DeleteAllEntries>(
   '/api/deleteAllEntries'
 );
 
-//export const useDeleteAllEntriesMutation = () => useMutation(deleteAllEntries);
+export const useDeleteAllEntriesMutation = (queryClient: QueryClient) =>
+  useMutation(deleteAllEntries, {
+    onSuccess: () => queryClient.invalidateQueries('entries'),
+  });

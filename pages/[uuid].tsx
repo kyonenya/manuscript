@@ -13,20 +13,19 @@ import { useEntryQuery } from '../hooks/useEntryQuery';
 
 export default function Article() {
   const router = useRouter();
-  const { uuid: lowerUuid, preview } = router.query as {
+  const { uuid: lowerUUID, preview } = router.query as {
     uuid?: string;
     preview?: string;
   };
-  const uuid = lowerUuid?.toUpperCase();
+  const uuid = lowerUUID?.toUpperCase();
   const isPreview = !!preview;
 
+  const queryClient = useQueryClient();
   const { data: entry } = useEntryQuery({ uuid });
   const { data: tagList } = useTagListQuery();
-  const { mutate: mutateDelete } = useDeleteEntryMutation();
+  const { mutate: mutateDelete } = useDeleteEntryMutation(queryClient);
   const { mutate: mutateUpdate, isLoading: isUpdateLoading } =
-    useUpdateEntryMutation();
-
-  const queryClient = useQueryClient();
+    useUpdateEntryMutation(queryClient);
 
   return (
     <>
@@ -41,30 +40,11 @@ export default function Article() {
               entry={entry}
               tagList={tagList ?? []}
               onUpdate={({ createdAt, tags }) =>
-                mutateUpdate(
-                  { entry: { ...entry, createdAt, tags } },
-                  {
-                    onSuccess: () => {
-                      queryClient.invalidateQueries([
-                        'entry',
-                        { uuid: entry.uuid },
-                      ]);
-                      queryClient.invalidateQueries('entries');
-                    },
-                  }
-                )
+                mutateUpdate({ entry: { ...entry, createdAt, tags } })
               }
               onDelete={() => {
                 if (!uuid) return;
-                mutateDelete(
-                  { uuid },
-                  {
-                    onSuccess: () => {
-                      router.push('/');
-                      queryClient.invalidateQueries('entries');
-                    },
-                  }
-                );
+                mutateDelete({ uuid }, { onSuccess: () => router.push('/') });
               }}
               isLoading={isUpdateLoading}
             />
