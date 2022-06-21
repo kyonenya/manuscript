@@ -79,6 +79,7 @@ export const ArticleHeader = (props: {
           </Button>
           <CustomAlertDialog
             isOpen={isOpen}
+            headerText="Delete Entry"
             onClose={onClose}
             onSubmit={() => {
               props.onDelete();

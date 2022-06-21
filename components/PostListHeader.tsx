@@ -54,6 +54,7 @@ export const PostListHeader = (props: {
         </Button>
         <CustomAlertDialog
           isOpen={isOpen}
+          headerText="Delete All Entries"
           onClose={onClose}
           onSubmit={() => {
             props.onDeleteAll();

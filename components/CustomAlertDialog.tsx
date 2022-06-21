@@ -11,6 +11,7 @@ import { useRef } from 'react';
 
 export const CustomAlertDialog = (props: {
   isOpen: boolean;
+  headerText: string;
   onClose: () => void;
   onSubmit: () => void;
 }) => {
@@ -25,7 +26,7 @@ export const CustomAlertDialog = (props: {
       <AlertDialogOverlay>
         <AlertDialogContent>
           <AlertDialogHeader fontSize="lg" fontWeight="bold">
-            Delete Entry
+            {props.headerText}
           </AlertDialogHeader>
 
           <AlertDialogBody>
