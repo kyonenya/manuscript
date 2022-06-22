@@ -5,7 +5,6 @@ import {
   useInfiniteQuery,
   useQueryClient,
   InfiniteData,
-  QueryClient,
 } from 'react-query';
 import { z } from 'zod';
 import { fetcher } from '../infra/fetcher';
@@ -20,7 +19,7 @@ const queryKey = {
     'entries',
     { keyword, tag },
   ],
-  entry: (uuid: string) => ['entry', { uuid }],
+  entry: (uuid: string | undefined) => ['entry', { uuid }],
   tagList: 'tagList',
 };
 
@@ -91,10 +90,9 @@ const getEntry = fetcher<GetEntry>('/api/getEntry');
 export const useEntryQuery = (props: Partial<GetEntryInput>) => {
   const queryClient = useQueryClient();
   return useQuery(
+    queryKey.entry(props.uuid),
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    queryKey.entry(props.uuid!),
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    () => getEntry({ uuid: props.uuid! }),
+    () => getEntry({ uuid: props.uuid! }), // non-null because enabled
     {
       enabled: !!props.uuid,
       initialData: queryClient
@@ -135,10 +133,15 @@ export const createEntriesQueued = async (input: CreateEntriesInput) =>
     concurrency: 4,
   });
 
-export const useCreateEntriesMutation = (queryClient: QueryClient) =>
-  useMutation((input: CreateEntriesInput) => createEntriesQueued(input), {
-    onSuccess: () => queryClient.invalidateQueries(queryKey.entries),
-  });
+export const useCreateEntriesMutation = () => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    (input: CreateEntriesInput) => createEntriesQueued(input),
+    {
+      onSuccess: () => queryClient.invalidateQueries(queryKey.entries),
+    }
+  );
+};
 
 /** updateEntry */
 export const UpdateEntryRequest = z.object({ entry: entryObject });
@@ -164,17 +167,21 @@ export type DeleteEntry = (input: DeleteEntryInput) => Promise<void>;
 
 const deleteEntry = fetcher<DeleteEntry>('/api/deleteEntry');
 
-export const useDeleteEntryMutation = (queryClient: QueryClient) =>
-  useMutation((input: DeleteEntryInput) => deleteEntry(input), {
+export const useDeleteEntryMutation = () => {
+  const queryClient = useQueryClient();
+  return useMutation((input: DeleteEntryInput) => deleteEntry(input), {
     onSuccess: () => queryClient.invalidateQueries(queryKey.entries),
   });
+};
 
 /** deleteAllEntries */
 export type DeleteAllEntries = () => Promise<void>;
 
 const deleteAllEntries = fetcher<DeleteAllEntries>('/api/deleteAllEntries');
 
-export const useDeleteAllEntriesMutation = (queryClient: QueryClient) =>
-  useMutation(deleteAllEntries, {
+export const useDeleteAllEntriesMutation = () => {
+  const queryClient = useQueryClient();
+  return useMutation(deleteAllEntries, {
     onSuccess: () => queryClient.invalidateQueries(queryKey.entries),
   });
+};

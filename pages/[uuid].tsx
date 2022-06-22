@@ -1,7 +1,6 @@
 import { Box, useColorModeValue } from '@chakra-ui/react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { useQueryClient } from 'react-query';
 import { ArticlePage } from '../components/ArticlePage';
 import { Preview } from '../components/Preview';
 import {
@@ -20,10 +19,9 @@ export default function Article() {
   const uuid = lowerUUID?.toUpperCase();
   const isPreview = !!preview;
 
-  const queryClient = useQueryClient();
   const { data: entry } = useEntryQuery({ uuid });
   const { data: tagList } = useTagListQuery();
-  const { mutate: mutateDelete } = useDeleteEntryMutation(queryClient);
+  const { mutate: mutateDelete } = useDeleteEntryMutation();
   const { mutate: mutateUpdate, isLoading: isUpdateLoading } =
     useUpdateEntryMutation();
 

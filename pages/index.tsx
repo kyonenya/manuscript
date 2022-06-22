@@ -2,7 +2,6 @@ import { Box, Container, Flex, Heading, Spinner } from '@chakra-ui/react';
 import { Auth } from '@supabase/ui';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { useQueryClient } from 'react-query';
 import { PostListPage } from '../components/PostListPage';
 import { newSearchQuery } from '../domain/SearchQuery';
 import {
@@ -14,12 +13,15 @@ import {
 import { useInfiniteScroll } from '../hooks/useInfiniteScroll';
 import { supabase } from '../infra/supabase';
 
-const limit = 20;
+const limit = 40;
 
 export default function Index() {
   const router = useRouter();
   const { preview } = router.query as { preview?: string };
   const isPreviewMode = !!preview;
+
+  const { scrollerRef } = useInfiniteScroll({ onScroll: fetchNextPage });
+  const { user } = Auth.useUser();
 
   const { searchStr, setSearchStr } = useCurrentSearchStr();
   const searchQuery = searchStr ? newSearchQuery(searchStr) : undefined;
@@ -28,17 +30,12 @@ export default function Index() {
     fetchNextPage,
     isFetching,
   } = useEntriesQuery({ searchQuery, limit });
-  const queryClient = useQueryClient();
-  const { mutate: mutateDeleteAll } = useDeleteAllEntriesMutation(queryClient);
+  const { mutate: mutateDeleteAll } = useDeleteAllEntriesMutation();
   const {
     mutate: mutateCreate,
     isSuccess: isCreated,
     isLoading: isCreating,
-  } = useCreateEntriesMutation(queryClient);
-
-  const { scrollerRef } = useInfiniteScroll({ onScroll: fetchNextPage });
-
-  const { user } = Auth.useUser();
+  } = useCreateEntriesMutation();
 
   if (!user)
     return (
