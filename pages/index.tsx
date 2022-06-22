@@ -6,11 +6,11 @@ import { useQueryClient } from 'react-query';
 import { PostListPage } from '../components/PostListPage';
 import { newSearchQuery } from '../domain/SearchQuery';
 import {
+  useCurrentSearchStr,
+  useEntriesQuery,
   useCreateEntriesMutation,
   useDeleteAllEntriesMutation,
 } from '../domain/entryUseCase';
-import { useCurrentSearchStr } from '../hooks/useCurrentSearchStr';
-import { useEntriesQuery } from '../hooks/useEntriesQuery';
 import { useInfiniteScroll } from '../hooks/useInfiniteScroll';
 import { supabase } from '../infra/supabase';
 

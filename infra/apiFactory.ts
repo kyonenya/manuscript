@@ -3,8 +3,8 @@ import { NextApiHandler } from 'next';
 import { z } from 'zod';
 
 export const apiFactory = (
-  usecase: (input?: any /* Input */) => Promise<any /* Output */>,
-  request?: z.ZodTypeAny /* Input */
+  usecase: (input?: any /* UseCaseInput */) => Promise<any /* UseCaseOutput */>,
+  request?: z.ZodTypeAny /* UseCaseInput */
 ): NextApiHandler => {
   const handler: NextApiHandler = async (req, res) => {
     if (!request) {
@@ -13,7 +13,9 @@ export const apiFactory = (
     }
     const parsed = request.safeParse(req.body);
     if (!parsed.success) return res.status(400).json({ error: parsed.error });
-    const result /* Output */ = await usecase(parsed.data /* Input */);
+    const result /* UseCaseOutput */ = await usecase(
+      parsed.data /* UseCaseInput */
+    );
     return res.json(result ?? { ok: true });
   };
   return handler;

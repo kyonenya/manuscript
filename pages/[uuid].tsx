@@ -5,11 +5,11 @@ import { useQueryClient } from 'react-query';
 import { ArticlePage } from '../components/ArticlePage';
 import { Preview } from '../components/Preview';
 import {
+  useEntryQuery,
   useDeleteEntryMutation,
   useUpdateEntryMutation,
   useTagListQuery,
 } from '../domain/entryUseCase';
-import { useEntryQuery } from '../hooks/useEntryQuery';
 
 export default function Article() {
   const router = useRouter();
@@ -25,7 +25,7 @@ export default function Article() {
   const { data: tagList } = useTagListQuery();
   const { mutate: mutateDelete } = useDeleteEntryMutation(queryClient);
   const { mutate: mutateUpdate, isLoading: isUpdateLoading } =
-    useUpdateEntryMutation(queryClient);
+    useUpdateEntryMutation();
 
   return (
     <>
