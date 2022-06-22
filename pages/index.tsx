@@ -20,7 +20,6 @@ export default function Index() {
   const { preview } = router.query as { preview?: string };
   const isPreviewMode = !!preview;
 
-  const { scrollerRef } = useInfiniteScroll({ onScroll: fetchNextPage });
   const { user } = Auth.useUser();
 
   const { searchStr, setSearchStr } = useCurrentSearchStr();
@@ -36,6 +35,8 @@ export default function Index() {
     isSuccess: isCreated,
     isLoading: isCreating,
   } = useCreateEntriesMutation();
+
+  const { scrollerRef } = useInfiniteScroll({ onScroll: fetchNextPage });
 
   if (!user)
     return (
