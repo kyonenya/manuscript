@@ -27,12 +27,12 @@ export default function Article() {
 
   return (
     <>
+      <Head>
+        <title>manuscript</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       {!isPreview && (
         <Box bg={useColorModeValue('gray.100', 'gray.700')}>
-          <Head>
-            <title>manuscript</title>
-            <link rel="icon" href="/favicon.ico" />
-          </Head>
           {entry && (
             <ArticlePage
               entry={entry}

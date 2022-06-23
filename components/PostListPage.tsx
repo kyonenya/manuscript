@@ -119,12 +119,16 @@ export const PostListPage = (props: {
   const [selectedEntries, setSelectedEntries] = useState<Entry[]>([]);
   const [isSelectMode, setIsSelectMode] = useState(false);
 
-  return props.isPreviewMode && props.entries ? (
-    <Previews
-      entries={selectedEntries.length > 0 ? selectedEntries : props.entries}
-    />
-  ) : (
-    <Box bg={useColorModeValue('gray.100', 'gray.700')}>
+  if (props.isPreviewMode && props.entries) {
+    return (
+      <Previews
+        entries={selectedEntries.length > 0 ? selectedEntries : props.entries}
+      />
+    );
+  }
+
+  return (
+    <Box minHeight="100vh">
       <PostListHeader
         searchStr={props.searchStr}
         isSelectMode={isSelectMode}
@@ -141,6 +145,7 @@ export const PostListPage = (props: {
         onImport={props.onImport}
         onDeleteAll={props.onDeleteAll}
       />
+
       <Container maxW="4xl" py={{ base: 6 }}>
         <SimpleGrid
           columns={{ base: 1, md: 2 }}
