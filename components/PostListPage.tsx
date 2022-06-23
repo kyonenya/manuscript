@@ -128,7 +128,7 @@ export const PostListPage = (props: {
   }
 
   return (
-    <Box minHeight="100vh">
+    <Box minHeight="100vh" bg={useColorModeValue('gray.100', 'gray.700')}>
       <PostListHeader
         searchStr={props.searchStr}
         isSelectMode={isSelectMode}

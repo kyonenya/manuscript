@@ -1,11 +1,4 @@
-import {
-  Box,
-  Container,
-  Flex,
-  Heading,
-  Spinner,
-  useColorModeValue,
-} from '@chakra-ui/react';
+import { Box, Container, Flex, Heading, Spinner } from '@chakra-ui/react';
 import { Auth } from '@supabase/ui';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
@@ -66,7 +59,7 @@ export default function Index() {
         <title>manuscript</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Box bg={useColorModeValue('gray.100', 'gray.700')}>
+      <Box>      
         <PostListPage
           entries={entries?.pages.flat()}
           searchStr={searchStr}
