@@ -1,23 +1,22 @@
 import { Box, useColorModeValue } from '@chakra-ui/react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { useQueryClient } from 'react-query';
 import { ArticlePage } from '../components/ArticlePage';
 import { Preview } from '../components/Preview';
 import {
+  useEntryQuery,
   useDeleteEntryMutation,
   useUpdateEntryMutation,
   useTagListQuery,
 } from '../domain/entryUseCase';
-import { useEntryQuery } from '../hooks/useEntryQuery';
 
 export default function Article() {
   const router = useRouter();
-  const { uuid: lowerUuid, preview } = router.query as {
+  const { uuid: lowerUUID, preview } = router.query as {
     uuid?: string;
     preview?: string;
   };
-  const uuid = lowerUuid?.toUpperCase();
+  const uuid = lowerUUID?.toUpperCase();
   const isPreview = !!preview;
 
   const { data: entry } = useEntryQuery({ uuid });
@@ -26,45 +25,24 @@ export default function Article() {
   const { mutate: mutateUpdate, isLoading: isUpdateLoading } =
     useUpdateEntryMutation();
 
-  const queryClient = useQueryClient();
-
   return (
     <>
+      <Head>
+        <title>manuscript</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       {!isPreview && (
         <Box bg={useColorModeValue('gray.100', 'gray.700')}>
-          <Head>
-            <title>manuscript</title>
-            <link rel="icon" href="/favicon.ico" />
-          </Head>
           {entry && (
             <ArticlePage
               entry={entry}
               tagList={tagList ?? []}
               onUpdate={({ createdAt, tags }) =>
-                mutateUpdate(
-                  { entry: { ...entry, createdAt, tags } },
-                  {
-                    onSuccess: () => {
-                      queryClient.invalidateQueries([
-                        'entry',
-                        { uuid: entry.uuid },
-                      ]);
-                      queryClient.invalidateQueries('entries');
-                    },
-                  }
-                )
+                mutateUpdate({ entry: { ...entry, createdAt, tags } })
               }
               onDelete={() => {
                 if (!uuid) return;
-                mutateDelete(
-                  { uuid },
-                  {
-                    onSuccess: () => {
-                      router.push('/');
-                      queryClient.invalidateQueries('entries');
-                    },
-                  }
-                );
+                mutateDelete({ uuid }, { onSuccess: () => router.push('/') });
               }}
               isLoading={isUpdateLoading}
             />

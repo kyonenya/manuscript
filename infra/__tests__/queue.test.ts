@@ -38,7 +38,7 @@ describe('entriesQueue', () => {
   });
 
   it('createMany:not queued', async () => {
-    // to compare exection time
+    // to compare exection time: queue should be slower(delayed)
     const rowCounts = await entryRepository.createMany({ entries });
     assert.deepStrictEqual(rowCounts, [4]);
   });

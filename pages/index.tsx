@@ -2,38 +2,41 @@ import { Box, Container, Flex, Heading, Spinner } from '@chakra-ui/react';
 import { Auth } from '@supabase/ui';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { useMutation, useQueryClient } from 'react-query';
 import { PostListPage } from '../components/PostListPage';
 import { newSearchQuery } from '../domain/SearchQuery';
-import { deleteAllEntries } from '../domain/entryUseCase';
-import { useCurrentSearchStr } from '../hooks/useCurrentSearchStr';
-import { useEntriesQuery } from '../hooks/useEntriesQuery';
+import {
+  useCurrentSearchStr,
+  useEntriesQuery,
+  useCreateEntriesMutation,
+  useDeleteAllEntriesMutation,
+} from '../domain/entryUseCase';
 import { useInfiniteScroll } from '../hooks/useInfiniteScroll';
 import { supabase } from '../infra/supabase';
 
-const limit = 20;
+const limit = 40;
 
 export default function Index() {
-  const queryClient = useQueryClient();
   const router = useRouter();
   const { preview } = router.query as { preview?: string };
   const isPreviewMode = !!preview;
 
+  const { user } = Auth.useUser();
+
   const { searchStr, setSearchStr } = useCurrentSearchStr();
   const searchQuery = searchStr ? newSearchQuery(searchStr) : undefined;
-
   const {
     data: entries,
     fetchNextPage,
     isFetching,
   } = useEntriesQuery({ searchQuery, limit });
-  const { mutate: mutateDeleteAll } = useMutation(deleteAllEntries, {
-    onSuccess: () => queryClient.invalidateQueries(['entries', {}]),
-  });
+  const { mutate: mutateDeleteAll } = useDeleteAllEntriesMutation();
+  const {
+    mutate: mutateCreate,
+    isSuccess: isCreated,
+    isLoading: isCreating,
+  } = useCreateEntriesMutation();
 
   const { scrollerRef } = useInfiniteScroll({ onScroll: fetchNextPage });
-
-  const { user } = Auth.useUser();
 
   if (!user)
     return (
@@ -56,15 +59,18 @@ export default function Index() {
         <title>manuscript</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Box minHeight="100vh">
+      <Box>      
         <PostListPage
           entries={entries?.pages.flat()}
           searchStr={searchStr}
           searchQuery={searchQuery}
           isPreviewMode={isPreviewMode}
-          onDeleteAll={mutateDeleteAll}
+          isImported={isCreated}
+          isImporting={isCreating}
           onSearch={({ searchStr }) => setSearchStr(searchStr)}
           onSignOut={() => supabase.auth.signOut()}
+          onImport={mutateCreate}
+          onDeleteAll={mutateDeleteAll}
         />
         <Flex justifyContent="center" ref={scrollerRef}>
           {!isPreviewMode && isFetching && (

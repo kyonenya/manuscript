@@ -19,7 +19,9 @@ export const Link = ({
 }) => {
   return isEnabled ? (
     <NextLink passHref href={href}>
-      <ChakraLink {...rest}>{children}</ChakraLink>
+      <ChakraLink {...rest} as="span">
+        {children}
+      </ChakraLink>
     </NextLink>
   ) : (
     <>{children}</>

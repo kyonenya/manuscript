@@ -1,14 +1,15 @@
 import { ArrowUpIcon, CheckIcon } from '@chakra-ui/icons';
 import { IconButton, Input, Stack, Spinner } from '@chakra-ui/react';
-import { useQueryClient } from 'react-query';
 import { DayOneData, toEntry } from '../domain/DayOneEntry';
-import { useCreateEntriesQueueMutation } from '../domain/entryUseCase';
+import { Entry } from '../domain/Entry';
 import { useJsonImport } from '../hooks/useJsonImport';
 
-export const JsonImport = () => {
+export const JsonImport = (props: {
+  isImported: boolean;
+  isImporting: boolean;
+  onImport: (props: { entries: Entry[] }) => void;
+}) => {
   const { load, data } = useJsonImport<DayOneData>();
-  const { mutate, isLoading, isSuccess } = useCreateEntriesQueueMutation();
-  const queryClient = useQueryClient();
 
   return (
     <Stack direction="row">
@@ -24,14 +25,19 @@ export const JsonImport = () => {
       <IconButton
         aria-label="記事データをインポート"
         icon={
-          isSuccess ? <CheckIcon /> : isLoading ? <Spinner /> : <ArrowUpIcon />
+          props.isImported ? (
+            <CheckIcon />
+          ) : props.isImporting ? (
+            <Spinner />
+          ) : (
+            <ArrowUpIcon />
+          )
         }
         onClick={() => {
           if (!data) return;
-          mutate(
-            { entries: data.entries.map((entry) => toEntry(entry)) },
-            { onSuccess: () => queryClient.invalidateQueries(['entries', {}]) }
-          );
+          props.onImport({
+            entries: data.entries.map((entry) => toEntry(entry)),
+          });
         }}
       />
     </Stack>

@@ -1,8 +1,27 @@
-import { useQuery, useMutation } from 'react-query';
+import { useState } from 'react';
+import {
+  useQuery,
+  useMutation,
+  useInfiniteQuery,
+  useQueryClient,
+  InfiniteData,
+} from 'react-query';
 import { z } from 'zod';
 import { fetcher } from '../infra/fetcher';
 import { entriesQueue } from '../infra/queue';
 import { Entry } from './Entry';
+import { SearchQuery } from './SearchQuery';
+
+const queryKey = {
+  currentSearch: 'currentSearch',
+  entries: 'entries',
+  searchedEntries: ({ keyword, tag }: { keyword?: string; tag?: string }) => [
+    'entries',
+    { keyword, tag },
+  ],
+  entry: (uuid: string | undefined) => ['entry', { uuid }],
+  tagList: 'tagList',
+};
 
 const entryObject = z.object({
   text: z.string(),
@@ -12,6 +31,21 @@ const entryObject = z.object({
   createdAt: z.string(),
   modifiedAt: z.string(),
 });
+
+/** currentSearchStr */
+export const useCurrentSearchStr = () => {
+  const queryClient = useQueryClient();
+  const [searchStr, setSearchStr] = useState<string | undefined>(
+    queryClient.getQueryData<string>(queryKey.currentSearch)
+  );
+  const setCurrentSearchStr = (rawStr: string | undefined) => {
+    const searchStr = rawStr === '' ? undefined : rawStr;
+    setSearchStr(searchStr);
+    queryClient.setQueryData(queryKey.currentSearch, searchStr);
+  };
+
+  return { searchStr, setSearchStr: setCurrentSearchStr };
+};
 
 /**
  * Query
@@ -24,27 +58,62 @@ export const GetEntriesRequest = z.object({
   offset: z.number(),
 });
 export type GetEntriesInput = z.infer<typeof GetEntriesRequest>;
-
 export type GetEntries = (input: GetEntriesInput) => Promise<Entry[]>;
 
-export const getEntries = fetcher<GetEntries>('/api/getEntries');
+const getEntries = fetcher<GetEntries>('/api/getEntries');
+
+export const useEntriesQuery = (props: {
+  searchQuery: SearchQuery | undefined;
+  limit: number;
+}) => {
+  const { keyword, tag } = props.searchQuery ?? {};
+  return useInfiniteQuery(
+    queryKey.searchedEntries({ keyword, tag }),
+    ({ pageParam = 0 }) =>
+      getEntries({
+        keyword,
+        tag,
+        limit: props.limit,
+        offset: pageParam * props.limit,
+      }),
+    { getNextPageParam: (lastPage, pages) => pages.length }
+  );
+};
 
 /** getEntry */
-export const GetEntryRequest = z.object({
-  uuid: z.string(),
-});
+export const GetEntryRequest = z.object({ uuid: z.string() });
 export type GetEntryInput = z.infer<typeof GetEntryRequest>;
-
 export type GetEntry = (input: GetEntryInput) => Promise<Entry | undefined>;
 
-export const getEntry = fetcher<GetEntry>('/api/getEntry');
+const getEntry = fetcher<GetEntry>('/api/getEntry');
+
+export const useEntryQuery = (props: Partial<GetEntryInput>) => {
+  const queryClient = useQueryClient();
+  return useQuery(
+    queryKey.entry(props.uuid),
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    () => getEntry({ uuid: props.uuid! }), // non-null because enabled
+    {
+      enabled: !!props.uuid,
+      initialData: queryClient
+        .getQueryData<InfiniteData<Entry>>(
+          queryKey.searchedEntries({
+            keyword: queryClient.getQueryData(queryKey.currentSearch),
+          })
+        )
+        ?.pages.flat()
+        .find((entry) => entry.uuid === props.uuid),
+    }
+  );
+};
 
 /** getTagList */
 export type GetTagList = () => Promise<string[]>;
 
-export const getTagList = fetcher<GetTagList>('/api/getTagList');
+const getTagList = fetcher<GetTagList>('/api/getTagList');
 
-export const useTagListQuery = () => useQuery(['tagList'], () => getTagList());
+export const useTagListQuery = () =>
+  useQuery(queryKey.tagList, () => getTagList());
 
 /**
  * Mutation
@@ -52,60 +121,67 @@ export const useTagListQuery = () => useQuery(['tagList'], () => getTagList());
 /** createEntries */
 export const CreateEntriesRequest = z.object({ entries: z.array(entryObject) });
 export type CreateEntriesInput = z.infer<typeof CreateEntriesRequest>;
-
 export type CreateEntries = (input: CreateEntriesInput) => Promise<void>;
 
-export const createEntries = fetcher<CreateEntries>('/api/createEntries');
+const createEntries = fetcher<CreateEntries>('/api/createEntries');
 
-//export const useCreateEntriesMutation = () =>
-//  useMutation((input: CreateEntriesInput) => createEntries(input));
-
-/** createEntriesQueue */
-export const CreateEntriesQueueRequest = CreateEntriesRequest;
-export type CreateEntriesQueueInput = CreateEntriesInput;
-
-export type CreateEntriesQueue = CreateEntries;
-
-export const createEntriesQueue = async (input: CreateEntriesQueueInput) =>
+export const createEntriesQueued = async (input: CreateEntriesInput) =>
   await entriesQueue({
-    func: fetcher<CreateEntriesQueue>('/api/createEntries'),
+    func: createEntries,
     entries: input.entries,
     each: 300,
-    concurrency: 3,
+    concurrency: 4,
   });
 
-export const useCreateEntriesQueueMutation = () =>
-  useMutation((input: CreateEntriesQueueInput) => createEntriesQueue(input));
+export const useCreateEntriesMutation = () => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    (input: CreateEntriesInput) => createEntriesQueued(input),
+    {
+      onSuccess: () => queryClient.invalidateQueries(queryKey.entries),
+    }
+  );
+};
 
 /** updateEntry */
 export const UpdateEntryRequest = z.object({ entry: entryObject });
 export type UpdateEntryInput = z.infer<typeof UpdateEntryRequest>;
-
 export type UpdateEntry = (input: UpdateEntryInput) => Promise<void>;
 
-export const updateEntry = fetcher<UpdateEntry>('/api/updateEntry');
+const updateEntry = fetcher<UpdateEntry>('/api/updateEntry');
 
-export const useUpdateEntryMutation = () =>
-  useMutation((input: UpdateEntryInput) => updateEntry(input));
+export const useUpdateEntryMutation = () => {
+  const queryClient = useQueryClient();
+  return useMutation((input: UpdateEntryInput) => updateEntry(input), {
+    onSuccess: (data, variables) => {
+      queryClient.invalidateQueries(variables.entry.uuid);
+      queryClient.invalidateQueries(queryKey.entries);
+    },
+  });
+};
 
 /** deleteEntry */
-export const DeleteEntryRequest = z.object({
-  uuid: z.string(),
-});
+export const DeleteEntryRequest = z.object({ uuid: z.string() });
 export type DeleteEntryInput = z.infer<typeof DeleteEntryRequest>;
-
 export type DeleteEntry = (input: DeleteEntryInput) => Promise<void>;
 
-export const deleteEntry = fetcher<DeleteEntry>('/api/deleteEntry');
+const deleteEntry = fetcher<DeleteEntry>('/api/deleteEntry');
 
-export const useDeleteEntryMutation = () =>
-  useMutation((input: DeleteEntryInput) => deleteEntry(input));
+export const useDeleteEntryMutation = () => {
+  const queryClient = useQueryClient();
+  return useMutation((input: DeleteEntryInput) => deleteEntry(input), {
+    onSuccess: () => queryClient.invalidateQueries(queryKey.entries),
+  });
+};
 
 /** deleteAllEntries */
 export type DeleteAllEntries = () => Promise<void>;
 
-export const deleteAllEntries = fetcher<DeleteAllEntries>(
-  '/api/deleteAllEntries'
-);
+const deleteAllEntries = fetcher<DeleteAllEntries>('/api/deleteAllEntries');
 
-//export const useDeleteAllEntriesMutation = () => useMutation(deleteAllEntries);
+export const useDeleteAllEntriesMutation = () => {
+  const queryClient = useQueryClient();
+  return useMutation(deleteAllEntries, {
+    onSuccess: () => queryClient.invalidateQueries(queryKey.entries),
+  });
+};
