@@ -12,6 +12,7 @@ import {
 } from '../domain/entryUseCase';
 import { useInfiniteScroll } from '../hooks/useInfiniteScroll';
 import { supabase } from '../infra/supabase';
+import { trpc } from '../infra/trpc';
 
 const limit = 40;
 
@@ -38,6 +39,9 @@ export default function Index() {
 
   const { scrollerRef } = useInfiniteScroll({ onScroll: fetchNextPage });
 
+  const hello = trpc.useQuery(['hello', { text: 'client' }]);
+  console.log(hello);
+
   if (!user)
     return (
       <Container maxW="3xl" py={{ base: 6 }}>
@@ -59,7 +63,7 @@ export default function Index() {
         <title>manuscript</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Box>      
+      <Box>
         <PostListPage
           entries={entries?.pages.flat()}
           searchStr={searchStr}
