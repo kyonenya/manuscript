@@ -3,9 +3,8 @@ import { Auth } from '@supabase/ui';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { PostListPage } from '../components/PostListPage';
-import { newSearchQuery } from '../domain/SearchQuery';
+import { useCurrentSearch } from '../hooks/useCurrentSearch';
 import { useInfiniteScroll } from '../hooks/useInfiniteScroll';
-import { useCurrentSearchStr } from '../hooks/useCurrentSearchStr';
 import { supabase } from '../infra/supabase';
 import { trpc } from '../infra/trpc';
 
@@ -18,9 +17,7 @@ export default function Index() {
 
   const { user } = Auth.useUser();
 
-  const { searchStr, setSearchStr } = useCurrentSearchStr();
-  const searchQuery = searchStr ? newSearchQuery(searchStr) : undefined;
-  console.log(searchQuery);
+  const { searchStr, searchQuery, setSearchStr } = useCurrentSearch();
   const {
     data: entries,
     fetchNextPage,

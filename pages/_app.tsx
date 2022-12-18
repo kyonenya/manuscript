@@ -2,7 +2,6 @@ import { ChakraProvider } from '@chakra-ui/react';
 import { Auth } from '@supabase/ui';
 import { withTRPC } from '@trpc/next';
 import { AppProps } from 'next/app';
-import { AppType } from 'next/dist/shared/lib/utils';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { theme } from '../components/theme';
@@ -33,6 +32,7 @@ function App({ Component, pageProps }: AppProps) {
 }
 
 export default withTRPC<AppRouter>({
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   config({ ctx }) {
     /**
      * If you want to use SSR, you need to use the server's full URL

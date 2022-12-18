@@ -1,12 +1,13 @@
 import { Box, useColorModeValue } from '@chakra-ui/react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import { useQueryClient, InfiniteData } from 'react-query';
 import { ArticlePage } from '../components/ArticlePage';
 import { Preview } from '../components/Preview';
-import { trpc } from '../infra/trpc';
-import { queryKeys } from '../domain/queryKeys';
 import { Entry } from '../domain/Entry';
-import { useQueryClient, InfiniteData } from 'react-query';
+import { queryKeys } from '../domain/queryKeys';
+import { useCurrentSearch } from '../hooks/useCurrentSearch';
+import { trpc } from '../infra/trpc';
 
 export default function Article() {
   const queryClient = useQueryClient();
@@ -18,15 +19,16 @@ export default function Article() {
   const uuid = lowerUUID?.toUpperCase();
   const isPreview = !!preview;
 
+  const { searchQuery } = useCurrentSearch();
+
   const { data: entry } = trpc.useQuery(
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     ['getEntry', { uuid: uuid! /* non-null because enabled */ }],
     {
       enabled: !!uuid,
       initialData: queryClient
         .getQueryData<InfiniteData<Entry>>(
-          queryKeys.searchedEntries({
-            keyword: queryClient.getQueryData(queryKeys.currentSearch),
-          })
+          queryKeys.entries({ ...searchQuery })
         )
         ?.pages.flat()
         .find((entry) => entry.uuid === uuid),
@@ -39,7 +41,7 @@ export default function Article() {
     {
       onSuccess: (data, variables) => {
         queryClient.invalidateQueries(queryKeys.entry(variables.entry.uuid));
-        queryClient.invalidateQueries(queryKeys.entries);
+        queryClient.invalidateQueries(queryKeys.entries({ ...searchQuery }));
       },
     }
   );

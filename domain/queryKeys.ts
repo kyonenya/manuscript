@@ -1,7 +1,6 @@
 export const queryKeys = {
-  currentSearch: 'currentSearch',
-  entries: 'getEntries',
-  searchedEntries: ({ keyword, tag }: { keyword?: string; tag?: string }) => [
+  currentSearchStr: 'currentSearchStr',
+  entries: ({ keyword, tag }: { keyword?: string; tag?: string }) => [
     'getEntries',
     { keyword, tag },
   ],
