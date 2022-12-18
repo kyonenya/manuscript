@@ -5,12 +5,12 @@ import { useRouter } from 'next/router';
 import { PostListPage } from '../components/PostListPage';
 import { newSearchQuery } from '../domain/SearchQuery';
 import {
-  useCurrentSearchStr,
   useEntriesQuery,
   useCreateEntriesMutation,
   useDeleteAllEntriesMutation,
 } from '../domain/entryUseCase';
 import { useInfiniteScroll } from '../hooks/useInfiniteScroll';
+import { useCurrentSearchStr } from '../hooks/useCurrentSearchStr';
 import { supabase } from '../infra/supabase';
 import { trpc } from '../infra/trpc';
 
@@ -30,17 +30,15 @@ export default function Index() {
     fetchNextPage,
     isFetching,
   } = useEntriesQuery({ searchQuery, limit });
-  const { mutate: mutateDeleteAll } = useDeleteAllEntriesMutation();
+
+  const { mutate: mutateDeleteAll } = trpc.useMutation(['deleteAllEntries']);
   const {
     mutate: mutateCreate,
     isSuccess: isCreated,
     isLoading: isCreating,
-  } = useCreateEntriesMutation();
+  } = trpc.useMutation(['createEntries']);
 
   const { scrollerRef } = useInfiniteScroll({ onScroll: fetchNextPage });
-
-  const hello = trpc.useQuery(['hello', { text: 'client' }]);
-  console.log(hello);
 
   if (!user)
     return (

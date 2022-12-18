@@ -19,10 +19,7 @@ export default function Article() {
   const isPreview = !!preview;
 
   const { data: entry } = trpc.useQuery(
-    [
-      'getEntry',
-      { uuid: uuid! /* non-null because enabled */ },
-    ],
+    ['getEntry', { uuid: uuid! /* non-null because enabled */ }],
     {
       enabled: !!uuid,
       initialData: queryClient
@@ -35,7 +32,6 @@ export default function Article() {
         .find((entry) => entry.uuid === uuid),
     }
   );
-
   const { data: tagList } = trpc.useQuery(['getTagList']);
   const { mutate: mutateDelete } = trpc.useMutation(['deleteEntry']);
   const { mutate: mutateUpdate, isLoading: isUpdateLoading } = trpc.useMutation(

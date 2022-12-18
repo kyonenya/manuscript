@@ -32,21 +32,6 @@ const entryObject = z.object({
   modifiedAt: z.string(),
 });
 
-/** currentSearchStr */
-export const useCurrentSearchStr = () => {
-  const queryClient = useQueryClient();
-  const [searchStr, setSearchStr] = useState<string | undefined>(
-    queryClient.getQueryData<string>(queryKey.currentSearch)
-  );
-  const setCurrentSearchStr = (rawStr: string | undefined) => {
-    const searchStr = rawStr === '' ? undefined : rawStr;
-    setSearchStr(searchStr);
-    queryClient.setQueryData(queryKey.currentSearch, searchStr);
-  };
-
-  return { searchStr, setSearchStr: setCurrentSearchStr };
-};
-
 /**
  * Query
  */

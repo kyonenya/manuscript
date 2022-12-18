@@ -61,7 +61,7 @@ export const PostListHeader = (props: {
             onImport={props.onImport}
           />
           <Button onClick={onOpen} leftIcon={<DeleteIcon />} color="red.500">
-            Delete
+            Delete All
           </Button>
           <CustomAlertDialog
             isOpen={isOpen}
