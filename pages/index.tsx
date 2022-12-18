@@ -7,6 +7,7 @@ import { useCurrentSearch } from '../hooks/useCurrentSearch';
 import { useInfiniteScroll } from '../hooks/useInfiniteScroll';
 import { supabase } from '../infra/supabase';
 import { trpc } from '../infra/trpc';
+import { entriesQueue } from '../infra/queue';
 
 const limit = 40;
 
@@ -18,6 +19,7 @@ export default function Index() {
   const { user } = Auth.useUser();
 
   const { searchStr, searchQuery, setSearchStr } = useCurrentSearch();
+
   const {
     data: entries,
     fetchNextPage,
@@ -34,6 +36,15 @@ export default function Index() {
   } = trpc.useMutation(['createEntries']);
 
   const { scrollerRef } = useInfiniteScroll({ onScroll: fetchNextPage });
+
+  const onImport = async (input: Parameters<typeof mutateCreate>[0]) => {
+    await entriesQueue({
+      func: mutateCreate,
+      entries: input.entries,
+      each: 300,
+      concurrency: 4,
+    });
+  };
 
   if (!user)
     return (
@@ -66,7 +77,7 @@ export default function Index() {
           isImporting={isCreating}
           onSearch={({ searchStr }) => setSearchStr(searchStr)}
           onSignOut={() => supabase.auth.signOut()}
-          onImport={mutateCreate}
+          onImport={onImport}
           onDeleteAll={mutateDeleteAll}
         />
         <Flex justifyContent="center" ref={scrollerRef}>

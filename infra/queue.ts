@@ -8,7 +8,11 @@ export const entriesQueue = async ({
   each,
   concurrency,
 }: {
-  func: ({ entries }: { entries: Entry[] }) => Promise<unknown>;
+  func: ({
+    entries,
+  }: {
+    entries: Entry[];
+  }) => void | Promise<void> | Promise<unknown>;
   entries: Entry[];
   each: number;
   concurrency: number;
