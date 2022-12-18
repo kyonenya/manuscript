@@ -20,22 +20,20 @@ export const appRouter = trpc
   })
   .query('getEntries', {
     input: z.object({
+      limit: z.number(),
       keyword: z.string().optional(),
       tag: z.string().optional(),
-      limit: z.number(),
-      cursor: z.number(),
+      cursor: z.number().default(0), // pageParam (auto-generated)
     }),
     resolve: async ({ input }) => {
+      const offset = input.cursor * input.limit;
       if (input.tag)
         return await entryRepository.readByTag({
-          tag: input.tag,
           ...input,
-          offset: input.cursor,
+          tag: input.tag,
+          offset,
         });
-      return await entryRepository.readByKeyword({
-        ...input,
-        offset: input.cursor,
-      });
+      return await entryRepository.readByKeyword({ ...input, offset });
     },
   })
   .query('getTagList', {

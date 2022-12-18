@@ -4,11 +4,6 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { PostListPage } from '../components/PostListPage';
 import { newSearchQuery } from '../domain/SearchQuery';
-import {
-  useEntriesQuery,
-  useCreateEntriesMutation,
-  useDeleteAllEntriesMutation,
-} from '../domain/entryUseCase';
 import { useInfiniteScroll } from '../hooks/useInfiniteScroll';
 import { useCurrentSearchStr } from '../hooks/useCurrentSearchStr';
 import { supabase } from '../infra/supabase';
@@ -25,11 +20,14 @@ export default function Index() {
 
   const { searchStr, setSearchStr } = useCurrentSearchStr();
   const searchQuery = searchStr ? newSearchQuery(searchStr) : undefined;
+  console.log(searchQuery);
   const {
     data: entries,
     fetchNextPage,
     isFetching,
-  } = useEntriesQuery({ searchQuery, limit });
+  } = trpc.useInfiniteQuery(['getEntries', { limit, ...searchQuery }], {
+    getNextPageParam: (lastPage, pages) => pages.length,
+  });
 
   const { mutate: mutateDeleteAll } = trpc.useMutation(['deleteAllEntries']);
   const {
