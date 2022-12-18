@@ -80,41 +80,6 @@ export const useEntriesQuery = (props: {
   );
 };
 
-/** getEntry */
-export const GetEntryRequest = z.object({ uuid: z.string() });
-export type GetEntryInput = z.infer<typeof GetEntryRequest>;
-export type GetEntry = (input: GetEntryInput) => Promise<Entry | undefined>;
-
-const getEntry = fetcher<GetEntry>('/api/getEntry');
-
-export const useEntryQuery = (props: Partial<GetEntryInput>) => {
-  const queryClient = useQueryClient();
-  return useQuery(
-    queryKey.entry(props.uuid),
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    () => getEntry({ uuid: props.uuid! }), // non-null because enabled
-    {
-      enabled: !!props.uuid,
-      initialData: queryClient
-        .getQueryData<InfiniteData<Entry>>(
-          queryKey.searchedEntries({
-            keyword: queryClient.getQueryData(queryKey.currentSearch),
-          })
-        )
-        ?.pages.flat()
-        .find((entry) => entry.uuid === props.uuid),
-    }
-  );
-};
-
-/** getTagList */
-export type GetTagList = () => Promise<string[]>;
-
-const getTagList = fetcher<GetTagList>('/api/getTagList');
-
-export const useTagListQuery = () =>
-  useQuery(queryKey.tagList, () => getTagList());
-
 /**
  * Mutation
  */
@@ -141,37 +106,6 @@ export const useCreateEntriesMutation = () => {
       onSuccess: () => queryClient.invalidateQueries(queryKey.entries),
     }
   );
-};
-
-/** updateEntry */
-export const UpdateEntryRequest = z.object({ entry: entryObject });
-export type UpdateEntryInput = z.infer<typeof UpdateEntryRequest>;
-export type UpdateEntry = (input: UpdateEntryInput) => Promise<void>;
-
-const updateEntry = fetcher<UpdateEntry>('/api/updateEntry');
-
-export const useUpdateEntryMutation = () => {
-  const queryClient = useQueryClient();
-  return useMutation((input: UpdateEntryInput) => updateEntry(input), {
-    onSuccess: (data, variables) => {
-      queryClient.invalidateQueries(variables.entry.uuid);
-      queryClient.invalidateQueries(queryKey.entries);
-    },
-  });
-};
-
-/** deleteEntry */
-export const DeleteEntryRequest = z.object({ uuid: z.string() });
-export type DeleteEntryInput = z.infer<typeof DeleteEntryRequest>;
-export type DeleteEntry = (input: DeleteEntryInput) => Promise<void>;
-
-const deleteEntry = fetcher<DeleteEntry>('/api/deleteEntry');
-
-export const useDeleteEntryMutation = () => {
-  const queryClient = useQueryClient();
-  return useMutation((input: DeleteEntryInput) => deleteEntry(input), {
-    onSuccess: () => queryClient.invalidateQueries(queryKey.entries),
-  });
 };
 
 /** deleteAllEntries */
