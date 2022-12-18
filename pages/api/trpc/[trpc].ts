@@ -28,7 +28,11 @@ export const appRouter = trpc
   })
   .query('getEntry', {
     input: z.object({ uuid: z.string() }),
-    resolve: ({ input }) => entryRepository.readOne(input),
+    resolve: async ({ input }) => await entryRepository.readOne(input),
+  })
+  .mutation('updateEntry', {
+    input: z.object({ entry: entryObject }),
+    resolve: async ({ input }) => await entryRepository.updateOne(input),
   });
 
 // export type definition of API

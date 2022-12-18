@@ -10,8 +10,11 @@ import {
   useTagListQuery,
 } from '../domain/entryUseCase';
 import { trpc } from '../infra/trpc';
+import { useQueryClient } from 'react-query';
+import { queryKeys } from '../domain/queryKeys';
 
 export default function Article() {
+  const queryClient = useQueryClient();
   const router = useRouter();
   const { uuid: lowerUUID, preview } = router.query as {
     uuid?: string;
@@ -26,8 +29,15 @@ export default function Article() {
 
   const { data: tagList } = useTagListQuery();
   const { mutate: mutateDelete } = useDeleteEntryMutation();
-  const { mutate: mutateUpdate, isLoading: isUpdateLoading } =
-    useUpdateEntryMutation();
+  const { mutate: mutateUpdate, isLoading: isUpdateLoading } = trpc.useMutation(
+    ['updateEntry'],
+    {
+      onSuccess: (data, variables) => {
+        queryClient.invalidateQueries(queryKeys.entry(variables.entry.uuid));
+        queryClient.invalidateQueries(queryKeys.entries);
+      },
+    }
+  );
 
   return (
     <>
