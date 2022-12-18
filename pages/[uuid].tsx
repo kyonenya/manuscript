@@ -9,6 +9,7 @@ import {
   useUpdateEntryMutation,
   useTagListQuery,
 } from '../domain/entryUseCase';
+import { trpc } from '../infra/trpc';
 
 export default function Article() {
   const router = useRouter();
@@ -19,7 +20,10 @@ export default function Article() {
   const uuid = lowerUUID?.toUpperCase();
   const isPreview = !!preview;
 
-  const { data: entry } = useEntryQuery({ uuid });
+  const { data: entry } = trpc.useQuery(['getEntry', { uuid: uuid! }], {
+    enabled: !!uuid,
+  });
+
   const { data: tagList } = useTagListQuery();
   const { mutate: mutateDelete } = useDeleteEntryMutation();
   const { mutate: mutateUpdate, isLoading: isUpdateLoading } =
