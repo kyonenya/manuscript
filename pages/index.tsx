@@ -3,17 +3,11 @@ import { Auth } from '@supabase/ui';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { PostListPage } from '../components/PostListPage';
-import { newSearchQuery } from '../domain/SearchQuery';
-import {
-  useCurrentSearchStr,
-  useEntriesQuery,
-  useCreateEntriesMutation,
-  useDeleteAllEntriesMutation,
-} from '../domain/entryUseCase';
+import { useCurrentSearch } from '../hooks/useCurrentSearch';
 import { useInfiniteScroll } from '../hooks/useInfiniteScroll';
+import { entriesQueue } from '../infra/queue';
 import { supabase } from '../infra/supabase';
-
-const limit = 40;
+import { trpc } from '../infra/trpc';
 
 export default function Index() {
   const router = useRouter();
@@ -22,21 +16,33 @@ export default function Index() {
 
   const { user } = Auth.useUser();
 
-  const { searchStr, setSearchStr } = useCurrentSearchStr();
-  const searchQuery = searchStr ? newSearchQuery(searchStr) : undefined;
+  const { searchStr, setSearchStr, searchQuery, limit } = useCurrentSearch();
+
   const {
     data: entries,
     fetchNextPage,
     isFetching,
-  } = useEntriesQuery({ searchQuery, limit });
-  const { mutate: mutateDeleteAll } = useDeleteAllEntriesMutation();
+  } = trpc.useInfiniteQuery(['getEntries', { limit, ...searchQuery }], {
+    getNextPageParam: (lastPage, pages) => pages.length,
+  });
+
+  const { mutate: mutateDeleteAll } = trpc.useMutation(['deleteAllEntries']);
   const {
     mutate: mutateCreate,
     isSuccess: isCreated,
     isLoading: isCreating,
-  } = useCreateEntriesMutation();
+  } = trpc.useMutation(['createEntries']);
 
   const { scrollerRef } = useInfiniteScroll({ onScroll: fetchNextPage });
+
+  const onImport = async (input: Parameters<typeof mutateCreate>[0]) => {
+    await entriesQueue({
+      func: mutateCreate,
+      entries: input.entries,
+      each: 300,
+      concurrency: 4,
+    });
+  };
 
   if (!user)
     return (
@@ -59,7 +65,7 @@ export default function Index() {
         <title>manuscript</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Box>      
+      <Box>
         <PostListPage
           entries={entries?.pages.flat()}
           searchStr={searchStr}
@@ -69,7 +75,7 @@ export default function Index() {
           isImporting={isCreating}
           onSearch={({ searchStr }) => setSearchStr(searchStr)}
           onSignOut={() => supabase.auth.signOut()}
-          onImport={mutateCreate}
+          onImport={onImport}
           onDeleteAll={mutateDeleteAll}
         />
         <Flex justifyContent="center" ref={scrollerRef}>
