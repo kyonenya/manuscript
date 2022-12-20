@@ -5,11 +5,9 @@ import { useRouter } from 'next/router';
 import { PostListPage } from '../components/PostListPage';
 import { useCurrentSearch } from '../hooks/useCurrentSearch';
 import { useInfiniteScroll } from '../hooks/useInfiniteScroll';
+import { entriesQueue } from '../infra/queue';
 import { supabase } from '../infra/supabase';
 import { trpc } from '../infra/trpc';
-import { entriesQueue } from '../infra/queue';
-
-const limit = 40;
 
 export default function Index() {
   const router = useRouter();
@@ -18,7 +16,7 @@ export default function Index() {
 
   const { user } = Auth.useUser();
 
-  const { searchStr, searchQuery, setSearchStr } = useCurrentSearch();
+  const { searchStr, setSearchStr, searchQuery, limit } = useCurrentSearch();
 
   const {
     data: entries,

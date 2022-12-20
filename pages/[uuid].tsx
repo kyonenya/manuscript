@@ -19,7 +19,7 @@ export default function Article() {
   const uuid = lowerUUID?.toUpperCase();
   const isPreview = !!preview;
 
-  const { searchQuery } = useCurrentSearch();
+  const { searchQuery, limit } = useCurrentSearch();
 
   const { data: entry } = trpc.useQuery(
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -28,7 +28,7 @@ export default function Article() {
       enabled: !!uuid,
       initialData: queryClient
         .getQueryData<InfiniteData<Entry>>(
-          queryKeys.entries({ ...searchQuery })
+          queryKeys.entries({ limit, ...searchQuery })
         )
         ?.pages.flat()
         .find((entry) => entry.uuid === uuid),
@@ -41,7 +41,9 @@ export default function Article() {
     {
       onSuccess: (data, variables) => {
         queryClient.invalidateQueries(queryKeys.entry(variables.entry.uuid));
-        queryClient.invalidateQueries(queryKeys.entries({ ...searchQuery }));
+        queryClient.invalidateQueries(
+          queryKeys.entries({ limit, ...searchQuery })
+        );
       },
     }
   );

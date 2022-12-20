@@ -1,19 +1,14 @@
-import { useState } from 'react';
-import { useQueryClient } from 'react-query';
+import { useAtom } from 'jotai';
 import { newSearchQuery } from '../domain/SearchQuery';
-import { queryKeys } from '../domain/queryKeys';
+import { searchStrAtom } from '../domain/atoms';
 
 export const useCurrentSearch = () => {
-  const queryClient = useQueryClient();
-  const [searchStr, setSearchStr] = useState<string | undefined>(
-    queryClient.getQueryData<string>(queryKeys.currentSearchStr)
-  );
-  const setCurrentSearchStr = (rawStr: string | undefined) => {
-    const searchStr = rawStr === '' ? undefined : rawStr;
-    setSearchStr(searchStr);
-    queryClient.setQueryData(queryKeys.currentSearchStr, searchStr);
+  const [searchStr, setSearchStr] = useAtom(searchStrAtom);
+  return {
+    searchStr,
+    searchQuery: searchStr ? newSearchQuery(searchStr) : undefined,
+    setSearchStr: (rawStr: string | undefined) =>
+      setSearchStr(rawStr === '' ? undefined : rawStr),
+    limit: 40,
   };
-  const searchQuery = searchStr ? newSearchQuery(searchStr) : undefined;
-
-  return { searchStr, searchQuery, setSearchStr: setCurrentSearchStr };
 };
