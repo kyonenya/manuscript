@@ -2,9 +2,6 @@ import { Entry, newEntry } from '../domain/Entry';
 import * as entriesSQL from './entriesSQL';
 import { query, mutate } from './postgres';
 import * as tagsSQL from './tagsSQL';
-import { PrismaClient, Entry as PrismaEntry } from '@prisma/client';
-
-const prisma = new PrismaClient();
 
 type Schema = {
   text: string;
@@ -14,10 +11,6 @@ type Schema = {
   created_at: Date;
   modified_at: Date;
 };
-
-//const toPrismaEntry = ({text,starred,uuid,tags,createdAt,modifiedAt}: Entry): PrismaEntry => ({
-//  text,starred,uuid,tags: [{id:1, name:'engi'}],
-//})
 
 const entryFactory = (row: Schema): Entry => {
   return newEntry({
@@ -85,20 +78,11 @@ export const readTagList = async () => {
 /**
  * Mutation
  */
-export const createOne = async (props: {
-  entry: Entry;
-}): Promise<PrismaEntry> => {
-  const { createdAt, modifiedAt, tags, ...rest } = props.entry;
-  return await prisma.entry.create({
-    data: {
-      ...rest,
-      created_at: createdAt,
-      modified_at: modifiedAt,
-      tags: {
-        create: tags.map((tag) => ({ name: tag })),
-      },
-    },
-  });
+export const createOne = async (props: { entry: Entry }): Promise<number[]> => {
+  return await mutate(
+    entriesSQL.insertOne(props),
+    tagsSQL.insertMany(props.entry)
+  );
 };
 
 export const createMany = async (props: {
@@ -122,9 +106,6 @@ export const deleteOne = async (props: { uuid: string }): Promise<number[]> => {
   return await mutate(tagsSQL.deleteMany(props), entriesSQL.deleteOne(props));
 };
 
-export const deleteAll = async (): Promise<void> => {
-  await prisma.$transaction([
-    prisma.entry.deleteMany(),
-    prisma.tag.deleteMany(),
-  ]);
+export const deleteAll = async (): Promise<number[]> => {
+  return await mutate(tagsSQL.deleteAll(), entriesSQL.deleteAll());
 };
