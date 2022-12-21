@@ -2,12 +2,12 @@ import assert from 'assert';
 import dayjs from 'dayjs';
 import { newEntry } from '../../domain/Entry';
 import * as entryRepository from '../entryRepository';
-import { begin, rollback } from '../postgres';
 
 describe('Query:entriesRepository', () => {
   const entry1 = newEntry({
     text: 'これは最新の記事です。',
     createdAt: dayjs(),
+    tags: ['タグ1'],
   });
   const entry2 = newEntry({
     text: 'これは一つ前の記事です。',
@@ -16,12 +16,11 @@ describe('Query:entriesRepository', () => {
   });
   const entry3 = newEntry({
     text: 'これは二つ前の記事です。',
-    tags: ['タグ1', 'タグ2'],
+    tags: ['タグ1', 'タグ2', 'タグ3'],
     createdAt: dayjs().subtract(2, 'm'),
   });
 
   before(async () => {
-    //    await begin();
     await entryRepository.createOne({ entry: entry1 });
     await entryRepository.createOne({ entry: entry2 });
   });
@@ -76,11 +75,11 @@ describe('Query:entriesRepository', () => {
   //    assert.strictEqual(entries[0].text, entry2.text);
   //  });
   //
-  //  it('readOne', async () => {
-  //    const entry = await entryRepository.readOne({ uuid: entry1.uuid });
-  //    assert.strictEqual(entry?.text, entry1.text);
-  //  });
-  //
+  it('readOne', async () => {
+    const entry = await entryRepository.readOne({ uuid: entry1.uuid });
+    assert.strictEqual(entry?.text, entry1.text);
+  });
+
   //  it('readOne:empty', async () => {
   //    const result = await entryRepository.readOne({
   //      uuid: 'thisisadummyuuidthisisadummyuuid',
@@ -93,27 +92,27 @@ describe('Query:entriesRepository', () => {
   //    assert.ok(tagList.includes(entry2.tags[0]));
   //  });
   //
-  //  after(() => rollback());
+  after(async () => await entryRepository.deleteAll());
 });
 
 describe('Mutation:entriesRepository', () => {
-  //  beforeEach(() => begin());
+  beforeEach(async () => await entryRepository.deleteAll());
 
   it('createOne', async () => {
     const entry = newEntry({
       text: 'これはサンプルの記事です。',
       tags: ['タグ1', 'タグ2'],
     });
-    const result = await entryRepository.createOne({ entry });
-    console.log(result);
-    //    assert.deepStrictEqual(rowCounts, [1, 2]);
+    await entryRepository.createOne({ entry });
+    const readResult = await entryRepository.readOne({ uuid: entry.uuid });
+    assert.strictEqual(readResult?.text, entry.text);
+    assert.deepStrictEqual(readResult?.tags, entry.tags);
   });
 
   it('createOne:noTag', async () => {
     const entry = newEntry({ text: 'これはタグのない記事です。' });
     const result = await entryRepository.createOne({ entry });
-    //    assert.deepStrictEqual(rowCounts, [1]);
-    console.log(result);
+    assert.deepStrictEqual(result?.tags, entry.tags);
   });
 
   //  it('createMany', async () => {
@@ -180,5 +179,5 @@ describe('Mutation:entriesRepository', () => {
   //    assert.strictEqual(entries.length, 0);
   //  });
 
-  //  afterEach(() => rollback());
+  afterEach(async () => await entryRepository.deleteAll());
 });
