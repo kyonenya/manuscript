@@ -9,6 +9,7 @@
     "fmt": "prettier --write **/*.{ts,tsx,json}",
     "lint": "eslint --fix **/*.{ts,tsx}",
     "prisma:push": "prisma db push",
+    "prisma:generate": "prisma generate",
     "prisma": "prisma generate",
     "start": "next start",
     "test:domain": "cross-env TS_NODE_PROJECT=./tsconfig.cjs.json NODE_ENV=test mocha ./domain/__tests__/**.ts",
