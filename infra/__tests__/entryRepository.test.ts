@@ -80,19 +80,19 @@ describe('Query:entriesRepository', () => {
     assert.strictEqual(entry?.text, entry1.text);
   });
 
-  //  it('readOne:empty', async () => {
-  //    const result = await entryRepository.readOne({
-  //      uuid: 'thisisadummyuuidthisisadummyuuid',
-  //    });
-  //    assert.strictEqual(result, undefined);
-  //  });
-  //
-  //  it('readTagList', async () => {
-  //    const tagList = await entryRepository.readTagList();
-  //    assert.ok(tagList.includes(entry2.tags[0]));
-  //  });
-  //
-  //after(async () => await entryRepository.deleteAll());
+  it('readOne:empty', async () => {
+    const result = await entryRepository.readOne({
+      uuid: 'thisisadummyuuidthisisadummyuuid',
+    });
+    assert.strictEqual(result, undefined);
+  });
+
+  it('readTagList', async () => {
+    const tags = await entryRepository.readTagList();
+    assert.deepStrictEqual(tags, ['タグ1', 'タグ2']);
+  });
+
+  after(async () => await entryRepository.deleteAll());
 });
 
 describe('Mutation:entriesRepository', () => {
@@ -107,12 +107,6 @@ describe('Mutation:entriesRepository', () => {
     const readResult = await entryRepository.readOne({ uuid: entry.uuid });
     assert.strictEqual(readResult?.text, entry.text);
     assert.deepStrictEqual(readResult?.tags, entry.tags);
-  });
-
-  it('createOne:noTag', async () => {
-    const entry = newEntry({ text: 'これはタグのない記事です。' });
-    const result = await entryRepository.createOne({ entry });
-    assert.deepStrictEqual(result?.tags, entry.tags);
   });
 
   //  it('createMany', async () => {
@@ -131,24 +125,25 @@ describe('Mutation:entriesRepository', () => {
   //    assert.deepStrictEqual(rowCounts, [2, 1, 3]);
   //  });
   //
-  //  it('updateOne', async () => {
-  //    const oldEntry = newEntry({
-  //      text: 'これはサンプルの記事です。',
-  //      tags: ['タグ1', 'タグ2'],
-  //    });
-  //    await entryRepository.createOne({ entry: oldEntry });
-  //    const updatedEntry = newEntry({
-  //      text: 'これは更新された記事です。',
-  //      tags: ['新しいタグ1', '新しいタグ2'],
-  //      uuid: oldEntry.uuid,
-  //    });
-  //    await entryRepository.updateOne({ entry: updatedEntry });
-  //    const resultEntry = await entryRepository.readOne({
-  //      uuid: oldEntry.uuid,
-  //    });
-  //    assert.strictEqual(resultEntry?.text, updatedEntry.text);
-  //    assert.deepStrictEqual(resultEntry?.tags, updatedEntry.tags);
-  //  });
+  it('updateOne', async () => {
+    const oldEntry = newEntry({
+      text: 'これはサンプルの記事です。',
+      tags: ['タグ1', 'タグ2'],
+    });
+    const updatedEntry = newEntry({
+      text: 'これは更新された記事です。',
+      tags: ['新しいタグ1', '新しいタグ2'],
+      uuid: oldEntry.uuid,
+    });
+
+    await entryRepository.createOne({ entry: oldEntry });
+    await entryRepository.updateOne({ entry: updatedEntry });
+    const resultEntry = await entryRepository.readOne({
+      uuid: oldEntry.uuid,
+    });
+    assert.strictEqual(resultEntry?.text, updatedEntry.text);
+    assert.deepStrictEqual(resultEntry?.tags, updatedEntry.tags);
+  });
   //
   //  it('deleteOne', async () => {
   //    const entry = newEntry({

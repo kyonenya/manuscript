@@ -14,9 +14,7 @@ type Schema = {
   modified_at: Date;
 };
 
-//const toPrismaEntry = ({text,starred,uuid,tags,createdAt,modifiedAt}: Entry): PrismaEntry => ({
-//  text,starred,uuid,tags: [{id:1, name:'engi'}],
-//})
+type Entry2 = PrismaEntry & { tags: Tag[] };
 
 const toEntry = (
   row: (PrismaEntry & { tags?: Tag[] }) | null
@@ -94,8 +92,8 @@ export const readOne = async (props: {
 };
 
 export const readTagList = async () => {
-  const rows = await query<{ tag: string }>(tagsSQL.selectDistinct());
-  return rows.map((row) => row.tag);
+  const rows = await prisma.tag.findMany({});
+  return rows.map((row) => row.name);
 };
 
 /**
@@ -107,13 +105,11 @@ export const createOne = async (props: {
   const { createdAt, modifiedAt, tags, ...rest } = props.entry;
   const row = await prisma.entry.create({
     data: {
-      text: props.entry.text,
-      starred: props.entry.starred,
-      uuid: props.entry.uuid,
-      created_at: props.entry.createdAt,
-      modified_at: props.entry.modifiedAt,
+      ...rest,
+      created_at: createdAt,
+      modified_at: modifiedAt,
       tags: {
-        connectOrCreate: props.entry.tags.map((tag) => ({
+        connectOrCreate: tags.map((tag) => ({
           where: { name: tag },
           create: { name: tag },
         })),
@@ -132,16 +128,42 @@ export const createMany = async (props: {
   );
 };
 
-export const updateOne = async (props: { entry: Entry }): Promise<any> => {};
+const disconnectAllTags = async (props: { uuid: string }): Promise<Entry2> => {
+  return await prisma.entry.update({
+    where: { uuid: props.uuid },
+    data: { tags: { set: [] } },
+    include: { tags: true },
+  });
+};
+
+export const updateOne = async (props: { entry: Entry }): Promise<any> => {
+  const { createdAt, modifiedAt, tags, ...rest } = props.entry;
+  await disconnectAllTags({ uuid: props.entry.uuid });
+  const row = await prisma.entry.update({
+    where: { uuid: props.entry.uuid },
+    data: {
+      ...rest,
+      created_at: createdAt,
+      modified_at: modifiedAt,
+      tags: {
+        connectOrCreate: tags.map((tag) => ({
+          where: { name: tag },
+          create: { name: tag },
+        })),
+      },
+    },
+  });
+  return toEntry(row);
+};
 
 export const deleteOne = async (props: { uuid: string }): Promise<number[]> => {
   return await mutate(tagsSQL.deleteMany(props), entriesSQL.deleteOne(props));
 };
 
 export const deleteAll = async (): Promise<number[]> => {
-  const batchPayload = await prisma.$transaction([
+  const batchPayloads = await prisma.$transaction([
     prisma.entry.deleteMany(),
     prisma.tag.deleteMany(),
   ]);
-  return batchPayload.map((bp) => bp.count);
+  return batchPayloads.map((bp) => bp.count);
 };
