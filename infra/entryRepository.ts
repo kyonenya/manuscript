@@ -157,7 +157,9 @@ export const updateOne = async (props: { entry: Entry }): Promise<any> => {
 };
 
 export const deleteOne = async (props: { uuid: string }): Promise<number[]> => {
-  return await mutate(tagsSQL.deleteMany(props), entriesSQL.deleteOne(props));
+  await disconnectAllTags(props);
+  await prisma.entry.delete({ where: { uuid: props.uuid } });
+  return [1];
 };
 
 export const deleteAll = async (): Promise<number[]> => {
