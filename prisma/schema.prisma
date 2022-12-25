@@ -8,25 +8,16 @@ datasource db {
 }
 
 model Entry {
-  uuid        String          @id @db.VarChar(32)
-  text        String          @db.Text
-  starred     Boolean         @default(false)
-  created_at  DateTime        @default(now())
-  modified_at DateTime        @default(now())
-  tags        TagsOnEntries[]
+  uuid        String    @id @db.VarChar(32)
+  text        String    @db.Text
+  starred     Boolean   @default(false)
+  tags        Tag[]
+  created_at  DateTime  @default(now())
+  modified_at DateTime  @default(now())
 }
 
 model Tag {
-  id      Int             @id @default(autoincrement())
+  id      Int     @id @default(autoincrement())
   name    String
-  entries TagsOnEntries[]
-}
-
-model TagsOnEntries {
-  entry      Entry  @relation(fields: [entryUuid], references: [uuid])
-  entryUuid  String
-  tag        Tag    @relation(fields: [tagId], references: [id])
-  tagId      Int
-
-  @@id([entryUuid, tagId])
+  entries Entry[]
 }

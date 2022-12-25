@@ -2,9 +2,8 @@ import { Entry, newEntry } from '../domain/Entry';
 import * as entriesSQL from './entriesSQL';
 import { query, mutate } from './postgres';
 import * as tagsSQL from './tagsSQL';
-import { PrismaClient, Entry as PrismaEntry, Tag } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import { prisma } from './prisma';
+import { Entry as PrismaEntry, Tag } from '@prisma/client';
 
 type Schema = {
   text: string;
@@ -32,17 +31,6 @@ const toEntry = (
         modifiedAt: row.modified_at,
       })
     : undefined;
-
-const toPrismaEntry = (entry: Entry, mode: string) => ({
-  text: entry.text,
-  starred: entry.starred,
-  uuid: entry.uuid,
-  created_at: entry.createdAt,
-  modified_at: entry.modifiedAt,
-  tags: {
-    [mode]: entry.tags.map((tag) => ({ name: tag })),
-  },
-});
 
 const entryFactory = (row: Schema): Entry => {
   return newEntry({
@@ -118,7 +106,16 @@ export const createOne = async (props: {
 }): Promise<Entry | undefined> => {
   const { createdAt, modifiedAt, tags, ...rest } = props.entry;
   const row = await prisma.entry.create({
-    data: toPrismaEntry(props.entry, 'create'),
+    data: {
+      text: props.entry.text,
+      starred: props.entry.starred,
+      uuid: props.entry.uuid,
+      created_at: props.entry.createdAt,
+      modified_at: props.entry.modifiedAt,
+      tags: {
+        create: props.entry.tags.map((tag) => ({ name: tag })),
+      },
+    },
   });
   return toEntry(row);
 };
@@ -132,13 +129,7 @@ export const createMany = async (props: {
   );
 };
 
-export const updateOne = async (props: { entry: Entry }): Promise<number[]> => {
-  await mutate(tagsSQL.deleteMany(props.entry));
-  return await mutate(
-    entriesSQL.updateOne(props),
-    tagsSQL.insertMany(props.entry)
-  );
-};
+export const updateOne = async (props: { entry: Entry }): Promise<any> => {};
 
 export const deleteOne = async (props: { uuid: string }): Promise<number[]> => {
   return await mutate(tagsSQL.deleteMany(props), entriesSQL.deleteOne(props));
