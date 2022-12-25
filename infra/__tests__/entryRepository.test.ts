@@ -92,7 +92,7 @@ describe('Query:entriesRepository', () => {
   //    assert.ok(tagList.includes(entry2.tags[0]));
   //  });
   //
-  after(async () => await entryRepository.deleteAll());
+  //after(async () => await entryRepository.deleteAll());
 });
 
 describe('Mutation:entriesRepository', () => {

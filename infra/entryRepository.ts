@@ -113,7 +113,10 @@ export const createOne = async (props: {
       created_at: props.entry.createdAt,
       modified_at: props.entry.modifiedAt,
       tags: {
-        create: props.entry.tags.map((tag) => ({ name: tag })),
+        connectOrCreate: props.entry.tags.map((tag) => ({
+          where: { name: tag },
+          create: { name: tag },
+        })),
       },
     },
   });
