@@ -16,19 +16,15 @@ type Schema = {
 
 type Entry2 = PrismaEntry & { tags: Tag[] };
 
-const toEntry = (
-  row: (PrismaEntry & { tags?: Tag[] }) | null
-): Entry | undefined =>
-  row
-    ? newEntry({
-        text: row.text,
-        starred: row.starred,
-        uuid: row.uuid,
-        tags: row.tags?.map((tag) => tag.name),
-        createdAt: row.created_at,
-        modifiedAt: row.modified_at,
-      })
-    : undefined;
+const toEntry = (row: PrismaEntry & { tags: Tag[] }): Entry =>
+  newEntry({
+    text: row.text,
+    starred: row.starred,
+    uuid: row.uuid,
+    tags: row.tags?.map((tag) => tag.name),
+    createdAt: row.created_at,
+    modifiedAt: row.modified_at,
+  });
 
 const entryFactory = (row: Schema): Entry => {
   return newEntry({
@@ -48,8 +44,13 @@ export const readMany = async (props: {
   limit: number;
   offset?: number;
 }): Promise<Entry[]> => {
-  const rows = await query<Schema>(entriesSQL.selectMany(props));
-  return rows.map((row) => entryFactory(row));
+  const rows = await prisma.entry.findMany({
+    take: props.limit,
+    skip: props.offset,
+    orderBy: { created_at: 'desc' },
+    include: { tags: true },
+  });
+  return rows.filter((row) => row != null).map((row) => toEntry(row));
 };
 
 export const readByKeyword = async (props: {
@@ -57,8 +58,14 @@ export const readByKeyword = async (props: {
   limit: number;
   offset?: number;
 }): Promise<Entry[]> => {
-  const rows = await query<Schema>(entriesSQL.selectByKeyword(props));
-  return rows.map((row) => entryFactory(row));
+  const rows = await prisma.entry.findMany({
+    where: { text: { contains: props.keyword } },
+    take: props.limit,
+    skip: props.offset,
+    orderBy: { created_at: 'desc' },
+    include: { tags: true },
+  });
+  return rows.map((row) => toEntry(row));
 };
 
 export const readByTag = async (props: {
@@ -66,9 +73,18 @@ export const readByTag = async (props: {
   keyword?: string;
   limit: number;
   offset?: number;
-}): Promise<Entry[]> => {
-  const rows = await query<Schema>(entriesSQL.selectByTag(props));
-  return rows.map((row) => entryFactory(row));
+}): Promise<any> => {
+  const rows = await prisma.entry.findMany({
+    where: {
+      text: { contains: props.keyword },
+      tags: { some: { name: { equals: props.tag } } },
+    },
+    take: props.limit,
+    skip: props.offset,
+    orderBy: { created_at: 'desc' },
+    include: { tags: true },
+  });
+  return rows.map((row) => toEntry(row));
 };
 
 export const readByDate = async (props: {
@@ -77,8 +93,19 @@ export const readByDate = async (props: {
   limit: number;
   offset?: number;
 }): Promise<Entry[]> => {
-  const rows = await query<Schema>(entriesSQL.selectByDate(props));
-  return rows.map((row) => entryFactory(row));
+  const rows = await prisma.entry.findMany({
+    where: {
+      created_at: {
+        gte: props.since,
+        lt: props.until,
+      },
+    },
+    take: props.limit,
+    skip: props.offset,
+    orderBy: { created_at: 'desc' },
+    include: { tags: true },
+  });
+  return rows.map((row) => toEntry(row));
 };
 
 export const readOne = async (props: {
@@ -88,7 +115,7 @@ export const readOne = async (props: {
     where: { uuid: props.uuid },
     include: { tags: true },
   });
-  return toEntry(row);
+  return row ? toEntry(row) : undefined;
 };
 
 export const readTagList = async () => {
@@ -115,6 +142,7 @@ export const createOne = async (props: {
         })),
       },
     },
+    include: { tags: true },
   });
   return toEntry(row);
 };
@@ -152,14 +180,18 @@ export const updateOne = async (props: { entry: Entry }): Promise<any> => {
         })),
       },
     },
+    include: { tags: true },
   });
   return toEntry(row);
 };
 
-export const deleteOne = async (props: { uuid: string }): Promise<number[]> => {
+export const deleteOne = async (props: { uuid: string }): Promise<Entry> => {
   await disconnectAllTags(props);
-  await prisma.entry.delete({ where: { uuid: props.uuid } });
-  return [1];
+  const row = await prisma.entry.delete({
+    where: { uuid: props.uuid },
+    include: { tags: true },
+  });
+  return toEntry(row);
 };
 
 export const deleteAll = async (): Promise<number[]> => {
