@@ -128,7 +128,7 @@ export const readTagList = async () => {
  */
 export const createOne = async (props: {
   entry: Entry;
-}): Promise<Entry | undefined> => {
+}): Promise<Entry> => {
   const { createdAt, modifiedAt, tags, ...rest } = props.entry;
   const row = await prisma.entry.create({
     data: {
@@ -149,11 +149,13 @@ export const createOne = async (props: {
 
 export const createMany = async (props: {
   entries: Entry[];
-}): Promise<number[]> => {
-  return await mutate(
-    entriesSQL.insertMany(props),
-    ...props.entries.map((entry) => tagsSQL.insertMany(entry))
-  );
+}): Promise<number> => {
+  const results: Entry[] = [];
+  for (const entry of props.entries) {
+    const result = await createOne({ entry });
+    results.push(result);
+  }
+  return results.length;
 };
 
 const disconnectAllTags = async (props: { uuid: string }): Promise<Entry2> => {

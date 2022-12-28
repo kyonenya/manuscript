@@ -111,21 +111,21 @@ describe('Mutation:entriesRepository', () => {
     assert.deepStrictEqual(readResult?.tags, entry.tags);
   });
 
-  //  it('createMany', async () => {
-  //    const entry1 = newEntry({
-  //      text: 'これは１つ目の記事です。',
-  //      tags: ['タグ1'],
-  //      createdAt: dayjs().subtract(1, 's'),
-  //    });
-  //    const entry2 = newEntry({
-  //      text: 'これは２つ目の記事です。',
-  //      tags: ['タグ1', 'タグ2', 'タグ3'],
-  //    });
-  //    const rowCounts = await entryRepository.createMany({
-  //      entries: [entry1, entry2],
-  //    });
-  //    assert.deepStrictEqual(rowCounts, [2, 1, 3]);
-  //  });
+    it('createMany', async () => {
+      const entry1 = newEntry({
+        text: 'これは１つ目の記事です。',
+        tags: ['タグ1'],
+        createdAt: dayjs().subtract(1, 's'),
+      });
+      const entry2 = newEntry({
+        text: 'これは２つ目の記事です。',
+        tags: ['タグ1', 'タグ2', 'タグ3'],
+      });
+      const rowCounts = await entryRepository.createMany({
+        entries: [entry1, entry2],
+      });
+      assert.deepStrictEqual(rowCounts, [2]);
+    });
 
   it('updateOne', async () => {
     const oldEntry = newEntry({
@@ -174,5 +174,7 @@ describe('Mutation:entriesRepository', () => {
     assert.strictEqual(entries.length, 0);
   });
 
-  afterEach(async () => await entryRepository.deleteAll());
+  afterEach(async () => {
+    await entryRepository.deleteAll();
+  });
 });

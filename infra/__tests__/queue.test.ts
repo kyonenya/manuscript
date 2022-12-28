@@ -2,7 +2,6 @@ import assert from 'assert';
 import dayjs from 'dayjs';
 import { newEntry } from '../../domain/Entry';
 import * as entryRepository from '../entryRepository';
-import { begin, rollback } from '../postgres';
 import { entriesQueue } from '../queue';
 
 const entries = [
@@ -25,21 +24,27 @@ const entries = [
 ];
 
 describe('entriesQueue', () => {
-  //  beforeEach(() => begin());
-  //  it('createMany:queued', async () => {
-  //    const rowCounts = await entriesQueue({
-  //      func: entryRepository.createMany,
-  //      entries,
-  //      each: 2,
-  //      concurrency: Infinity,
-  //    });
-  //    assert.deepStrictEqual(rowCounts, [[2], [2]]);
-  //  });
-  //
-  //  it('createMany:not queued', async () => {
-  //    // to compare exection time: queue should be slower(delayed)
-  //    const rowCounts = await entryRepository.createMany({ entries });
-  //    assert.deepStrictEqual(rowCounts, [4]);
-  //  });
-  //  afterEach(() => rollback());
+    beforeEach(async() => {
+      await entryRepository.deleteAll();
+    });
+
+    it('createMany:queued', async () => {
+      const rowCounts = await entriesQueue({
+        func: entryRepository.createMany,
+        entries,
+        each: 2,
+        concurrency: Infinity,
+      });
+      assert.deepStrictEqual(rowCounts, [[2], [2]]);
+    });
+  
+    it('createMany:not queued', async () => {
+      // to compare exection time: queue should be slower(delayed)
+      const rowCounts = await entryRepository.createMany({ entries });
+      assert.deepStrictEqual(rowCounts, [4]);
+    });
+
+    afterEach(async() => {
+      await entryRepository.deleteAll();
+    });
 });
