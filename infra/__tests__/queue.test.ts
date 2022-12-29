@@ -24,27 +24,30 @@ const entries = [
 ];
 
 describe('entriesQueue', () => {
-    beforeEach(async() => {
-      await entryRepository.deleteAll();
-    });
+  beforeEach(async () => {
+    await entryRepository.deleteAll();
+  });
 
-    it('createMany:queued', async () => {
-      const rowCounts = await entriesQueue({
-        func: entryRepository.createMany,
-        entries,
-        each: 2,
-        concurrency: Infinity,
-      });
-      assert.deepStrictEqual(rowCounts, [[2], [2]]);
+  it('createMany:queued', async () => {
+    const rowCounts = await entriesQueue({
+      func: entryRepository.createMany,
+      entries,
+      each: 2,
+      concurrency: Infinity,
     });
-  
-    it('createMany:not queued', async () => {
-      // to compare exection time: queue should be slower(delayed)
-      const rowCounts = await entryRepository.createMany({ entries });
-      assert.deepStrictEqual(rowCounts, [4]);
-    });
+    assert.deepStrictEqual(rowCounts, [
+      [2, 0],
+      [2, 0],
+    ]);
+  });
 
-    afterEach(async() => {
-      await entryRepository.deleteAll();
-    });
+  it('createMany:not queued', async () => {
+    // to compare exection time: queue should be slower(delayed)
+    const rowCounts = await entryRepository.createMany({ entries });
+    assert.deepStrictEqual(rowCounts, [4, 0]);
+  });
+
+  afterEach(async () => {
+    await entryRepository.deleteAll();
+  });
 });

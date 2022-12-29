@@ -29,3 +29,7 @@ export const newEntry = (props: {
     modifiedAt: dayjs(props.modifiedAt).format(),
   };
 };
+
+export const tagHistory = (posts: Entry[]): string[] => [
+  ...new Set(posts.map((post) => post.tags).flat()),
+]; // uniq

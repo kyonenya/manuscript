@@ -1,0 +1,18 @@
+import { Tag } from '@prisma/client';
+import { Entry } from './Entry';
+
+export const tagNameToId = (props: {
+  name: string;
+  tags: Tag[];
+}): number | undefined => props.tags.find((tag) => props.name === tag.name)?.id;
+
+export const entriesTagToABs = (props: { entries: Entry[]; tags: Tag[] }) => {
+  return props.entries
+    .map((entry) =>
+      entry.tags.map((tag) => [
+        entry.uuid,
+        tagNameToId({ name: tag, tags: props.tags })!,
+      ])
+    )
+    .flat();
+};
