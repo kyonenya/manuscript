@@ -5,12 +5,12 @@
   "scripts": {
     "_tsc": "tsc -w",
     "build": "next build",
+    "vercel-build": "prisma generate && prisma db push && next build",
     "dev": "next dev -p 3450",
     "fmt": "prettier --write **/*.{ts,tsx,json}",
     "lint": "eslint --fix **/*.{ts,tsx}",
     "prisma:push": "prisma db push",
     "prisma:generate": "prisma generate",
-    "prisma": "prisma generate",
     "start": "next start",
     "test:domain": "cross-env TS_NODE_PROJECT=./tsconfig.cjs.json NODE_ENV=test mocha ./domain/__tests__/**.ts",
     "test:infra": "cross-env TS_NODE_PROJECT=./tsconfig.cjs.json NODE_ENV=test mocha ./infra/__tests__/**.ts"
