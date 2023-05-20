@@ -1,27 +1,18 @@
-import { Entry, newEntry } from '../domain/Entry';
-import * as entriesSQL from './entriesSQL';
-import { query, mutate } from './postgres';
-import * as tagsSQL from './tagsSQL';
+import { Prisma } from '@prisma/client';
+import { Entry as PrismaEntry, Tag, PrismaPromise } from '@prisma/client';
+import { Entry, newEntry, tagHistory } from '../domain/Entry';
+import { entriesTagToABs } from '../domain/Tag';
+import { prisma } from './prisma';
 
-type Schema = {
-  text: string;
-  starred: boolean;
-  uuid: string;
-  taglist: string | null;
-  created_at: Date;
-  modified_at: Date;
-};
-
-const entryFactory = (row: Schema): Entry => {
-  return newEntry({
+const toEntry = (row: PrismaEntry & { tags: Tag[] }): Entry =>
+  newEntry({
     text: row.text,
     starred: row.starred,
     uuid: row.uuid,
-    tags: row.taglist?.split(',') ?? [],
+    tags: row.tags?.map((tag) => tag.name),
     createdAt: row.created_at,
     modifiedAt: row.modified_at,
   });
-};
 
 /**
  * Query
@@ -30,8 +21,13 @@ export const readMany = async (props: {
   limit: number;
   offset?: number;
 }): Promise<Entry[]> => {
-  const rows = await query<Schema>(entriesSQL.selectMany(props));
-  return rows.map((row) => entryFactory(row));
+  const rows = await prisma.entry.findMany({
+    take: props.limit,
+    skip: props.offset,
+    orderBy: { created_at: 'desc' },
+    include: { tags: true },
+  });
+  return rows.filter((row) => row != null).map((row) => toEntry(row));
 };
 
 export const readByKeyword = async (props: {
@@ -39,8 +35,14 @@ export const readByKeyword = async (props: {
   limit: number;
   offset?: number;
 }): Promise<Entry[]> => {
-  const rows = await query<Schema>(entriesSQL.selectByKeyword(props));
-  return rows.map((row) => entryFactory(row));
+  const rows = await prisma.entry.findMany({
+    where: { text: { contains: props.keyword } },
+    take: props.limit,
+    skip: props.offset,
+    orderBy: { created_at: 'desc' },
+    include: { tags: true },
+  });
+  return rows.map((row) => toEntry(row));
 };
 
 export const readByTag = async (props: {
@@ -49,8 +51,17 @@ export const readByTag = async (props: {
   limit: number;
   offset?: number;
 }): Promise<Entry[]> => {
-  const rows = await query<Schema>(entriesSQL.selectByTag(props));
-  return rows.map((row) => entryFactory(row));
+  const rows = await prisma.entry.findMany({
+    where: {
+      text: { contains: props.keyword },
+      tags: { some: { name: { equals: props.tag } } },
+    },
+    take: props.limit,
+    skip: props.offset,
+    orderBy: { created_at: 'desc' },
+    include: { tags: true },
+  });
+  return rows.map((row) => toEntry(row));
 };
 
 export const readByDate = async (props: {
@@ -59,53 +70,133 @@ export const readByDate = async (props: {
   limit: number;
   offset?: number;
 }): Promise<Entry[]> => {
-  const rows = await query<Schema>(entriesSQL.selectByDate(props));
-  return rows.map((row) => entryFactory(row));
+  const rows = await prisma.entry.findMany({
+    where: {
+      created_at: {
+        gte: props.since,
+        lt: props.until,
+      },
+    },
+    take: props.limit,
+    skip: props.offset,
+    orderBy: { created_at: 'desc' },
+    include: { tags: true },
+  });
+  return rows.map((row) => toEntry(row));
 };
 
 export const readOne = async (props: {
   uuid: string;
 }): Promise<Entry | undefined> => {
-  const rows = await query<Schema>(entriesSQL.selectOne(props));
-  return rows.length > 0 ? entryFactory(rows[0]) : undefined;
+  const row = await prisma.entry.findUnique({
+    where: { uuid: props.uuid },
+    include: { tags: true },
+  });
+  return row ? toEntry(row) : undefined;
 };
 
 export const readTagList = async () => {
-  const rows = await query<{ tag: string }>(tagsSQL.selectDistinct());
-  return rows.map((row) => row.tag);
+  const rows = await prisma.tag.findMany({});
+  return rows.map((row) => row.name);
 };
 
 /**
  * Mutation
  */
-export const createOne = async (props: { entry: Entry }): Promise<number[]> => {
-  return await mutate(
-    entriesSQL.insertOne(props),
-    tagsSQL.insertMany(props.entry)
-  );
+export const createOne = async (props: { entry: Entry }): Promise<Entry> => {
+  const { createdAt, modifiedAt, tags, ...rest } = props.entry;
+  const row = await prisma.entry.create({
+    data: {
+      ...rest,
+      created_at: createdAt,
+      modified_at: modifiedAt,
+      tags: {
+        connectOrCreate: tags.map((tag) => ({
+          where: { name: tag },
+          create: { name: tag },
+        })),
+      },
+    },
+    include: { tags: true },
+  });
+  return toEntry(row);
 };
 
 export const createMany = async (props: {
   entries: Entry[];
 }): Promise<number[]> => {
-  return await mutate(
-    entriesSQL.insertMany(props),
-    ...props.entries.map((entry) => tagsSQL.insertMany(entry))
+  await prisma.tag.createMany({
+    data: tagHistory(props.entries).map((tag) => ({ name: tag })),
+  });
+  const tags = await prisma.tag.findMany({});
+
+  const createEntry = prisma.entry.createMany({
+    data: props.entries.map(({ createdAt, modifiedAt, tags, ...rest }) => ({
+      ...rest,
+      created_at: createdAt,
+      modified_at: modifiedAt,
+    })),
+  });
+  const ABs = entriesTagToABs({ entries: props.entries, tags });
+  const connectEntriesToTags =
+    ABs.length > 0
+      ? prisma.$executeRaw`
+    INSERT INTO "_EntryToTag" ("A", "B")
+    VALUES ${Prisma.join(ABs.map((ab) => Prisma.sql`(${Prisma.join(ab)})`))}
+    ON CONFLICT DO NOTHING;`
+      : undefined;
+  const [bp, tagsCount] = await prisma.$transaction(
+    [createEntry, connectEntriesToTags].filter(
+      (v): v is PrismaPromise<any> => !!v
+    )
   );
+  return [bp.count, tagsCount ?? 0];
 };
 
-export const updateOne = async (props: { entry: Entry }): Promise<number[]> => {
-  await mutate(tagsSQL.deleteMany(props.entry));
-  return await mutate(
-    entriesSQL.updateOne(props),
-    tagsSQL.insertMany(props.entry)
-  );
+const disconnectAllTags = async (props: {
+  uuid: string;
+}): Promise<PrismaEntry & { tags: Tag[] }> => {
+  return await prisma.entry.update({
+    where: { uuid: props.uuid },
+    data: { tags: { set: [] } },
+    include: { tags: true },
+  });
 };
 
-export const deleteOne = async (props: { uuid: string }): Promise<number[]> => {
-  return await mutate(tagsSQL.deleteMany(props), entriesSQL.deleteOne(props));
+export const updateOne = async (props: { entry: Entry }): Promise<Entry> => {
+  const { createdAt, modifiedAt, tags, ...rest } = props.entry;
+  await disconnectAllTags({ uuid: props.entry.uuid });
+  const row = await prisma.entry.update({
+    where: { uuid: props.entry.uuid },
+    data: {
+      ...rest,
+      created_at: createdAt,
+      modified_at: modifiedAt,
+      tags: {
+        connectOrCreate: tags.map((tag) => ({
+          where: { name: tag },
+          create: { name: tag },
+        })),
+      },
+    },
+    include: { tags: true },
+  });
+  return toEntry(row);
+};
+
+export const deleteOne = async (props: { uuid: string }): Promise<Entry> => {
+  await disconnectAllTags(props);
+  const row = await prisma.entry.delete({
+    where: { uuid: props.uuid },
+    include: { tags: true },
+  });
+  return toEntry(row);
 };
 
 export const deleteAll = async (): Promise<number[]> => {
-  return await mutate(tagsSQL.deleteAll(), entriesSQL.deleteAll());
+  const batchPayloads = await prisma.$transaction([
+    prisma.entry.deleteMany(),
+    prisma.tag.deleteMany(),
+  ]);
+  return batchPayloads.map((bp) => bp.count);
 };

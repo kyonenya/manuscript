@@ -2,12 +2,12 @@ import assert from 'assert';
 import dayjs from 'dayjs';
 import { newEntry } from '../../domain/Entry';
 import * as entryRepository from '../entryRepository';
-import { begin, rollback } from '../postgres';
 
 describe('Query:entriesRepository', () => {
   const entry1 = newEntry({
     text: 'これは最新の記事です。',
     createdAt: dayjs(),
+    tags: ['タグ1'],
   });
   const entry2 = newEntry({
     text: 'これは一つ前の記事です。',
@@ -16,12 +16,12 @@ describe('Query:entriesRepository', () => {
   });
   const entry3 = newEntry({
     text: 'これは二つ前の記事です。',
-    tags: ['タグ1', 'タグ2'],
+    tags: ['タグ1', 'タグ2', 'タグ3'],
     createdAt: dayjs().subtract(2, 'm'),
   });
 
   before(async () => {
-    await begin();
+    await entryRepository.deleteAll();
     await entryRepository.createOne({ entry: entry1 });
     await entryRepository.createOne({ entry: entry2 });
   });
@@ -40,6 +40,7 @@ describe('Query:entriesRepository', () => {
     });
     assert.strictEqual(entries.length, 1);
     assert.strictEqual(entries[0].text, entry2.text);
+    assert.deepStrictEqual(entries[0].tags, entry2.tags);
   });
   it('readByKeyword:emptyKeyword', async () => {
     const entries = await entryRepository.readByKeyword({
@@ -55,12 +56,12 @@ describe('Query:entriesRepository', () => {
       tag: 'タグ1',
       limit: 1,
     });
-    assert.strictEqual(entries[0].text, entry2.text);
+    assert.strictEqual(entries[0].text, entry1.text);
   });
   it('readByTag:withKeyword', async () => {
     const entries = await entryRepository.readByTag({
       tag: 'タグ1',
-      keyword: 'これは',
+      keyword: '一つ前',
       limit: 1,
     });
     assert.strictEqual(entries[0].text, entry2.text);
@@ -89,45 +90,42 @@ describe('Query:entriesRepository', () => {
   });
 
   it('readTagList', async () => {
-    const tagList = await entryRepository.readTagList();
-    assert.ok(tagList.includes(entry2.tags[0]));
+    const tags = await entryRepository.readTagList();
+    assert.deepStrictEqual(tags, ['タグ1', 'タグ2']);
   });
 
-  after(() => rollback());
+  after(async () => await entryRepository.deleteAll());
 });
 
 describe('Mutation:entriesRepository', () => {
-  beforeEach(() => begin());
+  beforeEach(async () => await entryRepository.deleteAll());
 
   it('createOne', async () => {
     const entry = newEntry({
       text: 'これはサンプルの記事です。',
       tags: ['タグ1', 'タグ2'],
     });
-    const rowCounts = await entryRepository.createOne({ entry });
-    assert.deepStrictEqual(rowCounts, [1, 2]);
-  });
-
-  it('createOne:noTag', async () => {
-    const entry = newEntry({ text: 'これはタグのない記事です。' });
-    const rowCounts = await entryRepository.createOne({ entry });
-    assert.deepStrictEqual(rowCounts, [1]);
+    await entryRepository.createOne({ entry });
+    const readResult = await entryRepository.readOne({ uuid: entry.uuid });
+    assert.strictEqual(readResult?.text, entry.text);
+    assert.deepStrictEqual(readResult?.tags, entry.tags);
   });
 
   it('createMany', async () => {
     const entry1 = newEntry({
       text: 'これは１つ目の記事です。',
       tags: ['タグ1'],
-      createdAt: dayjs().subtract(1, 's'),
     });
     const entry2 = newEntry({
       text: 'これは２つ目の記事です。',
       tags: ['タグ1', 'タグ2', 'タグ3'],
+      createdAt: dayjs().subtract(1, 's'),
     });
-    const rowCounts = await entryRepository.createMany({
+    await entryRepository.createMany({
       entries: [entry1, entry2],
     });
-    assert.deepStrictEqual(rowCounts, [2, 1, 3]);
+    const entries = await entryRepository.readMany({ limit: 2 });
+    assert.deepStrictEqual(entries, [entry1, entry2]);
   });
 
   it('updateOne', async () => {
@@ -135,15 +133,15 @@ describe('Mutation:entriesRepository', () => {
       text: 'これはサンプルの記事です。',
       tags: ['タグ1', 'タグ2'],
     });
-    await entryRepository.createOne({ entry: oldEntry });
     const updatedEntry = newEntry({
       text: 'これは更新された記事です。',
       tags: ['新しいタグ1', '新しいタグ2'],
       uuid: oldEntry.uuid,
     });
-    await entryRepository.updateOne({ entry: updatedEntry });
-    const resultEntry = await entryRepository.readOne({
-      uuid: oldEntry.uuid,
+
+    await entryRepository.createOne({ entry: oldEntry });
+    const resultEntry = await entryRepository.updateOne({
+      entry: updatedEntry,
     });
     assert.strictEqual(resultEntry?.text, updatedEntry.text);
     assert.deepStrictEqual(resultEntry?.tags, updatedEntry.tags);
@@ -170,13 +168,14 @@ describe('Mutation:entriesRepository', () => {
       text: 'これは２つ目の記事です。',
       tags: ['タグ1', 'タグ2', 'タグ3'],
     });
-    await entryRepository.createMany({
-      entries: [entry1, entry2],
-    });
+    await entryRepository.createOne({ entry: entry1 });
+    await entryRepository.createOne({ entry: entry2 });
     await entryRepository.deleteAll();
     const entries = await entryRepository.readMany({ limit: 2 });
     assert.strictEqual(entries.length, 0);
   });
 
-  afterEach(() => rollback());
+  afterEach(async () => {
+    await entryRepository.deleteAll();
+  });
 });
