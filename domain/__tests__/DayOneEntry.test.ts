@@ -1,5 +1,5 @@
 import assert from 'assert';
-import dayjs from 'dayjs';
+import dayjs from '../../infra/dayjs';
 import { unescape, fromEntry } from '../DayOneEntry';
 import { newEntry } from '../Entry';
 
@@ -15,7 +15,7 @@ describe('DayOneEntry', () => {
   it('fromEntry', () => {
     const entry = newEntry({
       text: 'これはサンプルの記事です。',
-      createdAt: dayjs('2020-04-01 00:00'), // Local
+      createdAt: dayjs.tz('2020-04-01 00:00'), // Local
     });
     const dayOneEntry = fromEntry(entry);
     assert.strictEqual(dayOneEntry.creationDate, '2020-03-31T15:00:00Z'); // UTC

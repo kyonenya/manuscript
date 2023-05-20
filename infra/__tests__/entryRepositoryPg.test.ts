@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import assert from 'assert';
 import dayjs from 'dayjs';
 import { newEntry } from '../../domain/Entry';

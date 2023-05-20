@@ -153,7 +153,9 @@ export const createMany = async (props: {
   return [bp.count, tagsCount ?? 0];
 };
 
-const disconnectAllTags = async (props: { uuid: string }): Promise<PrismaEntry & { tags: Tag[] }> => {
+const disconnectAllTags = async (props: {
+  uuid: string;
+}): Promise<PrismaEntry & { tags: Tag[] }> => {
   return await prisma.entry.update({
     where: { uuid: props.uuid },
     data: { tags: { set: [] } },
