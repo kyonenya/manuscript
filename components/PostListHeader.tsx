@@ -15,9 +15,11 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { IconCheckSquare, IconLogOut } from '@supabase/ui';
+import clsx from 'clsx';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import { Entry } from '../domain/Entry';
+import { ButtonWithLeftIcon } from './ButtonWithLeftIcon';
 import { ColorModeButton } from './ColorModeButton';
 import { CustomAlertDialog } from './CustomAlertDialog';
 import { CustomPopover } from './CustomPopover';
@@ -51,7 +53,9 @@ export const PostListHeader = (props: {
         <CustomPopover
           placement="bottom-end"
           triggerButton={
-            <IconButton icon={<SettingsIcon />} aria-label="設定" />
+            <button className="p-2">
+              <SettingsIcon />
+            </button>
           }
         >
           <ColorModeButton />
@@ -60,9 +64,14 @@ export const PostListHeader = (props: {
             isImporting={props.isImporting}
             onImport={props.onImport}
           />
-          <Button onClick={onOpen} leftIcon={<DeleteIcon />} color="red.500">
-            Delete All
-          </Button>
+
+          <ButtonWithLeftIcon
+            onClick={onOpen}
+            leftIcon={<DeleteIcon color="red.500" />}
+          >
+            <span className="text-red-500">Delete All</span>
+          </ButtonWithLeftIcon>
+
           <CustomAlertDialog
             isOpen={isOpen}
             headerText="Delete All Entries"
@@ -72,49 +81,47 @@ export const PostListHeader = (props: {
               onClose();
             }}
           />
-          <Button
-            onClick={props.onSignOut}
-            leftIcon={<IconLogOut strokeWidth={2} />}
-          >
+          <button className="flex items-center" onClick={props.onSignOut}>
+            <IconLogOut strokeWidth={2} className="w-5 h-5 mr-2" />
             Sign Out
-          </Button>
+          </button>
         </CustomPopover>
 
-        <InputGroup w={{ base: '60vw', md: 'sm' }}>
-          <InputLeftElement
-            p={1}
-            borderColor={useColorModeValue('gray.300', 'gray.700')}
-          >
-            <IconButton aria-label="検索" icon={<SearchIcon />} size="sm" />
-          </InputLeftElement>
-          <Input
-            {...register('searchStr')}
-            type="text"
-            aria-label="記事検索フォーム"
-            placeholder="Search"
-            borderColor={useColorModeValue('gray.300', 'gray.700')}
-          />
-        </InputGroup>
-
-        <Stack direction="row">
-          {props.isSelectMode && (
-            <IconButton
-              icon={<ViewIcon />}
-              aria-label="プレビュー"
-              onClick={() => router.push('?preview=true')}
+        <div className="w-60vw md:w-sm">
+          <div className="flex items-center border border-gray-300 dark:border-gray-700 rounded">
+            <div className="p-1">
+              <button type="submit" className="p-1">
+                <SearchIcon className="w-4 h-4" />
+              </button>
+            </div>
+            <input
+              {...register('searchStr')}
+              type="text"
+              aria-label="記事検索フォーム"
+              placeholder="Search"
+              className="w-full py-2 px-2 border-none focus:outline-none bg-transparent"
             />
+          </div>
+        </div>
+
+        <div className="flex space-x-2">
+          {props.isSelectMode && (
+            <button
+              className="p-2"
+              onClick={() => router.push('?preview=true')}
+            >
+              <ViewIcon />
+            </button>
           )}
-          <IconButton
-            icon={<IconCheckSquare strokeWidth={2} size={18} />}
-            aria-label="複数選択"
+          <button
+            className={clsx('p-2', {
+              'bg-yellow-200': props.isSelectMode,
+            })}
             onClick={props.toggleSelectMode}
-            bg={
-              props.isSelectMode
-                ? useColorModeValue('yellow.200', 'gray.500')
-                : undefined
-            }
-          />
-        </Stack>
+          >
+            <IconCheckSquare strokeWidth={2} className="w-4 h-4" />
+          </button>
+        </div>
       </HeaderContainer>
     </form>
   );
