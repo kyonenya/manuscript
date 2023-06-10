@@ -7,6 +7,7 @@ import { ReactQueryDevtools } from 'react-query/devtools';
 import { theme } from '../components/theme';
 import { supabase } from '../infra/supabase';
 import type { AppRouter } from './api/trpc/[trpc]';
+import './globals.css';
 
 const queryClient = new QueryClient({
   defaultOptions: {
