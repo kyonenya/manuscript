@@ -39,7 +39,7 @@ export default function Article() {
   const { mutate: mutateUpdate, isLoading: isUpdateLoading } = trpc.useMutation(
     ['updateEntry'],
     {
-      onSuccess: (data, variables) => {
+      onSuccess: (_data, variables) => {
         queryClient.invalidateQueries(queryKeys.entry(variables.entry.uuid));
         queryClient.invalidateQueries(
           queryKeys.entries({ limit, ...searchQuery })

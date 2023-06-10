@@ -2,7 +2,9 @@ import { Box, Container, Flex, Heading, Spinner } from '@chakra-ui/react';
 import { Auth } from '@supabase/ui';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import { useQueryClient } from 'react-query';
 import { PostListPage } from '../components/PostListPage';
+import { queryKeys } from '../domain/queryKeys';
 import { useCurrentSearch } from '../hooks/useCurrentSearch';
 import { useInfiniteScroll } from '../hooks/useInfiniteScroll';
 import { entriesQueue } from '../infra/queue';
@@ -11,6 +13,7 @@ import { trpc } from '../infra/trpc';
 
 export default function Index() {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const { preview } = router.query as { preview?: string };
   const isPreviewMode = !!preview;
 
@@ -26,12 +29,22 @@ export default function Index() {
     getNextPageParam: (lastPage, pages) => pages.length,
   });
 
-  const { mutate: mutateDeleteAll } = trpc.useMutation(['deleteAllEntries']);
+  const { mutate: mutateDeleteAll } = trpc.useMutation(['deleteAllEntries'], {
+    onSuccess: () =>
+      queryClient.invalidateQueries(
+        queryKeys.entries({ limit, ...searchQuery })
+      ),
+  });
   const {
     mutate: mutateCreate,
     isSuccess: isCreated,
     isLoading: isCreating,
-  } = trpc.useMutation(['createEntries']);
+  } = trpc.useMutation(['createEntries'], {
+    onSuccess: () =>
+      queryClient.invalidateQueries(
+        queryKeys.entries({ limit, ...searchQuery })
+      ),
+  });
 
   const { scrollerRef } = useInfiniteScroll({ onScroll: fetchNextPage });
 
@@ -42,6 +55,9 @@ export default function Index() {
       each: 300,
       concurrency: 4,
     });
+    await queryClient.invalidateQueries(
+      queryKeys.entries({ limit, ...searchQuery })
+    );
   };
 
   if (!user)
