@@ -1,6 +1,11 @@
 import clsx from 'clsx';
 import { ReactElement, ReactNode } from 'react';
 
+/**
+ * Chakra UI の `Button` の `leftIcon` 版の移植
+ *
+ * @url https://chakra-ui.com/docs/components/button#button-with-icon
+ */
 export const ButtonWithLeftIcon = (props: {
   leftIcon: ReactElement;
   children: ReactNode;

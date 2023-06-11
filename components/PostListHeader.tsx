@@ -1,11 +1,12 @@
 import { useDisclosure } from '@chakra-ui/react';
 import {
-  TrashIcon,
-  MagnifyingGlassIcon,
+  ArrowLeftOnRectangleIcon,
   Cog8ToothIcon,
   EyeIcon,
+  MagnifyingGlassIcon,
+  Squares2X2Icon,
+  TrashIcon,
 } from '@heroicons/react/24/solid';
-import { IconCheckSquare, IconLogOut } from '@supabase/ui';
 import clsx from 'clsx';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
@@ -15,6 +16,7 @@ import { ColorModeButton } from './ColorModeButton';
 import { CustomAlertDialog } from './CustomAlertDialog';
 import { CustomPopover } from './CustomPopover';
 import { HeaderContainer } from './HeaderContainer';
+import { IconButton } from './IconButton';
 import { JsonImport } from './JsonImport';
 
 type Form = { searchStr: string };
@@ -44,8 +46,8 @@ export const PostListHeader = (props: {
         <CustomPopover
           placement="bottom-end"
           triggerButton={
-            <button className="w-10 h-10 rounded-md border border-transparent focus:outline-none hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors duration-150 ease-in-out">
-              <Cog8ToothIcon className="w-5 m-auto" />
+            <button className="w-10 h-10 rounded-md border border-transparent focus:outline-none hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-150 ease-in-out">
+              <Cog8ToothIcon className="w-5 m-auto dark:text-white" />
             </button>
           }
         >
@@ -74,7 +76,7 @@ export const PostListHeader = (props: {
             }}
           />
           <ButtonWithLeftIcon
-            leftIcon={<IconLogOut />}
+            leftIcon={<ArrowLeftOnRectangleIcon />}
             onClick={props.onSignOut}
           >
             Sign Out
@@ -100,21 +102,19 @@ export const PostListHeader = (props: {
 
         <div className="flex space-x-2">
           {props.isSelectMode && (
-            <button
-              className="p-2"
-              onClick={() => router.push('?preview=true')}
-            >
-              <EyeIcon className="w-4" />
-            </button>
+            <IconButton onClick={() => router.push('?preview=true')}>
+              <EyeIcon />
+            </IconButton>
           )}
-          <button
-            className={clsx('p-2', {
-              'bg-yellow-200': props.isSelectMode,
+          <IconButton
+            className={clsx({
+              'bg-yellow-200 hover:bg-yellow-200 dark:bg-gray-500 dark:hover:bg-gray-500':
+                props.isSelectMode,
             })}
             onClick={props.toggleSelectMode}
           >
-            <IconCheckSquare strokeWidth={2} className="w-4 h-4" />
-          </button>
+            <Squares2X2Icon />
+          </IconButton>
         </div>
       </HeaderContainer>
     </form>
