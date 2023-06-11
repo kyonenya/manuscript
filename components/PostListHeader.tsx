@@ -46,9 +46,9 @@ export const PostListHeader = (props: {
         <CustomPopover
           placement="bottom-end"
           triggerButton={
-            <button className="w-10 h-10 rounded-md border border-transparent focus:outline-none hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-150 ease-in-out">
-              <Cog8ToothIcon className="w-5 m-auto dark:text-white" />
-            </button>
+            <IconButton>
+              <Cog8ToothIcon />
+            </IconButton>
           }
         >
           <ColorModeButton />
@@ -83,21 +83,17 @@ export const PostListHeader = (props: {
           </ButtonWithLeftIcon>
         </CustomPopover>
 
-        <div className="w-60vw md:w-sm">
-          <div className="flex items-center border border-gray-300 dark:border-gray-700 rounded">
-            <div className="p-1">
-              <button type="submit" className="p-1">
-                <MagnifyingGlassIcon className="w-4" />
-              </button>
-            </div>
-            <input
-              {...register('searchStr')}
-              type="text"
-              aria-label="記事検索フォーム"
-              placeholder="Search"
-              className="w-full py-2 px-2 border-none focus:outline-none bg-transparent"
-            />
-          </div>
+        <div className="flex w-full sm:w-64 items-center border border-gray-300 dark:border-gray-700 rounded-md">
+          <IconButton type="submit">
+            <MagnifyingGlassIcon />
+          </IconButton>
+          <input
+            {...register('searchStr')}
+            type="text"
+            aria-label="記事検索フォーム"
+            placeholder="Search"
+            className="flex-grow py-2 px-2 ml-0.5 bg-transparent border-none outline-none text-black dark:text-white"
+          />
         </div>
 
         <div className="flex space-x-2">
