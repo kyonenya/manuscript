@@ -1,5 +1,5 @@
-import { MoonIcon, SunIcon } from '@chakra-ui/icons';
 import { useColorMode } from '@chakra-ui/react';
+import { MoonIcon, SunIcon } from '@heroicons/react/24/solid';
 import { ButtonWithLeftIcon } from './ButtonWithLeftIcon';
 
 export const ColorModeButton = () => {

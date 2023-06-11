@@ -20,6 +20,7 @@
     "@chakra-ui/react": "^1.8.8",
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
+    "@heroicons/react": "^2.0.18",
     "@prisma/client": "^4.8.0",
     "@supabase/supabase-js": "^1.35.3",
     "@supabase/ui": "^0.36.5",

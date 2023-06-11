@@ -1,19 +1,10 @@
+import { useDisclosure } from '@chakra-ui/react';
 import {
-  DeleteIcon,
-  SearchIcon,
-  SettingsIcon,
-  ViewIcon,
-} from '@chakra-ui/icons';
-import {
-  Button,
-  IconButton,
-  InputGroup,
-  Input,
-  InputLeftElement,
-  Stack,
-  useColorModeValue,
-  useDisclosure,
-} from '@chakra-ui/react';
+  TrashIcon,
+  MagnifyingGlassIcon,
+  Cog8ToothIcon,
+  EyeIcon,
+} from '@heroicons/react/24/solid';
 import { IconCheckSquare, IconLogOut } from '@supabase/ui';
 import clsx from 'clsx';
 import { useRouter } from 'next/router';
@@ -53,8 +44,8 @@ export const PostListHeader = (props: {
         <CustomPopover
           placement="bottom-end"
           triggerButton={
-            <button className="p-2">
-              <SettingsIcon />
+            <button className="w-10 h-10 rounded-md border border-transparent focus:outline-none hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors duration-150 ease-in-out">
+              <Cog8ToothIcon className="w-5 m-auto" />
             </button>
           }
         >
@@ -67,9 +58,10 @@ export const PostListHeader = (props: {
 
           <ButtonWithLeftIcon
             onClick={onOpen}
-            leftIcon={<DeleteIcon color="red.500" />}
+            leftIcon={<TrashIcon />}
+            className="text-red-500 dark:text-red-500"
           >
-            <span className="text-red-500">Delete All</span>
+            Delete All
           </ButtonWithLeftIcon>
 
           <CustomAlertDialog
@@ -81,17 +73,19 @@ export const PostListHeader = (props: {
               onClose();
             }}
           />
-          <button className="flex items-center" onClick={props.onSignOut}>
-            <IconLogOut strokeWidth={2} className="w-5 h-5 mr-2" />
+          <ButtonWithLeftIcon
+            leftIcon={<IconLogOut />}
+            onClick={props.onSignOut}
+          >
             Sign Out
-          </button>
+          </ButtonWithLeftIcon>
         </CustomPopover>
 
         <div className="w-60vw md:w-sm">
           <div className="flex items-center border border-gray-300 dark:border-gray-700 rounded">
             <div className="p-1">
               <button type="submit" className="p-1">
-                <SearchIcon className="w-4 h-4" />
+                <MagnifyingGlassIcon className="w-4" />
               </button>
             </div>
             <input
@@ -110,7 +104,7 @@ export const PostListHeader = (props: {
               className="p-2"
               onClick={() => router.push('?preview=true')}
             >
-              <ViewIcon />
+              <EyeIcon className="w-4" />
             </button>
           )}
           <button
