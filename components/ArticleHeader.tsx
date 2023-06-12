@@ -1,16 +1,10 @@
+import { Button, Input, Spinner, useDisclosure } from '@chakra-ui/react';
 import {
-  ArrowBackIcon,
+  ArrowLeftIcon,
   ChevronDownIcon,
   CheckIcon,
-  DeleteIcon,
-} from '@chakra-ui/icons';
-import {
-  Button,
-  IconButton,
-  Input,
-  Spinner,
-  useDisclosure,
-} from '@chakra-ui/react';
+  TrashIcon,
+} from '@heroicons/react/24/solid';
 import Router from 'next/router';
 import { useForm, useWatch } from 'react-hook-form';
 import { Entry } from '../domain/Entry';
@@ -19,6 +13,7 @@ import { CustomAlertDialog } from './CustomAlertDialog';
 import { CustomPopover } from './CustomPopover';
 import { CustomSelect } from './CustomSelect';
 import { HeaderContainer } from './HeaderContainer';
+import { IconButton } from './IconButton';
 
 type Form = {
   createdAt: string;
@@ -51,12 +46,9 @@ export const ArticleHeader = (props: {
       })}
     >
       <HeaderContainer>
-        <IconButton
-          icon={<ArrowBackIcon />}
-          aria-label={'Back to Top'}
-          onClick={() => Router.push('/')}
-          size="md"
-        />
+        <IconButton aria-label="Back to Top" onClick={() => Router.push('/')}>
+          <ArrowLeftIcon />
+        </IconButton>
 
         <CustomPopover
           triggerButton={
@@ -74,7 +66,7 @@ export const ArticleHeader = (props: {
             {...register('tags')}
           />
 
-          <Button onClick={onOpen} leftIcon={<DeleteIcon />} color="red.500">
+          <Button onClick={onOpen} leftIcon={<TrashIcon />} color="red.500">
             Delete
           </Button>
           <CustomAlertDialog
@@ -88,17 +80,13 @@ export const ArticleHeader = (props: {
           />
         </CustomPopover>
 
-        <IconButton
-          type="submit"
-          icon={
-            props.isLoading ? (
-              <Spinner emptyColor="gray.300" speed="0.65s" />
-            ) : (
-              <CheckIcon />
-            )
-          }
-          aria-label="更新"
-        />
+        <IconButton type="submit" aria-label="更新">
+          {props.isLoading ? (
+            <Spinner emptyColor="gray.300" speed="0.65s" />
+          ) : (
+            <CheckIcon />
+          )}
+        </IconButton>
       </HeaderContainer>
     </form>
   );
