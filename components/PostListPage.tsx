@@ -55,13 +55,10 @@ const ListItem = (props: {
 
   return (
     <div
-      className={clsx(
-        {
-          'bg-yellow-100 dark:bg-gray-600': props.isSelected,
-          'bg-white dark:bg-gray-800': !props.isSelected,
-        },
-        'shadow-lg p-6 rounded-xl relative'
-      )}
+      className={clsx('flex flex-col shadow-lg p-6 rounded-xl relative', {
+        'bg-yellow-100 dark:bg-gray-600': props.isSelected,
+        'bg-white dark:bg-gray-800': !props.isSelected,
+      })}
       onClick={props.isSelectMode ? props.onSelect : undefined}
     >
       <Link
@@ -74,12 +71,11 @@ const ListItem = (props: {
           <Summary text={entry.text} />
         )}
       </Link>
-      <div className="flex flex-row items-center justify-start space-x-3">
-        <div>
-          <p className="text-gray-500">
-            {dayjs(entry.createdAt).format('YYYY-MM-DD')}
-          </p>
-        </div>
+      <div className="mb-2" />
+      <div className="flex flex-row items-center justify-start space-x-3 mt-auto">
+        <p className="text-gray-600 dark:text-gray-400">
+          {dayjs(entry.createdAt).format('YYYY-MM-DD')}
+        </p>
         <Tags tags={entry.tags} />
       </div>
     </div>
