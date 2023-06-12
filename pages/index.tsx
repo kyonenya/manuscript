@@ -1,9 +1,10 @@
-import { Box, Container, Flex, Heading, Spinner } from '@chakra-ui/react';
+import { Box, Container, Flex, Heading } from '@chakra-ui/react';
 import { Auth } from '@supabase/ui';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useQueryClient } from 'react-query';
 import { PostListPage } from '../components/PostListPage';
+import { Spinner } from '../components/Spinner';
 import { queryKeys } from '../domain/queryKeys';
 import { useCurrentSearch } from '../hooks/useCurrentSearch';
 import { useInfiniteScroll } from '../hooks/useInfiniteScroll';
@@ -95,9 +96,7 @@ export default function Index() {
           onDeleteAll={mutateDeleteAll}
         />
         <Flex justifyContent="center" ref={scrollerRef}>
-          {!isPreviewMode && isFetching && (
-            <Spinner emptyColor="gray.300" speed="0.65s" />
-          )}
+          {!isPreviewMode && isFetching && <Spinner />}
         </Flex>
       </Box>
     </>

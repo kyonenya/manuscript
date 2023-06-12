@@ -1,8 +1,9 @@
 import { ArrowUpIcon, CheckIcon } from '@chakra-ui/icons';
-import { IconButton, Input, Stack, Spinner } from '@chakra-ui/react';
+import { IconButton, Input, Stack } from '@chakra-ui/react';
 import { DayOneData, toEntry } from '../domain/DayOneEntry';
 import { Entry } from '../domain/Entry';
 import { useJsonImport } from '../hooks/useJsonImport';
+import { Spinner } from './Spinner';
 
 export const JsonImport = (props: {
   isImported: boolean;

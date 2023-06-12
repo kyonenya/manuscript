@@ -1,4 +1,4 @@
-import { Button, Input, Spinner, useDisclosure } from '@chakra-ui/react';
+import { Button, Input, useDisclosure } from '@chakra-ui/react';
 import {
   ArrowLeftIcon,
   ChevronDownIcon,
@@ -14,6 +14,7 @@ import { CustomPopover } from './CustomPopover';
 import { CustomSelect } from './CustomSelect';
 import { HeaderContainer } from './HeaderContainer';
 import { IconButton } from './IconButton';
+import { Spinner } from './Spinner';
 
 type Form = {
   createdAt: string;
@@ -81,11 +82,7 @@ export const ArticleHeader = (props: {
         </CustomPopover>
 
         <IconButton type="submit" aria-label="更新">
-          {props.isLoading ? (
-            <Spinner emptyColor="gray.300" speed="0.65s" />
-          ) : (
-            <CheckIcon />
-          )}
+          {props.isLoading ? <Spinner /> : <CheckIcon />}
         </IconButton>
       </HeaderContainer>
     </form>
