@@ -7,6 +7,7 @@ import { SearchQuery } from '../domain/SearchQuery';
 import { Link } from './Link';
 import { PostListHeader } from './PostListHeader';
 import { Previews } from './Preview';
+import { Tags } from './Tags';
 
 const Summary = (props: { text: string }) => {
   const limit = 120;
@@ -73,22 +74,13 @@ const ListItem = (props: {
           <Summary text={entry.text} />
         )}
       </Link>
-      <div className="flex flex-row items-center justify-between space-x-4">
+      <div className="flex flex-row items-center justify-start space-x-3">
         <div>
           <p className="text-gray-500">
             {dayjs(entry.createdAt).format('YYYY-MM-DD')}
           </p>
         </div>
-        <div className="flex flex-row">
-          {entry.tags?.map((tag) => (
-            <span
-              key={tag}
-              className="px-2 py-1 rounded-md bg-black bg-opacity-10"
-            >
-              <span className="font-normal">#{tag}</span>
-            </span>
-          ))}
-        </div>
+        <Tags tags={entry.tags} />
       </div>
     </div>
   );

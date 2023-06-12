@@ -1,4 +1,3 @@
-import { Box, useColorModeValue } from '@chakra-ui/react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useQueryClient, InfiniteData } from 'react-query';
@@ -55,7 +54,7 @@ export default function Article() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       {!isPreview && (
-        <Box bg={useColorModeValue('gray.100', 'gray.700')}>
+        <div className="bg-gray-100 dark:bg-gray-700">
           {entry && (
             <ArticlePage
               entry={entry}
@@ -70,7 +69,7 @@ export default function Article() {
               isLoading={isUpdateLoading}
             />
           )}
-        </Box>
+        </div>
       )}
       {isPreview && entry && <Preview entry={entry} />}
     </>

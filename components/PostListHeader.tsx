@@ -83,6 +83,7 @@ export const PostListHeader = (props: {
           </ButtonWithLeftIcon>
         </CustomPopover>
 
+        {/* InputGroup from Chakra UI */}
         <div className="flex w-full sm:w-64 items-center border border-gray-300 dark:border-gray-700 rounded-md">
           <IconButton type="submit">
             <MagnifyingGlassIcon />
