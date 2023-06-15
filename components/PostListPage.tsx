@@ -55,7 +55,7 @@ const ListItem = (props: {
 
   return (
     <div
-      className={clsx('flex flex-col shadow-lg p-6 rounded-xl relative', {
+      className={clsx('flex flex-col shadow-lg p-6 rounded-xl', {
         'bg-yellow-100 dark:bg-gray-600': props.isSelected,
         'bg-white dark:bg-gray-800': !props.isSelected,
       })}
