@@ -1,8 +1,9 @@
 import { ArrowUpIcon, CheckIcon } from '@chakra-ui/icons';
-import { IconButton, Input, Stack } from '@chakra-ui/react';
+import {  Input, Stack } from '@chakra-ui/react';
 import { DayOneData, toEntry } from '../domain/DayOneEntry';
 import { Entry } from '../domain/Entry';
 import { useJsonImport } from '../hooks/useJsonImport';
+import { IconButton } from './IconButton';
 import { Spinner } from './Spinner';
 
 export const JsonImport = (props: {
@@ -24,8 +25,15 @@ export const JsonImport = (props: {
         }}
       />
       <IconButton
-        aria-label="記事データをインポート"
-        icon={
+        ariaLabel="記事データをインポート"
+        onClick={() => {
+          if (!data) return;
+          props.onImport({
+            entries: data.entries.map((entry) => toEntry(entry)),
+          });
+        }}
+      >
+        {
           props.isImported ? (
             <CheckIcon />
           ) : props.isImporting ? (
@@ -34,13 +42,7 @@ export const JsonImport = (props: {
             <ArrowUpIcon />
           )
         }
-        onClick={() => {
-          if (!data) return;
-          props.onImport({
-            entries: data.entries.map((entry) => toEntry(entry)),
-          });
-        }}
-      />
+      </IconButton>
     </Stack>
   );
 };

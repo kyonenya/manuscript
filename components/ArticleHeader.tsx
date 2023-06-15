@@ -1,4 +1,4 @@
-import { Button, Input, useDisclosure } from '@chakra-ui/react';
+import { Button, useDisclosure } from '@chakra-ui/react';
 import {
   ArrowLeftIcon,
   ChevronDownIcon,
@@ -47,7 +47,7 @@ export const ArticleHeader = (props: {
       })}
     >
       <HeaderContainer>
-        <IconButton aria-label="Back to Top" onClick={() => Router.push('/')}>
+        <IconButton ariaLabel="Back to Top" onClick={() => Router.push('/')}>
           <ArrowLeftIcon />
         </IconButton>
 
@@ -58,7 +58,7 @@ export const ArticleHeader = (props: {
             </Button>
           }
         >
-          <Input type="datetime-local" {...register('createdAt')} />
+          <input type="datetime-local" {...register('createdAt')} />
 
           <CustomSelect
             value={tags}
@@ -81,7 +81,7 @@ export const ArticleHeader = (props: {
           />
         </CustomPopover>
 
-        <IconButton type="submit" aria-label="更新">
+        <IconButton type="submit" ariaLabel="更新">
           {props.isLoading ? <Spinner /> : <CheckIcon />}
         </IconButton>
       </HeaderContainer>

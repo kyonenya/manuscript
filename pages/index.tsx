@@ -82,7 +82,7 @@ export default function Index() {
         <title>manuscript</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Box>
+      <div>
         <PostListPage
           entries={entries?.pages.flat()}
           searchStr={searchStr}
@@ -95,10 +95,10 @@ export default function Index() {
           onImport={onImport}
           onDeleteAll={mutateDeleteAll}
         />
-        <Flex justifyContent="center" ref={scrollerRef}>
+        <div className='flex justify-center' ref={scrollerRef}>
           {!isPreviewMode && isFetching && <Spinner />}
-        </Flex>
-      </Box>
+        </div>
+      </div>
     </>
   );
 }
