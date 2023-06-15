@@ -44,7 +44,7 @@ export const PostListHeader = (props: {
     <form onSubmit={handleSubmit(props.onSearch)}>
       <HeaderContainer>
         <CustomPopover
-          placement="bottom-end"
+          placement="bottom"
           triggerButton={
             <IconButton>
               <Cog8ToothIcon />

@@ -1,32 +1,32 @@
-import {
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-  PopoverBody,
-  PopoverArrow,
-  PopoverCloseButton,
-  Placement,
-  Stack,
-} from '@chakra-ui/react';
-import { ReactElement, ReactNode } from 'react';
+import { XMarkIcon } from '@heroicons/react/24/solid';
+import { Root, Trigger, Content, Close } from '@radix-ui/react-popover';
+import { IconButton } from './IconButton';
 
-export const CustomPopover = (props: {
-  triggerButton: ReactElement;
-  children: ReactNode;
+type Placement = 'top' | 'right' | 'bottom' | 'left';
+
+type CustomPopoverProps = {
+  triggerButton: React.ReactNode;
+  children: React.ReactNode;
   placement?: Placement;
-}) => {
-  return (
-    <Popover placement={props.placement}>
-      <PopoverTrigger>{props.triggerButton}</PopoverTrigger>
-      <PopoverContent w={{ base: '90vw', md: 'sm' }}>
-        <PopoverArrow />
-        <PopoverCloseButton />
-        <PopoverBody>
-          <Stack direction="column" spacing={4} px={2} py={4}>
-            {props.children}
-          </Stack>
-        </PopoverBody>
-      </PopoverContent>
-    </Popover>
-  );
 };
+
+export const CustomPopover = ({
+  triggerButton,
+  children,
+  placement,
+}: CustomPopoverProps) => (
+  <Root>
+    <Trigger className="cursor-pointer">{triggerButton}</Trigger>
+    <Content
+      side={placement}
+      className="w-11/12 md:w-64 bg-white border border-gray-200 rounded shadow-lg transition duration-200 ease-in-out transform-gpu"
+    >
+      <Close className="absolute top-1 right-1 cursor-pointer">
+        <IconButton className="w-5 h-5" iconClassName="w-4">
+          <XMarkIcon />
+        </IconButton>
+      </Close>
+      <div className="p-5 space-y-4">{children}</div>
+    </Content>
+  </Root>
+);
