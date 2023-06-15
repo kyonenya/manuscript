@@ -1,7 +1,8 @@
 /* eslint-disable react/display-name */
-import ReactMarkdown from 'react-markdown';
+import { ReactNode, ReactElement } from 'react';
+import ReactMarkdown  from 'react-markdown';
 
-const customTheme = {
+const customTheme: Record<string, (props: {children: ReactNode}) => ReactElement> = {
   p: (props) => (
     <p className="text-justify pb-2" style={{ textIndent: '1em' }}>
       {props.children}
