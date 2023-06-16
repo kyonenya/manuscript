@@ -1,4 +1,4 @@
-import { Button, useDisclosure } from '@chakra-ui/react';
+import { useDisclosure } from '@chakra-ui/react';
 import {
   ArrowLeftIcon,
   ChevronDownIcon,
@@ -9,6 +9,7 @@ import Router from 'next/router';
 import { useForm, useWatch } from 'react-hook-form';
 import { Entry } from '../domain/Entry';
 import dayjs from '../infra/dayjs';
+import { Button } from './Button';
 import { CustomAlertDialog } from './CustomAlertDialog';
 import { CustomPopover } from './CustomPopover';
 import { CustomSelect } from './CustomSelect';
@@ -53,7 +54,7 @@ export const ArticleHeader = (props: {
 
         <CustomPopover
           triggerButton={
-            <Button rightIcon={<ChevronDownIcon />} fontWeight="normal">
+            <Button rightIcon={<ChevronDownIcon />}>
               {dayjs(props.entry.createdAt).format('YYYY-MM-DD')}
             </Button>
           }
@@ -67,7 +68,11 @@ export const ArticleHeader = (props: {
             {...register('tags')}
           />
 
-          <Button onClick={onOpen} leftIcon={<TrashIcon />} color="red.500">
+          <Button
+            onClick={onOpen}
+            leftIcon={<TrashIcon />}
+            className="text-red-500 dark:text-red-500"
+          >
             Delete
           </Button>
           <CustomAlertDialog

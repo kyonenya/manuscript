@@ -11,7 +11,7 @@ import clsx from 'clsx';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import { Entry } from '../domain/Entry';
-import { ButtonWithLeftIcon } from './ButtonWithLeftIcon';
+import { Button } from './Button';
 import { ColorModeButton } from './ColorModeButton';
 import { CustomAlertDialog } from './CustomAlertDialog';
 import { CustomPopover } from './CustomPopover';
@@ -57,13 +57,13 @@ export const PostListHeader = (props: {
             isImporting={props.isImporting}
             onImport={props.onImport}
           />
-          <ButtonWithLeftIcon
+          <Button
             onClick={onOpen}
             leftIcon={<TrashIcon />}
             className="text-red-500 dark:text-red-500"
           >
             Delete All
-          </ButtonWithLeftIcon>
+          </Button>
           <CustomAlertDialog
             isOpen={isOpen}
             headerText="Delete All Entries"
@@ -73,12 +73,12 @@ export const PostListHeader = (props: {
               onClose();
             }}
           />
-          <ButtonWithLeftIcon
+          <Button
             leftIcon={<ArrowLeftOnRectangleIcon />}
             onClick={props.onSignOut}
           >
             Sign Out
-          </ButtonWithLeftIcon>
+          </Button>
         </CustomPopover>
 
         {/* InputGroup from Chakra UI */}

@@ -19,7 +19,7 @@ export const IconButton = (props: {
       type={props.type ?? 'button'}
       className={clsx(
         'w-10 h-10 rounded-md border border-transparent',
-        'bg-[#edf2f7] hover:bg-gray-200 dark:hover:bg-gray-700',
+        'bg-[#edf2f7] hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600',
         'focus:outline-none focus:ring-2 transition-colors duration-150 ease-in-out',
         props.className
       )}
