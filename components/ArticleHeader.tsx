@@ -71,7 +71,7 @@ export const ArticleHeader = (props: {
           <Button
             onClick={onOpen}
             leftIcon={<TrashIcon />}
-            className="text-red-500 dark:text-red-500"
+            className="text-red-500 dark:text-red-400"
           >
             Delete
           </Button>

@@ -1,3 +1,24 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/** @see https://stackoverflow.com/questions/63212723/using-dark-mode-in-react-select */
+@layer components {
+  .react-select-container .react-select__control {
+    @apply bg-white dark:bg-gray-600;
+  }
+
+  .react-select-container .react-select__menu {
+    @apply bg-gray-100 dark:bg-gray-700;
+  }
+
+  .react-select-container .react-select__option {
+    @apply bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-800;
+  }
+
+  .react-select-container .react-select__input-container,
+  .react-select-container .react-select__placeholder,
+  .react-select-container .react-select__single-value {
+    @apply text-gray-600 dark:text-gray-200;
+  }
+}

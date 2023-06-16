@@ -60,7 +60,7 @@ export const PostListHeader = (props: {
           <Button
             onClick={onOpen}
             leftIcon={<TrashIcon />}
-            className="text-red-500 dark:text-red-500"
+            className="text-red-500 dark:text-red-400"
           >
             Delete All
           </Button>
