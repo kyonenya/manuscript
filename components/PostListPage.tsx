@@ -1,7 +1,7 @@
-import clsx from 'clsx';
 import dayjs from 'dayjs';
 import { useState } from 'react';
 import { generateSummaryEntity, SummaryEntity } from 'search-summary';
+import { twMerge } from 'tailwind-merge';
 import { Entry } from '../domain/Entry';
 import { SearchQuery } from '../domain/SearchQuery';
 import { Link } from './Link';
@@ -55,10 +55,11 @@ const ListItem = (props: {
 
   return (
     <div
-      className={clsx('flex flex-col shadow-lg p-6 rounded-xl', {
-        'bg-yellow-100 dark:bg-gray-600': props.isSelected,
-        'bg-white dark:bg-gray-800': !props.isSelected,
-      })}
+      className={twMerge(
+        'flex flex-col shadow-lg p-6 rounded-xl',
+        props.isSelected && 'bg-yellow-100 dark:bg-gray-600',
+        !props.isSelected && 'bg-white dark:bg-gray-800'
+      )}
       onClick={props.isSelectMode ? props.onSelect : undefined}
     >
       <Link

@@ -7,9 +7,9 @@ import {
   Squares2X2Icon,
   TrashIcon,
 } from '@heroicons/react/24/solid';
-import clsx from 'clsx';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
+import { twMerge } from 'tailwind-merge';
 import { Entry } from '../domain/Entry';
 import { Button } from './Button';
 import { ColorModeButton } from './ColorModeButton';
@@ -102,10 +102,10 @@ export const PostListHeader = (props: {
             </IconButton>
           )}
           <IconButton
-            className={clsx({
-              'bg-yellow-200 hover:bg-yellow-200 dark:bg-gray-500 dark:hover:bg-gray-500':
-                props.isSelectMode,
-            })}
+            className={twMerge(
+              props.isSelectMode &&
+                'bg-yellow-200 hover:bg-yellow-200 dark:bg-gray-500 dark:hover:bg-gray-500'
+            )}
             onClick={props.toggleSelectMode}
           >
             <Squares2X2Icon />

@@ -1,5 +1,5 @@
-import clsx from 'clsx';
 import { cloneElement, ReactElement, ReactNode } from 'react';
+import { twMerge } from 'tailwind-merge';
 
 /**
  * Chakra UI の `Button` の `leftIcon` 版の移植
@@ -16,7 +16,7 @@ export const Button = (props: {
   return (
     <button
       onClick={props.onClick}
-      className={clsx(
+      className={twMerge(
         'flex items-center justify-center w-full rounded-md p-2',
         'bg-[#edf2f7] hover:bg-gray-200 dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white',
         'focus:outline-none focus:ring-2 transition-colors duration-150 ease-in-out',

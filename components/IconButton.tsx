@@ -1,5 +1,5 @@
-import clsx from 'clsx';
 import { cloneElement, ReactElement } from 'react';
+import { twMerge } from 'tailwind-merge';
 
 /**
  * Chakra UI の `IconButton` の移植
@@ -17,7 +17,7 @@ export const IconButton = (props: {
   return (
     <button
       type={props.type ?? 'button'}
-      className={clsx(
+      className={twMerge(
         'w-10 h-10 rounded-md border border-transparent',
         'bg-[#edf2f7] hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600',
         'focus:outline-none focus:ring-2 transition-colors duration-150 ease-in-out',
@@ -27,7 +27,7 @@ export const IconButton = (props: {
       onClick={props.onClick}
     >
       {cloneElement(props.children, {
-        className: clsx('w-5 m-auto dark:text-white', props.iconClassName),
+        className: twMerge('w-5 m-auto dark:text-white', props.iconClassName),
       })}
     </button>
   );
