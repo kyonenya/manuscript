@@ -57,7 +57,6 @@ export const PostListHeader = (props: {
             isImporting={props.isImporting}
             onImport={props.onImport}
           />
-
           <ButtonWithLeftIcon
             onClick={onOpen}
             leftIcon={<TrashIcon />}
@@ -65,7 +64,6 @@ export const PostListHeader = (props: {
           >
             Delete All
           </ButtonWithLeftIcon>
-
           <CustomAlertDialog
             isOpen={isOpen}
             headerText="Delete All Entries"

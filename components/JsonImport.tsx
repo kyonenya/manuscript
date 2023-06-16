@@ -1,5 +1,4 @@
-import { ArrowUpIcon, CheckIcon } from '@chakra-ui/icons';
-import {  Input, Stack } from '@chakra-ui/react';
+import { ArrowUpIcon, CheckIcon } from '@heroicons/react/24/solid';
 import { DayOneData, toEntry } from '../domain/DayOneEntry';
 import { Entry } from '../domain/Entry';
 import { useJsonImport } from '../hooks/useJsonImport';
@@ -14,8 +13,8 @@ export const JsonImport = (props: {
   const { load, data } = useJsonImport<DayOneData>();
 
   return (
-    <Stack direction="row">
-      <Input
+    <div className="flex flex-row">
+      <input
         type="file"
         accept="application/json"
         onChange={(e) => {
@@ -23,6 +22,7 @@ export const JsonImport = (props: {
           if (jsonFile == null) return;
           load(jsonFile);
         }}
+        className="my-auto"
       />
       <IconButton
         ariaLabel="記事データをインポート"
@@ -33,16 +33,14 @@ export const JsonImport = (props: {
           });
         }}
       >
-        {
-          props.isImported ? (
-            <CheckIcon />
-          ) : props.isImporting ? (
-            <Spinner />
-          ) : (
-            <ArrowUpIcon />
-          )
-        }
+        {props.isImported ? (
+          <CheckIcon />
+        ) : props.isImporting ? (
+          <Spinner />
+        ) : (
+          <ArrowUpIcon />
+        )}
       </IconButton>
-    </Stack>
+    </div>
   );
 };

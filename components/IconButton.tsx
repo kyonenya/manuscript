@@ -18,7 +18,9 @@ export const IconButton = (props: {
     <button
       type={props.type ?? 'button'}
       className={clsx(
-        'w-10 h-10 rounded-md border border-transparent focus:outline-none hover:bg-gray-200 dark:hover:bg-gray-700 focus:ring-2 transition-colors duration-150 ease-in-out',
+        'w-10 h-10 rounded-md border border-transparent',
+        'bg-[#edf2f7] hover:bg-gray-200 dark:hover:bg-gray-700',
+        'focus:outline-none focus:ring-2 transition-colors duration-150 ease-in-out',
         props.className
       )}
       aria-label={props.ariaLabel}

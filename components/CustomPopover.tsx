@@ -19,7 +19,7 @@ export const CustomPopover = ({
     <Trigger className="cursor-pointer">{triggerButton}</Trigger>
     <Content
       side={placement}
-      className="w-11/12 md:w-64 bg-white border border-gray-200 rounded shadow-lg transition duration-200 ease-in-out transform-gpu"
+      className="w-11/12 md:w-80 bg-white border border-gray-200 rounded shadow-lg transition duration-200 ease-in-out transform-gpu"
     >
       <Close className="absolute top-1 right-1 cursor-pointer">
         <IconButton className="w-5 h-5" iconClassName="w-4">
