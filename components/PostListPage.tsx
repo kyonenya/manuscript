@@ -32,7 +32,7 @@ const SearchSummary = (props: { summary: SummaryEntity }) => {
         {summary.isBeforeEllipsed && '...'}
         {summary.beforeText}
       </span>
-      <span className="bg-yellow-100 text-orange-800 p-1 mx-1">
+      <span className="mx-1 bg-yellow-100 p-1 text-orange-800">
         {summary.keyword}
       </span>
       <span className="text-gray-700 dark:text-gray-300">
@@ -56,7 +56,7 @@ const ListItem = (props: {
   return (
     <div
       className={twMerge(
-        'flex flex-col shadow-lg p-6 rounded-xl',
+        'flex flex-col rounded-xl p-6 shadow-lg',
         props.isSelected && 'bg-yellow-100 dark:bg-gray-600',
         !props.isSelected && 'bg-white dark:bg-gray-800'
       )}
@@ -73,7 +73,7 @@ const ListItem = (props: {
         )}
       </Link>
       <div className="mb-2" />
-      <div className="flex flex-row items-center justify-start space-x-3 mt-auto">
+      <div className="mt-auto flex flex-row items-center justify-start space-x-3">
         <p className="text-gray-600 dark:text-gray-400">
           {dayjs(entry.createdAt).format('YYYY-MM-DD')}
         </p>
@@ -125,8 +125,8 @@ export const PostListPage = (props: {
         onDeleteAll={props.onDeleteAll}
       />
 
-      <div className="max-w-4xl py-6 mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
+      <div className="mx-auto max-w-4xl py-6">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:gap-6">
           {props.entries &&
             props.entries.map((entry) => (
               <ListItem

@@ -23,9 +23,7 @@ const IconButtonComponent = (
       ref={ref}
       type={props.type ?? 'button'}
       className={twMerge(
-        'w-10 h-10 rounded-md border border-transparent',
-        'bg-[#edf2f7] hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600',
-        'focus:outline-none focus:ring-2 transition-colors duration-150 ease-in-out',
+        'h-10 w-10 rounded-md border border-transparent bg-[#edf2f7] transition-colors duration-150 ease-in-out hover:bg-gray-200 focus:outline-none focus:ring-2 dark:bg-gray-700 dark:hover:bg-gray-600',
         props.className
       )}
       aria-label={props.ariaLabel}

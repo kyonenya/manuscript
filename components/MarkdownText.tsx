@@ -7,17 +7,17 @@ const customTheme: Record<
   (props: { children: ReactNode }) => ReactElement
 > = {
   p: (props) => (
-    <p className="text-justify pb-2" style={{ textIndent: '1em' }}>
+    <p className="pb-2 text-justify" style={{ textIndent: '1em' }}>
       {props.children}
     </p>
   ),
-  h1: (props) => <h1 className="text-lg py-4">{props.children}</h1>,
-  h2: (props) => <h2 className="text-lg font-normal py-4">{props.children}</h2>,
-  h3: (props) => <h3 className="text-md font-normal py-3">{props.children}</h3>,
-  h4: (props) => <h4 className="text-sm font-normal py-2">{props.children}</h4>,
+  h1: (props) => <h1 className="py-4 text-lg">{props.children}</h1>,
+  h2: (props) => <h2 className="py-4 text-lg font-normal">{props.children}</h2>,
+  h3: (props) => <h3 className="text-md py-3 font-normal">{props.children}</h3>,
+  h4: (props) => <h4 className="py-2 text-sm font-normal">{props.children}</h4>,
   blockquote: (props) => (
     <div className="pl-8">
-      <blockquote className="py-2 bg-gray-100">{props.children}</blockquote>
+      <blockquote className="bg-gray-100 py-2">{props.children}</blockquote>
     </div>
   ),
 };

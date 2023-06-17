@@ -29,9 +29,7 @@ const ButtonComponent = (
       type={props.type ?? 'button'}
       onClick={props.onClick}
       className={twMerge(
-        'flex items-center justify-center w-full rounded-md p-2',
-        'bg-[#edf2f7] hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-white',
-        'focus:outline-none focus:ring-2 transition-colors duration-150 ease-in-out',
+        'flex w-full items-center justify-center rounded-md bg-[#edf2f7] p-2 transition-colors duration-150 ease-in-out hover:bg-gray-200 focus:outline-none focus:ring-2 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600',
         props.className
       )}
       ref={ref}

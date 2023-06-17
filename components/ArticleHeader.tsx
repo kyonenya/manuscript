@@ -68,7 +68,7 @@ export const ArticleHeader = (props: {
             triggerButton={
               <Button
                 leftIcon={<TrashIcon />}
-                className="text-red-500 dark:text-rose-500 font-semibold"
+                className="font-semibold text-red-500 dark:text-rose-500"
               >
                 Delete
               </Button>

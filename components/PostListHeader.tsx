@@ -59,7 +59,7 @@ export const PostListHeader = (props: {
             triggerButton={
               <Button
                 leftIcon={<TrashIcon />}
-                className="text-red-500 dark:text-rose-500 font-semibold"
+                className="font-semibold text-red-500 dark:text-rose-500"
               >
                 Delete All
               </Button>
@@ -76,7 +76,7 @@ export const PostListHeader = (props: {
         </CustomPopover>
 
         {/* InputGroup from Chakra UI */}
-        <div className="flex w-full sm:w-64 items-center border border-gray-300 dark:border-gray-700 rounded-md">
+        <div className="flex w-full items-center rounded-md border border-gray-300 dark:border-gray-700 sm:w-64">
           <IconButton type="submit">
             <MagnifyingGlassIcon />
           </IconButton>
@@ -85,7 +85,7 @@ export const PostListHeader = (props: {
             type="text"
             aria-label="記事検索フォーム"
             placeholder="Search"
-            className="flex-grow py-2 px-2 ml-0.5 bg-transparent border-none outline-none text-black dark:text-white"
+            className="ml-0.5 flex-grow border-none bg-transparent px-2 py-2 text-black outline-none dark:text-white"
           />
         </div>
 

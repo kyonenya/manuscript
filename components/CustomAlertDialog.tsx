@@ -21,12 +21,12 @@ export const CustomAlertDialog = (props: {
     <AlertDialog>
       <AlertDialogTrigger asChild>{props.triggerButton}</AlertDialogTrigger>
       <AlertDialogPortal>
-        <AlertDialogOverlay className="fixed inset-0 bg-black bg-opacity-50 z-40">
-          <AlertDialogContent className="z-50 mx-auto my-10 p-6 rounded-md shadow-md bg-white dark:bg-gray-700 max-w-md">
-            <AlertDialogTitle className="text-xl font-bold mb-4 dark:text-gray-300">
+        <AlertDialogOverlay className="fixed inset-0 z-40 bg-black bg-opacity-50">
+          <AlertDialogContent className="z-50 mx-auto my-10 max-w-md rounded-md bg-white p-6 shadow-md dark:bg-gray-700">
+            <AlertDialogTitle className="mb-4 text-xl font-bold dark:text-gray-300">
               {props.headerText}
             </AlertDialogTitle>
-            <AlertDialogDescription className="text-gray-600 dark:text-gray-300 mb-6">
+            <AlertDialogDescription className="mb-6 text-gray-600 dark:text-gray-300">
               Are you sure? You cannot undo this action afterwards.
             </AlertDialogDescription>
             <div className="mt-4 flex justify-end space-x-4">
@@ -38,7 +38,7 @@ export const CustomAlertDialog = (props: {
               <AlertDialogAction>
                 <Button
                   onClick={props.onSubmit}
-                  className="px-4 bg-red-500 hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-500 text-white"
+                  className="bg-red-500 px-4 text-white hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-500"
                 >
                   Delete
                 </Button>

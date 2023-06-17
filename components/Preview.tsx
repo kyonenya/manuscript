@@ -7,8 +7,8 @@ import { Tags } from './Tags';
 export const Preview = (props: { entry: Entry }) => {
   return (
     <div className="max-w-3xl px-10 pt-10">
-      <div className="flex flex-row mb-3 items-center">
-        <p className="text-gray-500 text-xl">
+      <div className="mb-3 flex flex-row items-center">
+        <p className="text-xl text-gray-500">
           {dayjs(props.entry.createdAt).format('YYYY-MM-DD HH:mm')}
         </p>
         {props.entry.starred && <StarIcon />}
