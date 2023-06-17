@@ -1,12 +1,12 @@
+import { useQueryClient, InfiniteData } from '@tanstack/react-query';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { useQueryClient, InfiniteData } from 'react-query';
 import { ArticlePage } from '../components/ArticlePage';
 import { Preview } from '../components/Preview';
 import { Entry } from '../domain/Entry';
 import { queryKeys } from '../domain/queryKeys';
+import { trpc } from '../hooks/trpc';
 import { useCurrentSearch } from '../hooks/useCurrentSearch';
-import { trpc } from '../infra/trpc';
 
 export default function Article() {
   const queryClient = useQueryClient();
@@ -20,9 +20,9 @@ export default function Article() {
 
   const { searchQuery, limit } = useCurrentSearch();
 
-  const { data: entry } = trpc.useQuery(
+  const { data: entry } = trpc.getEntry.useQuery(
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    ['getEntry', { uuid: uuid! /* non-null because enabled */ }],
+    { uuid: uuid! /* non-null because enabled */ },
     {
       enabled: !!uuid,
       initialData: queryClient
@@ -33,19 +33,17 @@ export default function Article() {
         .find((entry) => entry.uuid === uuid),
     }
   );
-  const { data: tagList } = trpc.useQuery(['getTagList']);
-  const { mutate: mutateDelete } = trpc.useMutation(['deleteEntry']);
-  const { mutate: mutateUpdate, isLoading: isUpdateLoading } = trpc.useMutation(
-    ['updateEntry'],
-    {
+  const { data: tagList } = trpc.getTagList.useQuery();
+  const { mutate: mutateDelete } = trpc.deleteEntry.useMutation();
+  const { mutate: mutateUpdate, isLoading: isUpdateLoading } =
+    trpc.updateEntry.useMutation({
       onSuccess: (_data, variables) => {
         queryClient.invalidateQueries(queryKeys.entry(variables.entry.uuid));
         queryClient.invalidateQueries(
           queryKeys.entries({ limit, ...searchQuery })
         );
       },
-    }
-  );
+    });
 
   return (
     <>

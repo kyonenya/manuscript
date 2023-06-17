@@ -12,6 +12,6 @@
     "import/order": ["warn", { "alphabetize": { "order": "asc" } }],
     "@typescript-eslint/explicit-module-boundary-types": "off", // Missing return type on function
     "sort-imports": "off", // Imports should be sorted alphabetically
-    "react-hooks/rules-of-hooks": "off" // React Hook "useColorModeValue" is called conditionally.
+    "@typescript-eslint/no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }]
   }
 }

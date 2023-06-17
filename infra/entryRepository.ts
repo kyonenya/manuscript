@@ -131,11 +131,13 @@ export const createMany = async (props: {
   const tags = await prisma.tag.findMany({});
 
   const createEntry = prisma.entry.createMany({
-    data: props.entries.map(({ createdAt, modifiedAt, tags, ...rest }) => ({
-      ...rest,
-      created_at: createdAt,
-      modified_at: modifiedAt,
-    })),
+    data: props.entries.map(
+      ({ createdAt, modifiedAt, tags: _tags, ...rest }) => ({
+        ...rest,
+        created_at: createdAt,
+        modified_at: modifiedAt,
+      })
+    ),
   });
   const ABs = entriesTagToABs({ entries: props.entries, tags });
   const connectEntriesToTags =
@@ -147,6 +149,7 @@ export const createMany = async (props: {
       : undefined;
   const [bp, tagsCount] = await prisma.$transaction(
     [createEntry, connectEntriesToTags].filter(
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (v): v is PrismaPromise<any> => !!v
     )
   );

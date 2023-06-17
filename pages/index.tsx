@@ -1,15 +1,15 @@
 import { Auth } from '@supabase/ui';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { useQueryClient } from 'react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import { PostListPage } from '../components/PostListPage';
 import { Spinner } from '../components/Spinner';
 import { queryKeys } from '../domain/queryKeys';
+import { trpc } from '../hooks/trpc';
 import { useCurrentSearch } from '../hooks/useCurrentSearch';
 import { useInfiniteScroll } from '../hooks/useInfiniteScroll';
 import { entriesQueue } from '../infra/queue';
 import { supabase } from '../infra/supabase';
-import { trpc } from '../infra/trpc';
 
 export default function Index() {
   const router = useRouter();
@@ -25,11 +25,14 @@ export default function Index() {
     data: entries,
     fetchNextPage,
     isFetching,
-  } = trpc.useInfiniteQuery(['getEntries', { limit, ...searchQuery }], {
-    getNextPageParam: (lastPage, pages) => pages.length,
-  });
+  } = trpc.getEntries.useInfiniteQuery(
+    { limit, ...searchQuery },
+    {
+      getNextPageParam: (lastPage, pages) => pages.length,
+    }
+  );
 
-  const { mutate: mutateDeleteAll } = trpc.useMutation(['deleteAllEntries'], {
+  const { mutate: mutateDeleteAll } = trpc.deleteAllEntries.useMutation({
     onSuccess: () =>
       queryClient.invalidateQueries(
         queryKeys.entries({ limit, ...searchQuery })
@@ -39,7 +42,7 @@ export default function Index() {
     mutate: mutateCreate,
     isSuccess: isCreated,
     isLoading: isCreating,
-  } = trpc.useMutation(['createEntries'], {
+  } = trpc.createEntries.useMutation({
     onSuccess: () =>
       queryClient.invalidateQueries(
         queryKeys.entries({ limit, ...searchQuery })

@@ -1,4 +1,12 @@
-import { createReactQueryHooks } from '@trpc/react';
-import type { AppRouter } from '../pages/api/trpc/[trpc]';
-export const trpc = createReactQueryHooks<AppRouter>();
-// => { useQuery: ..., useMutation: ...}
+import { initTRPC } from '@trpc/server';
+/**
+ * Initialization of tRPC backend
+ * Should be done only once per backend!
+ */
+const t = initTRPC.create();
+/**
+ * Export reusable router and procedure helpers
+ * that can be used throughout the router
+ */
+export const router = t.router;
+export const publicProcedure = t.procedure;
