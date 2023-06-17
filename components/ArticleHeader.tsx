@@ -62,7 +62,7 @@ export const ArticleHeader = (props: {
             <input
               type="datetime-local"
               {...register('createdAt')}
-              className="h-10 w-full rounded-md border border-gray-300 p-2 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-300"
+              className="mx-auto h-10 w-full rounded-md border border-gray-300 p-2 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-300"
             />
             <CustomSelect
               value={tags}
