@@ -1,5 +1,5 @@
 export const queryKeys = {
-  currentSearchStr: 'currentSearchStr',
+  currentSearchStr: ['currentSearchStr'],
   entries: ({
     limit,
     keyword,
@@ -8,7 +8,10 @@ export const queryKeys = {
     limit: number;
     keyword?: string;
     tag?: string;
-  }) => ['getEntries', { limit, keyword, tag }],
-  entry: (uuid: string | undefined) => ['getEntry', { uuid }],
-  tagList: 'getTagList',
+  }) => [['getEntries'], { input: { limit, keyword, tag }, type: 'infinite' }],
+  entry: (uuid: string | undefined) => [
+    ['getEntry'],
+    { input: { uuid }, type: 'query' },
+  ],
+  tagList: ['getTagList'],
 };

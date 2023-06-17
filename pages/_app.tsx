@@ -1,10 +1,9 @@
 import { Auth } from '@supabase/ui';
-import { withTRPC } from '@trpc/next';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { AppProps } from 'next/app';
-import { QueryClient, QueryClientProvider } from 'react-query';
-import { ReactQueryDevtools } from 'react-query/devtools';
+import { trpc } from '../hooks/trpc';
 import { supabase } from '../infra/supabase';
-import type { AppRouter } from './api/trpc/[trpc]';
 import './globals.css';
 
 const queryClient = new QueryClient({
@@ -28,24 +27,4 @@ function App({ Component, pageProps }: AppProps) {
   );
 }
 
-export default withTRPC<AppRouter>({
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  config({ ctx }) {
-    /**
-     * If you want to use SSR, you need to use the server's full URL
-     * @link https://trpc.io/docs/ssr
-     */
-    const url = '/api/trpc';
-    return {
-      url,
-      /**
-       * @link https://react-query.tanstack.com/reference/QueryClient
-       */
-      // queryClientConfig: { defaultOptions: { queries: { staleTime: 60 } } },
-    };
-  },
-  /**
-   * @link https://trpc.io/docs/ssr
-   */
-  ssr: false,
-})(App);
+export default trpc.withTRPC(App);
