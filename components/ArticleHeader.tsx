@@ -1,4 +1,3 @@
-import { useDisclosure } from '@chakra-ui/react';
 import {
   ArrowLeftIcon,
   ChevronDownIcon,
@@ -36,7 +35,6 @@ export const ArticleHeader = (props: {
     },
   });
   const tags = useWatch({ name: 'tags', control });
-  const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <form

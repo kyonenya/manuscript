@@ -1,31 +1,29 @@
 import {
+  ButtonHTMLAttributes,
   cloneElement,
   forwardRef,
-  ForwardRefRenderFunction,
   ReactElement,
   ReactNode,
-  RefObject,
+  Ref,
 } from 'react';
 import { twMerge } from 'tailwind-merge';
 
-type ButtonProps = {
-  leftIcon?: ReactElement;
-  rightIcon?: ReactElement;
-  type?: 'submit';
-  onClick?: () => void | Promise<void>;
-  className?: string;
-  children: ReactNode;
-};
-
 /**
- * Chakra UI の `Button` の `leftIcon` 版の移植
+ * Chakra UI の `Button` の移植
  *
  * @url https://chakra-ui.com/docs/components/button#button-with-icon
  */
-const ButtonComponent: ForwardRefRenderFunction<
-  HTMLButtonElement,
-  ButtonProps
-> = (props: ButtonProps, ref) => {
+const ButtonComponent = (
+  props: {
+    leftIcon?: ReactElement;
+    rightIcon?: ReactElement;
+    type?: ButtonHTMLAttributes<HTMLButtonElement>['type'];
+    className?: string;
+    onClick?: () => void | Promise<void>;
+    children?: ReactNode;
+  },
+  ref: Ref<HTMLButtonElement>
+) => {
   return (
     <button
       type={props.type ?? 'button'}
@@ -51,6 +49,4 @@ const ButtonComponent: ForwardRefRenderFunction<
   );
 };
 
-export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ButtonComponent
-);
+export const Button = forwardRef(ButtonComponent);
