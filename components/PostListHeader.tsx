@@ -83,7 +83,7 @@ export const PostListHeader = (props: {
             type="text"
             aria-label="記事検索フォーム"
             placeholder="Search"
-            className="ml-0.5 flex-grow border-none bg-transparent px-2 py-2 text-black outline-none dark:text-white"
+            className="ml-0.5 flex-grow border-none bg-transparent px-2 py-2 text-black outline-none dark:text-gray-200"
           />
         </div>
 

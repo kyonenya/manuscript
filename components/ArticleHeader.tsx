@@ -57,25 +57,31 @@ export const ArticleHeader = (props: {
             </Button>
           }
         >
-          <input type="datetime-local" {...register('createdAt')} />
-          <CustomSelect
-            value={tags}
-            onSelect={(tags) => setValue('tags', tags)}
-            options={props.tagList}
-            {...register('tags')}
-          />
-          <CustomAlertDialog
-            triggerButton={
-              <Button
-                leftIcon={<TrashIcon />}
-                className="font-semibold text-red-500 dark:text-rose-500"
-              >
-                Delete
-              </Button>
-            }
-            headerText="Delete Entry"
-            onSubmit={() => props.onDelete()}
-          />
+          <div className="flex flex-col space-y-4">
+            <input
+              type="datetime-local"
+              {...register('createdAt')}
+              className="h-10 w-full rounded-md border border-gray-300 p-2 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-300"
+            />
+            <CustomSelect
+              value={tags}
+              onSelect={(tags) => setValue('tags', tags)}
+              options={props.tagList}
+              {...register('tags')}
+            />
+            <CustomAlertDialog
+              triggerButton={
+                <Button
+                  leftIcon={<TrashIcon />}
+                  className="font-semibold text-red-500 dark:text-rose-500"
+                >
+                  Delete
+                </Button>
+              }
+              headerText="Delete Entry"
+              onSubmit={() => props.onDelete()}
+            />
+          </div>
         </CustomPopover>
         <IconButton type="submit" ariaLabel="更新">
           {props.isLoading ? <Spinner /> : <CheckIcon />}

@@ -29,7 +29,7 @@ const ButtonComponent = (
       type={props.type ?? 'button'}
       onClick={props.onClick}
       className={twMerge(
-        'flex w-full items-center justify-center rounded-md bg-[#edf2f7] p-2 transition-colors duration-150 ease-in-out hover:bg-gray-200 focus:outline-none focus:ring-2 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600',
+        'flex w-full items-center justify-center rounded-md bg-[#edf2f7] p-2 transition-colors duration-150 ease-in-out hover:bg-gray-200 focus:outline-none focus:ring-2 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600',
         props.className
       )}
       ref={ref}
@@ -41,7 +41,7 @@ const ButtonComponent = (
       {props.children}
       {props.rightIcon &&
         cloneElement(props.rightIcon, {
-          className: 'mr-2 h-5 w-5',
+          className: 'ml-2 h-5 w-5',
         })}
     </button>
   );

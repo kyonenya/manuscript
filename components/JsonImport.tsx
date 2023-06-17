@@ -22,7 +22,7 @@ export const JsonImport = (props: {
           if (jsonFile == null) return;
           load(jsonFile);
         }}
-        className="my-auto dark:text-white"
+        className="my-auto dark:text-gray-300"
       />
       <IconButton
         ariaLabel="記事データをインポート"

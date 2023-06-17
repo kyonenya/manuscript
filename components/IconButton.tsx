@@ -30,7 +30,10 @@ const IconButtonComponent = (
       onClick={props.onClick}
     >
       {cloneElement(props.children, {
-        className: twMerge('w-5 m-auto dark:text-white', props.iconClassName),
+        className: twMerge(
+          'w-5 m-auto dark:text-gray-300',
+          props.iconClassName
+        ),
       })}
     </button>
   );
