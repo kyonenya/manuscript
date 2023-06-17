@@ -42,7 +42,7 @@
     "react-intersection-observer": "^9.3.3",
     "react-markdown": "^8.0.4",
     "react-select": "^5.7.3",
-    "search-summary": "^1.1.1",
+    "search-summary": "^1.1.2",
     "short-uuid": "^4.2.0",
     "tailwind-merge": "^1.13.2",
     "zod": "^3.21.4"
