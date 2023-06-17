@@ -1,7 +1,7 @@
 import { Auth } from '@supabase/ui';
+import { useQueryClient } from '@tanstack/react-query';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { useQueryClient } from '@tanstack/react-query';
 import { PostListPage } from '../components/PostListPage';
 import { Spinner } from '../components/Spinner';
 import { queryKeys } from '../domain/queryKeys';
@@ -63,19 +63,19 @@ export default function Index() {
     );
   };
 
-  if (!user) {
-    return (
-      <div className="max-w-3xl py-6">
-        <h2 className="text-2xl font-bold">Sign in manuscript</h2>
-        <Auth
-          supabaseClient={supabase}
-          view="sign_in"
-          socialLayout="horizontal"
-          socialButtonSize="xlarge"
-        />
-      </div>
-    );
-  }
+  // if (!user) {
+  //   return (
+  //     <div className="max-w-3xl py-6">
+  //       <h2 className="text-2xl font-bold">Sign in manuscript</h2>
+  //       <Auth
+  //         supabaseClient={supabase}
+  //         view="sign_in"
+  //         socialLayout="horizontal"
+  //         socialButtonSize="xlarge"
+  //       />
+  //     </div>
+  //   );
+  // }
 
   return (
     <>

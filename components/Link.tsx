@@ -13,8 +13,8 @@ export const Link = ({
   rest?: unknown[];
 }) => {
   return isEnabled ? (
-    <NextLink passHref href={href}>
-      <a {...rest}>{children}</a>
+    <NextLink href={href} {...rest}>
+      {children}
     </NextLink>
   ) : (
     <>{children}</>

@@ -51,8 +51,8 @@ export const ArticleHeader = (props: {
         </IconButton>
 
         <CustomPopover
-          triggerButton={
-            <Button rightIcon={<ChevronDownIcon />}>
+          triggerElement={
+            <Button noButton rightIcon={<ChevronDownIcon />}>
               {dayjs(props.entry.createdAt).format('YYYY-MM-DD')}
             </Button>
           }
@@ -71,8 +71,9 @@ export const ArticleHeader = (props: {
               {...register('tags')}
             />
             <CustomAlertDialog
-              triggerButton={
+              triggerElement={
                 <Button
+                  noButton
                   leftIcon={<TrashIcon />}
                   className="font-semibold text-red-500 dark:text-rose-500"
                 >
