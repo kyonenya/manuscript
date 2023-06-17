@@ -125,7 +125,7 @@ export const PostListPage = (props: {
         onDeleteAll={props.onDeleteAll}
       />
 
-      <div className="mx-auto max-w-4xl py-6">
+      <div className="mx-auto max-w-4xl py-3 md:py-6">
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:gap-6">
           {props.entries &&
             props.entries.map((entry) => (

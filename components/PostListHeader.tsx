@@ -48,29 +48,31 @@ export const PostListHeader = (props: {
             </IconButton>
           }
         >
-          <JsonImport
-            isImported={props.isImported}
-            isImporting={props.isImporting}
-            onImport={props.onImport}
-          />
-          <CustomAlertDialog
-            triggerButton={
-              <Button
-                leftIcon={<TrashIcon />}
-                className="font-semibold text-red-500 dark:text-rose-500"
-              >
-                Delete All
-              </Button>
-            }
-            headerText="Delete All Entries"
-            onSubmit={() => props.onDeleteAll()}
-          />
-          <Button
-            leftIcon={<ArrowLeftOnRectangleIcon />}
-            onClick={props.onSignOut}
-          >
-            Sign Out
-          </Button>
+          <div className="flex max-w-[300px] flex-col space-y-4">
+            <JsonImport
+              isImported={props.isImported}
+              isImporting={props.isImporting}
+              onImport={props.onImport}
+            />
+            <CustomAlertDialog
+              triggerButton={
+                <Button
+                  leftIcon={<TrashIcon />}
+                  className="font-semibold text-red-500 dark:text-rose-500"
+                >
+                  Delete All
+                </Button>
+              }
+              headerText="Delete All Entries"
+              onSubmit={() => props.onDeleteAll()}
+            />
+            <Button
+              leftIcon={<ArrowLeftOnRectangleIcon />}
+              onClick={props.onSignOut}
+            >
+              Sign Out
+            </Button>
+          </div>
         </CustomPopover>
 
         {/* InputGroup from Chakra UI */}

@@ -56,8 +56,9 @@ export const ArticleHeader = (props: {
               {dayjs(props.entry.createdAt).format('YYYY-MM-DD')}
             </Button>
           }
+          placement="bottom"
         >
-          <div className="flex flex-col space-y-4">
+          <div className="flex min-w-[300px] flex-col space-y-4">
             <input
               type="datetime-local"
               {...register('createdAt')}
