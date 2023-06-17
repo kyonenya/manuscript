@@ -11,7 +11,6 @@ import { useForm } from 'react-hook-form';
 import { twMerge } from 'tailwind-merge';
 import { Entry } from '../domain/Entry';
 import { Button } from './Button';
-import { ColorModeButton } from './ColorModeButton';
 import { CustomAlertDialog } from './CustomAlertDialog';
 import { CustomPopover } from './CustomPopover';
 import { HeaderContainer } from './HeaderContainer';
@@ -49,7 +48,6 @@ export const PostListHeader = (props: {
             </IconButton>
           }
         >
-          <ColorModeButton />
           <JsonImport
             isImported={props.isImported}
             isImporting={props.isImporting}

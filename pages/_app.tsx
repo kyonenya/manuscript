@@ -1,4 +1,3 @@
-import { ChakraProvider } from '@chakra-ui/react';
 import { Auth } from '@supabase/ui';
 import { withTRPC } from '@trpc/next';
 import { AppProps } from 'next/app';
@@ -22,12 +21,10 @@ const queryClient = new QueryClient({
 function App({ Component, pageProps }: AppProps) {
   return (
     <QueryClientProvider client={queryClient}>
-      <ChakraProvider theme={theme}>
-        <Auth.UserContextProvider supabaseClient={supabase}>
-          <Component {...pageProps} />
-          <ReactQueryDevtools initialIsOpen={false} />
-        </Auth.UserContextProvider>
-      </ChakraProvider>
+      <Auth.UserContextProvider supabaseClient={supabase}>
+        <Component {...pageProps} />
+        <ReactQueryDevtools initialIsOpen={false} />
+      </Auth.UserContextProvider>
     </QueryClientProvider>
   );
 }
