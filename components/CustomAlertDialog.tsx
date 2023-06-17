@@ -1,48 +1,52 @@
 import {
   AlertDialog,
-  AlertDialogBody,
-  AlertDialogFooter,
-  AlertDialogHeader,
   AlertDialogContent,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogAction,
   AlertDialogOverlay,
-  Button,
-} from '@chakra-ui/react';
-import { useRef } from 'react';
+  AlertDialogPortal,
+  AlertDialogTrigger,
+  AlertDialogCancel,
+} from '@radix-ui/react-alert-dialog';
+import { ReactElement } from 'react';
+import { Button } from './Button';
 
 export const CustomAlertDialog = (props: {
-  isOpen: boolean;
   headerText: string;
-  onClose: () => void;
+  triggerButton: ReactElement;
   onSubmit: () => void;
 }) => {
-  const cancelRef = useRef(null);
-
   return (
-    <AlertDialog
-      isOpen={props.isOpen}
-      leastDestructiveRef={cancelRef}
-      onClose={props.onClose}
-    >
-      <AlertDialogOverlay>
-        <AlertDialogContent>
-          <AlertDialogHeader fontSize="lg" fontWeight="bold">
-            {props.headerText}
-          </AlertDialogHeader>
-
-          <AlertDialogBody>
-            Are you sure? You can not undo this action afterwards.
-          </AlertDialogBody>
-
-          <AlertDialogFooter>
-            <Button ref={cancelRef} onClick={props.onClose}>
-              Cancel
-            </Button>
-            <Button colorScheme="red" onClick={props.onSubmit} ml={3}>
-              Delete
-            </Button>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialogOverlay>
+    <AlertDialog>
+      <AlertDialogTrigger asChild>{props.triggerButton}</AlertDialogTrigger>
+      <AlertDialogPortal>
+        <AlertDialogOverlay className="fixed inset-0 bg-black bg-opacity-50 z-40">
+          <AlertDialogContent className="z-50 mx-auto my-10 p-6 rounded-md shadow-md bg-white dark:bg-gray-700 max-w-md">
+            <AlertDialogTitle className="text-xl font-bold mb-4 dark:text-gray-300">
+              {props.headerText}
+            </AlertDialogTitle>
+            <AlertDialogDescription className="text-gray-600 dark:text-gray-300 mb-6">
+              Are you sure? You cannot undo this action afterwards.
+            </AlertDialogDescription>
+            <div className="mt-4 flex justify-end space-x-4">
+              <AlertDialogCancel>
+                <Button className="px-4 dark:bg-gray-600 dark:hover:bg-gray-500">
+                  Cancel
+                </Button>
+              </AlertDialogCancel>
+              <AlertDialogAction>
+                <Button
+                  onClick={props.onSubmit}
+                  className="px-4 bg-red-500 hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-500 text-white"
+                >
+                  Delete
+                </Button>
+              </AlertDialogAction>
+            </div>
+          </AlertDialogContent>
+        </AlertDialogOverlay>
+      </AlertDialogPortal>
     </AlertDialog>
   );
 };

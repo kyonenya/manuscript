@@ -60,32 +60,25 @@ export const ArticleHeader = (props: {
           }
         >
           <input type="datetime-local" {...register('createdAt')} />
-
           <CustomSelect
             value={tags}
             onSelect={(tags) => setValue('tags', tags)}
             options={props.tagList}
             {...register('tags')}
           />
-
-          <Button
-            onClick={onOpen}
-            leftIcon={<TrashIcon />}
-            className="text-red-500 dark:text-red-400"
-          >
-            Delete
-          </Button>
           <CustomAlertDialog
-            isOpen={isOpen}
+            triggerButton={
+              <Button
+                leftIcon={<TrashIcon />}
+                className="text-red-500 dark:text-rose-500 font-semibold"
+              >
+                Delete
+              </Button>
+            }
             headerText="Delete Entry"
-            onClose={onClose}
-            onSubmit={() => {
-              props.onDelete();
-              onClose();
-            }}
+            onSubmit={() => props.onDelete()}
           />
         </CustomPopover>
-
         <IconButton type="submit" ariaLabel="更新">
           {props.isLoading ? <Spinner /> : <CheckIcon />}
         </IconButton>

@@ -1,4 +1,3 @@
-import { useDisclosure } from '@chakra-ui/react';
 import {
   ArrowLeftOnRectangleIcon,
   Cog8ToothIcon,
@@ -38,7 +37,6 @@ export const PostListHeader = (props: {
       searchStr: props.searchStr,
     },
   });
-  const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <form onSubmit={handleSubmit(props.onSearch)}>
@@ -57,21 +55,17 @@ export const PostListHeader = (props: {
             isImporting={props.isImporting}
             onImport={props.onImport}
           />
-          <Button
-            onClick={onOpen}
-            leftIcon={<TrashIcon />}
-            className="text-red-500 dark:text-red-400"
-          >
-            Delete All
-          </Button>
           <CustomAlertDialog
-            isOpen={isOpen}
+            triggerButton={
+              <Button
+                leftIcon={<TrashIcon />}
+                className="text-red-500 dark:text-rose-500 font-semibold"
+              >
+                Delete All
+              </Button>
+            }
             headerText="Delete All Entries"
-            onClose={onClose}
-            onSubmit={() => {
-              props.onDeleteAll();
-              onClose();
-            }}
+            onSubmit={() => props.onDeleteAll()}
           />
           <Button
             leftIcon={<ArrowLeftOnRectangleIcon />}
