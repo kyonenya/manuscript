@@ -16,10 +16,6 @@
     "test:infra": "cross-env TS_NODE_PROJECT=./tsconfig.cjs.json NODE_ENV=test mocha ./infra/__tests__/**.ts"
   },
   "dependencies": {
-    "@chakra-ui/icons": "^1.1.7",
-    "@chakra-ui/react": "^1.8.8",
-    "@emotion/react": "^11.9.3",
-    "@emotion/styled": "^11.9.3",
     "@heroicons/react": "^2.0.18",
     "@prisma/client": "^4.8.0",
     "@radix-ui/react-alert-dialog": "^1.0.4",
@@ -30,10 +26,8 @@
     "@trpc/next": "^9.27.4",
     "@trpc/react": "^9.27.4",
     "@trpc/server": "^9.27.4",
-    "chakra-ui-markdown-renderer": "^4.1.0",
     "dayjs": "^1.11.3",
     "dotenv": "^16.0.1",
-    "framer-motion": "^5.6.0",
     "jotai": "^1.12.0",
     "next": "^11.1.4",
     "node-fetch": "^3.2.6",
