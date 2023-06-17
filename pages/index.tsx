@@ -1,9 +1,9 @@
-import { Box, Container, Flex, Heading, Spinner } from '@chakra-ui/react';
 import { Auth } from '@supabase/ui';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useQueryClient } from 'react-query';
 import { PostListPage } from '../components/PostListPage';
+import { Spinner } from '../components/Spinner';
 import { queryKeys } from '../domain/queryKeys';
 import { useCurrentSearch } from '../hooks/useCurrentSearch';
 import { useInfiniteScroll } from '../hooks/useInfiniteScroll';
@@ -60,20 +60,19 @@ export default function Index() {
     );
   };
 
-  if (!user)
+  if (!user) {
     return (
-      <Container maxW="3xl" py={{ base: 6 }}>
-        <Heading as="h2" size="lg">
-          Sign in manuscript
-        </Heading>
+      <div className="max-w-3xl py-6">
+        <h2 className="text-2xl font-bold">Sign in manuscript</h2>
         <Auth
           supabaseClient={supabase}
           view="sign_in"
           socialLayout="horizontal"
           socialButtonSize="xlarge"
         />
-      </Container>
+      </div>
     );
+  }
 
   return (
     <>
@@ -81,7 +80,7 @@ export default function Index() {
         <title>manuscript</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Box>
+      <div>
         <PostListPage
           entries={entries?.pages.flat()}
           searchStr={searchStr}
@@ -94,12 +93,10 @@ export default function Index() {
           onImport={onImport}
           onDeleteAll={mutateDeleteAll}
         />
-        <Flex justifyContent="center" ref={scrollerRef}>
-          {!isPreviewMode && isFetching && (
-            <Spinner emptyColor="gray.300" speed="0.65s" />
-          )}
-        </Flex>
-      </Box>
+        <div className="flex justify-center" ref={scrollerRef}>
+          {!isPreviewMode && isFetching && <Spinner />}
+        </div>
+      </div>
     </>
   );
 }

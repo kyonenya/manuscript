@@ -1,23 +1,11 @@
-import { Box, Flex, useColorModeValue } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 
 export const HeaderContainer = (props: { children: ReactNode }) => {
   return (
-    <Box
-      px={4}
-      bg={useColorModeValue('gray.100', 'gray.900')}
-      boxShadow="md"
-      position={['sticky', '-webkit-sticky']}
-      top={0}
-      zIndex={100}
-    >
-      <Flex
-        h={{ base: 14, md: 16 }}
-        alignItems="center"
-        justifyContent="space-between"
-      >
+    <div className="-webkit-sticky z-100 sticky top-0 bg-gray-100 px-2 shadow-md dark:bg-gray-900 md:px-4">
+      <div className="flex h-14 items-center justify-between space-x-3 md:h-16">
         {props.children}
-      </Flex>
-    </Box>
+      </div>
+    </div>
   );
 };

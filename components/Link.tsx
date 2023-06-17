@@ -1,11 +1,6 @@
-import { Link as ChakraLink } from '@chakra-ui/react';
 import NextLink, { LinkProps } from 'next/link';
 import { ReactNode } from 'react';
 
-/**
- * NextLink with Chakra UI
- * @url https://twitter.com/thesegunadebayo/status/1389894533173977089
- */
 export const Link = ({
   children,
   href,
@@ -19,9 +14,7 @@ export const Link = ({
 }) => {
   return isEnabled ? (
     <NextLink passHref href={href}>
-      <ChakraLink {...rest} as="span">
-        {children}
-      </ChakraLink>
+      <a {...rest}>{children}</a>
     </NextLink>
   ) : (
     <>{children}</>

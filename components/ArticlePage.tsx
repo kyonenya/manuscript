@@ -1,10 +1,3 @@
-import {
-  Box,
-  Container,
-  Stack,
-  Text,
-  useColorModeValue,
-} from '@chakra-ui/react';
 import dayjs from 'dayjs';
 import { Entry } from '../domain/Entry';
 import { ArticleHeader } from './ArticleHeader';
@@ -19,7 +12,7 @@ export const ArticlePage = (props: {
   onUpdate: (props: { createdAt: string; tags: string[] }) => void;
 }) => {
   return (
-    <Box display="flex" flexDirection="column" minHeight="100vh">
+    <div className="flex min-h-screen flex-col">
       <ArticleHeader
         entry={props.entry}
         tagList={props.tagList}
@@ -28,25 +21,17 @@ export const ArticlePage = (props: {
         onDelete={props.onDelete}
       />
 
-      <Container maxW="3xl" px={0} py={4} flex={1}>
-        <Stack
-          bg={useColorModeValue('white', 'gray.800')}
-          boxShadow={'lg'}
-          p={6}
-          rounded={{ base: 'none', md: 'xl' }}
-          align={'left'}
-          pos={'relative'}
-          as="li"
-        >
+      <div className="container mx-auto max-w-3xl flex-1 px-0 py-4">
+        <div className="rounded-none bg-white p-6 text-gray-700 shadow-lg dark:bg-gray-800 dark:text-gray-300 md:rounded-xl">
           <MarkdownText>{props.entry.text}</MarkdownText>
-          <Stack direction={'row'} spacing={3}>
-            <Text color="gray.500">
+          <div className="mt-3 flex flex-row space-x-4">
+            <p className="text-gray-600 dark:text-gray-400">
               {dayjs(props.entry.createdAt).format('YYYY-MM-DD')}
-            </Text>
+            </p>
             <Tags tags={props.entry.tags} />
-          </Stack>
-        </Stack>
-      </Container>
-    </Box>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };

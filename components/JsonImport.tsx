@@ -1,8 +1,9 @@
-import { ArrowUpIcon, CheckIcon } from '@chakra-ui/icons';
-import { IconButton, Input, Stack, Spinner } from '@chakra-ui/react';
+import { ArrowUpIcon, CheckIcon } from '@heroicons/react/24/solid';
 import { DayOneData, toEntry } from '../domain/DayOneEntry';
 import { Entry } from '../domain/Entry';
 import { useJsonImport } from '../hooks/useJsonImport';
+import { IconButton } from './IconButton';
+import { Spinner } from './Spinner';
 
 export const JsonImport = (props: {
   isImported: boolean;
@@ -12,8 +13,8 @@ export const JsonImport = (props: {
   const { load, data } = useJsonImport<DayOneData>();
 
   return (
-    <Stack direction="row">
-      <Input
+    <div className="flex flex-row">
+      <input
         type="file"
         accept="application/json"
         onChange={(e) => {
@@ -21,25 +22,25 @@ export const JsonImport = (props: {
           if (jsonFile == null) return;
           load(jsonFile);
         }}
+        className="my-auto dark:text-gray-300"
       />
       <IconButton
-        aria-label="記事データをインポート"
-        icon={
-          props.isImported ? (
-            <CheckIcon />
-          ) : props.isImporting ? (
-            <Spinner />
-          ) : (
-            <ArrowUpIcon />
-          )
-        }
+        ariaLabel="記事データをインポート"
         onClick={() => {
           if (!data) return;
           props.onImport({
             entries: data.entries.map((entry) => toEntry(entry)),
           });
         }}
-      />
-    </Stack>
+      >
+        {props.isImported ? (
+          <CheckIcon />
+        ) : props.isImporting ? (
+          <Spinner />
+        ) : (
+          <ArrowUpIcon />
+        )}
+      </IconButton>
+    </div>
   );
 };

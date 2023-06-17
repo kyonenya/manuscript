@@ -1,5 +1,4 @@
-import { StarIcon } from '@chakra-ui/icons';
-import { Container, Stack, Text } from '@chakra-ui/react';
+import { StarIcon } from '@heroicons/react/24/solid';
 import dayjs from 'dayjs';
 import { Entry } from '../domain/Entry';
 import { MarkdownText } from './MarkdownText';
@@ -7,16 +6,16 @@ import { Tags } from './Tags';
 
 export const Preview = (props: { entry: Entry }) => {
   return (
-    <Container maxW="3xl" px={10} pt={10}>
-      <Stack direction="row" mb={3} alignItems="center">
-        <Text color="gray.500" fontSize="xl">
+    <div className="mx-auto max-w-3xl px-10 pt-10">
+      <div className="mb-3 flex flex-row items-center">
+        <p className="mr-3 text-xl text-gray-500">
           {dayjs(props.entry.createdAt).format('YYYY-MM-DD HH:mm')}
-        </Text>
-        {props.entry.starred && <StarIcon color="yellow.400" />}
+        </p>
+        {props.entry.starred && <StarIcon />}
         <Tags tags={props.entry.tags} />
-      </Stack>
+      </div>
       <MarkdownText>{props.entry.text}</MarkdownText>
-    </Container>
+    </div>
   );
 };
 

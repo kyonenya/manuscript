@@ -1,27 +1,20 @@
 import {
-  DeleteIcon,
-  SearchIcon,
-  SettingsIcon,
-  ViewIcon,
-} from '@chakra-ui/icons';
-import {
-  Button,
-  IconButton,
-  InputGroup,
-  Input,
-  InputLeftElement,
-  Stack,
-  useColorModeValue,
-  useDisclosure,
-} from '@chakra-ui/react';
-import { IconCheckSquare, IconLogOut } from '@supabase/ui';
+  ArrowLeftOnRectangleIcon,
+  Cog8ToothIcon,
+  EyeIcon,
+  MagnifyingGlassIcon,
+  Squares2X2Icon,
+  TrashIcon,
+} from '@heroicons/react/24/solid';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
+import { twMerge } from 'tailwind-merge';
 import { Entry } from '../domain/Entry';
-import { ColorModeButton } from './ColorModeButton';
+import { Button } from './Button';
 import { CustomAlertDialog } from './CustomAlertDialog';
 import { CustomPopover } from './CustomPopover';
 import { HeaderContainer } from './HeaderContainer';
+import { IconButton } from './IconButton';
 import { JsonImport } from './JsonImport';
 
 type Form = { searchStr: string };
@@ -43,78 +36,75 @@ export const PostListHeader = (props: {
       searchStr: props.searchStr,
     },
   });
-  const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <form onSubmit={handleSubmit(props.onSearch)}>
       <HeaderContainer>
         <CustomPopover
-          placement="bottom-end"
+          placement="bottom"
           triggerButton={
-            <IconButton icon={<SettingsIcon />} aria-label="設定" />
+            <IconButton>
+              <Cog8ToothIcon />
+            </IconButton>
           }
         >
-          <ColorModeButton />
-          <JsonImport
-            isImported={props.isImported}
-            isImporting={props.isImporting}
-            onImport={props.onImport}
-          />
-          <Button onClick={onOpen} leftIcon={<DeleteIcon />} color="red.500">
-            Delete All
-          </Button>
-          <CustomAlertDialog
-            isOpen={isOpen}
-            headerText="Delete All Entries"
-            onClose={onClose}
-            onSubmit={() => {
-              props.onDeleteAll();
-              onClose();
-            }}
-          />
-          <Button
-            onClick={props.onSignOut}
-            leftIcon={<IconLogOut strokeWidth={2} />}
-          >
-            Sign Out
-          </Button>
+          <div className="flex max-w-[300px] flex-col space-y-4">
+            <JsonImport
+              isImported={props.isImported}
+              isImporting={props.isImporting}
+              onImport={props.onImport}
+            />
+            <CustomAlertDialog
+              triggerButton={
+                <Button
+                  leftIcon={<TrashIcon />}
+                  className="font-semibold text-red-500 dark:text-rose-500"
+                >
+                  Delete All
+                </Button>
+              }
+              headerText="Delete All Entries"
+              onSubmit={() => props.onDeleteAll()}
+            />
+            <Button
+              leftIcon={<ArrowLeftOnRectangleIcon />}
+              onClick={props.onSignOut}
+            >
+              Sign Out
+            </Button>
+          </div>
         </CustomPopover>
 
-        <InputGroup w={{ base: '60vw', md: 'sm' }}>
-          <InputLeftElement
-            p={1}
-            borderColor={useColorModeValue('gray.300', 'gray.700')}
-          >
-            <IconButton aria-label="検索" icon={<SearchIcon />} size="sm" />
-          </InputLeftElement>
-          <Input
+        {/* InputGroup from Chakra UI */}
+        <div className="flex w-full items-center rounded-md border border-gray-300 dark:border-gray-700 sm:w-64">
+          <IconButton type="submit">
+            <MagnifyingGlassIcon />
+          </IconButton>
+          <input
             {...register('searchStr')}
             type="text"
             aria-label="記事検索フォーム"
             placeholder="Search"
-            borderColor={useColorModeValue('gray.300', 'gray.700')}
+            className="ml-0.5 flex-grow border-none bg-transparent px-2 py-2 text-black outline-none dark:text-gray-200"
           />
-        </InputGroup>
+        </div>
 
-        <Stack direction="row">
+        <div className="flex space-x-2">
           {props.isSelectMode && (
-            <IconButton
-              icon={<ViewIcon />}
-              aria-label="プレビュー"
-              onClick={() => router.push('?preview=true')}
-            />
+            <IconButton onClick={() => router.push('?preview=true')}>
+              <EyeIcon />
+            </IconButton>
           )}
           <IconButton
-            icon={<IconCheckSquare strokeWidth={2} size={18} />}
-            aria-label="複数選択"
+            className={twMerge(
+              props.isSelectMode &&
+                'bg-yellow-200 hover:bg-yellow-200 dark:bg-gray-500 dark:hover:bg-gray-500'
+            )}
             onClick={props.toggleSelectMode}
-            bg={
-              props.isSelectMode
-                ? useColorModeValue('yellow.200', 'gray.500')
-                : undefined
-            }
-          />
-        </Stack>
+          >
+            <Squares2X2Icon />
+          </IconButton>
+        </div>
       </HeaderContainer>
     </form>
   );

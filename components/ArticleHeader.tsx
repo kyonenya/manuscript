@@ -1,24 +1,20 @@
 import {
-  ArrowBackIcon,
+  ArrowLeftIcon,
   ChevronDownIcon,
   CheckIcon,
-  DeleteIcon,
-} from '@chakra-ui/icons';
-import {
-  Button,
-  IconButton,
-  Input,
-  Spinner,
-  useDisclosure,
-} from '@chakra-ui/react';
+  TrashIcon,
+} from '@heroicons/react/24/solid';
 import Router from 'next/router';
 import { useForm, useWatch } from 'react-hook-form';
 import { Entry } from '../domain/Entry';
 import dayjs from '../infra/dayjs';
+import { Button } from './Button';
 import { CustomAlertDialog } from './CustomAlertDialog';
 import { CustomPopover } from './CustomPopover';
 import { CustomSelect } from './CustomSelect';
 import { HeaderContainer } from './HeaderContainer';
+import { IconButton } from './IconButton';
+import { Spinner } from './Spinner';
 
 type Form = {
   createdAt: string;
@@ -39,7 +35,6 @@ export const ArticleHeader = (props: {
     },
   });
   const tags = useWatch({ name: 'tags', control });
-  const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <form
@@ -51,54 +46,47 @@ export const ArticleHeader = (props: {
       })}
     >
       <HeaderContainer>
-        <IconButton
-          icon={<ArrowBackIcon />}
-          aria-label={'Back to Top'}
-          onClick={() => Router.push('/')}
-          size="md"
-        />
+        <IconButton ariaLabel="Back to Top" onClick={() => Router.push('/')}>
+          <ArrowLeftIcon />
+        </IconButton>
 
         <CustomPopover
           triggerButton={
-            <Button rightIcon={<ChevronDownIcon />} fontWeight="normal">
+            <Button rightIcon={<ChevronDownIcon />}>
               {dayjs(props.entry.createdAt).format('YYYY-MM-DD')}
             </Button>
           }
+          placement="bottom"
         >
-          <Input type="datetime-local" {...register('createdAt')} />
-
-          <CustomSelect
-            value={tags}
-            onSelect={(tags) => setValue('tags', tags)}
-            options={props.tagList}
-            {...register('tags')}
-          />
-
-          <Button onClick={onOpen} leftIcon={<DeleteIcon />} color="red.500">
-            Delete
-          </Button>
-          <CustomAlertDialog
-            isOpen={isOpen}
-            headerText="Delete Entry"
-            onClose={onClose}
-            onSubmit={() => {
-              props.onDelete();
-              onClose();
-            }}
-          />
+          <div className="flex min-w-[300px] flex-col space-y-4">
+            <input
+              type="datetime-local"
+              {...register('createdAt')}
+              className="mx-auto h-10 w-full rounded-md border border-gray-300 p-2 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-300"
+            />
+            <CustomSelect
+              value={tags}
+              onSelect={(tags) => setValue('tags', tags)}
+              options={props.tagList}
+              {...register('tags')}
+            />
+            <CustomAlertDialog
+              triggerButton={
+                <Button
+                  leftIcon={<TrashIcon />}
+                  className="font-semibold text-red-500 dark:text-rose-500"
+                >
+                  Delete
+                </Button>
+              }
+              headerText="Delete Entry"
+              onSubmit={() => props.onDelete()}
+            />
+          </div>
         </CustomPopover>
-
-        <IconButton
-          type="submit"
-          icon={
-            props.isLoading ? (
-              <Spinner emptyColor="gray.300" speed="0.65s" />
-            ) : (
-              <CheckIcon />
-            )
-          }
-          aria-label="更新"
-        />
+        <IconButton type="submit" ariaLabel="更新">
+          {props.isLoading ? <Spinner /> : <CheckIcon />}
+        </IconButton>
       </HeaderContainer>
     </form>
   );

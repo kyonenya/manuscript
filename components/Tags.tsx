@@ -1,13 +1,14 @@
-import { Stack, Tag, TagLabel } from '@chakra-ui/react';
-
 export const Tags = (props: { tags: string[] }) => {
   return (
-    <Stack direction={'row'}>
+    <div className="flex flex-row space-x-2">
       {props.tags?.map((tag) => (
-        <Tag size="md" key="md" variant="subtle" colorScheme="blackAlpha">
-          <TagLabel fontWeight={'400'}>#{tag}</TagLabel>
-        </Tag>
+        <div
+          className="rounded-md bg-gray-200 px-2 py-1 text-sm font-semibold text-gray-500 dark:bg-gray-700 dark:text-gray-400"
+          key={tag}
+        >
+          #{tag}
+        </div>
       ))}
-    </Stack>
+    </div>
   );
 };

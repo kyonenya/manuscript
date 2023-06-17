@@ -1,33 +1,25 @@
-import {
-  Box,
-  Container,
-  Text,
-  Stack,
-  SimpleGrid,
-  Tag,
-  TagLabel,
-  useColorModeValue,
-} from '@chakra-ui/react';
 import dayjs from 'dayjs';
 import { useState } from 'react';
 import { generateSummaryEntity, SummaryEntity } from 'search-summary';
+import { twMerge } from 'tailwind-merge';
 import { Entry } from '../domain/Entry';
 import { SearchQuery } from '../domain/SearchQuery';
 import { Link } from './Link';
 import { PostListHeader } from './PostListHeader';
 import { Previews } from './Preview';
+import { Tags } from './Tags';
 
 const Summary = (props: { text: string }) => {
   const limit = 120;
 
   return (
-    <Box>
-      <Text color={useColorModeValue('gray.700', 'gray.300')}>
+    <div>
+      <p className="text-gray-700 dark:text-gray-300">
         {props.text.length > limit
-          ? `${props.text.substr(0, limit)}…`
+          ? `${props.text.substr(0, limit)}...`
           : props.text}
-      </Text>
-    </Box>
+      </p>
+    </div>
   );
 };
 
@@ -35,19 +27,19 @@ const SearchSummary = (props: { summary: SummaryEntity }) => {
   const { summary } = props;
 
   return (
-    <Box>
-      <Text as="span" color={useColorModeValue('gray.700', 'gray.300')}>
-        {summary.isBeforeEllipsed && '…'}
+    <div>
+      <span className="text-gray-700 dark:text-gray-300">
+        {summary.isBeforeEllipsed && '...'}
         {summary.beforeText}
-      </Text>
-      <Text as="span" bg="yellow.100" color="orange.800" p={0.5} mx={1}>
+      </span>
+      <span className="mx-1 bg-yellow-100 p-1 text-orange-800">
         {summary.keyword}
-      </Text>
-      <Text as="span" color={useColorModeValue('gray.700', 'gray.300')}>
+      </span>
+      <span className="text-gray-700 dark:text-gray-300">
         {summary.afterText}
-        {summary.isAfterEllipsed && '…'}
-      </Text>
-    </Box>
+        {summary.isAfterEllipsed && '...'}
+      </span>
+    </div>
   );
 };
 
@@ -62,19 +54,13 @@ const ListItem = (props: {
   const summary = generateSummaryEntity(entry.text, props.searchQuery?.keyword);
 
   return (
-    <Stack
+    <div
+      className={twMerge(
+        'flex flex-col rounded-xl p-6 shadow-lg',
+        props.isSelected && 'bg-yellow-100 dark:bg-gray-600',
+        !props.isSelected && 'bg-white dark:bg-gray-800'
+      )}
       onClick={props.isSelectMode ? props.onSelect : undefined}
-      bg={
-        props.isSelected
-          ? useColorModeValue('yellow.100', 'gray.600')
-          : useColorModeValue('white', 'gray.800')
-      }
-      boxShadow={'lg'}
-      p={6}
-      rounded={'xl'}
-      align={'left'}
-      pos={'relative'}
-      as="li"
     >
       <Link
         href={`/${entry.uuid.toLowerCase()}`}
@@ -86,21 +72,14 @@ const ListItem = (props: {
           <Summary text={entry.text} />
         )}
       </Link>
-      <Stack direction={'row'} spacing={4}>
-        <Box>
-          <Text color="gray.500">
-            {dayjs(entry.createdAt).format('YYYY-MM-DD')}
-          </Text>
-        </Box>
-        <Stack direction={'row'}>
-          {entry.tags?.map((tag) => (
-            <Tag size="md" key="md" variant="subtle" colorScheme="blackAlpha">
-              <TagLabel fontWeight={'400'}>#{tag}</TagLabel>
-            </Tag>
-          ))}
-        </Stack>
-      </Stack>
-    </Stack>
+      <div className="mb-2" />
+      <div className="mt-auto flex flex-row items-center justify-start space-x-3">
+        <p className="text-gray-600 dark:text-gray-400">
+          {dayjs(entry.createdAt).format('YYYY-MM-DD')}
+        </p>
+        <Tags tags={entry.tags} />
+      </div>
+    </div>
   );
 };
 
@@ -128,7 +107,7 @@ export const PostListPage = (props: {
   }
 
   return (
-    <Box minHeight="100vh" bg={useColorModeValue('gray.100', 'gray.700')}>
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-700">
       <PostListHeader
         searchStr={props.searchStr}
         isSelectMode={isSelectMode}
@@ -146,12 +125,8 @@ export const PostListPage = (props: {
         onDeleteAll={props.onDeleteAll}
       />
 
-      <Container maxW="4xl" py={{ base: 6 }}>
-        <SimpleGrid
-          columns={{ base: 1, md: 2 }}
-          spacing={{ base: 4, lg: 6 }}
-          as="ul"
-        >
+      <div className="mx-auto max-w-4xl py-3 md:py-6">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:gap-6">
           {props.entries &&
             props.entries.map((entry) => (
               <ListItem
@@ -172,8 +147,8 @@ export const PostListPage = (props: {
                 key={entry.uuid}
               />
             ))}
-        </SimpleGrid>
-      </Container>
-    </Box>
+        </div>
+      </div>
+    </div>
   );
 };

@@ -1,50 +1,29 @@
 /* eslint-disable react/display-name */
-import { Box, Heading, Text } from '@chakra-ui/react';
-import ChakraUIRenderer from 'chakra-ui-markdown-renderer';
-import { ReactNode } from 'react';
+import { ReactNode, ReactElement } from 'react';
 import ReactMarkdown from 'react-markdown';
 
-const customTheme = {
-  p: (props: { children: ReactNode }) => (
-    <Text align="justify" pb={2} style={{ textIndent: '1em' }}>
+const customTheme: Record<
+  string,
+  (props: { children: ReactNode }) => ReactElement
+> = {
+  p: (props) => (
+    <p className="pb-2 text-justify" style={{ textIndent: '1em' }}>
       {props.children}
-    </Text>
+    </p>
   ),
-  h1: (props: { children: ReactNode }) => (
-    <Heading as="h1" size="lg" py={4}>
-      {props.children}
-    </Heading>
-  ),
-  h2: (props: { children: ReactNode }) => (
-    <Heading as="h2" size="lg" fontWeight="normal" py={4}>
-      {props.children}
-    </Heading>
-  ),
-  h3: (props: { children: ReactNode }) => (
-    <Heading as="h3" size="md" fontWeight="normal" py={3}>
-      {props.children}
-    </Heading>
-  ),
-  h4: (props: { children: ReactNode }) => (
-    <Heading as="h4" size="sm" fontWeight="normal" py={2}>
-      {props.children}
-    </Heading>
-  ),
-  blockquote: (props: { children: ReactNode }) => (
-    <Box pl="2em">
-      <Text as="blockquote" py="0.5em" background="gray.100">
-        {props.children}
-      </Text>
-    </Box>
+  h1: (props) => <h1 className="py-4 text-lg">{props.children}</h1>,
+  h2: (props) => <h2 className="py-4 text-lg font-normal">{props.children}</h2>,
+  h3: (props) => <h3 className="text-md py-3 font-normal">{props.children}</h3>,
+  h4: (props) => <h4 className="py-2 text-sm font-normal">{props.children}</h4>,
+  blockquote: (props) => (
+    <div className="pl-8">
+      <blockquote className="bg-gray-100 py-2">{props.children}</blockquote>
+    </div>
   ),
 };
 
 export const MarkdownText = (props: { children: string }) => {
   const text = props.children.replaceAll(/\n/g, '\n\n');
 
-  return (
-    <ReactMarkdown components={ChakraUIRenderer(customTheme)}>
-      {text}
-    </ReactMarkdown>
-  );
+  return <ReactMarkdown components={customTheme}>{text}</ReactMarkdown>;
 };
