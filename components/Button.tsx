@@ -11,8 +11,9 @@ import { twMerge } from 'tailwind-merge';
 type ButtonProps = {
   leftIcon?: ReactElement;
   rightIcon?: ReactElement;
-  className?: string;
+  type?: 'submit';
   onClick?: () => void | Promise<void>;
+  className?: string;
   children: ReactNode;
 };
 
@@ -24,18 +25,10 @@ type ButtonProps = {
 const ButtonComponent: ForwardRefRenderFunction<
   HTMLButtonElement,
   ButtonProps
-> = (
-  props: {
-    leftIcon?: ReactElement;
-    rightIcon?: ReactElement;
-    className?: string;
-    onClick?: () => void | Promise<void>;
-    children: ReactNode;
-  },
-  ref
-) => {
+> = (props: ButtonProps, ref) => {
   return (
     <button
+      type={props.type ?? 'button'}
       onClick={props.onClick}
       className={twMerge(
         'flex items-center justify-center w-full rounded-md p-2',
