@@ -42,8 +42,8 @@ export const PostListHeader = (props: {
       <HeaderContainer>
         <CustomPopover
           placement="bottom"
-          triggerButton={
-            <IconButton>
+          triggerElement={
+            <IconButton noButton>
               <Cog8ToothIcon />
             </IconButton>
           }
@@ -55,7 +55,7 @@ export const PostListHeader = (props: {
               onImport={props.onImport}
             />
             <CustomAlertDialog
-              triggerButton={
+              triggerElement={
                 <Button
                   leftIcon={<TrashIcon />}
                   className="font-semibold text-red-500 dark:text-rose-500"

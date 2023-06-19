@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es2018",
+    "target": "ESNext",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": false,
     "skipLibCheck": true,
@@ -15,14 +15,5 @@
     "jsx": "preserve",
     "incremental": true
   },
-  "include": [
-    // specify manually for build performance
-    "components/**/*.ts*",
-    "domain/**/*.ts",
-    "hooks/**/*.ts*",
-    "infra/**/*.ts",
-    "pages/**/*.ts*",
-    "next-env.d.ts"
-  ],
   "exclude": ["node_modules", ".next"]
 }

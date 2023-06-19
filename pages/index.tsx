@@ -1,7 +1,8 @@
 import { Auth } from '@supabase/ui';
+import { useQueryClient } from '@tanstack/react-query';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { useQueryClient } from '@tanstack/react-query';
+import { useEffect } from 'react';
 import { PostListPage } from '../components/PostListPage';
 import { Spinner } from '../components/Spinner';
 import { queryKeys } from '../domain/queryKeys';
@@ -63,16 +64,16 @@ export default function Index() {
     );
   };
 
-  if (!user) {
+  useEffect(() => {
+    if (user === null) {
+      router.push('/login');
+    }
+  }, [user, router]);
+
+  if (user == null) {
     return (
-      <div className="max-w-3xl py-6">
-        <h2 className="text-2xl font-bold">Sign in manuscript</h2>
-        <Auth
-          supabaseClient={supabase}
-          view="sign_in"
-          socialLayout="horizontal"
-          socialButtonSize="xlarge"
-        />
+      <div className="mt-8 flex justify-center">
+        <Spinner />
       </div>
     );
   }
@@ -92,7 +93,10 @@ export default function Index() {
           isImported={isCreated}
           isImporting={isCreating}
           onSearch={({ searchStr }) => setSearchStr(searchStr)}
-          onSignOut={() => supabase.auth.signOut()}
+          onSignOut={() => {
+            supabase.auth.signOut();
+            router.push('/login');
+          }}
           onImport={onImport}
           onDeleteAll={mutateDeleteAll}
         />

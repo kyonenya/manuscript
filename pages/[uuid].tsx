@@ -1,8 +1,11 @@
+import { Auth } from '@supabase/ui';
 import { useQueryClient, InfiniteData } from '@tanstack/react-query';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 import { ArticlePage } from '../components/ArticlePage';
 import { Preview } from '../components/Preview';
+import { Spinner } from '../components/Spinner';
 import { Entry } from '../domain/Entry';
 import { queryKeys } from '../domain/queryKeys';
 import { trpc } from '../hooks/trpc';
@@ -19,6 +22,8 @@ export default function Article() {
   const isPreview = !!preview;
 
   const { searchQuery, limit } = useCurrentSearch();
+
+  const { user } = Auth.useUser();
 
   const { data: entry } = trpc.getEntry.useQuery(
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -44,6 +49,20 @@ export default function Article() {
         );
       },
     });
+
+  useEffect(() => {
+    if (user === null) {
+      router.push('/login');
+    }
+  }, [user, router]);
+
+  if (user == null) {
+    return (
+      <div className="mt-8 flex justify-center">
+        <Spinner />
+      </div>
+    );
+  }
 
   return (
     <>

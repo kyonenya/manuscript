@@ -1,6 +1,6 @@
 import { useAtom } from 'jotai';
 import { newSearchQuery } from '../domain/SearchQuery';
-import { searchStrAtom } from '../domain/atoms';
+import { searchStrAtom } from './atoms';
 
 export const useCurrentSearch = () => {
   const [searchStr, setSearchStr] = useAtom(searchStrAtom);

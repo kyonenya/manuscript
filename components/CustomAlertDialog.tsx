@@ -14,12 +14,12 @@ import { Button } from './Button';
 
 export const CustomAlertDialog = (props: {
   headerText: string;
-  triggerButton: ReactElement;
+  triggerElement: ReactElement;
   onSubmit: () => void;
 }) => {
   return (
     <AlertDialog>
-      <AlertDialogTrigger asChild>{props.triggerButton}</AlertDialogTrigger>
+      <AlertDialogTrigger asChild>{props.triggerElement}</AlertDialogTrigger>
       <AlertDialogPortal>
         <AlertDialogOverlay className="fixed inset-0 z-40 bg-black bg-opacity-50">
           <AlertDialogContent className="z-50 mx-auto my-10 max-w-md rounded-md bg-white p-6 shadow-md dark:bg-gray-700">
