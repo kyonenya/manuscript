@@ -1,10 +1,10 @@
 import dayjs from 'dayjs';
+import Link from 'next/link';
 import { useState } from 'react';
 import { generateSummaryEntity, SummaryEntity } from 'search-summary';
 import { twMerge } from 'tailwind-merge';
 import { Entry } from '../domain/Entry';
 import { SearchQuery } from '../domain/SearchQuery';
-import { Link } from './Link';
 import { PostListHeader } from './PostListHeader';
 import { Previews } from './Preview';
 import { Tags } from './Tags';
@@ -16,7 +16,7 @@ const Summary = (props: { text: string }) => {
     <div>
       <p className="text-gray-700 dark:text-gray-300">
         {props.text.length > limit
-          ? `${props.text.substr(0, limit)}...`
+          ? `${props.text.substring(0, limit)}...`
           : props.text}
       </p>
     </div>
@@ -52,6 +52,12 @@ const ListItem = (props: {
 }) => {
   const { entry } = props;
   const summary = generateSummaryEntity(entry.text, props.searchQuery?.keyword);
+  const SummaryComponent = () =>
+    summary ? (
+      <SearchSummary summary={summary} />
+    ) : (
+      <Summary text={entry.text} />
+    );
 
   return (
     <div
@@ -62,16 +68,13 @@ const ListItem = (props: {
       )}
       onClick={props.isSelectMode ? props.onSelect : undefined}
     >
-      <Link
-        href={`/${entry.uuid.toLowerCase()}`}
-        isEnabled={!props.isSelectMode}
-      >
-        {summary ? (
-          <SearchSummary summary={summary} />
-        ) : (
-          <Summary text={entry.text} />
-        )}
-      </Link>
+      {props.isSelectMode ? (
+        <SummaryComponent />
+      ) : (
+        <Link href={`/${entry.uuid.toLowerCase()}`}>
+          <SummaryComponent />
+        </Link>
+      )}
       <div className="mb-2" />
       <div className="mt-auto flex flex-row items-center justify-start space-x-3">
         <p className="text-gray-600 dark:text-gray-400">

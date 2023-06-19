@@ -4,7 +4,7 @@ import {
   CheckIcon,
   TrashIcon,
 } from '@heroicons/react/24/solid';
-import Router from 'next/router';
+import Link from 'next/link';
 import { useForm, useWatch } from 'react-hook-form';
 import { Entry } from '../domain/Entry';
 import dayjs from '../infra/dayjs';
@@ -46,10 +46,11 @@ export const ArticleHeader = (props: {
       })}
     >
       <HeaderContainer>
-        <IconButton ariaLabel="Back to Top" onClick={() => Router.push('/')}>
-          <ArrowLeftIcon />
-        </IconButton>
-
+        <Link href="/">
+          <IconButton ariaLabel="Back to Top">
+            <ArrowLeftIcon />
+          </IconButton>
+        </Link>
         <CustomPopover
           triggerElement={
             <Button noButton rightIcon={<ChevronDownIcon />}>
