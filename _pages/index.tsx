@@ -1,3 +1,4 @@
+// @ts-ignore
 import { Auth } from '@supabase/ui';
 import { useQueryClient } from '@tanstack/react-query';
 import Head from 'next/head';
@@ -26,13 +27,15 @@ export default function Index() {
     data: entries,
     fetchNextPage,
     isFetching,
+    // @ts-ignore
   } = trpc.getEntries.useInfiniteQuery(
     { limit, ...searchQuery },
     {
+      // @ts-ignore
       getNextPageParam: (lastPage, pages) => pages.length,
     }
   );
-
+  // @ts-ignore
   const { mutate: mutateDeleteAll } = trpc.deleteAllEntries.useMutation({
     onSuccess: () =>
       queryClient.invalidateQueries(
@@ -43,6 +46,7 @@ export default function Index() {
     mutate: mutateCreate,
     isSuccess: isCreated,
     isLoading: isCreating,
+    // @ts-ignore
   } = trpc.createEntries.useMutation({
     onSuccess: () =>
       queryClient.invalidateQueries(

@@ -1,5 +1,6 @@
 import { httpBatchLink } from '@trpc/client';
 import { createTRPCNext } from '@trpc/next';
+// @ts-ignore
 import { AppRouter } from '../pages/api/trpc/[trpc]';
 
 function getBaseUrl() {

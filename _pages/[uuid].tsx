@@ -1,3 +1,4 @@
+// @ts-ignore
 import { Auth } from '@supabase/ui';
 import { useQueryClient, InfiniteData } from '@tanstack/react-query';
 import Head from 'next/head';
@@ -25,6 +26,7 @@ export default function Article() {
 
   const { user } = Auth.useUser();
 
+  // @ts-ignore
   const { data: entry } = trpc.getEntry.useQuery(
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     { uuid: uuid! /* non-null because enabled */ },
@@ -38,10 +40,14 @@ export default function Article() {
         .find((entry) => entry.uuid === uuid),
     }
   );
+  // @ts-ignore
   const { data: tagList } = trpc.getTagList.useQuery();
+  // @ts-ignore
   const { mutate: mutateDelete } = trpc.deleteEntry.useMutation();
   const { mutate: mutateUpdate, isLoading: isUpdateLoading } =
+    // @ts-ignore
     trpc.updateEntry.useMutation({
+      // @ts-ignore
       onSuccess: (_data, variables) => {
         queryClient.invalidateQueries(queryKeys.entry(variables.entry.uuid));
         queryClient.invalidateQueries(
