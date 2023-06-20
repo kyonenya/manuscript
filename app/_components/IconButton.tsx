@@ -7,7 +7,13 @@ import {
 } from 'react';
 import { twMerge } from 'tailwind-merge';
 
-const IconButtonComponent = (
+/**
+ * Icon Button
+ *
+ * An icon within in a button.
+ * @see https://chakra-ui.com/docs/components/icon-button
+ */
+export const IconButton = forwardRef(function IconButtonComponent(
   props: {
     children: ReactElement;
     type?: ButtonHTMLAttributes<HTMLButtonElement>['type'];
@@ -18,7 +24,7 @@ const IconButtonComponent = (
     onClick?: () => unknown;
   },
   ref: Ref<HTMLButtonElement>
-) => {
+) {
   const className = twMerge(
     'h-10 w-10 rounded-md border border-transparent bg-[#edf2f7] transition-colors duration-150 ease-in-out hover:bg-gray-200 focus:outline-none focus:ring-2 dark:bg-gray-700 dark:hover:bg-gray-600',
     props.className
@@ -50,6 +56,4 @@ const IconButtonComponent = (
       {icon}
     </button>
   );
-};
-
-export const IconButton = forwardRef(IconButtonComponent);
+});

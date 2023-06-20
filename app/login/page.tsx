@@ -4,13 +4,13 @@ import {
   LockClosedIcon,
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
-import { Button } from '../../components/Button';
+import { Button } from '../_components/Button';
 import { Input } from '../_components/Input';
 
 /**
  * ログインページ
  *
- * @url https://flowbite.com/blocks/marketing/login/
+ * @see https://flowbite.com/blocks/marketing/login/
  */
 export default function Login() {
   return (

@@ -9,11 +9,12 @@ import {
 import { twMerge } from 'tailwind-merge';
 
 /**
- * Chakra UI の `Button` の移植
+ * Button (with Icon)
  *
- * @url https://chakra-ui.com/docs/components/button#button-with-icon
+ * You can add left and right icons to the Button component using the leftIcon and rightIcon props respectively.
+ * @see https://chakra-ui.com/docs/components/button#button-with-icon
  */
-const ButtonComponent = (
+export const Button = forwardRef(function ButtonComponent(
   props: {
     leftIcon?: ReactElement;
     rightIcon?: ReactElement;
@@ -24,7 +25,7 @@ const ButtonComponent = (
     children?: ReactNode;
   },
   ref: Ref<HTMLButtonElement>
-) => {
+) {
   const className = twMerge(
     'flex w-full items-center justify-center rounded-md bg-[#edf2f7] p-2 transition-colors duration-150 ease-in-out hover:bg-gray-200 focus:outline-none focus:ring-2 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600',
     props.className
@@ -61,6 +62,4 @@ const ButtonComponent = (
       {buttonChildren}
     </button>
   );
-};
-
-export const Button = forwardRef(ButtonComponent);
+});

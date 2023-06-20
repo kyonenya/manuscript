@@ -9,12 +9,12 @@ import {
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import { twMerge } from 'tailwind-merge';
+import { Button } from '../app/_components/Button';
+import { IconButton } from '../app/_components/IconButton';
 import { Entry } from '../domain/Entry';
-import { Button } from './Button';
 import { CustomAlertDialog } from './CustomAlertDialog';
 import { CustomPopover } from './CustomPopover';
 import { HeaderContainer } from './HeaderContainer';
-import { IconButton } from './IconButton';
 import { JsonImport } from './JsonImport';
 
 type Form = { searchStr: string };

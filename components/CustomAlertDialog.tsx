@@ -10,7 +10,7 @@ import {
   AlertDialogCancel,
 } from '@radix-ui/react-alert-dialog';
 import { ReactElement } from 'react';
-import { Button } from './Button';
+import { Button } from '../app/_components/Button';
 
 export const CustomAlertDialog = (props: {
   headerText: string;

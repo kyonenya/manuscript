@@ -1,16 +1,25 @@
-import { InputHTMLAttributes } from 'react';
+import { InputHTMLAttributes, Ref, forwardRef } from 'react';
 import { ReactElement } from 'react-markdown/lib/react-markdown';
 import { twMerge } from 'tailwind-merge';
 
-export const Input = (props: {
-  type?: InputHTMLAttributes<HTMLInputElement>['type'];
-  required?: boolean;
-  id?: string;
-  name?: string;
-  placeholder?: string;
-  inputLeftElement?: ReactElement;
-  inputClassName?: string;
-}) => {
+/**
+ * Input
+ *
+ * You can add an icon or button inside the input component.
+ * @see https://chakra-ui.com/docs/components/input/usage#add-elements-inside-input
+ */
+export const Input = forwardRef(function InputComponent(
+  props: {
+    type?: InputHTMLAttributes<HTMLInputElement>['type'];
+    required?: boolean;
+    id?: string;
+    name?: string;
+    placeholder?: string;
+    inputLeftElement?: ReactElement;
+    inputClassName?: string;
+  },
+  ref: Ref<HTMLInputElement>
+) {
   return (
     <div className="relative flex items-center rounded-md border border-gray-300 bg-white shadow-sm focus-within:ring-2 focus:outline-none dark:border-gray-500 dark:bg-gray-800">
       <div className="absolute flex h-10 w-10 items-center justify-center text-gray-400 dark:text-gray-400">
@@ -27,7 +36,8 @@ export const Input = (props: {
           props.inputLeftElement && 'pl-10',
           props.inputClassName
         )}
+        ref={ref}
       />
     </div>
   );
-};
+});

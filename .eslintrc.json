@@ -12,6 +12,10 @@
     "import/order": ["warn", { "alphabetize": { "order": "asc" } }],
     "@typescript-eslint/explicit-module-boundary-types": "off", // Missing return type on function
     "sort-imports": "off", // Imports should be sorted alphabetically
-    "@typescript-eslint/no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }]
+    "@typescript-eslint/no-unused-vars": [
+      "warn",
+      { "argsIgnorePattern": "^_" }
+    ],
+    "@typescript-eslint/ban-ts-comment": "off" // @TODO: Until trpc and supabase(old) is deleted
   }
 }
