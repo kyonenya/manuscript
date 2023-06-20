@@ -88,6 +88,14 @@ export const PostListHeader = (props: {
             className="ml-0.5 flex-grow border-none bg-transparent px-2 py-2 text-black outline-none dark:text-gray-200"
           />
         </div>
+        {/* <Input
+          inputLeftElement={
+            <IconButton type="submit" className="z-10 p-0">
+              <MagnifyingGlassIcon className="w-5 text-gray-400" />
+            </IconButton>
+          }
+          inputClassName="pl-11 pr-2"
+        /> */}
 
         <div className="flex space-x-2">
           {props.isSelectMode && (
