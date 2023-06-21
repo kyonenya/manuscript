@@ -3,7 +3,14 @@ import {
   KeyIcon,
   LockClosedIcon,
 } from '@heroicons/react/24/outline';
+import {
+  createServerActionClient,
+  createServerComponentClient,
+} from '@supabase/auth-helpers-nextjs';
+import { revalidatePath } from 'next/cache';
+import { cookies } from 'next/headers';
 import Link from 'next/link';
+import { redirect } from 'next/navigation';
 import { Button } from '../_components/Button';
 import { Input } from '../_components/Input';
 
@@ -12,7 +19,25 @@ import { Input } from '../_components/Input';
  *
  * @see https://flowbite.com/blocks/marketing/login/
  */
-export default function Login() {
+export default async function LoginPage() {
+  const supabase = createServerComponentClient({ cookies });
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
+  const handleSignIn = async (formData: FormData) => {
+    'use server';
+    const supabase = createServerActionClient({ cookies });
+    await supabase.auth.signInWithPassword({
+      email: String(formData.get('email')),
+      password: String(formData.get('password')),
+    });
+
+    revalidatePath('/');
+  };
+
+  if (session) redirect('/');
+
   return (
     <section className="bg-gray-50 dark:bg-gray-900">
       <div className="mx-auto flex flex-col items-center justify-center px-4 py-6 md:h-screen lg:py-0">
@@ -83,6 +108,7 @@ export default function Login() {
                 type="submit"
                 leftIcon={<LockClosedIcon />}
                 className="bg-emerald-500 text-white dark:bg-emerald-600"
+                formAction={handleSignIn}
               >
                 Sign in
               </Button>
