@@ -4,7 +4,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import { PostListPage } from '../components/PostListPage';
+import { PostListPage } from '../app/PostList';
 import { Spinner } from '../components/Spinner';
 import { queryKeys } from '../domain/queryKeys';
 import { trpc } from '../hooks/trpc';

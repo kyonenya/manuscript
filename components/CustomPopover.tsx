@@ -1,3 +1,5 @@
+'use client';
+
 import { XMarkIcon } from '@heroicons/react/24/solid';
 import { Root, Trigger, Content, Close } from '@radix-ui/react-popover';
 import { IconButton } from '../app/_components/IconButton';

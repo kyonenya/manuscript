@@ -5,9 +5,9 @@ import {
 import { revalidatePath } from 'next/cache';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
+import { sampleEntries } from '../domain/Entry';
+import { PostList } from './PostList';
 import { PostListHeader } from './PostListHeader';
-import { Button } from './_components/Button';
-import { HeaderContainer } from './_components/HeaderContainer';
 
 export default async function Index() {
   const supabase = createServerComponentClient({ cookies });
@@ -27,15 +27,8 @@ export default async function Index() {
 
   return (
     <>
-      {/* <HeaderContainer>
-        <PostListHeader />
-      </HeaderContainer> */}
-
-      <form>
-        <Button type="submit" formAction={handleSignOut}>
-          Sign Out
-        </Button>
-      </form>
+      <PostListHeader onSignOut={handleSignOut} />
+      <PostList entries={sampleEntries} />
     </>
   );
 }
