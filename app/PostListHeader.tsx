@@ -18,6 +18,7 @@ import { Entry } from '../domain/Entry';
 import { Button } from './_components/Button';
 import { HeaderContainer } from './_components/HeaderContainer';
 import { IconButton } from './_components/IconButton';
+import { Input } from './_components/Input';
 
 type Form = { searchStr: string };
 
@@ -84,26 +85,14 @@ export const PostListHeader = (props: {
         </div>
       </CustomPopover>
 
-      <div className="flex w-full items-center rounded-md border border-gray-300 dark:border-gray-700 sm:w-64">
-        <IconButton type="submit">
-          <MagnifyingGlassIcon />
-        </IconButton>
-        <input
-          {...register('searchStr')}
-          type="text"
-          aria-label="記事検索フォーム"
-          placeholder="Search"
-          className="ml-0.5 flex-grow border-none bg-transparent px-2 py-2 text-black outline-none dark:text-gray-200"
-        />
-      </div>
-      {/* <Input
-          inputLeftElement={
-            <IconButton type="submit" className="z-10 p-0">
-              <MagnifyingGlassIcon className="w-5 text-gray-400" />
-            </IconButton>
-          }
-          inputClassName="pl-11 pr-2"
-        /> */}
+      <Input
+        inputLeftElement={
+          <IconButton type="submit" className="z-10 p-0">
+            <MagnifyingGlassIcon className="w-5" />
+          </IconButton>
+        }
+        inputClassName="pl-11 pr-2"
+      />
 
       <div className="flex space-x-2">
         {props.isSelectMode && (
