@@ -28,7 +28,6 @@ export default function Article() {
 
   // @ts-ignore
   const { data: entry } = trpc.getEntry.useQuery(
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     { uuid: uuid! /* non-null because enabled */ },
     {
       enabled: !!uuid,

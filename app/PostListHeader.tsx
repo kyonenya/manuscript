@@ -33,7 +33,7 @@ export const PostListHeader = (props: {
   onDeleteAll?: () => void;
 }) => {
   const router = useRouter();
-  const { register, handleSubmit } = useForm<Form>({
+  const { register, handleSubmit: _handleSubmit } = useForm<Form>({
     defaultValues: {
       searchStr: props.searchStr,
     },

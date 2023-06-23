@@ -1,21 +1,14 @@
 {
   "extends": [
-    "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
-    "plugin:@typescript-eslint/eslint-recommended",
-    "next",
+    "next/core-web-vitals",
     "prettier"
   ],
-  "plugins": ["@typescript-eslint"],
-  "parser": "@typescript-eslint/parser",
   "rules": {
     "import/order": ["warn", { "alphabetize": { "order": "asc" } }],
-    "@typescript-eslint/explicit-module-boundary-types": "off", // Missing return type on function
-    "sort-imports": "off", // Imports should be sorted alphabetically
     "@typescript-eslint/no-unused-vars": [
       "warn",
-      { "argsIgnorePattern": "^_" }
-    ],
-    "@typescript-eslint/ban-ts-comment": "off" // @TODO: Until trpc and supabase(old) is deleted
+      { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }
+    ]
   }
 }

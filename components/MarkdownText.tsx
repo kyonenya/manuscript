@@ -1,4 +1,3 @@
-/* eslint-disable react/display-name */
 import { ReactNode, ReactElement } from 'react';
 import ReactMarkdown from 'react-markdown';
 
