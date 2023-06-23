@@ -1,3 +1,5 @@
+'use client';
+
 import {
   ArrowLeftIcon,
   ChevronDownIcon,
@@ -6,32 +8,38 @@ import {
 } from '@heroicons/react/24/solid';
 import Link from 'next/link';
 import { useForm, useWatch } from 'react-hook-form';
-import { Button } from '../app/_components/Button';
-import { HeaderContainer } from '../app/_components/HeaderContainer';
-import { IconButton } from '../app/_components/IconButton';
-import { Entry } from '../domain/Entry';
-import dayjs from '../infra/dayjs';
-import { CustomAlertDialog } from './CustomAlertDialog';
-import { CustomPopover } from './CustomPopover';
-import { CustomSelect } from './CustomSelect';
-import { Spinner } from './Spinner';
+import { CustomAlertDialog } from '../../components/CustomAlertDialog';
+import { CustomPopover } from '../../components/CustomPopover';
+import { CustomSelect } from '../../components/CustomSelect';
+import { Spinner } from '../../components/Spinner';
+import { Entry } from '../../domain/Entry';
+import dayjs from '../../infra/dayjs';
+import { Button } from '../_components/Button';
+import { HeaderContainer } from '../_components/HeaderContainer';
+import { IconButton } from '../_components/IconButton';
 
 type Form = {
   createdAt: string;
   tags: string[];
 };
 
-export const ArticleHeader = (props: {
+export const ArticleHeader = ({
+  entry,
+  tagList = [],
+  isLoading = false,
+  onUpdate,
+  onDelete,
+}: {
   entry: Entry;
-  tagList: string[];
-  isLoading: boolean;
-  onUpdate: (props: Form) => void;
-  onDelete: () => void;
+  tagList?: string[];
+  isLoading?: boolean;
+  onUpdate?: (props: Form) => void;
+  onDelete?: () => void;
 }) => {
   const { register, setValue, control, handleSubmit } = useForm<Form>({
     defaultValues: {
-      createdAt: dayjs(props.entry.createdAt).format('YYYY-MM-DDTHH:mm'),
-      tags: props.entry.tags,
+      createdAt: dayjs(entry.createdAt).format('YYYY-MM-DDTHH:mm'),
+      tags: entry.tags,
     },
   });
   const tags = useWatch({ name: 'tags', control });
@@ -39,7 +47,8 @@ export const ArticleHeader = (props: {
   return (
     <form
       onSubmit={handleSubmit((data) => {
-        props.onUpdate({
+        if (!onUpdate) return;
+        onUpdate({
           ...data,
           createdAt: dayjs(data.createdAt).tz().format(),
         });
@@ -47,14 +56,14 @@ export const ArticleHeader = (props: {
     >
       <HeaderContainer>
         <Link href="/">
-          <IconButton ariaLabel="Back to Top">
+          <IconButton noButton ariaLabel="Back to Top">
             <ArrowLeftIcon />
           </IconButton>
         </Link>
         <CustomPopover
           triggerElement={
             <Button noButton rightIcon={<ChevronDownIcon />}>
-              {dayjs(props.entry.createdAt).format('YYYY-MM-DD')}
+              {dayjs(entry.createdAt).format('YYYY-MM-DD')}
             </Button>
           }
           placement="bottom"
@@ -68,7 +77,7 @@ export const ArticleHeader = (props: {
             <CustomSelect
               value={tags}
               onSelect={(tags) => setValue('tags', tags)}
-              options={props.tagList}
+              options={tagList}
               {...register('tags')}
             />
             <CustomAlertDialog
@@ -82,12 +91,12 @@ export const ArticleHeader = (props: {
                 </Button>
               }
               headerText="Delete Entry"
-              onSubmit={() => props.onDelete()}
+              onSubmit={() => onDelete && onDelete()}
             />
           </div>
         </CustomPopover>
         <IconButton type="submit" ariaLabel="更新">
-          {props.isLoading ? <Spinner /> : <CheckIcon />}
+          {isLoading ? <Spinner /> : <CheckIcon />}
         </IconButton>
       </HeaderContainer>
     </form>

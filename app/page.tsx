@@ -9,7 +9,7 @@ import { sampleEntries } from '../domain/Entry';
 import { PostList } from './PostList';
 import { PostListHeader } from './PostListHeader';
 
-export default async function Index() {
+export default async function IndexPage() {
   const supabase = createServerComponentClient({ cookies });
   const {
     data: { session },

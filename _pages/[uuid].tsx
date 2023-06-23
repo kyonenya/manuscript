@@ -4,7 +4,6 @@ import { useQueryClient, InfiniteData } from '@tanstack/react-query';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import { ArticlePage } from '../components/ArticlePage';
 import { Preview } from '../components/Preview';
 import { Spinner } from '../components/Spinner';
 import { Entry } from '../domain/Entry';
@@ -78,18 +77,18 @@ export default function Article() {
       {!isPreview && (
         <div className="bg-gray-100 dark:bg-gray-700">
           {entry && (
-            <ArticlePage
-              entry={entry}
-              tagList={tagList ?? []}
-              onUpdate={({ createdAt, tags }) =>
-                mutateUpdate({ entry: { ...entry, createdAt, tags } })
-              }
-              onDelete={() => {
-                if (!uuid) return;
-                mutateDelete({ uuid }, { onSuccess: () => router.push('/') });
-              }}
-              isLoading={isUpdateLoading}
-            />
+            // <ArticlePage
+            //   entry={entry}
+            //   tagList={tagList ?? []}
+            //   onUpdate={({ createdAt, tags }) =>
+            //     mutateUpdate({ entry: { ...entry, createdAt, tags } })
+            //   }
+            //   onDelete={() => {
+            //     if (!uuid) return;
+            //     mutateDelete({ uuid }, { onSuccess: () => router.push('/') });
+            //   }}
+            //   isLoading={isUpdateLoading}
+            // />
           )}
         </div>
       )}
