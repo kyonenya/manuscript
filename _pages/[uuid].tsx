@@ -76,20 +76,20 @@ export default function Article() {
       </Head>
       {!isPreview && (
         <div className="bg-gray-100 dark:bg-gray-700">
-          {entry && (
-            // <ArticlePage
-            //   entry={entry}
-            //   tagList={tagList ?? []}
-            //   onUpdate={({ createdAt, tags }) =>
-            //     mutateUpdate({ entry: { ...entry, createdAt, tags } })
-            //   }
-            //   onDelete={() => {
-            //     if (!uuid) return;
-            //     mutateDelete({ uuid }, { onSuccess: () => router.push('/') });
-            //   }}
-            //   isLoading={isUpdateLoading}
-            // />
-          )}
+          {/* {entry && (
+            <ArticlePage
+              entry={entry}
+              tagList={tagList ?? []}
+              onUpdate={({ createdAt, tags }) =>
+                mutateUpdate({ entry: { ...entry, createdAt, tags } })
+              }
+              onDelete={() => {
+                if (!uuid) return;
+                mutateDelete({ uuid }, { onSuccess: () => router.push('/') });
+              }}
+              isLoading={isUpdateLoading}
+            />
+          )} */}
         </div>
       )}
       {isPreview && entry && <Preview entry={entry} />}

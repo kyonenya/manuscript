@@ -1,10 +1,6 @@
-import {
-  createServerActionClient,
-  createServerComponentClient,
-} from '@supabase/auth-helpers-nextjs';
-import { revalidatePath } from 'next/cache';
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
-import { redirect, useParams, usePathname } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 import { sampleEntries } from '../../domain/Entry';
 import { Article } from './Article';
 import { ArticleHeader } from './ArticleHeader';
@@ -25,16 +21,12 @@ export default async function ArticlePage({
     (entry) => entry.uuid === lowerUUID.toUpperCase()
   );
 
+  if (!entry) notFound();
+
   return (
     <>
-      {entry ? (
-        <>
-          <ArticleHeader entry={entry} />
-          <Article entry={entry} />
-        </>
-      ) : (
-        <div>Not Found</div>
-      )}
+      <ArticleHeader entry={entry} />
+      <Article entry={entry} />
     </>
   );
 }
