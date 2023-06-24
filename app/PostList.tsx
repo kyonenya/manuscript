@@ -102,25 +102,37 @@ export const PostList = ({
     <div className="mx-auto max-w-4xl py-3 md:py-6">
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:gap-6">
         {entries &&
-          entries.map((entry) => (
-            <ListItem
-              entry={entry}
-              searchQuery={searchQuery}
-              isSelectMode={isSelectMode}
-              isSelected={isSelectMode && selectedEntries.includes(entry)}
-              onSelect={() =>
-                setSelectedEntries((prevEntries) => {
-                  if (prevEntries.includes(entry)) {
-                    return prevEntries.filter(
-                      (prevEntry) => prevEntry !== entry
-                    );
-                  }
-                  return [entry, ...prevEntries];
-                })
-              }
-              key={entry.uuid}
-            />
-          ))}
+          entries
+            .filter(
+              (entry) =>
+                // キーワード検索
+                !searchQuery?.keyword ||
+                entry.text.includes(searchQuery.keyword)
+            )
+            .filter(
+              // タグ検索
+              (entry) =>
+                !searchQuery?.tag || entry.tags.includes(searchQuery.tag)
+            )
+            .map((entry) => (
+              <ListItem
+                entry={entry}
+                searchQuery={searchQuery}
+                isSelectMode={isSelectMode}
+                isSelected={isSelectMode && selectedEntries.includes(entry)}
+                onSelect={() =>
+                  setSelectedEntries((prevEntries) => {
+                    if (prevEntries.includes(entry)) {
+                      return prevEntries.filter(
+                        (prevEntry) => prevEntry !== entry
+                      );
+                    }
+                    return [entry, ...prevEntries];
+                  })
+                }
+                key={entry.uuid}
+              />
+            ))}
       </div>
     </div>
   );

@@ -48,11 +48,12 @@ export const ListItem = (props: {
   onSelect: () => void;
 }) => {
   const { entry } = props;
-  const summary = generateSummaryEntity(
-    entry.text,
-    props.searchQuery?.keyword,
-    { maxLength: 120, beforeLength: 50 }
-  );
+  const summary = props.searchQuery?.keyword
+    ? generateSummaryEntity(entry.text, props.searchQuery.keyword, {
+        maxLength: 120,
+        beforeLength: 50,
+      })
+    : undefined;
   const SummaryComponent = () =>
     summary ? (
       <SearchSummary summary={summary} />
@@ -81,7 +82,7 @@ export const ListItem = (props: {
         <p className="text-gray-600 dark:text-gray-400">
           {dayjs(entry.createdAt).format('YYYY-MM-DD')}
         </p>
-        <Tags tags={entry.tags} />
+        <Tags tags={entry.tags} searchedTag={props.searchQuery?.tag} />
       </div>
     </div>
   );
