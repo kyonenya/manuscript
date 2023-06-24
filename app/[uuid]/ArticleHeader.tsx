@@ -6,7 +6,7 @@ import {
   CheckIcon,
   TrashIcon,
 } from '@heroicons/react/24/solid';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useForm, useWatch } from 'react-hook-form';
 import { CustomAlertDialog } from '../../components/CustomAlertDialog';
 import { CustomPopover } from '../../components/CustomPopover';
@@ -36,6 +36,7 @@ export const ArticleHeader = ({
   onUpdate?: (props: Form) => void;
   onDelete?: () => void;
 }) => {
+  const router = useRouter();
   const { register, setValue, control, handleSubmit } = useForm<Form>({
     defaultValues: {
       createdAt: dayjs(entry.createdAt).format('YYYY-MM-DDTHH:mm'),
@@ -55,11 +56,9 @@ export const ArticleHeader = ({
       })}
     >
       <HeaderContainer>
-        <Link href="/">
-          <IconButton noButton ariaLabel="Back to Top">
-            <ArrowLeftIcon />
-          </IconButton>
-        </Link>
+        <IconButton onClick={() => router.back()}>
+          <ArrowLeftIcon />
+        </IconButton>
         <CustomPopover
           triggerElement={
             <Button noButton rightIcon={<ChevronDownIcon />}>

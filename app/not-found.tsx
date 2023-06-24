@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { SimpleHeader } from './SimpleHeader';
 
 /**
  * @see https://merakiui.com/components/404-pages
@@ -6,7 +7,8 @@ import Link from 'next/link';
 export default function NotFound() {
   return (
     <>
-      <div className="container mx-auto flex min-h-screen items-center px-6 py-12">
+      <SimpleHeader />
+      <div className="container mx-auto my-auto flex items-center px-6 py-12 lg:py-20">
         <div className="mx-auto flex max-w-sm flex-col items-center text-center">
           <p className="text-md font-medium text-blue-500 dark:text-blue-400">
             404 error

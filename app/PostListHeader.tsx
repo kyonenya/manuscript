@@ -86,6 +86,7 @@ export const PostListHeader = (props: {
       </CustomPopover>
 
       <Input
+        type="search"
         inputLeftElement={
           <IconButton type="submit" className="z-10 p-0">
             <MagnifyingGlassIcon className="w-5" />
