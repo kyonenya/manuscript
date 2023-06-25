@@ -4,6 +4,7 @@ import {
   ReactElement,
   forwardRef,
   Ref,
+  ComponentProps,
 } from 'react';
 import { twMerge } from 'tailwind-merge';
 
@@ -15,14 +16,10 @@ import { twMerge } from 'tailwind-merge';
  */
 export const IconButton = forwardRef(function IconButtonComponent(
   props: {
-    children: ReactElement;
-    type?: ButtonHTMLAttributes<HTMLButtonElement>['type'];
     noButton?: boolean;
-    className?: string;
-    iconClassName?: string;
-    ariaLabel?: string;
     onClick?: () => unknown;
-  },
+    children: ReactElement;
+  } & ComponentProps<'button'>,
   ref: Ref<HTMLButtonElement>
 ) {
   const className = twMerge(
@@ -30,14 +27,13 @@ export const IconButton = forwardRef(function IconButtonComponent(
     props.className
   );
   const icon = cloneElement(props.children, {
-    className: twMerge('w-5 m-auto dark:text-gray-300', props.iconClassName),
+    className: twMerge('m-auto w-5 text-gray-700 dark:text-gray-300'),
   });
 
   if (props.noButton) {
     return (
       <div
         className={twMerge('flex items-center justify-center', className)}
-        aria-label={props.ariaLabel}
         onClick={props.onClick}
       >
         {icon}
@@ -47,9 +43,9 @@ export const IconButton = forwardRef(function IconButtonComponent(
 
   return (
     <button
+      {...props}
       type={props.type ?? 'button'}
       className={className}
-      aria-label={props.ariaLabel}
       onClick={props.onClick}
       ref={ref}
     >

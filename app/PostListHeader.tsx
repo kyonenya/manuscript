@@ -82,15 +82,7 @@ export const PostListHeader = (props: {
         </div>
       </CustomPopover>
 
-      <Input
-        type="search"
-        inputLeftElement={
-          <IconButton type="submit" className="z-10 p-0">
-            <MagnifyingGlassIcon className="w-5" />
-          </IconButton>
-        }
-        inputClassName="pl-11 pr-2"
-      />
+      <Input type="search" inputLeftIconButtonIcon={<MagnifyingGlassIcon />} />
 
       <div className="flex space-x-2">
         {props.isSelectMode && (

@@ -94,7 +94,7 @@ export const ArticleHeader = ({
             />
           </div>
         </CustomPopover>
-        <IconButton type="submit" ariaLabel="更新">
+        <IconButton type="submit" aria-label="更新">
           {isLoading ? <Spinner /> : <CheckIcon />}
         </IconButton>
       </HeaderContainer>

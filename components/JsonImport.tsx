@@ -27,7 +27,7 @@ export const JsonImport = (props: {
         className="my-auto dark:text-gray-300"
       />
       <IconButton
-        ariaLabel="記事データをインポート"
+        aria-label="記事データをインポート"
         onClick={() => {
           if (!data) return;
           props.onImport({
