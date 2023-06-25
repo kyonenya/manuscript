@@ -39,7 +39,7 @@ export default async function LoginPage() {
   if (session) redirect('/');
 
   return (
-    <section className="bg-gray-50 dark:bg-gray-900">
+    <section className="bg-gray-100 dark:bg-gray-700">
       <div className="mx-auto flex flex-col items-center justify-center px-4 py-6 md:h-screen lg:py-0">
         <div className="w-full rounded-lg bg-white shadow dark:border dark:border-gray-700 dark:bg-gray-800 sm:max-w-md md:mt-0 xl:p-0">
           <div className="space-y-4 p-6 sm:p-8 md:space-y-6">
@@ -59,7 +59,7 @@ export default async function LoginPage() {
                   id="email"
                   type="email"
                   name="email"
-                  placeholder="name@company.com"
+                  placeholder="name@example.com"
                   inputLeftElement={<EnvelopeIcon className="w-5" />}
                 />
               </div>
@@ -99,20 +99,20 @@ export default async function LoginPage() {
                 </div>
                 <Link
                   href="#"
-                  className="text-sm text-teal-500 hover:underline dark:text-teal-500"
+                  className="text-sm text-teal-500 hover:underline"
                 >
                   Forgot your password?
                 </Link>
               </div>
               <Button
                 type="submit"
+                variant={{ color: 'emerald' }}
                 leftIcon={<LockClosedIcon />}
-                className="bg-emerald-500 text-white dark:bg-emerald-600"
                 formAction={handleSignIn}
               >
                 Sign in
               </Button>
-              <p className="text-center text-sm text-teal-500 dark:text-teal-500">
+              <p className="text-center text-sm text-teal-500">
                 Don’t have an account yet?{' '}
                 <Link href="#" className="hover:underline">
                   Sign up

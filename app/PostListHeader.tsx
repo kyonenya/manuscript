@@ -63,10 +63,7 @@ export const PostListHeader = (props: {
           />
           <CustomAlertDialog
             triggerElement={
-              <Button
-                leftIcon={<TrashIcon />}
-                className="font-semibold text-red-500 dark:text-rose-500"
-              >
+              <Button variant={{ color: 'warning' }} leftIcon={<TrashIcon />}>
                 Delete All
               </Button>
             }

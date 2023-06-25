@@ -83,8 +83,8 @@ export const ArticleHeader = ({
               triggerElement={
                 <Button
                   noButton
+                  variant={{ color: 'warning' }}
                   leftIcon={<TrashIcon />}
-                  className="font-semibold text-red-500 dark:text-rose-500"
                 >
                   Delete
                 </Button>

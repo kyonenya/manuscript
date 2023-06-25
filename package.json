@@ -42,6 +42,7 @@
     "react-select": "^5.7.3",
     "search-summary": "^1.1.2",
     "tailwind-merge": "^1.13.2",
+    "tailwind-variants": "^0.1.8",
     "zod": "^3.21.4"
   },
   "devDependencies": {

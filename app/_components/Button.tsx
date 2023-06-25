@@ -6,6 +6,28 @@ import {
   Ref,
 } from 'react';
 import { twMerge } from 'tailwind-merge';
+import { tv, VariantProps } from 'tailwind-variants';
+
+const button = tv({
+  base: [
+    'flex w-full items-center justify-center rounded-md p-2 transition-colors duration-300 ease-in-out focus:outline-none focus:ring-2',
+  ],
+  variants: {
+    color: {
+      default:
+        'bg-[#edf2f7] hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600',
+      warning:
+        'bg-[#edf2f7] font-semibold text-red-500 hover:bg-gray-200 dark:bg-gray-700 dark:text-rose-500 dark:hover:bg-gray-600',
+      emerald:
+        'bg-emerald-500 text-white hover:bg-emerald-600 dark:bg-emerald-600 hover:dark:bg-emerald-500',
+      danger:
+        'bg-red-500 text-white hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-500',
+    },
+  },
+  defaultVariants: {
+    color: 'default',
+  },
+});
 
 /**
  * Button (with Icon)
@@ -19,18 +41,17 @@ export const Button = forwardRef(function ButtonComponent(
     rightIcon,
     noButton,
     children,
+    variant,
+    className,
     ...props
   }: {
     leftIcon?: ReactElement;
     rightIcon?: ReactElement;
+    variant?: VariantProps<typeof button>;
     noButton?: boolean;
   } & ComponentProps<'button'>,
   ref: Ref<HTMLButtonElement>
 ) {
-  const className = twMerge(
-    'flex w-full items-center justify-center rounded-md bg-[#edf2f7] p-2 transition-colors duration-150 ease-in-out hover:bg-gray-200 focus:outline-none focus:ring-2 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600',
-    props.className
-  );
   const buttonChildren = (
     <>
       {leftIcon &&
@@ -46,11 +67,19 @@ export const Button = forwardRef(function ButtonComponent(
   );
 
   if (noButton) {
-    return <div className={className}>{buttonChildren}</div>;
+    return (
+      <div className={twMerge(button(variant), className)}>
+        {buttonChildren}
+      </div>
+    );
   }
 
   return (
-    <button {...props} className={className} ref={ref}>
+    <button
+      {...props}
+      className={twMerge(button(variant), className)}
+      ref={ref}
+    >
       {buttonChildren}
     </button>
   );

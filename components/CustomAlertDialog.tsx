@@ -39,8 +39,9 @@ export const CustomAlertDialog = (props: {
               </AlertDialogCancel>
               <AlertDialogAction>
                 <Button
+                  variant={{ color: 'danger' }}
                   onClick={props.onSubmit}
-                  className="bg-red-500 px-4 text-white hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-500"
+                  className="px-4"
                 >
                   Delete
                 </Button>
