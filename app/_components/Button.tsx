@@ -54,15 +54,9 @@ export const Button = forwardRef(function ButtonComponent(
 ) {
   const buttonChildren = (
     <>
-      {leftIcon &&
-        cloneElement(leftIcon, {
-          className: 'mr-2 h-5 w-5',
-        })}
+      {leftIcon && cloneElement(leftIcon, { className: 'mr-2 h-5 w-5' })}
       {children}
-      {rightIcon &&
-        cloneElement(rightIcon, {
-          className: 'ml-2 h-5 w-5',
-        })}
+      {rightIcon && cloneElement(rightIcon, { className: 'ml-2 h-5 w-5' })}
     </>
   );
 

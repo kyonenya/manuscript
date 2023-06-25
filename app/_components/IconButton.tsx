@@ -1,5 +1,4 @@
 import {
-  ButtonHTMLAttributes,
   cloneElement,
   ReactElement,
   forwardRef,
@@ -15,26 +14,32 @@ import { twMerge } from 'tailwind-merge';
  * @see https://chakra-ui.com/docs/components/icon-button
  */
 export const IconButton = forwardRef(function IconButtonComponent(
-  props: {
+  {
+    noButton,
+    onClick,
+    children,
+    className,
+    ...props
+  }: {
     noButton?: boolean;
     onClick?: () => unknown;
     children: ReactElement;
   } & ComponentProps<'button'>,
   ref: Ref<HTMLButtonElement>
 ) {
-  const className = twMerge(
+  const buttonClassName = twMerge(
     'h-10 w-10 rounded-md border border-transparent bg-[#edf2f7] transition-colors duration-150 ease-in-out hover:bg-gray-200 focus:outline-none focus:ring-2 dark:bg-gray-700 dark:hover:bg-gray-600',
-    props.className
+    className
   );
-  const icon = cloneElement(props.children, {
-    className: twMerge('m-auto w-5 text-gray-700 dark:text-gray-300'),
+  const icon = cloneElement(children, {
+    className: 'm-auto w-5 text-gray-700 dark:text-gray-300',
   });
 
-  if (props.noButton) {
+  if (noButton) {
     return (
       <div
-        className={twMerge('flex items-center justify-center', className)}
-        onClick={props.onClick}
+        className={twMerge('flex items-center justify-center', buttonClassName)}
+        onClick={onClick}
       >
         {icon}
       </div>
@@ -42,13 +47,7 @@ export const IconButton = forwardRef(function IconButtonComponent(
   }
 
   return (
-    <button
-      {...props}
-      type={props.type ?? 'button'}
-      className={className}
-      onClick={props.onClick}
-      ref={ref}
-    >
+    <button {...props} className={buttonClassName} onClick={onClick} ref={ref}>
       {icon}
     </button>
   );
