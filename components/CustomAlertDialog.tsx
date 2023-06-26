@@ -17,7 +17,7 @@ import { Button } from '../app/_components/Button';
 export const CustomAlertDialog = (props: {
   headerText: string;
   triggerElement: ReactElement;
-  onSubmit: () => void;
+  onSubmit?: () => void;
 }) => {
   return (
     <AlertDialog>
@@ -25,7 +25,7 @@ export const CustomAlertDialog = (props: {
       <AlertDialogPortal>
         <AlertDialogOverlay className="fixed inset-0 z-40 bg-black bg-opacity-50">
           <AlertDialogContent className="z-50 mx-auto my-10 max-w-md rounded-md bg-white p-6 shadow-md dark:bg-gray-700">
-            <AlertDialogTitle className="mb-4 text-xl font-bold dark:text-gray-300">
+            <AlertDialogTitle className="mb-3 text-xl font-bold dark:text-gray-300">
               {props.headerText}
             </AlertDialogTitle>
             <AlertDialogDescription className="mb-6 text-gray-600 dark:text-gray-300">
@@ -39,6 +39,7 @@ export const CustomAlertDialog = (props: {
               </AlertDialogCancel>
               <AlertDialogAction>
                 <Button
+                  disabled={!props.onSubmit}
                   variant={{ color: 'danger' }}
                   onClick={props.onSubmit}
                   className="px-4"

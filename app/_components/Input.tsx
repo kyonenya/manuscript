@@ -40,7 +40,8 @@ export const Input = forwardRef(function InputComponent(
         className={twMerge(
           'relative w-full rounded-r-md bg-transparent py-2 pl-3 pr-3 text-gray-700 focus:outline-none dark:text-gray-200',
           inputLeftIcon && 'pl-10',
-          inputLeftIconButtonIcon && 'pl-11 pr-2'
+          inputLeftIconButtonIcon && 'pl-11 pr-2',
+          props.className
         )}
         ref={ref}
       />

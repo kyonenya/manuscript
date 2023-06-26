@@ -9,7 +9,7 @@ import {
   TrashIcon,
 } from '@heroicons/react/24/solid';
 import { useRouter } from 'next/navigation';
-import { useForm } from 'react-hook-form';
+// import { useForm } from 'react-hook-form';
 import { twMerge } from 'tailwind-merge';
 import { CustomAlertDialog } from '../components/CustomAlertDialog';
 import { CustomPopover } from '../components/CustomPopover';
@@ -34,15 +34,13 @@ export const PostListHeader = (props: {
   onDeleteAll?: () => void;
 }) => {
   const router = useRouter();
-  const { register, handleSubmit: _handleSubmit } = useForm<Form>({
-    defaultValues: {
-      searchStr: props.searchStr,
-    },
-  });
+  // const { register, handleSubmit: _handleSubmit } = useForm<Form>({
+  //   defaultValues: {
+  //     searchStr: props.searchStr,
+  //   },
+  // });
 
   return (
-    // @ts-ignore
-    // <form onSubmit={handleSubmit(props.onSearch)}>
     <HeaderContainer>
       <CustomPopover
         placement="bottom"
@@ -54,22 +52,18 @@ export const PostListHeader = (props: {
       >
         <div className="flex max-w-[300px] flex-col space-y-4">
           <JsonImport
-            // @ts-ignore
             isImported={props.isImported}
-            // @ts-ignore
             isImporting={props.isImporting}
-            // @ts-ignore
             onImport={props.onImport}
           />
           <CustomAlertDialog
+            headerText="Delete All Entries"
             triggerElement={
               <Button variant={{ color: 'warning' }} leftIcon={<TrashIcon />}>
                 Delete All
               </Button>
             }
-            headerText="Delete All Entries"
-            // @ts-ignore
-            onSubmit={() => props.onDeleteAll()}
+            onSubmit={props.onDeleteAll}
           />
           <form>
             <Button
@@ -101,6 +95,5 @@ export const PostListHeader = (props: {
         </IconButton>
       </div>
     </HeaderContainer>
-    // </form>
   );
 };

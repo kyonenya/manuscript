@@ -7,10 +7,14 @@ import { Entry } from '../domain/Entry';
 import { useJsonImport } from '../hooks/useJsonImport';
 import { Spinner } from './Spinner';
 
-export const JsonImport = (props: {
-  isImported: boolean;
-  isImporting: boolean;
-  onImport: (props: { entries: Entry[] }) => void;
+export const JsonImport = ({
+  isImported = false,
+  isImporting = false,
+  onImport,
+}: {
+  isImported?: boolean;
+  isImporting?: boolean;
+  onImport?: (props: { entries: Entry[] }) => void;
 }) => {
   const { load, data } = useJsonImport<DayOneData>();
 
@@ -27,17 +31,18 @@ export const JsonImport = (props: {
         className="my-auto dark:text-gray-300"
       />
       <IconButton
+        disabled={!onImport}
         aria-label="記事データをインポート"
         onClick={() => {
-          if (!data) return;
-          props.onImport({
+          if (!data || !onImport) return;
+          onImport({
             entries: data.entries.map((entry) => toEntry(entry)),
           });
         }}
       >
-        {props.isImported ? (
+        {isImported ? (
           <CheckIcon />
-        ) : props.isImporting ? (
+        ) : isImporting ? (
           <Spinner />
         ) : (
           <ArrowUpIcon />

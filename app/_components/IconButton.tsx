@@ -18,7 +18,6 @@ export const IconButton = forwardRef(function IconButtonComponent(
     noButton,
     onClick,
     children,
-    className,
     ...props
   }: {
     noButton?: boolean;
@@ -27,9 +26,12 @@ export const IconButton = forwardRef(function IconButtonComponent(
   } & ComponentProps<'button'>,
   ref: Ref<HTMLButtonElement>
 ) {
-  const buttonClassName = twMerge(
-    'h-10 w-10 rounded-md border border-transparent bg-[#edf2f7] transition-colors duration-150 ease-in-out hover:bg-gray-200 focus:outline-none focus:ring-2 dark:bg-gray-700 dark:hover:bg-gray-600',
-    className
+  const className = twMerge(
+    'h-10 w-10 rounded-md border border-transparent bg-[#edf2f7] transition-colors duration-300 ease-in-out dark:bg-gray-700',
+    !props.disabled &&
+      'hover:bg-gray-200 focus:outline-none focus:ring-2 dark:hover:bg-gray-600',
+    props.disabled && 'cursor-not-allowed opacity-60',
+    props.className
   );
   const icon = cloneElement(children, {
     className: 'm-auto w-5 text-gray-700 dark:text-gray-300',
@@ -37,17 +39,14 @@ export const IconButton = forwardRef(function IconButtonComponent(
 
   if (noButton) {
     return (
-      <div
-        className={twMerge('flex items-center justify-center', buttonClassName)}
-        onClick={onClick}
-      >
+      <div className={twMerge('flex items-center justify-center', className)}>
         {icon}
       </div>
     );
   }
 
   return (
-    <button {...props} className={buttonClassName} onClick={onClick} ref={ref}>
+    <button {...props} className={className} onClick={onClick} ref={ref}>
       {icon}
     </button>
   );

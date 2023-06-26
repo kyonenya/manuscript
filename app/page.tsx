@@ -13,10 +13,8 @@ import { PostListHeader } from './PostListHeader';
 export default async function IndexPage({
   searchParams,
 }: {
-  searchParams: { search?: string };
+  searchParams: { search?: string; preview?: string };
 }) {
-  const search = new URLSearchParams(searchParams).get('search');
-
   const supabase = createServerComponentClient({ cookies });
   const {
     data: { session },
@@ -37,7 +35,9 @@ export default async function IndexPage({
       <PostListHeader onSignOut={handleSignOut} />
       <PostList
         entries={sampleEntries}
-        searchQuery={search ? newSearchQuery(search) : undefined}
+        searchQuery={
+          searchParams.search ? newSearchQuery(searchParams.search) : undefined
+        }
       />
     </>
   );
