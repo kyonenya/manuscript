@@ -1,9 +1,12 @@
+'use client';
+
 import {
-  Ref,
   cloneElement,
   forwardRef,
   ReactElement,
   ComponentProps,
+  ForwardedRef,
+  useRef,
 } from 'react';
 import { twMerge } from 'tailwind-merge';
 import { IconButton } from './IconButton';
@@ -18,19 +21,32 @@ export const Input = forwardRef(function InputComponent(
   {
     inputLeftIcon,
     inputLeftIconButtonIcon,
+    onSearch,
     ...props
   }: {
     inputLeftIcon?: ReactElement;
     inputLeftIconButtonIcon?: ReactElement;
+    onSearch?: (text: string) => void;
   } & ComponentProps<'input'>,
-  ref: Ref<HTMLInputElement>
+  forwardedRef: ForwardedRef<HTMLInputElement>
 ) {
+  const internalRef = useRef<HTMLInputElement | null>(null);
+  const ref = forwardedRef ?? internalRef;
+
   return (
     <div className="relative flex items-center rounded-md border border-gray-300 bg-white shadow-sm focus-within:ring-2 focus:outline-none dark:border-gray-500 dark:bg-gray-800">
       <div className="absolute flex h-10 w-10 items-center justify-center text-gray-400 dark:text-gray-400">
         {inputLeftIcon && cloneElement(inputLeftIcon, { className: 'w-5' })}
         {inputLeftIconButtonIcon && (
-          <IconButton className="z-10 p-0">
+          <IconButton
+            type="submit"
+            className="z-10 p-0"
+            onClick={() => {
+              if (!onSearch || !ref || !('current' in ref) || !ref.current)
+                return;
+              onSearch(ref.current.value);
+            }}
+          >
             {cloneElement(inputLeftIconButtonIcon, { className: 'w-5' })}
           </IconButton>
         )}

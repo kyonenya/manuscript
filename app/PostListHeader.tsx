@@ -8,8 +8,8 @@ import {
   Squares2X2Icon,
   TrashIcon,
 } from '@heroicons/react/24/solid';
-import { useRouter } from 'next/navigation';
-// import { useForm } from 'react-hook-form';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useCallback } from 'react';
 import { twMerge } from 'tailwind-merge';
 import { CustomAlertDialog } from '../components/CustomAlertDialog';
 import { CustomPopover } from '../components/CustomPopover';
@@ -20,25 +20,40 @@ import { HeaderContainer } from './_components/HeaderContainer';
 import { IconButton } from './_components/IconButton';
 import { Input } from './_components/Input';
 
-type Form = { searchStr: string };
-
 export const PostListHeader = (props: {
   searchStr?: string | undefined;
   isSelectMode?: boolean;
   isImported?: boolean;
   isImporting?: boolean;
-  onSearch?: (data: Form) => void;
+  onSearch?: (searchStr: string) => void;
   onSignOut?: () => void;
   toggleSelectMode?: () => void;
   onImport?: (props: { entries: Entry[] }) => void;
   onDeleteAll?: () => void;
 }) => {
   const router = useRouter();
-  // const { register, handleSubmit: _handleSubmit } = useForm<Form>({
-  //   defaultValues: {
-  //     searchStr: props.searchStr,
-  //   },
-  // });
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const createQueryString = useCallback(
+    (name: string, value: string) => {
+      const params = new URLSearchParams(searchParams);
+      params.set(name, value);
+
+      return params.toString();
+    },
+    [searchParams]
+  );
+
+  const deleteQueryString = useCallback(
+    (name: string) => {
+      const params = new URLSearchParams(searchParams);
+      params.delete(name);
+
+      return params.toString();
+    },
+    [searchParams]
+  );
 
   return (
     <HeaderContainer>
@@ -76,7 +91,17 @@ export const PostListHeader = (props: {
         </div>
       </CustomPopover>
 
-      <Input type="search" inputLeftIconButtonIcon={<MagnifyingGlassIcon />} />
+      <Input
+        type="search"
+        inputLeftIconButtonIcon={<MagnifyingGlassIcon />}
+        onSearch={(searchStr) => {
+          if (!searchStr) {
+            router.replace(pathname + '?' + deleteQueryString('search'));
+            return;
+          }
+          router.push(pathname + '?' + createQueryString('search', searchStr));
+        }}
+      />
 
       <div className="flex space-x-2">
         {props.isSelectMode && (
