@@ -6,14 +6,13 @@ import { revalidatePath } from 'next/cache';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { sampleEntries } from '../domain/Entry';
-import { newSearchQuery } from '../domain/SearchQuery';
 import { PostList } from './PostList';
 import { PostListHeader } from './PostListHeader';
 
 export default async function IndexPage({
   searchParams,
 }: {
-  searchParams: { search?: string; preview?: string };
+  searchParams: { keyword?: string; tag?: string; preview?: string };
 }) {
   const supabase = createServerComponentClient({ cookies });
   const {
@@ -35,9 +34,7 @@ export default async function IndexPage({
       <PostListHeader onSignOut={handleSignOut} />
       <PostList
         entries={sampleEntries}
-        searchQuery={
-          searchParams.search ? newSearchQuery(searchParams.search) : undefined
-        }
+        searchQuery={{ keyword: searchParams.keyword, tag: searchParams.tag }}
       />
     </>
   );
