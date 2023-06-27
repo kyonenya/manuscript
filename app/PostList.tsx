@@ -30,18 +30,14 @@ export const PostList = ({
   return (
     <div className="mx-auto max-w-4xl py-3 md:py-6">
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:gap-6">
+        {/* TODO: Suspence化 */}
         {entries &&
           entries
             .filter(
               (entry) =>
-                // キーワード検索
-                !searchQuery?.keyword ||
-                entry.text.includes(searchQuery.keyword)
-            )
-            .filter(
-              // タグ検索
-              (entry) =>
-                !searchQuery?.tag || entry.tags.includes(searchQuery.tag)
+                (!searchQuery?.keyword ||
+                  entry.text.includes(searchQuery.keyword)) &&
+                (!searchQuery?.tag || entry.tags.includes(searchQuery.tag))
             )
             .map((entry) => (
               <ListItem

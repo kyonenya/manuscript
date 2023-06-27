@@ -9,12 +9,12 @@ import {
   TrashIcon,
 } from '@heroicons/react/24/solid';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useCallback } from 'react';
 import { twMerge } from 'tailwind-merge';
 import { CustomAlertDialog } from '../components/CustomAlertDialog';
 import { CustomPopover } from '../components/CustomPopover';
 import { JsonImport } from '../components/JsonImport';
 import { Entry } from '../domain/Entry';
+import { appendSearchParams, removeSearchParams } from '../domain/utils';
 import { Button } from './_components/Button';
 import { HeaderContainer } from './_components/HeaderContainer';
 import { IconButton } from './_components/IconButton';
@@ -34,26 +34,6 @@ export const PostListHeader = (props: {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-
-  const createQueryString = useCallback(
-    (name: string, value: string) => {
-      const params = new URLSearchParams(searchParams);
-      params.set(name, value);
-
-      return params.toString();
-    },
-    [searchParams]
-  );
-
-  const deleteQueryString = useCallback(
-    (name: string) => {
-      const params = new URLSearchParams(searchParams);
-      params.delete(name);
-
-      return params.toString();
-    },
-    [searchParams]
-  );
 
   return (
     <HeaderContainer>
@@ -94,12 +74,11 @@ export const PostListHeader = (props: {
       <Input
         type="search"
         inputLeftIconButtonIcon={<MagnifyingGlassIcon />}
-        onSearch={(searchStr) => {
-          if (!searchStr) {
-            router.replace(pathname + '?' + deleteQueryString('search'));
-            return;
-          }
-          router.push(pathname + '?' + createQueryString('search', searchStr));
+        onSearch={(value) => {
+          const queryString = value
+            ? appendSearchParams({ searchParams, name: 'keyword', value })
+            : removeSearchParams({ searchParams, name: 'keyword' });
+          router.push(pathname + '?' + queryString);
         }}
       />
 

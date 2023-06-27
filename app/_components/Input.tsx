@@ -26,7 +26,7 @@ export const Input = forwardRef(function InputComponent(
   }: {
     inputLeftIcon?: ReactElement;
     inputLeftIconButtonIcon?: ReactElement;
-    onSearch?: (text: string) => void;
+    onSearch?: (value: string) => void;
   } & ComponentProps<'input'>,
   forwardedRef: ForwardedRef<HTMLInputElement>
 ) {
