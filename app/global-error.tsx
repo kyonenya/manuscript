@@ -5,11 +5,11 @@ import { SimpleHeader } from './SimpleHeader';
 import { Button } from './_components/Button';
 
 /**
- * Error Page
+ * Error Page (Global)
  *
  * @see https://nextjs.org/docs/app/building-your-application/routing/error-handling
  */
-export default function Error({
+export default function GlobalError({
   error,
   reset,
 }: {
