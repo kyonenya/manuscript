@@ -57,7 +57,7 @@ export const ArticleHeader = ({
             {dayjs(entry.createdAt).format('YYYY-MM-DD')}
           </Button>
         }
-        placement="bottom"
+        side="bottom"
       >
         <div className="flex min-w-[300px] flex-col space-y-4">
           <input

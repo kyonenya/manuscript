@@ -34,7 +34,7 @@ export const PostListHeader = (props: {
   return (
     <HeaderContainer>
       <Popover
-        placement="bottom"
+        side="bottom"
         triggerButton={
           <IconButton>
             <Cog8ToothIcon />
