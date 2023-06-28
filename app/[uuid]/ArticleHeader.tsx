@@ -1,10 +1,12 @@
 'use client';
 
+import { StarIcon as StarIconOutline } from '@heroicons/react/24/outline';
 import {
   ArrowLeftIcon,
   ChevronDownIcon,
   CheckIcon,
   TrashIcon,
+  StarIcon as StarIconSolid,
 } from '@heroicons/react/24/solid';
 import { useRouter } from 'next/navigation';
 import { useForm, useWatch } from 'react-hook-form';
@@ -87,20 +89,29 @@ export const ArticleHeader = ({
         </div>
       </Popover>
 
-      <IconButton
-        type="submit"
-        aria-label="Update Entry"
-        disabled={!onUpdate}
-        onClick={handleSubmit((data) => {
-          if (!onUpdate) return;
-          onUpdate({
-            ...data,
-            createdAt: dayjs(data.createdAt).tz().format(),
-          });
-        })}
-      >
-        {isLoading ? <Spinner /> : <CheckIcon />}
-      </IconButton>
+      <div className="flex space-x-2">
+        <IconButton aria-label="Like Entry">
+          {entry.starred ? (
+            <StarIconSolid className="text-yellow-400" />
+          ) : (
+            <StarIconOutline className="text-gray-500" />
+          )}
+        </IconButton>
+        <IconButton
+          type="submit"
+          aria-label="Update Entry"
+          disabled={!onUpdate}
+          onClick={handleSubmit((data) => {
+            if (!onUpdate) return;
+            onUpdate({
+              ...data,
+              createdAt: dayjs(data.createdAt).tz().format(),
+            });
+          })}
+        >
+          {isLoading ? <Spinner /> : <CheckIcon />}
+        </IconButton>
+      </div>
     </HeaderContainer>
   );
 };

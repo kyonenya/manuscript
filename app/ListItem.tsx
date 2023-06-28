@@ -1,3 +1,4 @@
+import { StarIcon } from '@heroicons/react/24/solid';
 import Link from 'next/link';
 import { generateSummaryEntity, SummaryEntity } from 'search-summary';
 import { twMerge } from 'tailwind-merge';
@@ -82,6 +83,7 @@ export const ListItem = (props: {
         <p className="text-gray-600 dark:text-gray-400">
           {dayjs(entry.createdAt).format('YYYY-MM-DD')}
         </p>
+        {props.entry.starred && <StarIcon className="w-5 text-yellow-400" />}
         <Tags tags={entry.tags} searchedTag={props.searchQuery?.tag} />
       </div>
     </div>

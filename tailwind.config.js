@@ -12,7 +12,11 @@ module.exports = {
       lg: '62em', // equivalent to 992px
       xl: '80em', // equivalent to 1280px
     },
-    extend: {},
+    extend: {
+      screens: {
+        print: { raw: 'print' }, // => @media print { ... }
+      },
+    },
   },
   plugins: [],
 };

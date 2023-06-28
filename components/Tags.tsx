@@ -1,9 +1,13 @@
 import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';
 
-export const Tags = (props: { tags: string[]; searchedTag?: string }) => {
+export const Tags = (props: {
+  tags: string[];
+  searchedTag?: string;
+  className?: string;
+}) => {
   return (
-    <div className="flex flex-row space-x-2">
+    <div className={twMerge('flex flex-row space-x-2', props.className)}>
       {props.tags?.map((tag) => (
         <Link href={props.searchedTag === tag ? '/' : `/?tag=${tag}`} key={tag}>
           <div

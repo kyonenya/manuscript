@@ -11,7 +11,7 @@ export default function RootLayout(props: PropsWithChildren) {
   return (
     <html lang="ja">
       <body>
-        <div className="min-h-screen bg-gray-100 dark:bg-gray-700">
+        <div className="min-h-screen bg-gray-100 dark:bg-gray-700 print:bg-white">
           {props.children}
         </div>
       </body>

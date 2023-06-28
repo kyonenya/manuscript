@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Entry } from '../domain/Entry';
 import { SearchQuery } from '../domain/SearchQuery';
 import { ListItem } from './ListItem';
-import { Previews } from './_components/Preview';
+import { Previews } from './Preview';
 
 export const PostList = ({
   entries,
