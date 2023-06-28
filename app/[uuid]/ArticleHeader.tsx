@@ -10,8 +10,6 @@ import {
 } from '@heroicons/react/24/solid';
 import { useRouter } from 'next/navigation';
 import { useForm, useWatch } from 'react-hook-form';
-import { CustomSelect } from '../../components/CustomSelect';
-import { Spinner } from '../../components/Spinner';
 import { Entry } from '../../domain/Entry';
 import dayjs from '../../infra/dayjs';
 import { AlertDialog } from '../_components/AlertDialog';
@@ -19,6 +17,8 @@ import { Button } from '../_components/Button';
 import { HeaderContainer } from '../_components/HeaderContainer';
 import { IconButton } from '../_components/IconButton';
 import { Popover } from '../_components/Popover';
+import { Select } from '../_components/Select';
+import { Spinner } from '../_components/Spinner';
 
 type Form = {
   createdAt: string;
@@ -67,7 +67,7 @@ export const ArticleHeader = ({
             {...register('createdAt')}
             className="mx-auto h-10 w-full rounded-md border border-gray-300 p-2 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-300"
           />
-          <CustomSelect
+          <Select
             value={tags}
             onSelect={(tags) => setValue('tags', tags)}
             options={tagList}

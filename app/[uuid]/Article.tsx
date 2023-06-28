@@ -1,7 +1,7 @@
-import { MarkdownText } from '../../components/MarkdownText';
-import { Tags } from '../../components/Tags';
 import { Entry } from '../../domain/Entry';
 import dayjs from '../../infra/dayjs';
+import { MarkdownText } from '../_components/MarkdownText';
+import { Tags } from '../_components/Tags';
 
 export const Article = (props: { entry: Entry }) => {
   return (

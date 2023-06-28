@@ -9,7 +9,6 @@ import {
   TrashIcon,
 } from '@heroicons/react/24/solid';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { JsonImport } from '../components/JsonImport';
 import { Entry } from '../domain/Entry';
 import { updateSearchParams } from '../domain/utils';
 import { AlertDialog } from './_components/AlertDialog';
@@ -17,6 +16,7 @@ import { Button } from './_components/Button';
 import { HeaderContainer } from './_components/HeaderContainer';
 import { IconButton } from './_components/IconButton';
 import { Input } from './_components/Input';
+import { JsonImport } from './_components/JsonImport';
 import { Popover } from './_components/Popover';
 
 export const PostListHeader = (props: {

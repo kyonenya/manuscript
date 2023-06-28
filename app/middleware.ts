@@ -5,7 +5,7 @@ import type { NextRequest } from 'next/server';
 /**
  * Middleware
  *
- * to ensure the user's auth session remains active
+ * To ensure the user's auth session remains active
  * @see https://supabase.com/docs/guides/auth/auth-helpers/nextjs#managing-session-with-middleware
  */
 export async function middleware(req: NextRequest) {

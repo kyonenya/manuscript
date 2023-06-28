@@ -1,11 +1,11 @@
 'use client';
 
 import { ArrowUpIcon, CheckIcon } from '@heroicons/react/24/solid';
-import { IconButton } from '../app/_components/IconButton';
-import { DayOneData, toEntry } from '../domain/DayOneEntry';
-import { Entry } from '../domain/Entry';
-import { useJsonImport } from '../hooks/useJsonImport';
 import { Spinner } from './Spinner';
+import { DayOneData, toEntry } from '../../domain/DayOneEntry';
+import { Entry } from '../../domain/Entry';
+import { useJsonImport } from '../../hooks/useJsonImport';
+import { IconButton } from './IconButton';
 
 export const JsonImport = ({
   isImported = false,

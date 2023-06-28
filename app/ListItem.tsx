@@ -2,10 +2,10 @@ import { StarIcon } from '@heroicons/react/24/solid';
 import Link from 'next/link';
 import { generateSummaryEntity, SummaryEntity } from 'search-summary';
 import { twMerge } from 'tailwind-merge';
-import { Tags } from '../components/Tags';
 import { Entry } from '../domain/Entry';
 import { SearchQuery } from '../domain/SearchQuery';
 import dayjs from '../infra/dayjs';
+import { Tags } from './_components/Tags';
 
 const Summary = (props: { text: string }) => {
   const limit = 120;

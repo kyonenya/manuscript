@@ -1,20 +1,20 @@
-import { forwardRef, Ref } from 'react';
-import Select from 'react-select';
+import { ForwardedRef, forwardRef } from 'react';
+import ReactSelect from 'react-select';
 
 const toSelects = (values: string[]) =>
   values.map((value) => ({ value, label: value }));
 
-const CustomSelectComponent = (
+export const Select = forwardRef(function _Select(
   props: {
     value: string[];
     onSelect: (values: string[]) => void;
     options: string[];
   },
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  ref: Ref<any>
-) => {
+  ref: ForwardedRef<any>
+) {
   return (
-    <Select
+    <ReactSelect
       isMulti
       name="tags"
       value={toSelects(props.value)}
@@ -25,6 +25,4 @@ const CustomSelectComponent = (
       ref={ref}
     />
   );
-};
-
-export const CustomSelect = forwardRef(CustomSelectComponent);
+});

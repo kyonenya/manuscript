@@ -1,7 +1,7 @@
 import { StarIcon } from '@heroicons/react/24/solid';
 import dayjs from 'dayjs';
-import { MarkdownText } from '../components/MarkdownText';
 import { Entry } from '../domain/Entry';
+import { MarkdownText } from './_components/MarkdownText';
 
 export const Preview = (props: { entry: Entry }) => {
   return (
