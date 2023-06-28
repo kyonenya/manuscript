@@ -15,37 +15,26 @@ import { twMerge } from 'tailwind-merge';
  */
 export const IconButton = forwardRef(function _IconButton(
   {
-    noButton,
     children,
     ...props
   }: {
-    noButton?: boolean;
     children: ReactElement;
   } & ComponentProps<'button'>,
   ref: ForwardedRef<HTMLButtonElement>
 ) {
   const className = twMerge(
-    'h-10 w-10 rounded-md border border-transparent bg-[#edf2f7] transition-colors duration-200 ease-in-out hover:bg-gray-200 focus:outline-none focus:ring-2 disabled:cursor-not-allowed disabled:opacity-60 dark:bg-gray-700 dark:hover:bg-gray-600',
+    'h-10 w-10 rounded-md border border-transparent bg-[#edf2f7] transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 enabled:hover:bg-gray-200 disabled:cursor-not-allowed disabled:opacity-60 dark:bg-gray-700 enabled:dark:hover:bg-gray-600',
     props.className
   );
-  const icon = cloneElement(children, {
-    className: twMerge(
-      'm-auto w-5 text-gray-700 dark:text-gray-300',
-      children.props.className
-    ),
-  });
-
-  if (noButton) {
-    return (
-      <div className={twMerge('flex items-center justify-center', className)}>
-        {icon}
-      </div>
-    );
-  }
 
   return (
     <button {...props} className={className} ref={ref}>
-      {icon}
+      {cloneElement(children, {
+        className: twMerge(
+          'm-auto w-5 text-gray-700 dark:text-gray-300',
+          children.props.className
+        ),
+      })}
     </button>
   );
 });

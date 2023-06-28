@@ -4,7 +4,7 @@ import { Button } from './_components/Button';
 
 /**
  * Not Found Page
- * 
+ *
  * @see https://merakiui.com/components/404-pages
  */
 export default function NotFound() {
@@ -21,9 +21,8 @@ export default function NotFound() {
             Sorry, the page you are looking for doesn’t exist.
           </p>
           <div className="mt-6 flex w-full items-center justify-center">
-            <Link href="/">
+            <Link href="/" passHref>
               <Button
-                noButton
                 variant={{ color: 'emerald' }}
                 className="w-auto px-5 py-2"
               >

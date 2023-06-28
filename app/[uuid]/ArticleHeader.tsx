@@ -8,15 +8,15 @@ import {
 } from '@heroicons/react/24/solid';
 import { useRouter } from 'next/navigation';
 import { useForm, useWatch } from 'react-hook-form';
-import { CustomAlertDialog } from '../../components/CustomAlertDialog';
-import { CustomPopover } from '../../components/CustomPopover';
 import { CustomSelect } from '../../components/CustomSelect';
 import { Spinner } from '../../components/Spinner';
 import { Entry } from '../../domain/Entry';
 import dayjs from '../../infra/dayjs';
+import { AlertDialog } from '../_components/AlertDialog';
 import { Button } from '../_components/Button';
 import { HeaderContainer } from '../_components/HeaderContainer';
 import { IconButton } from '../_components/IconButton';
+import { Popover } from '../_components/Popover';
 
 type Form = {
   createdAt: string;
@@ -51,9 +51,9 @@ export const ArticleHeader = ({
         <ArrowLeftIcon />
       </IconButton>
 
-      <CustomPopover
-        triggerElement={
-          <Button noButton rightIcon={<ChevronDownIcon />}>
+      <Popover
+        triggerButton={
+          <Button rightIcon={<ChevronDownIcon />} className="w-auto">
             {dayjs(entry.createdAt).format('YYYY-MM-DD')}
           </Button>
         }
@@ -71,13 +71,13 @@ export const ArticleHeader = ({
             options={tagList}
             {...register('tags')}
           />
-          <CustomAlertDialog
+          <AlertDialog
             headerText="Delete Entry"
-            triggerElement={
+            triggerButton={
               <Button
-                noButton
                 variant={{ color: 'warning' }}
                 leftIcon={<TrashIcon />}
+                disabled={!onDelete}
               >
                 Delete
               </Button>
@@ -85,7 +85,7 @@ export const ArticleHeader = ({
             onSubmit={onDelete}
           />
         </div>
-      </CustomPopover>
+      </Popover>
 
       <IconButton
         type="submit"

@@ -9,15 +9,15 @@ import {
   TrashIcon,
 } from '@heroicons/react/24/solid';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { CustomAlertDialog } from '../components/CustomAlertDialog';
-import { CustomPopover } from '../components/CustomPopover';
 import { JsonImport } from '../components/JsonImport';
 import { Entry } from '../domain/Entry';
 import { updateSearchParams } from '../domain/utils';
+import { AlertDialog } from './_components/AlertDialog';
 import { Button } from './_components/Button';
 import { HeaderContainer } from './_components/HeaderContainer';
 import { IconButton } from './_components/IconButton';
 import { Input } from './_components/Input';
+import { Popover } from './_components/Popover';
 
 export const PostListHeader = (props: {
   isSelectMode?: boolean;
@@ -33,10 +33,10 @@ export const PostListHeader = (props: {
 
   return (
     <HeaderContainer>
-      <CustomPopover
+      <Popover
         placement="bottom"
-        triggerElement={
-          <IconButton noButton>
+        triggerButton={
+          <IconButton>
             <Cog8ToothIcon />
           </IconButton>
         }
@@ -47,10 +47,14 @@ export const PostListHeader = (props: {
             isImporting={props.isImporting}
             onImport={props.onImport}
           />
-          <CustomAlertDialog
+          <AlertDialog
             headerText="Delete All Entries"
-            triggerElement={
-              <Button variant={{ color: 'warning' }} leftIcon={<TrashIcon />}>
+            triggerButton={
+              <Button
+                variant={{ color: 'warning' }}
+                leftIcon={<TrashIcon />}
+                disabled={!props.onDeleteAll}
+              >
                 Delete All
               </Button>
             }
@@ -65,7 +69,7 @@ export const PostListHeader = (props: {
             </Button>
           </form>
         </div>
-      </CustomPopover>
+      </Popover>
 
       <Input
         leftIconButtonIcon={<MagnifyingGlassIcon />}

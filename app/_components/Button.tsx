@@ -13,13 +13,13 @@ const button = tv({
   variants: {
     color: {
       default:
-        'bg-[#edf2f7] hover:bg-gray-200 disabled:opacity-60 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600',
+        'bg-[#edf2f7] enabled:hover:bg-gray-200 disabled:opacity-60 dark:bg-gray-700 dark:text-gray-300 enabled:dark:hover:bg-gray-600 ',
       warning:
-        'bg-[#edf2f7] font-semibold text-red-500 hover:bg-gray-200 disabled:opacity-60 dark:bg-gray-700 dark:text-rose-500 dark:hover:bg-gray-600',
+        'bg-[#edf2f7] font-semibold text-red-500 enabled:hover:bg-gray-200 disabled:opacity-60 dark:bg-gray-700 dark:text-rose-500 enabled:dark:hover:bg-gray-600',
       emerald:
-        'bg-emerald-500 text-white hover:bg-emerald-600 disabled:opacity-40 dark:bg-emerald-600 hover:dark:bg-emerald-500',
+        'bg-emerald-500 text-white enabled:hover:bg-emerald-600 disabled:opacity-40 dark:bg-emerald-600 enabled:hover:dark:bg-emerald-500',
       danger:
-        'bg-red-500 text-white hover:bg-red-600 disabled:opacity-40 dark:bg-red-600 dark:hover:bg-red-500',
+        'bg-red-500 text-white enabled:hover:bg-red-600 disabled:opacity-40 dark:bg-red-600 enabled:dark:hover:bg-red-500',
     },
   },
   defaultVariants: {
@@ -36,22 +36,23 @@ const button = tv({
 export const Button = forwardRef(function _Button(
   {
     variant,
-    noButton,
     leftIcon,
     rightIcon,
     children,
     ...props
   }: {
     variant?: VariantProps<typeof button>;
-    noButton?: boolean;
     leftIcon?: ReactElement;
     rightIcon?: ReactElement;
   } & ComponentProps<'button'>,
   ref: ForwardedRef<HTMLButtonElement>
 ) {
-  const className = twMerge(button(variant), props.className);
-  const buttonChildren = (
-    <>
+  return (
+    <button
+      {...props}
+      className={twMerge(button(variant), props.className)}
+      ref={ref}
+    >
       {leftIcon &&
         cloneElement(leftIcon, {
           className: twMerge('mr-2 h-5 w-5', leftIcon.props.className),
@@ -61,16 +62,6 @@ export const Button = forwardRef(function _Button(
         cloneElement(rightIcon, {
           className: twMerge('ml-2 h-5 w-5', rightIcon.props.className),
         })}
-    </>
-  );
-
-  if (noButton) {
-    return <div className={className}>{buttonChildren}</div>;
-  }
-
-  return (
-    <button {...props} className={className} ref={ref}>
-      {buttonChildren}
     </button>
   );
 });
