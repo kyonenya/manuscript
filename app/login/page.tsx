@@ -15,7 +15,7 @@ import { Button } from '../_components/Button';
 import { Input } from '../_components/Input';
 
 /**
- * ログインページ
+ * Login Page
  *
  * @see https://flowbite.com/blocks/marketing/login/
  */

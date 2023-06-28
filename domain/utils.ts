@@ -5,23 +5,21 @@ export const splitArray = <T>(items: T[], each: number): T[][] =>
     []
   );
 
-export const appendSearchParams = (props: {
+export const updateSearchParams = (props: {
   searchParams: URLSearchParams;
-  name: string;
-  value: string;
+  pathname?: string;
+  append?: { name: string; value: string };
+  remove?: { name: string; value?: unknown };
 }): string => {
   const params = new URLSearchParams(props.searchParams); // mutable clone
-  params.set(props.name, props.value);
+  if (props.append) {
+    params.set(props.append.name, props.append.value);
+  }
+  if (props.remove) {
+    params.delete(props.remove.name);
+  }
 
-  return params.toString();
-};
-
-export const removeSearchParams = (props: {
-  searchParams: URLSearchParams;
-  name: string;
-}): string => {
-  const params = new URLSearchParams(props.searchParams); // mutable clone
-  params.delete(props.name);
-
-  return params.toString();
+  return props.pathname
+    ? `${props.pathname}?${params.toString()}`
+    : params.toString();
 };

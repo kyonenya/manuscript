@@ -3,6 +3,8 @@ import { SimpleHeader } from './SimpleHeader';
 import { Button } from './_components/Button';
 
 /**
+ * Not Found Page
+ * 
  * @see https://merakiui.com/components/404-pages
  */
 export default function NotFound() {

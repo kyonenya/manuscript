@@ -9,12 +9,11 @@ import {
   TrashIcon,
 } from '@heroicons/react/24/solid';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { twMerge } from 'tailwind-merge';
 import { CustomAlertDialog } from '../components/CustomAlertDialog';
 import { CustomPopover } from '../components/CustomPopover';
 import { JsonImport } from '../components/JsonImport';
 import { Entry } from '../domain/Entry';
-import { appendSearchParams, removeSearchParams } from '../domain/utils';
+import { updateSearchParams } from '../domain/utils';
 import { Button } from './_components/Button';
 import { HeaderContainer } from './_components/HeaderContainer';
 import { IconButton } from './_components/IconButton';
@@ -24,7 +23,6 @@ export const PostListHeader = (props: {
   isSelectMode?: boolean;
   isImported?: boolean;
   isImporting?: boolean;
-  toggleSelectMode?: () => void;
   onSignOut?: () => void;
   onImport?: (props: { entries: Entry[] }) => void;
   onDeleteAll?: () => void;
@@ -71,26 +69,54 @@ export const PostListHeader = (props: {
 
       <Input
         leftIconButtonIcon={<MagnifyingGlassIcon />}
-        onSearch={(value) => {
-          const queryString = value
-            ? appendSearchParams({ searchParams, name: 'keyword', value })
-            : removeSearchParams({ searchParams, name: 'keyword' });
-          router.push(pathname + '?' + queryString);
-        }}
+        onSearch={(value) =>
+          router.push(
+            updateSearchParams({
+              searchParams,
+              pathname,
+              [value ? 'append' : 'remove']: { name: 'keyword', value },
+            })
+          )
+        }
       />
 
       <div className="flex space-x-2">
         {props.isSelectMode && (
-          <IconButton onClick={() => router.push('?preview=true')}>
+          <IconButton
+            aria-label="Preview Mode"
+            onClick={() =>
+              router.push(
+                updateSearchParams({
+                  searchParams,
+                  pathname,
+                  append: { name: 'preview', value: 'true' },
+                  remove: { name: 'select' },
+                })
+              )
+            }
+          >
             <EyeIcon />
           </IconButton>
         )}
         <IconButton
-          className={twMerge(
-            props.isSelectMode &&
-              'bg-yellow-200 hover:bg-yellow-200 dark:bg-gray-500 dark:hover:bg-gray-500'
-          )}
-          onClick={props.toggleSelectMode}
+          aria-label="Toggle Select Mode"
+          className={
+            props.isSelectMode
+              ? 'bg-yellow-200 hover:bg-yellow-200 dark:bg-gray-500 dark:hover:bg-gray-500'
+              : ''
+          }
+          onClick={() =>
+            router.push(
+              updateSearchParams({
+                searchParams,
+                pathname,
+                [props.isSelectMode ? 'remove' : 'append']: {
+                  name: 'select',
+                  value: 'true',
+                },
+              })
+            )
+          }
         >
           <Squares2X2Icon />
         </IconButton>

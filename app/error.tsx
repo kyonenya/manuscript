@@ -5,7 +5,7 @@ import { SimpleHeader } from './SimpleHeader';
 import { Button } from './_components/Button';
 
 /**
- * エラーページ
+ * Error Page
  *
  * @see https://nextjs.org/docs/app/building-your-application/routing/error-handling
  */
