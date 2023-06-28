@@ -8,44 +8,24 @@ import {
 import { twMerge } from 'tailwind-merge';
 import { tv, VariantProps } from 'tailwind-variants';
 
-const button = (disabled?: boolean) =>
-  tv({
-    base: [
-      'flex w-full items-center justify-center rounded-md p-2 transition-colors duration-300 ease-in-out ',
-      disabled ? '' : 'focus:outline-none focus:ring-2',
-    ],
-    variants: {
-      color: {
-        default: [
-          'bg-[#edf2f7] hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 ',
-          disabled
-            ? 'cursor-not-allowed opacity-60'
-            : 'hover:bg-gray-200 dark:hover:bg-gray-600',
-        ],
-        warning: [
-          'bg-[#edf2f7] font-semibold text-red-500 dark:bg-gray-700 dark:text-rose-500',
-          disabled
-            ? 'cursor-not-allowed opacity-60'
-            : 'hover:bg-gray-200 dark:hover:bg-gray-600',
-        ],
-        emerald: [
-          'bg-emerald-500 text-white dark:bg-emerald-600',
-          disabled
-            ? 'cursor-not-allowed opacity-40'
-            : 'hover:bg-emerald-600 hover:dark:bg-emerald-500',
-        ],
-        danger: [
-          'bg-red-500 text-white dark:bg-red-600',
-          disabled
-            ? 'cursor-not-allowed opacity-40'
-            : 'hover:bg-red-600 dark:hover:bg-red-500',
-        ],
-      },
+const button = tv({
+  base: 'flex w-full items-center justify-center rounded-md p-2 transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 disabled:cursor-not-allowed',
+  variants: {
+    color: {
+      default:
+        'bg-[#edf2f7] hover:bg-gray-200 disabled:opacity-60 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600',
+      warning:
+        'bg-[#edf2f7] font-semibold text-red-500 hover:bg-gray-200 disabled:opacity-60 dark:bg-gray-700 dark:text-rose-500 dark:hover:bg-gray-600',
+      emerald:
+        'bg-emerald-500 text-white hover:bg-emerald-600 disabled:opacity-40 dark:bg-emerald-600 hover:dark:bg-emerald-500',
+      danger:
+        'bg-red-500 text-white hover:bg-red-600 disabled:opacity-40 dark:bg-red-600 dark:hover:bg-red-500',
     },
-    defaultVariants: {
-      color: 'default',
-    },
-  });
+  },
+  defaultVariants: {
+    color: 'default',
+  },
+});
 
 /**
  * Button (with Icon)
@@ -62,14 +42,14 @@ export const Button = forwardRef(function _Button(
     children,
     ...props
   }: {
-    variant?: VariantProps<ReturnType<typeof button>>;
+    variant?: VariantProps<typeof button>;
     noButton?: boolean;
     leftIcon?: ReactElement;
     rightIcon?: ReactElement;
   } & ComponentProps<'button'>,
   ref: ForwardedRef<HTMLButtonElement>
 ) {
-  const className = twMerge(button(props.disabled)(variant), props.className);
+  const className = twMerge(button(variant), props.className);
   const buttonChildren = (
     <>
       {leftIcon &&

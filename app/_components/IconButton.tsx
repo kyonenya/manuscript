@@ -25,10 +25,7 @@ export const IconButton = forwardRef(function _IconButton(
   ref: ForwardedRef<HTMLButtonElement>
 ) {
   const className = twMerge(
-    'h-10 w-10 rounded-md border border-transparent bg-[#edf2f7] transition-colors duration-300 ease-in-out dark:bg-gray-700',
-    !props.disabled &&
-      'hover:bg-gray-200 focus:outline-none focus:ring-2 dark:hover:bg-gray-600',
-    props.disabled && 'cursor-not-allowed opacity-60',
+    'h-10 w-10 rounded-md border border-transparent bg-[#edf2f7] transition-colors duration-200 ease-in-out hover:bg-gray-200 focus:outline-none focus:ring-2 disabled:cursor-not-allowed disabled:opacity-60 dark:bg-gray-700 dark:hover:bg-gray-600',
     props.className
   );
   const icon = cloneElement(children, {

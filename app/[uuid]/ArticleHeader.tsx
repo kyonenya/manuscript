@@ -50,6 +50,7 @@ export const ArticleHeader = ({
       <IconButton onClick={() => router.back()}>
         <ArrowLeftIcon />
       </IconButton>
+
       <CustomPopover
         triggerElement={
           <Button noButton rightIcon={<ChevronDownIcon />}>
@@ -75,21 +76,21 @@ export const ArticleHeader = ({
             triggerElement={
               <Button
                 noButton
-                disabled={!onDelete}
                 variant={{ color: 'warning' }}
                 leftIcon={<TrashIcon />}
               >
                 Delete
               </Button>
             }
-            onSubmit={() => onDelete?.()}
+            onSubmit={onDelete}
           />
         </div>
       </CustomPopover>
+
       <IconButton
-        disabled={!onUpdate}
         type="submit"
-        aria-label="更新"
+        aria-label="Update Entry"
+        disabled={!onUpdate}
         onClick={handleSubmit((data) => {
           if (!onUpdate) return;
           onUpdate({

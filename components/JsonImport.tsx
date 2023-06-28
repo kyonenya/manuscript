@@ -19,7 +19,7 @@ export const JsonImport = ({
   const { load, data } = useJsonImport<DayOneData>();
 
   return (
-    <div className="flex flex-row">
+    <div className="flex flex-row justify-between">
       <input
         type="file"
         accept="application/json"
@@ -28,12 +28,11 @@ export const JsonImport = ({
           if (jsonFile == null) return;
           load(jsonFile);
         }}
-        className="my-auto dark:text-gray-300"
+        className="my-auto max-w-[80%] dark:text-gray-300"
       />
       <IconButton
+        aria-label="Import JSON"
         disabled={!onImport}
-        aria-label="記事データをインポート"
-        className="min-w-[40px]" // for iOS Safari
         onClick={() => {
           if (!data || !onImport) return;
           onImport({

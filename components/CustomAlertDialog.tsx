@@ -39,10 +39,10 @@ export const CustomAlertDialog = (props: {
               </AlertDialogCancel>
               <AlertDialogAction>
                 <Button
-                  disabled={!props.onSubmit}
                   variant={{ color: 'danger' }}
-                  onClick={props.onSubmit}
                   className="px-4"
+                  disabled={!props.onSubmit}
+                  onClick={props.onSubmit}
                 >
                   Delete
                 </Button>
