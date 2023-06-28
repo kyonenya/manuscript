@@ -20,7 +20,6 @@ export const IconButton = forwardRef(function _IconButton(
     ...props
   }: {
     noButton?: boolean;
-    iconClassName?: string;
     children: ReactElement;
   } & ComponentProps<'button'>,
   ref: ForwardedRef<HTMLButtonElement>

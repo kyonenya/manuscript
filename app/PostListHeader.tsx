@@ -21,13 +21,11 @@ import { IconButton } from './_components/IconButton';
 import { Input } from './_components/Input';
 
 export const PostListHeader = (props: {
-  searchStr?: string | undefined;
   isSelectMode?: boolean;
   isImported?: boolean;
   isImporting?: boolean;
-  onSearch?: (searchStr: string) => void;
-  onSignOut?: () => void;
   toggleSelectMode?: () => void;
+  onSignOut?: () => void;
   onImport?: (props: { entries: Entry[] }) => void;
   onDeleteAll?: () => void;
 }) => {

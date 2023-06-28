@@ -5,10 +5,12 @@ export const Tags = (props: { tags: string[]; searchedTag?: string }) => {
   return (
     <div className="flex flex-row space-x-2">
       {props.tags?.map((tag) => (
-        <Link href={`/?tag=${tag}`} key={tag}>
+        <Link href={props.searchedTag === tag ? '/' : `/?tag=${tag}`} key={tag}>
           <div
             className={twMerge(
-              'rounded-md bg-gray-100 px-2 py-1 text-sm text-gray-500 dark:bg-gray-700 dark:font-medium dark:text-gray-400',
+              'rounded-md  px-2 py-1 text-sm dark:font-medium',
+              props.searchedTag !== tag &&
+                'bg-gray-100 text-gray-500 dark:bg-gray-700 dark:text-gray-400',
               props.searchedTag === tag &&
                 'border border-gray-300 bg-yellow-100 text-gray-600 dark:bg-gray-500 dark:text-gray-300'
             )}

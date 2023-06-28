@@ -31,7 +31,7 @@ export const tagHistory = (posts: Entry[]): string[] => [
   ...new Set(posts.map((post) => post.tags).flat()),
 ]; // uniq
 
-// 基準になる日時を定義
+// 基準になる日時
 const baseDate = dayjs('2023-06-23T02:25:00+09:00');
 
 export const sampleEntries: Entry[] = [

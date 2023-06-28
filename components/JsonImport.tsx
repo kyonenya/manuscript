@@ -33,6 +33,7 @@ export const JsonImport = ({
       <IconButton
         disabled={!onImport}
         aria-label="記事データをインポート"
+        className="min-w-[40px]" // for iOS Safari
         onClick={() => {
           if (!data || !onImport) return;
           onImport({
