@@ -72,8 +72,7 @@ export const PostListHeader = (props: {
       </CustomPopover>
 
       <Input
-        type="search"
-        inputLeftIconButtonIcon={<MagnifyingGlassIcon />}
+        leftIconButtonIcon={<MagnifyingGlassIcon />}
         onSearch={(value) => {
           const queryString = value
             ? appendSearchParams({ searchParams, name: 'keyword', value })

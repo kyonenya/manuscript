@@ -2,8 +2,8 @@ import {
   cloneElement,
   ReactElement,
   forwardRef,
-  Ref,
   ComponentProps,
+  ForwardedRef,
 } from 'react';
 import { twMerge } from 'tailwind-merge';
 
@@ -13,18 +13,17 @@ import { twMerge } from 'tailwind-merge';
  * An icon within in a button.
  * @see https://chakra-ui.com/docs/components/icon-button
  */
-export const IconButton = forwardRef(function IconButtonComponent(
+export const IconButton = forwardRef(function _IconButton(
   {
     noButton,
-    onClick,
     children,
     ...props
   }: {
     noButton?: boolean;
-    onClick?: () => unknown;
+    iconClassName?: string;
     children: ReactElement;
   } & ComponentProps<'button'>,
-  ref: Ref<HTMLButtonElement>
+  ref: ForwardedRef<HTMLButtonElement>
 ) {
   const className = twMerge(
     'h-10 w-10 rounded-md border border-transparent bg-[#edf2f7] transition-colors duration-300 ease-in-out dark:bg-gray-700',
@@ -34,7 +33,10 @@ export const IconButton = forwardRef(function IconButtonComponent(
     props.className
   );
   const icon = cloneElement(children, {
-    className: 'm-auto w-5 text-gray-700 dark:text-gray-300',
+    className: twMerge(
+      'm-auto w-5 text-gray-700 dark:text-gray-300',
+      children.props.className
+    ),
   });
 
   if (noButton) {
@@ -46,7 +48,7 @@ export const IconButton = forwardRef(function IconButtonComponent(
   }
 
   return (
-    <button {...props} className={className} onClick={onClick} ref={ref}>
+    <button {...props} className={className} ref={ref}>
       {icon}
     </button>
   );

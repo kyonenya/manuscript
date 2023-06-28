@@ -82,7 +82,7 @@ export const ArticleHeader = ({
                 Delete
               </Button>
             }
-            onSubmit={() => onDelete && onDelete()}
+            onSubmit={() => onDelete?.()}
           />
         </div>
       </CustomPopover>

@@ -1,9 +1,9 @@
 import {
   cloneElement,
   ComponentProps,
+  ForwardedRef,
   forwardRef,
   ReactElement,
-  Ref,
 } from 'react';
 import { twMerge } from 'tailwind-merge';
 import { tv, VariantProps } from 'tailwind-variants';
@@ -53,7 +53,7 @@ const button = (disabled?: boolean) =>
  * You can add left and right icons to the Button component using the leftIcon and rightIcon props respectively.
  * @see https://chakra-ui.com/docs/components/button#button-with-icon
  */
-export const Button = forwardRef(function ButtonComponent(
+export const Button = forwardRef(function _Button(
   {
     variant,
     noButton,
@@ -67,14 +67,20 @@ export const Button = forwardRef(function ButtonComponent(
     leftIcon?: ReactElement;
     rightIcon?: ReactElement;
   } & ComponentProps<'button'>,
-  ref: Ref<HTMLButtonElement>
+  ref: ForwardedRef<HTMLButtonElement>
 ) {
   const className = twMerge(button(props.disabled)(variant), props.className);
   const buttonChildren = (
     <>
-      {leftIcon && cloneElement(leftIcon, { className: 'mr-2 h-5 w-5' })}
+      {leftIcon &&
+        cloneElement(leftIcon, {
+          className: twMerge('mr-2 h-5 w-5', leftIcon.props.className),
+        })}
       {children}
-      {rightIcon && cloneElement(rightIcon, { className: 'ml-2 h-5 w-5' })}
+      {rightIcon &&
+        cloneElement(rightIcon, {
+          className: twMerge('ml-2 h-5 w-5', rightIcon.props.className),
+        })}
     </>
   );
 

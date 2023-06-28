@@ -60,7 +60,7 @@ export default async function LoginPage() {
                   type="email"
                   name="email"
                   placeholder="name@example.com"
-                  inputLeftIcon={<EnvelopeIcon />}
+                  leftIcon={<EnvelopeIcon />}
                 />
               </div>
               <div>
@@ -76,7 +76,7 @@ export default async function LoginPage() {
                   type="password"
                   name="password"
                   placeholder="••••••••"
-                  inputLeftIcon={<KeyIcon />}
+                  leftIcon={<KeyIcon />}
                 />
               </div>
               <div className="flex items-center justify-between">
