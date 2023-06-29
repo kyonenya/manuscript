@@ -5,6 +5,7 @@ import {
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { sampleEntries } from '../domain/Entry';
+import { readMany } from '../infra/entryRepository';
 import { PostList } from './PostList';
 import { PostListHeader } from './PostListHeader';
 
@@ -26,14 +27,17 @@ export default async function IndexPage({
     data: { session },
   } = await supabase.auth.getSession();
 
-  // if (!session) redirect('/login');
+  const entries = await readMany({
+    tag: searchParams.tag,
+    keyword: searchParams.keyword,
+    limit: 100,
+  });
 
   const handleSignOut = async () => {
     'use server';
     const supabase = createServerActionClient({ cookies });
     await supabase.auth.signOut();
 
-    // revalidatePath('/login');
     redirect('/login');
   };
 
@@ -43,7 +47,7 @@ export default async function IndexPage({
         <PostListHeader isSelectMode={isSelectMode} onSignOut={handleSignOut} />
       )}
       <PostList
-        entries={sampleEntries}
+        entries={session ? entries : sampleEntries}
         searchQuery={{ keyword: searchParams.keyword, tag: searchParams.tag }}
         isSelectMode={isSelectMode}
         isPreviewMode={isPreviewMode}

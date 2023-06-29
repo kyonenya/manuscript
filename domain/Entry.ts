@@ -1,3 +1,4 @@
+import crypto from 'crypto';
 import dayjs, { Dayjs } from 'dayjs';
 
 export type Entry = {

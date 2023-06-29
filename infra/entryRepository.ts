@@ -18,53 +18,8 @@ const toEntry = (row: PrismaEntry & { tags: Tag[] }): Entry =>
  * Query
  */
 export const readMany = async (props: {
-  limit: number;
-  offset?: number;
-}): Promise<Entry[]> => {
-  const rows = await prisma.entry.findMany({
-    take: props.limit,
-    skip: props.offset,
-    orderBy: { created_at: 'desc' },
-    include: { tags: true },
-  });
-  return rows.filter((row) => row != null).map((row) => toEntry(row));
-};
-
-export const readByKeyword = async (props: {
+  tag?: string;
   keyword?: string;
-  limit: number;
-  offset?: number;
-}): Promise<Entry[]> => {
-  const rows = await prisma.entry.findMany({
-    where: { text: { contains: props.keyword } },
-    take: props.limit,
-    skip: props.offset,
-    orderBy: { created_at: 'desc' },
-    include: { tags: true },
-  });
-  return rows.map((row) => toEntry(row));
-};
-
-export const readByTag = async (props: {
-  tag: string;
-  keyword?: string;
-  limit: number;
-  offset?: number;
-}): Promise<Entry[]> => {
-  const rows = await prisma.entry.findMany({
-    where: {
-      text: { contains: props.keyword },
-      tags: { some: { name: { equals: props.tag } } },
-    },
-    take: props.limit,
-    skip: props.offset,
-    orderBy: { created_at: 'desc' },
-    include: { tags: true },
-  });
-  return rows.map((row) => toEntry(row));
-};
-
-export const readByDate = async (props: {
   since?: Date;
   until?: Date;
   limit: number;
@@ -72,10 +27,16 @@ export const readByDate = async (props: {
 }): Promise<Entry[]> => {
   const rows = await prisma.entry.findMany({
     where: {
-      created_at: {
-        gte: props.since,
-        lt: props.until,
-      },
+      ...(props.keyword ? { text: { contains: props.keyword } } : {}),
+      ...(props.tag ? { tags: { some: { name: { equals: props.tag } } } } : {}),
+      ...(props.since || props.until
+        ? {
+            created_at: {
+              ...(props.since ? { gte: props.since } : {}),
+              ...(props.until ? { lt: props.until } : {}),
+            },
+          }
+        : {}),
     },
     take: props.limit,
     skip: props.offset,
@@ -89,7 +50,7 @@ export const readOne = async (props: {
   uuid: string;
 }): Promise<Entry | undefined> => {
   const row = await prisma.entry.findUnique({
-    where: { uuid: props.uuid },
+    where: { uuid: props.uuid.toUpperCase() },
     include: { tags: true },
   });
   return row ? toEntry(row) : undefined;

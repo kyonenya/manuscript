@@ -28,12 +28,12 @@ export const appRouter = router({
     .query(async ({ input }) => {
       const offset = input.cursor * input.limit;
       if (input.tag)
-        return await entryRepository.readByTag({
+        return await entryRepository.readMany({
           ...input,
           tag: input.tag,
           offset,
         });
-      return await entryRepository.readByKeyword({ ...input, offset });
+      return await entryRepository.readMany({ ...input, offset });
     }),
 
   getTagList: publicProcedure.query(

@@ -31,9 +31,8 @@ describe('Query:entriesRepository', () => {
     assert.strictEqual(entries.length, 1);
     assert.strictEqual(entries[0].text, entry2.text);
   });
-
-  it('readByKeyword', async () => {
-    const entries = await entryRepository.readByKeyword({
+  it('readMany:offset', async () => {
+    const entries = await entryRepository.readMany({
       keyword: '。',
       limit: 1,
       offset: 1,
@@ -42,33 +41,31 @@ describe('Query:entriesRepository', () => {
     assert.strictEqual(entries[0].text, entry2.text);
     assert.deepStrictEqual(entries[0].tags, entry2.tags);
   });
-  it('readByKeyword:emptyKeyword', async () => {
-    const entries = await entryRepository.readByKeyword({
+  it('readMany:emptyKeyword', async () => {
+    const entries = await entryRepository.readMany({
       keyword: '',
       limit: 1,
     });
     // same as readMany
     assert.strictEqual(entries[0].text, entry1.text);
   });
-
-  it('readByTag', async () => {
-    const entries = await entryRepository.readByTag({
+  it('readMany:tag', async () => {
+    const entries = await entryRepository.readMany({
       tag: 'タグ1',
       limit: 1,
     });
     assert.strictEqual(entries[0].text, entry1.text);
   });
-  it('readByTag:withKeyword', async () => {
-    const entries = await entryRepository.readByTag({
+  it('readMany:keyword+tag', async () => {
+    const entries = await entryRepository.readMany({
       tag: 'タグ1',
       keyword: '一つ前',
       limit: 1,
     });
     assert.strictEqual(entries[0].text, entry2.text);
   });
-
-  it('readByDate', async () => {
-    const entries = await entryRepository.readByDate({
+  it('readMany:since+until', async () => {
+    const entries = await entryRepository.readMany({
       since: dayjs(entry3.createdAt).add(1, 's').toDate(),
       until: dayjs(entry1.createdAt).subtract(1, 's').toDate(),
       limit: 3,
@@ -81,7 +78,6 @@ describe('Query:entriesRepository', () => {
     const entry = await entryRepository.readOne({ uuid: entry1.uuid });
     assert.strictEqual(entry?.text, entry1.text);
   });
-
   it('readOne:empty', async () => {
     const result = await entryRepository.readOne({
       uuid: 'thisisadummyuuidthisisadummyuuid',
