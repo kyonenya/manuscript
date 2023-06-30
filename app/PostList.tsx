@@ -5,6 +5,7 @@ import { Entry } from '../domain/Entry';
 import { SearchQuery } from '../domain/SearchQuery';
 import { ListItem } from './ListItem';
 import { Previews } from './Preview';
+import { Skelton } from './_components/Skelton';
 
 export const PostList = ({
   entries,
@@ -58,6 +59,33 @@ export const PostList = ({
                 key={entry.uuid}
               />
             ))}
+      </div>
+    </div>
+  );
+};
+
+export const PostListSkelton = () => {
+  const SkeltonCard = () => (
+    <div
+      className={
+        'flex h-[200px] flex-col rounded-xl bg-white p-6 shadow-lg dark:bg-gray-800 justify-center'
+      }
+    >
+      <Skelton />
+    </div>
+  );
+
+  return (
+    <div className="mx-auto max-w-4xl py-3 md:py-6">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:gap-6">
+        <SkeltonCard />
+        <SkeltonCard />
+        <SkeltonCard />
+        <SkeltonCard />
+        <SkeltonCard />
+        <SkeltonCard />
+        <SkeltonCard />
+        <SkeltonCard />
       </div>
     </div>
   );

@@ -4,10 +4,41 @@ import {
 } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
+import { Suspense } from 'react';
 import { sampleEntries } from '../domain/Entry';
+import { SearchQuery } from '../domain/SearchQuery';
 import { readMany } from '../infra/entryRepository';
-import { PostList } from './PostList';
+import { PostList, PostListSkelton } from './PostList';
 import { PostListHeader } from './PostListHeader';
+
+const PostListContainer = async ({
+  isLoggedIn = false,
+  searchQuery,
+  isPreviewMode = false,
+  isSelectMode = false,
+}: {
+  isLoggedIn?: boolean;
+  searchQuery?: SearchQuery | undefined;
+  isPreviewMode?: boolean;
+  isSelectMode?: boolean;
+}) => {
+  const entries = isLoggedIn
+    ? await readMany({
+        tag: searchQuery?.tag,
+        keyword: searchQuery?.keyword,
+        limit: 100,
+      })
+    : sampleEntries;
+
+  return (
+    <PostList
+      entries={entries}
+      searchQuery={{ keyword: searchQuery?.keyword, tag: searchQuery?.tag }}
+      isSelectMode={isSelectMode}
+      isPreviewMode={isPreviewMode}
+    />
+  );
+};
 
 export default async function IndexPage({
   searchParams,
@@ -27,12 +58,6 @@ export default async function IndexPage({
     data: { session },
   } = await supabase.auth.getSession();
 
-  const entries = await readMany({
-    tag: searchParams.tag,
-    keyword: searchParams.keyword,
-    limit: 100,
-  });
-
   const handleSignOut = async () => {
     'use server';
     const supabase = createServerActionClient({ cookies });
@@ -46,12 +71,14 @@ export default async function IndexPage({
       {!isPreviewMode && (
         <PostListHeader isSelectMode={isSelectMode} onSignOut={handleSignOut} />
       )}
-      <PostList
-        entries={session ? entries : sampleEntries}
-        searchQuery={{ keyword: searchParams.keyword, tag: searchParams.tag }}
-        isSelectMode={isSelectMode}
-        isPreviewMode={isPreviewMode}
-      />
+      <Suspense fallback={<PostListSkelton />}>
+        <PostListContainer
+          isLoggedIn={!!session}
+          searchQuery={{ keyword: searchParams.keyword, tag: searchParams.tag }}
+          isSelectMode={isSelectMode}
+          isPreviewMode={isPreviewMode}
+        />
+      </Suspense>
     </>
   );
 }
