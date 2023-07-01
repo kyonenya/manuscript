@@ -1,5 +1,5 @@
-import { Spinner } from './_components/Spinner';
 import { SimpleHeader } from './SimpleHeader';
+import { Spinner } from './_components/Spinner';
 
 export default function Loading() {
   return (

@@ -13,7 +13,7 @@ import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Entry } from '../domain/Entry';
 import { updateSearchParams } from '../domain/utils';
-import { AlertDialog } from './_components/AlertDialog';
+// import { AlertDialog } from './_components/AlertDialog';
 import { Button } from './_components/Button';
 import { HeaderContainer } from './_components/HeaderContainer';
 import { IconButton } from './_components/IconButton';
@@ -26,9 +26,9 @@ export const PostListHeader = (props: {
   isSelectMode?: boolean;
   isImported?: boolean;
   isImporting?: boolean;
-  onSignOut?: () => void;
-  onImport?: (props: { entries: Entry[] }) => void;
-  onDeleteAll?: () => void;
+  signOutAction?: () => void;
+  importAction?: (props: { entries: Entry[] }) => void;
+  deleteAllAction?: () => void;
 }) => {
   const router = useRouter();
   const pathname = usePathname();
@@ -45,35 +45,43 @@ export const PostListHeader = (props: {
         }
       >
         <div className="flex max-w-[300px] flex-col space-y-4">
-          <JsonImport
-            isImported={props.isImported}
-            isImporting={props.isImporting}
-            onImport={props.onImport}
-          />
-          <AlertDialog
-            headerText="Delete All Entries"
-            triggerButton={
-              <Button
-                variant={{ color: 'warning' }}
-                leftIcon={<TrashIcon />}
-                disabled={!props.onDeleteAll}
-              >
-                Delete All
-              </Button>
-            }
-            onSubmit={props.onDeleteAll}
-          />
+          <JsonImport importAction={props.importAction} />
+          <form>
+            {/* <AlertDialog
+              headerText="Delete All Entries"
+              triggerButton={
+                <Button
+                  variant={{ color: 'warning' }}
+                  leftIcon={<TrashIcon />}
+                  disabled={!props.deleteAllAction}
+                >
+                  Delete All
+                </Button>
+              }
+              submitAction={props.deleteAllAction}
+            /> */}
+            <Button
+              variant={{ color: 'danger' }}
+              leftIcon={<TrashIcon />}
+              disabled={!props.deleteAllAction}
+              formAction={props.deleteAllAction}
+            >
+              Delete All
+            </Button>
+          </form>
           <form>
             {props.isLoggedIn ? (
               <Button
                 leftIcon={<ArrowLeftOnRectangleIcon />}
-                formAction={props.onSignOut}
+                formAction={props.signOutAction}
               >
                 Sign Out
               </Button>
             ) : (
               <Link href="/login" passHref>
-                <Button leftIcon={<ArrowRightOnRectangleIcon />}>Sign In</Button>
+                <Button leftIcon={<ArrowRightOnRectangleIcon />}>
+                  Sign In
+                </Button>
               </Link>
             )}
           </form>

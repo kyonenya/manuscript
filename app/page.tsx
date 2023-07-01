@@ -2,11 +2,12 @@ import {
   createServerActionClient,
   createServerComponentClient,
 } from '@supabase/auth-helpers-nextjs';
+import { revalidatePath } from 'next/cache';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { Suspense } from 'react';
-import { sampleEntries } from '../domain/Entry';
-import { readMany } from '../infra/entryRepository';
+import { Entry, sampleEntries } from '../domain/Entry';
+import { createMany, deleteAll, readMany } from '../infra/entryRepository';
 import { PostList, PostListSkelton } from './PostList';
 import { PostListHeader } from './PostListHeader';
 
@@ -29,11 +30,23 @@ export default async function IndexPage({
   } = await supabase.auth.getSession();
   const isLoggedIn = !!session;
 
-  const handleSignOut = async () => {
+  const signOutAction = async () => {
     'use server';
     const supabase = createServerActionClient({ cookies });
     await supabase.auth.signOut();
     redirect('/login');
+  };
+
+  const importAction = async (props: { entries: Entry[] }) => {
+    'use server';
+    await createMany(props);
+    revalidatePath('/');
+  };
+
+  const deleteAllAction = async () => {
+    'use server';
+    await deleteAll();
+    revalidatePath('/');
   };
 
   const LazyPostList = async () => {
@@ -61,7 +74,9 @@ export default async function IndexPage({
         <PostListHeader
           isLoggedIn={isLoggedIn}
           isSelectMode={isSelectMode}
-          onSignOut={handleSignOut}
+          signOutAction={signOutAction}
+          importAction={importAction}
+          deleteAllAction={deleteAllAction}
         />
       )}
       <Suspense fallback={<PostListSkelton />}>

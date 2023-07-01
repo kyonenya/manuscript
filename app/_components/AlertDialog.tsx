@@ -23,6 +23,7 @@ export const AlertDialog = (props: {
   headerText: string;
   triggerButton: ReactElement;
   onSubmit?: () => void;
+  submitAction?: () => void;
 }) => {
   return (
     <Root>
@@ -44,10 +45,14 @@ export const AlertDialog = (props: {
               </Cancel>
               <Action asChild>
                 <Button
+                  type="submit"
                   variant={{ color: 'danger' }}
                   className="w-auto px-4"
-                  disabled={!props.onSubmit}
-                  onClick={props.onSubmit}
+                  // disabled={!props.onSubmit && !props.submitAction}
+                  // onClick={props.onSubmit}
+                  // formAction={(formData) => {
+                  //   props.submitAction?.();
+                  // }}
                 >
                   Delete
                 </Button>
