@@ -49,7 +49,7 @@ export const ArticleHeader = ({
 
   return (
     <HeaderContainer>
-      <IconButton onClick={() => router.back()}>
+      <IconButton onClick={router.back}>
         <ArrowLeftIcon />
       </IconButton>
 
@@ -63,15 +63,15 @@ export const ArticleHeader = ({
       >
         <div className="flex min-w-[300px] flex-col space-y-4">
           <input
+            name="createdAt"
             type="datetime-local"
-            {...register('createdAt')}
             className="mx-auto h-10 w-full rounded-md border border-gray-300 p-2 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-300"
           />
           <Select
+            name="tags"
             value={tags}
             onSelect={(tags) => setValue('tags', tags)}
             options={tagList}
-            {...register('tags')}
           />
           <AlertDialog
             headerText="Delete Entry"

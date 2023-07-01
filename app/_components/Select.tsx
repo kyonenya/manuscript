@@ -6,6 +6,7 @@ const toSelects = (values: string[]) =>
 
 export const Select = forwardRef(function _Select(
   props: {
+    name: string;
     value: string[];
     onSelect: (values: string[]) => void;
     options: string[];
@@ -16,7 +17,7 @@ export const Select = forwardRef(function _Select(
   return (
     <ReactSelect
       isMulti
-      name="tags"
+      name={props.name}
       value={toSelects(props.value)}
       onChange={(selects) => props.onSelect(selects.map((v) => v.value))}
       options={toSelects(props.options)}
