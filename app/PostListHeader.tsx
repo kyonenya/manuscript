@@ -2,12 +2,14 @@
 
 import {
   ArrowLeftOnRectangleIcon,
+  ArrowRightOnRectangleIcon,
   Cog8ToothIcon,
   EyeIcon,
   MagnifyingGlassIcon,
   Squares2X2Icon,
   TrashIcon,
 } from '@heroicons/react/24/solid';
+import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Entry } from '../domain/Entry';
 import { updateSearchParams } from '../domain/utils';
@@ -20,6 +22,7 @@ import { JsonImport } from './_components/JsonImport';
 import { Popover } from './_components/Popover';
 
 export const PostListHeader = (props: {
+  isLoggedIn?: boolean;
   isSelectMode?: boolean;
   isImported?: boolean;
   isImporting?: boolean;
@@ -61,12 +64,18 @@ export const PostListHeader = (props: {
             onSubmit={props.onDeleteAll}
           />
           <form>
-            <Button
-              leftIcon={<ArrowLeftOnRectangleIcon />}
-              formAction={props.onSignOut}
-            >
-              Sign Out
-            </Button>
+            {props.isLoggedIn ? (
+              <Button
+                leftIcon={<ArrowLeftOnRectangleIcon />}
+                formAction={props.onSignOut}
+              >
+                Sign Out
+              </Button>
+            ) : (
+              <Link href="/login" passHref>
+                <Button leftIcon={<ArrowRightOnRectangleIcon />}>Sign In</Button>
+              </Link>
+            )}
           </form>
         </div>
       </Popover>
