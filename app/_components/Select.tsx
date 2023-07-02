@@ -1,5 +1,5 @@
 import { ForwardedRef, forwardRef } from 'react';
-import ReactSelect from 'react-select';
+import CreatableSelect from 'react-select/creatable';
 
 const toSelects = (values: string[]) =>
   values.map((value) => ({ value, label: value }));
@@ -15,7 +15,7 @@ export const Select = forwardRef(function _Select(
   ref: ForwardedRef<any>
 ) {
   return (
-    <ReactSelect
+    <CreatableSelect
       isMulti
       name={props.name}
       value={toSelects(props.value)}
