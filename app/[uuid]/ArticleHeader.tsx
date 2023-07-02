@@ -116,3 +116,26 @@ export const ArticleHeader = ({
     </HeaderContainer>
   );
 };
+
+export const ArticleHeaderEmpty = () => {
+  return (
+    <HeaderContainer>
+      <IconButton>
+        <ArrowLeftIcon />
+      </IconButton>
+
+      <Button rightIcon={<ChevronDownIcon />} className="w-auto">
+        <div className="w-20" />
+      </Button>
+
+      <div className="flex space-x-2">
+        <IconCheckbox aria-label="Like Entry">
+          <StarIcon />
+        </IconCheckbox>
+        <IconButton aria-label="Update Entry">
+          <CheckIcon />
+        </IconButton>
+      </div>
+    </HeaderContainer>
+  );
+};

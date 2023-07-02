@@ -14,7 +14,7 @@ import { IconButton } from './IconButton';
 export const Popover = (props: {
   triggerButton: ReactElement;
   side?: PopperContentProps['side'];
-  children: ReactNode;
+  children?: ReactNode;
 }) => (
   <Root>
     <Trigger asChild>{props.triggerButton}</Trigger>
