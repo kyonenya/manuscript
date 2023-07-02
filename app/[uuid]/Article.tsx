@@ -1,7 +1,7 @@
+import dayjs from 'dayjs';
 import { PropsWithChildren } from 'react';
 import { twMerge } from 'tailwind-merge';
 import { Entry } from '../../domain/Entry';
-import dayjs from '../../infra/dayjs';
 import { MarkdownText } from '../_components/MarkdownText';
 import { Skelton } from '../_components/Skelton';
 import { Tags } from '../_components/Tags';
