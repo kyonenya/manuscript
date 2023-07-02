@@ -6,7 +6,7 @@
 module.exports = {
   experimental: { serverActions: true },
   eslint: {
-    dirs: ['app', 'componnents', 'domain', 'hooks', 'infra'],
+    dirs: ['app', 'domain', 'infra'],
     ignoreDuringBuilds: true,
   },
 };

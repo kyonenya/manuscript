@@ -3,7 +3,7 @@
 import { ArrowUpIcon, CheckIcon } from '@heroicons/react/24/solid';
 import { DayOneData, toEntry } from '../../domain/DayOneEntry';
 import { Entry } from '../../domain/Entry';
-import { useJsonImport } from '../../hooks/useJsonImport';
+import { useJsonImport } from '../_hooks/useJsonImport';
 import { IconButton } from './IconButton';
 import { Spinner } from './Spinner';
 
