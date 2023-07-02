@@ -28,7 +28,7 @@ export const newEntry = (props: {
   };
 };
 
-export const tagHistory = (posts: Entry[]): string[] => [
+export const extractTagHistory = (posts: Entry[]): string[] => [
   ...new Set(posts.map((post) => post.tags).flat()),
 ]; // uniq
 

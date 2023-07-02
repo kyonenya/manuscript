@@ -1,6 +1,6 @@
 import { Prisma } from '@prisma/client';
 import { Entry as PrismaEntry, Tag, PrismaPromise } from '@prisma/client';
-import { Entry, newEntry, tagHistory } from '../domain/Entry';
+import { Entry, newEntry, extractTagHistory } from '../domain/Entry';
 import { entriesTagToABs } from '../domain/Tag';
 import { prisma } from './prisma';
 
@@ -87,7 +87,7 @@ export const createMany = async (props: {
   entries: Entry[];
 }): Promise<number[]> => {
   await prisma.tag.createMany({
-    data: tagHistory(props.entries).map((tag) => ({ name: tag })),
+    data: extractTagHistory(props.entries).map((tag) => ({ name: tag })),
   });
   const tags = await prisma.tag.findMany({});
 

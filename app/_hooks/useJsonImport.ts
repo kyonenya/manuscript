@@ -4,11 +4,11 @@ import { useState } from 'react';
 
 export const useJsonImport = <Data>(): {
   data: Data | undefined;
-  load: (file: File) => void;
+  setFile: (file: File) => void;
 } => {
   const [data, setData] = useState<Data>();
 
-  const load = (file: File) => {
+  const setFile = (file: File) => {
     const fileReader = new FileReader();
     fileReader.onload = (e) => {
       if (!e.target?.result) return;
@@ -18,5 +18,5 @@ export const useJsonImport = <Data>(): {
     fileReader.readAsText(file);
   };
 
-  return { data, load };
+  return { data, setFile };
 };

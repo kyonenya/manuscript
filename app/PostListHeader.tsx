@@ -11,20 +11,19 @@ import {
 } from '@heroicons/react/24/solid';
 import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { experimental_useFormStatus as useFormStatus } from 'react-dom';
 import { Entry } from '../domain/Entry';
 import { updateSearchParams } from '../domain/utils';
-// import { AlertDialog } from './_components/AlertDialog';
 import { Button } from './_components/Button';
 import { HeaderContainer } from './_components/HeaderContainer';
 import { IconButton } from './_components/IconButton';
 import { Input } from './_components/Input';
 import { JsonImport } from './_components/JsonImport';
 import { Popover } from './_components/Popover';
+import { Spinner } from './_components/Spinner';
 
 export const PostListHeader = (props: {
   isSelectMode?: boolean;
-  isImported?: boolean;
-  isImporting?: boolean;
   signOutAction?: () => void;
   importAction?: (props: { entries: Entry[] }) => void;
   deleteAllAction?: () => void;
@@ -32,6 +31,30 @@ export const PostListHeader = (props: {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+
+  const DeleteAllFormButton = () => {
+    const { pending } = useFormStatus();
+    return (
+      <Button
+        variant={{ color: 'warning' }}
+        leftIcon={
+          pending ? (
+            <Spinner className="m-0 mr-2 fill-red-500 dark:fill-rose-500" />
+          ) : (
+            <TrashIcon />
+          )
+        }
+        disabled={pending || !props.deleteAllAction}
+        formAction={() => {
+          if (!window.confirm("Are you sure? You can't undo this action."))
+            return;
+          props.deleteAllAction?.();
+        }}
+      >
+        Delete All
+      </Button>
+    );
+  };
 
   return (
     <HeaderContainer>
@@ -44,22 +67,11 @@ export const PostListHeader = (props: {
         }
       >
         <div className="flex max-w-[300px] flex-col space-y-4">
-          <JsonImport importAction={props.importAction} />
           <form>
-            <Button
-              variant={{ color: 'warning' }}
-              leftIcon={<TrashIcon />}
-              disabled={!props.deleteAllAction}
-              formAction={() => {
-                if (
-                  !window.confirm("Are you sure? You can't undo this action.")
-                )
-                  return;
-                props.deleteAllAction?.();
-              }}
-            >
-              Delete All
-            </Button>
+            <JsonImport importAction={props.importAction} />
+          </form>
+          <form>
+            <DeleteAllFormButton />
           </form>
           <form>
             {props.signOutAction ? (

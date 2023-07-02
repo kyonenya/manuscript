@@ -8,6 +8,7 @@ import {
   StarIcon,
 } from '@heroicons/react/24/solid';
 import { useRouter } from 'next/navigation';
+import { experimental_useFormStatus as useFormStatus } from 'react-dom';
 import { useForm, useWatch } from 'react-hook-form';
 import { Entry } from '../../domain/Entry';
 import dayjs from '../../infra/dayjs';
@@ -23,14 +24,12 @@ type Form = Pick<Entry, 'createdAt' | 'tags' | 'starred'>;
 
 export const ArticleHeader = ({
   entry,
-  tagList = [],
-  isLoading = false,
+  tagHistory = [],
   updateAction,
   deleteAction,
 }: {
   entry: Entry;
-  tagList?: string[];
-  isLoading?: boolean;
+  tagHistory?: string[];
   updateAction?: (props: { entry: Entry }) => void;
   deleteAction?: () => Promise<void>;
 }) => {
@@ -43,6 +42,53 @@ export const ArticleHeader = ({
     },
   });
   const tags = useWatch({ name: 'tags', control });
+
+  const DeleteFormButton = () => {
+    const { pending } = useFormStatus();
+    return (
+      <Button
+        variant={{ color: 'warning' }}
+        leftIcon={
+          pending ? (
+            <Spinner className="m-0 mr-2 fill-red-500 dark:fill-rose-500" />
+          ) : (
+            <TrashIcon />
+          )
+        }
+        disabled={pending || !deleteAction}
+        formAction={async () => {
+          if (!window.confirm("Are you sure? You can't undo this action."))
+            return;
+          await deleteAction?.();
+        }}
+      >
+        Delete
+      </Button>
+    );
+  };
+
+  const UpdateFormButton = () => {
+    const { pending } = useFormStatus();
+    return (
+      <IconButton
+        aria-label="Update Entry"
+        disabled={pending || !updateAction}
+        formAction={() =>
+          handleSubmit((formData: Form) =>
+            updateAction?.({
+              entry: {
+                ...entry,
+                ...formData,
+                createdAt: dayjs(formData.createdAt).tz().format(),
+              },
+            })
+          )()
+        }
+      >
+        {pending ? <Spinner /> : <CheckIcon />}
+      </IconButton>
+    );
+  };
 
   return (
     <HeaderContainer>
@@ -66,25 +112,12 @@ export const ArticleHeader = ({
           />
           <Select
             value={tags}
+            choices={tagHistory}
             onSelect={(tags) => setValue('tags', tags)}
-            options={tagList}
             {...register('tags')}
           />
           <form>
-            <Button
-              variant={{ color: 'warning' }}
-              leftIcon={<TrashIcon />}
-              disabled={!deleteAction}
-              formAction={async () => {
-                if (
-                  !window.confirm("Are you sure? You can't undo this action.")
-                )
-                  return;
-                await deleteAction?.();
-              }}
-            >
-              Delete
-            </Button>
+            <DeleteFormButton />
           </form>
         </div>
       </Popover>
@@ -94,23 +127,7 @@ export const ArticleHeader = ({
           <StarIcon />
         </IconCheckbox>
         <form>
-          <IconButton
-            aria-label="Update Entry"
-            disabled={!updateAction}
-            formAction={() =>
-              handleSubmit((formData: Form) =>
-                updateAction?.({
-                  entry: {
-                    ...entry,
-                    ...formData,
-                    createdAt: dayjs(formData.createdAt).tz().format(),
-                  },
-                })
-              )()
-            }
-          >
-            {isLoading ? <Spinner /> : <CheckIcon />}
-          </IconButton>
+          <UpdateFormButton />
         </form>
       </div>
     </HeaderContainer>

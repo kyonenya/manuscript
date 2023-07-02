@@ -2,7 +2,7 @@ import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { revalidatePath } from 'next/cache';
 import { cookies } from 'next/headers';
 import { notFound, redirect } from 'next/navigation';
-import { Entry, sampleEntries, tagHistory } from '../../domain/Entry';
+import { Entry, sampleEntries, extractTagHistory } from '../../domain/Entry';
 import {
   deleteOne,
   readOne,
@@ -23,6 +23,16 @@ export default async function ArticlePage({
   } = await supabase.auth.getSession();
   const isLoggedIn = !!session;
 
+  const entry = isLoggedIn
+    ? await readOne({ uuid })
+    : sampleEntries.find((entry) => entry.uuid === uuid.toUpperCase());
+
+  if (!entry) notFound();
+
+  const tagHistory = isLoggedIn
+    ? await readTagList()
+    : extractTagHistory(sampleEntries);
+
   const updateAction = async (props: { entry: Entry }) => {
     'use server';
     await updateOne(props);
@@ -37,19 +47,11 @@ export default async function ArticlePage({
     redirect('/');
   };
 
-  const entry = isLoggedIn
-    ? await readOne({ uuid })
-    : sampleEntries.find((entry) => entry.uuid === uuid.toUpperCase());
-
-  if (!entry) notFound();
-
-  const tagList = isLoggedIn ? await readTagList() : tagHistory(sampleEntries);
-
   return (
     <>
       <ArticleHeader
         entry={entry}
-        tagList={tagList}
+        tagHistory={tagHistory}
         updateAction={isLoggedIn ? updateAction : undefined}
         deleteAction={isLoggedIn ? deleteAction : undefined}
       />
