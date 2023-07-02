@@ -1,5 +1,5 @@
 import { ArticleSkelton } from './Article';
-import { ArticleHeader, ArticleHeaderEmpty } from './ArticleHeader';
+import { ArticleHeaderEmpty } from './ArticleHeader';
 
 export default function Loading() {
   return (

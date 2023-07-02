@@ -35,8 +35,8 @@ export const Article = (props: { entry: Entry }) => {
 
 export const ArticleSkelton = () => (
   <ArticleContainer>
-    <Skelton className="mb-3" />
-    <Skelton className="mb-3" />
+    <Skelton className="mb-4" />
+    <Skelton className="mb-4" />
     <Skelton />
   </ArticleContainer>
 );
