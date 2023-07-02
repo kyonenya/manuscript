@@ -72,11 +72,10 @@ export default async function IndexPage({
     <>
       {!isPreviewMode && (
         <PostListHeader
-          isLoggedIn={isLoggedIn}
           isSelectMode={isSelectMode}
-          signOutAction={signOutAction}
-          importAction={importAction}
-          deleteAllAction={deleteAllAction}
+          signOutAction={isLoggedIn ? signOutAction : undefined}
+          importAction={isLoggedIn ? importAction : undefined}
+          deleteAllAction={isLoggedIn ? deleteAllAction : undefined}
         />
       )}
       <Suspense fallback={<PostListSkelton />}>

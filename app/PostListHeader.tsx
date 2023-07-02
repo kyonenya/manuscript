@@ -22,7 +22,6 @@ import { JsonImport } from './_components/JsonImport';
 import { Popover } from './_components/Popover';
 
 export const PostListHeader = (props: {
-  isLoggedIn?: boolean;
   isSelectMode?: boolean;
   isImported?: boolean;
   isImporting?: boolean;
@@ -47,30 +46,23 @@ export const PostListHeader = (props: {
         <div className="flex max-w-[300px] flex-col space-y-4">
           <JsonImport importAction={props.importAction} />
           <form>
-            {/* <AlertDialog
-              headerText="Delete All Entries"
-              triggerButton={
-                <Button
-                  variant={{ color: 'warning' }}
-                  leftIcon={<TrashIcon />}
-                  disabled={!props.deleteAllAction}
-                >
-                  Delete All
-                </Button>
-              }
-              submitAction={props.deleteAllAction}
-            /> */}
             <Button
-              variant={{ color: 'danger' }}
+              variant={{ color: 'warning' }}
               leftIcon={<TrashIcon />}
               disabled={!props.deleteAllAction}
-              formAction={props.deleteAllAction}
+              formAction={() => {
+                if (
+                  !window.confirm("Are you sure? You can't undo this action.")
+                )
+                  return;
+                props.deleteAllAction?.();
+              }}
             >
               Delete All
             </Button>
           </form>
           <form>
-            {props.isLoggedIn ? (
+            {props.signOutAction ? (
               <Button
                 leftIcon={<ArrowLeftOnRectangleIcon />}
                 formAction={props.signOutAction}
@@ -79,7 +71,10 @@ export const PostListHeader = (props: {
               </Button>
             ) : (
               <Link href="/login" passHref>
-                <Button leftIcon={<ArrowRightOnRectangleIcon />}>
+                <Button
+                  variant={{ color: 'emerald' }}
+                  leftIcon={<ArrowRightOnRectangleIcon />}
+                >
                   Sign In
                 </Button>
               </Link>
