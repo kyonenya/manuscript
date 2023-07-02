@@ -109,7 +109,7 @@ export const PostListHeader = (props: {
       />
 
       <div className="flex space-x-2">
-        {props.isSelectMode && (
+        {props.isSelectMode ? (
           <IconButton
             aria-label="Preview Mode"
             onClick={() =>
@@ -125,6 +125,8 @@ export const PostListHeader = (props: {
           >
             <EyeIcon />
           </IconButton>
+        ) : (
+          <div aria-hidden className="w-10" />
         )}
         <IconButton
           aria-label="Toggle Select Mode"

@@ -5,6 +5,7 @@ import { generateSummaryEntity, SummaryEntity } from 'search-summary';
 import { twMerge } from 'tailwind-merge';
 import { Entry } from '../domain/Entry';
 import { SearchQuery } from '../domain/SearchQuery';
+import { Skelton } from './_components/Skelton';
 import { Tags } from './_components/Tags';
 
 const Summary = (props: { text: string }) => {
@@ -41,6 +42,8 @@ const SearchSummary = (props: { summary: SummaryEntity }) => {
   );
 };
 
+const listItemClassName = 'flex flex-col rounded-xl p-6 shadow-lg text-left';
+
 export const ListItem = (props: {
   entry: Entry;
   searchQuery: SearchQuery | undefined;
@@ -63,9 +66,9 @@ export const ListItem = (props: {
     );
 
   return (
-    <div
+    <button
       className={twMerge(
-        'flex flex-col rounded-xl p-6 shadow-lg',
+        listItemClassName,
         props.isSelected && 'bg-yellow-100 dark:bg-gray-600',
         !props.isSelected && 'bg-white dark:bg-gray-800'
       )}
@@ -86,6 +89,17 @@ export const ListItem = (props: {
         {props.entry.starred && <StarIcon className="w-5 text-yellow-400" />}
         <Tags tags={entry.tags} searchedTag={props.searchQuery?.tag} />
       </div>
-    </div>
+    </button>
   );
 };
+
+export const ListItemSkelton = () => (
+  <button
+    className={twMerge(
+      listItemClassName,
+      'h-[150px] justify-center bg-white dark:bg-gray-800 lg:h-[200px]'
+    )}
+  >
+    <Skelton />
+  </button>
+);

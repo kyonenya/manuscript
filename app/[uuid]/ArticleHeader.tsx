@@ -92,9 +92,12 @@ export const ArticleHeader = ({
 
   return (
     <HeaderContainer>
-      <IconButton onClick={router.back}>
-        <ArrowLeftIcon />
-      </IconButton>
+      <div className="flex space-x-2">
+        <IconButton onClick={router.back}>
+          <ArrowLeftIcon />
+        </IconButton>
+        <div aria-hidden className="w-10" />
+      </div>
 
       <Popover
         triggerButton={
@@ -137,9 +140,12 @@ export const ArticleHeader = ({
 export const ArticleHeaderEmpty = () => {
   return (
     <HeaderContainer>
-      <IconButton>
-        <ArrowLeftIcon />
-      </IconButton>
+      <div className="flex space-x-2">
+        <IconButton>
+          <ArrowLeftIcon />
+        </IconButton>
+        <div aria-hidden className="w-10" />
+      </div>
 
       <Button rightIcon={<ChevronDownIcon />} className="w-auto">
         <div className="w-20" />
