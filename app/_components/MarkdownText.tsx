@@ -5,11 +5,7 @@ const customTheme: Record<
   string,
   (props: { children?: ReactNode; [key: string]: unknown }) => ReactElement
 > = {
-  p: (props) => (
-    <p className="pb-2 text-justify" style={{ textIndent: '1em' }}>
-      {props.children}
-    </p>
-  ),
+  p: (props) => <p className="pb-2 text-justify indent-4">{props.children}</p>,
   h1: (props) => <h1 className="my-4 text-lg">{props.children}</h1>,
   h2: (props) => <h2 className="my-4 text-lg font-normal">{props.children}</h2>,
   h3: (props) => <h3 className="text-md my-3 font-normal">{props.children}</h3>,
