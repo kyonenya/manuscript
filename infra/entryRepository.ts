@@ -117,11 +117,11 @@ export const createMany = async (props: {
   return [bp.count, tagsCount ?? 0];
 };
 
-const disconnectAllTags = async (props: {
+const disconnectTags = async (props: {
   uuid: string;
 }): Promise<PrismaEntry & { tags: Tag[] }> => {
   return await prisma.entry.update({
-    where: { uuid: props.uuid },
+    where: { uuid: props.uuid.toUpperCase() },
     data: { tags: { set: [] } },
     include: { tags: true },
   });
@@ -129,9 +129,9 @@ const disconnectAllTags = async (props: {
 
 export const updateOne = async (props: { entry: Entry }): Promise<Entry> => {
   const { createdAt, modifiedAt, tags, ...rest } = props.entry;
-  await disconnectAllTags({ uuid: props.entry.uuid });
+  await disconnectTags({ uuid: props.entry.uuid.toUpperCase() });
   const row = await prisma.entry.update({
-    where: { uuid: props.entry.uuid },
+    where: { uuid: props.entry.uuid.toUpperCase() },
     data: {
       ...rest,
       created_at: createdAt,
@@ -149,9 +149,9 @@ export const updateOne = async (props: { entry: Entry }): Promise<Entry> => {
 };
 
 export const deleteOne = async (props: { uuid: string }): Promise<Entry> => {
-  await disconnectAllTags(props);
+  await disconnectTags(props);
   const row = await prisma.entry.delete({
-    where: { uuid: props.uuid },
+    where: { uuid: props.uuid.toUpperCase() },
     include: { tags: true },
   });
   return toEntry(row);

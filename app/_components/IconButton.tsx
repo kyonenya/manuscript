@@ -7,6 +7,9 @@ import {
 } from 'react';
 import { twMerge } from 'tailwind-merge';
 
+export const iconButtonClassName =
+  'h-10 w-10 rounded-md border border-transparent bg-[#edf2f7] transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 enabled:hover:bg-gray-200 disabled:cursor-not-allowed disabled:opacity-60 dark:bg-gray-700 enabled:dark:hover:bg-gray-600';
+
 /**
  * Icon Button
  *
@@ -22,10 +25,7 @@ export const IconButton = forwardRef(function _IconButton(
   } & ComponentProps<'button'>,
   ref: ForwardedRef<HTMLButtonElement>
 ) {
-  const className = twMerge(
-    'h-10 w-10 rounded-md border border-transparent bg-[#edf2f7] transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 enabled:hover:bg-gray-200 disabled:cursor-not-allowed disabled:opacity-60 dark:bg-gray-700 enabled:dark:hover:bg-gray-600',
-    props.className
-  );
+  const className = twMerge(iconButtonClassName, props.className);
 
   return (
     <button {...props} className={className} ref={ref}>
