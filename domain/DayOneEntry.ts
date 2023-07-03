@@ -34,7 +34,7 @@ export const unescape = (text: string) =>
 
 export const toEntry = (row: DayOneEntry) =>
   newEntry({
-    text: unescape(row.text ?? ''),
+    text: unescape(row.text),
     tags: row.tags,
     starred: row.starred,
     uuid: row.uuid,

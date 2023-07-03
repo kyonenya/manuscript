@@ -1,6 +1,6 @@
 import { Prisma } from '@prisma/client';
 import { Entry as PrismaEntry, Tag, PrismaPromise } from '@prisma/client';
-import { Entry, newEntry, tagHistory } from '../domain/Entry';
+import { Entry, newEntry, extractTagHistory } from '../domain/Entry';
 import { entriesTagToABs } from '../domain/Tag';
 import { prisma } from './prisma';
 
@@ -18,53 +18,8 @@ const toEntry = (row: PrismaEntry & { tags: Tag[] }): Entry =>
  * Query
  */
 export const readMany = async (props: {
-  limit: number;
-  offset?: number;
-}): Promise<Entry[]> => {
-  const rows = await prisma.entry.findMany({
-    take: props.limit,
-    skip: props.offset,
-    orderBy: { created_at: 'desc' },
-    include: { tags: true },
-  });
-  return rows.filter((row) => row != null).map((row) => toEntry(row));
-};
-
-export const readByKeyword = async (props: {
+  tag?: string;
   keyword?: string;
-  limit: number;
-  offset?: number;
-}): Promise<Entry[]> => {
-  const rows = await prisma.entry.findMany({
-    where: { text: { contains: props.keyword } },
-    take: props.limit,
-    skip: props.offset,
-    orderBy: { created_at: 'desc' },
-    include: { tags: true },
-  });
-  return rows.map((row) => toEntry(row));
-};
-
-export const readByTag = async (props: {
-  tag: string;
-  keyword?: string;
-  limit: number;
-  offset?: number;
-}): Promise<Entry[]> => {
-  const rows = await prisma.entry.findMany({
-    where: {
-      text: { contains: props.keyword },
-      tags: { some: { name: { equals: props.tag } } },
-    },
-    take: props.limit,
-    skip: props.offset,
-    orderBy: { created_at: 'desc' },
-    include: { tags: true },
-  });
-  return rows.map((row) => toEntry(row));
-};
-
-export const readByDate = async (props: {
   since?: Date;
   until?: Date;
   limit: number;
@@ -72,10 +27,16 @@ export const readByDate = async (props: {
 }): Promise<Entry[]> => {
   const rows = await prisma.entry.findMany({
     where: {
-      created_at: {
-        gte: props.since,
-        lt: props.until,
-      },
+      ...(props.keyword ? { text: { contains: props.keyword } } : {}),
+      ...(props.tag ? { tags: { some: { name: { equals: props.tag } } } } : {}),
+      ...(props.since || props.until
+        ? {
+            created_at: {
+              ...(props.since ? { gte: props.since } : {}),
+              ...(props.until ? { lt: props.until } : {}),
+            },
+          }
+        : {}),
     },
     take: props.limit,
     skip: props.offset,
@@ -89,7 +50,7 @@ export const readOne = async (props: {
   uuid: string;
 }): Promise<Entry | undefined> => {
   const row = await prisma.entry.findUnique({
-    where: { uuid: props.uuid },
+    where: { uuid: props.uuid.toUpperCase() },
     include: { tags: true },
   });
   return row ? toEntry(row) : undefined;
@@ -126,7 +87,7 @@ export const createMany = async (props: {
   entries: Entry[];
 }): Promise<number[]> => {
   await prisma.tag.createMany({
-    data: tagHistory(props.entries).map((tag) => ({ name: tag })),
+    data: extractTagHistory(props.entries).map((tag) => ({ name: tag })),
   });
   const tags = await prisma.tag.findMany({});
 
@@ -156,11 +117,11 @@ export const createMany = async (props: {
   return [bp.count, tagsCount ?? 0];
 };
 
-const disconnectAllTags = async (props: {
+const disconnectTags = async (props: {
   uuid: string;
 }): Promise<PrismaEntry & { tags: Tag[] }> => {
   return await prisma.entry.update({
-    where: { uuid: props.uuid },
+    where: { uuid: props.uuid.toUpperCase() },
     data: { tags: { set: [] } },
     include: { tags: true },
   });
@@ -168,9 +129,9 @@ const disconnectAllTags = async (props: {
 
 export const updateOne = async (props: { entry: Entry }): Promise<Entry> => {
   const { createdAt, modifiedAt, tags, ...rest } = props.entry;
-  await disconnectAllTags({ uuid: props.entry.uuid });
+  await disconnectTags({ uuid: props.entry.uuid.toUpperCase() });
   const row = await prisma.entry.update({
-    where: { uuid: props.entry.uuid },
+    where: { uuid: props.entry.uuid.toUpperCase() },
     data: {
       ...rest,
       created_at: createdAt,
@@ -188,9 +149,9 @@ export const updateOne = async (props: { entry: Entry }): Promise<Entry> => {
 };
 
 export const deleteOne = async (props: { uuid: string }): Promise<Entry> => {
-  await disconnectAllTags(props);
+  await disconnectTags(props);
   const row = await prisma.entry.delete({
-    where: { uuid: props.uuid },
+    where: { uuid: props.uuid.toUpperCase() },
     include: { tags: true },
   });
   return toEntry(row);

@@ -3,7 +3,6 @@ module.exports = {
   content: [
     './app/**/*.{js,ts,jsx,tsx,mdx}',
     './pages/**/*.{js,ts,jsx,tsx,mdx}',
-    './components/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
     screens: {
@@ -12,7 +11,11 @@ module.exports = {
       lg: '62em', // equivalent to 992px
       xl: '80em', // equivalent to 1280px
     },
-    extend: {},
+    extend: {
+      screens: {
+        print: { raw: 'print' }, // => @media print { ... }
+      },
+    },
   },
   plugins: [],
 };
