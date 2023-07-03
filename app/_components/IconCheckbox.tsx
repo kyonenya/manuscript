@@ -31,7 +31,7 @@ export const IconCheckbox = forwardRef(function _IconCheckbox(
         tabIndex={0}
         className={twMerge(
           iconButtonClassName,
-          'grid cursor-pointer place-items-center text-gray-300 dark:text-gray-400 peer-checked:text-yellow-400 dark:peer-checked:dark:text-yellow-500'
+          'grid cursor-pointer place-items-center text-gray-300 peer-checked:text-yellow-400 dark:text-gray-400 dark:peer-checked:dark:text-yellow-500'
         )}
       >
         {cloneElement(children, {

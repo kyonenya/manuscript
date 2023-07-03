@@ -11,7 +11,9 @@ export const Preview = (props: { entry: Entry }) => {
           {dayjs(props.entry.createdAt).format('YYYY-MM-DD HH:mm')}
         </p>
 
-        {props.entry.starred && <StarIcon className="w-5 text-yellow-400 dark:text-yellow-500" />}
+        {props.entry.starred && (
+          <StarIcon className="w-5 text-yellow-400 dark:text-yellow-500" />
+        )}
 
         <div className="flex flex-row space-x-2">
           {props.entry.tags.map((tag) => (
