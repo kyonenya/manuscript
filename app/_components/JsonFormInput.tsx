@@ -8,7 +8,7 @@ import { useJsonImport } from '../_hooks/useJsonImport';
 import { IconButton } from './IconButton';
 import { Spinner } from './Spinner';
 
-export const JsonImport = ({
+export const JsonFormInput = ({
   importAction,
 }: {
   importAction?: (props: { entries: Entry[] }) => void;

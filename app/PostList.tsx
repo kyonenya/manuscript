@@ -1,5 +1,6 @@
 'use client';
 
+import { InboxIcon } from '@heroicons/react/24/solid';
 import { PropsWithChildren, useState } from 'react';
 import { Entry } from '../domain/Entry';
 import { SearchQuery } from '../domain/SearchQuery';
@@ -37,7 +38,7 @@ export const PostList = ({
 
   return (
     <PostListContainer>
-      {entries &&
+      {entries.length > 0 &&
         entries
           .filter(
             (entry) =>
@@ -64,6 +65,17 @@ export const PostList = ({
               key={entry.uuid}
             />
           ))}
+      {entries.length === 0 && (
+        <div className="col-span-2 py-6 text-center text-gray-500 dark:text-gray-300">
+          <div className="flex flex-col items-center justify-center space-y-4">
+            <InboxIcon className="w-10" />
+            <h2 className="text-lg font-semibold">No Posts Yet</h2>
+            <p className="text-gray-400 dark:text-gray-400">
+              There are no posts available yet. Please import your posts.
+            </p>
+          </div>
+        </div>
+      )}
     </PostListContainer>
   );
 };

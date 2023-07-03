@@ -17,7 +17,7 @@ import { updateSearchParams } from '../domain/utils';
 import { Button } from './_components/Button';
 import { IconButton } from './_components/IconButton';
 import { Input } from './_components/Input';
-import { JsonImport } from './_components/JsonImport';
+import { JsonFormInput } from './_components/JsonFormInput';
 import { Popover } from './_components/Popover';
 import { Spinner } from './_components/Spinner';
 import { HeaderContainer, IconsContainer } from './_components/containers';
@@ -68,7 +68,7 @@ export const PostListHeader = (props: {
       >
         <div className="flex max-w-[300px] flex-col space-y-4">
           <form>
-            <JsonImport importAction={props.importAction} />
+            <JsonFormInput importAction={props.importAction} />
           </form>
           <form>
             <DeleteAllFormButton />

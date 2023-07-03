@@ -13,7 +13,9 @@ export default function NotFound() {
       <SimpleHeader />
       <div className="container mx-auto my-auto flex items-center px-6 py-12 lg:py-20">
         <div className="mx-auto flex max-w-sm flex-col items-center text-center">
-          <p className="text-md font-medium text-teal-500">404 error</p>
+          <p className="text-md font-medium text-blue-500 dark:text-blue-400">
+            404 error
+          </p>
           <h1 className="mt-3 text-2xl font-semibold text-gray-800 dark:text-white md:text-3xl">
             Page not found
           </h1>
@@ -22,10 +24,7 @@ export default function NotFound() {
           </p>
           <div className="mt-6 flex w-full items-center justify-center">
             <Link href="/" passHref>
-              <Button
-                variant={{ color: 'emerald' }}
-                className="w-auto px-5 py-2"
-              >
+              <Button variant={{ color: 'blue' }} className="w-auto px-5 py-2">
                 Back to home
               </Button>
             </Link>

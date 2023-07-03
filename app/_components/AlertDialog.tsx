@@ -48,11 +48,9 @@ export const AlertDialog = (props: {
                   type="submit"
                   variant={{ color: 'danger' }}
                   className="w-auto px-4"
-                  // disabled={!props.onSubmit && !props.submitAction}
-                  // onClick={props.onSubmit}
-                  // formAction={(formData) => {
-                  //   props.submitAction?.();
-                  // }}
+                  disabled={!props.onSubmit && !props.submitAction}
+                  onClick={props.onSubmit}
+                  formAction={props.submitAction}
                 >
                   Delete
                 </Button>
