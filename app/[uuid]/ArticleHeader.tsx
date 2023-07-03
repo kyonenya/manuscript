@@ -13,12 +13,12 @@ import { useForm, useWatch } from 'react-hook-form';
 import { Entry } from '../../domain/Entry';
 import dayjs from '../../infra/dayjs';
 import { Button } from '../_components/Button';
-import { HeaderContainer } from '../_components/HeaderContainer';
 import { IconButton } from '../_components/IconButton';
 import { IconCheckbox } from '../_components/IconCheckbox';
 import { Popover } from '../_components/Popover';
 import { Select } from '../_components/Select';
 import { Spinner } from '../_components/Spinner';
+import { HeaderContainer, IconsContainer } from '../_components/containers';
 
 type Form = Pick<Entry, 'createdAt' | 'tags' | 'starred'>;
 
@@ -92,12 +92,12 @@ export const ArticleHeader = ({
 
   return (
     <HeaderContainer>
-      <div className="flex space-x-2">
+      <IconsContainer>
         <IconButton onClick={router.back}>
           <ArrowLeftIcon />
         </IconButton>
         <div aria-hidden className="w-10" />
-      </div>
+      </IconsContainer>
 
       <Popover
         triggerButton={
@@ -125,14 +125,14 @@ export const ArticleHeader = ({
         </div>
       </Popover>
 
-      <div className="flex space-x-2">
+      <IconsContainer>
         <IconCheckbox aria-label="Like Entry" {...register('starred')}>
           <StarIcon />
         </IconCheckbox>
         <form>
           <UpdateFormButton />
         </form>
-      </div>
+      </IconsContainer>
     </HeaderContainer>
   );
 };
@@ -140,25 +140,25 @@ export const ArticleHeader = ({
 export const ArticleHeaderEmpty = () => {
   return (
     <HeaderContainer>
-      <div className="flex space-x-2">
+      <IconsContainer>
         <IconButton>
           <ArrowLeftIcon />
         </IconButton>
         <div aria-hidden className="w-10" />
-      </div>
+      </IconsContainer>
 
       <Button rightIcon={<ChevronDownIcon />} className="w-auto">
         <div className="w-20" />
       </Button>
 
-      <div className="flex space-x-2">
+      <IconsContainer>
         <IconCheckbox aria-label="Like Entry">
           <StarIcon />
         </IconCheckbox>
         <IconButton aria-label="Update Entry">
           <CheckIcon />
         </IconButton>
-      </div>
+      </IconsContainer>
     </HeaderContainer>
   );
 };

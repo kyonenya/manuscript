@@ -86,7 +86,7 @@ export const ListItem = (props: {
         <p className="text-gray-600 dark:text-gray-400">
           {dayjs(entry.createdAt).format('YYYY-MM-DD')}
         </p>
-        {props.entry.starred && <StarIcon className="w-5 text-yellow-400" />}
+        {props.entry.starred && <StarIcon className="w-5 text-yellow-400 dark:text-yellow-500" />}
         <Tags tags={entry.tags} searchedTag={props.searchQuery?.tag} />
       </div>
     </button>

@@ -15,12 +15,12 @@ import { experimental_useFormStatus as useFormStatus } from 'react-dom';
 import { Entry } from '../domain/Entry';
 import { updateSearchParams } from '../domain/utils';
 import { Button } from './_components/Button';
-import { HeaderContainer } from './_components/HeaderContainer';
 import { IconButton } from './_components/IconButton';
 import { Input } from './_components/Input';
 import { JsonImport } from './_components/JsonImport';
 import { Popover } from './_components/Popover';
 import { Spinner } from './_components/Spinner';
+import { HeaderContainer, IconsContainer } from './_components/containers';
 
 export const PostListHeader = (props: {
   isSelectMode?: boolean;
@@ -108,7 +108,7 @@ export const PostListHeader = (props: {
         }
       />
 
-      <div className="flex space-x-2">
+      <IconsContainer>
         {props.isSelectMode ? (
           <IconButton
             aria-label="Preview Mode"
@@ -150,7 +150,7 @@ export const PostListHeader = (props: {
         >
           <Squares2X2Icon />
         </IconButton>
-      </div>
+      </IconsContainer>
     </HeaderContainer>
   );
 };
