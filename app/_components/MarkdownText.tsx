@@ -11,8 +11,10 @@ const customTheme: Record<
   h3: (props) => <h3 className="text-md my-3 font-normal">{props.children}</h3>,
   h4: (props) => <h4 className="my-2 text-sm font-normal">{props.children}</h4>,
   blockquote: (props) => (
-    <div className="pl-8">
-      <blockquote className="bg-gray-100 py-2">{props.children}</blockquote>
+    <div className="pl-7">
+      <blockquote className="my-2 rounded-sm pt-1 px-1 bg-gray-100 dark:bg-gray-700">
+        {props.children}
+      </blockquote>
     </div>
   ),
   a: ({ children, ...props }) => (

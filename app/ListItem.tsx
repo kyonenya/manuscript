@@ -96,12 +96,12 @@ export const ListItem = (props: {
 };
 
 export const ListItemSkelton = () => (
-  <button
+  <div
     className={twMerge(
       listItemClassName,
       'h-[150px] justify-center bg-white dark:bg-gray-800 lg:h-[200px]'
     )}
   >
     <Skelton />
-  </button>
+  </div>
 );
