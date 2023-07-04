@@ -52,18 +52,16 @@ export const ListItem = (props: {
   onSelect: () => void;
 }) => {
   const { entry } = props;
+  const text = entry.text.replaceAll(/\n/g, ' ');
   const summary = props.searchQuery?.keyword
-    ? generateSummaryEntity(entry.text, props.searchQuery.keyword, {
+    ? generateSummaryEntity(text, props.searchQuery.keyword, {
         maxLength: 120,
         beforeLength: 50,
       })
     : undefined;
+
   const SummaryComponent = () =>
-    summary ? (
-      <SearchSummary summary={summary} />
-    ) : (
-      <Summary text={entry.text} />
-    );
+    summary ? <SearchSummary summary={summary} /> : <Summary text={text} />;
 
   return (
     <button
@@ -84,7 +82,7 @@ export const ListItem = (props: {
       <div className="mb-2" />
       <div className="mt-auto flex flex-row items-center justify-start space-x-3">
         <p className="text-gray-600 dark:text-gray-400">
-          {dayjs(entry.createdAt).format('YYYY-MM-DD')}
+          {dayjs(entry.createdAt).tz().format('YYYY-MM-DD')}
         </p>
         {props.entry.starred && (
           <StarIcon className="w-5 text-yellow-400 dark:text-yellow-500" />
