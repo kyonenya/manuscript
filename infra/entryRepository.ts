@@ -2,6 +2,7 @@ import { Prisma } from '@prisma/client';
 import { Entry as PrismaEntry, Tag, PrismaPromise } from '@prisma/client';
 import { Entry, newEntry, extractTagHistory } from '../domain/Entry';
 import { entriesTagToABs } from '../domain/Tag';
+import dayjs from './dayjs';
 import { prisma } from './prisma';
 
 const toEntry = (row: PrismaEntry & { tags: Tag[] }): Entry =>
@@ -10,8 +11,8 @@ const toEntry = (row: PrismaEntry & { tags: Tag[] }): Entry =>
     starred: row.starred,
     uuid: row.uuid,
     tags: row.tags?.map((tag) => tag.name),
-    createdAt: row.created_at,
-    modifiedAt: row.modified_at,
+    createdAt: dayjs.utc(row.created_at).tz(),
+    modifiedAt: dayjs.utc(row.modified_at).tz(),
   });
 
 /**
@@ -32,8 +33,8 @@ export const readMany = async (props: {
       ...(props.since || props.until
         ? {
             created_at: {
-              ...(props.since ? { gte: props.since } : {}),
-              ...(props.until ? { lt: props.until } : {}),
+              ...(props.since ? { gte: dayjs.tz(props.since).toDate() } : {}),
+              ...(props.until ? { lt: dayjs.tz(props.until).toDate() } : {}),
             },
           }
         : {}),
@@ -69,8 +70,8 @@ export const createOne = async (props: { entry: Entry }): Promise<Entry> => {
   const row = await prisma.entry.create({
     data: {
       ...rest,
-      created_at: createdAt,
-      modified_at: modifiedAt,
+      created_at: dayjs.tz(createdAt).toDate(),
+      modified_at: dayjs.tz(modifiedAt).toDate(),
       tags: {
         connectOrCreate: tags.map((tag) => ({
           where: { name: tag },
@@ -95,8 +96,8 @@ export const createMany = async (props: {
     data: props.entries.map(
       ({ createdAt, modifiedAt, tags: _tags, ...rest }) => ({
         ...rest,
-        created_at: createdAt,
-        modified_at: modifiedAt,
+        created_at: dayjs.utc(createdAt).toDate(),
+        modified_at: dayjs.utc(modifiedAt).toDate(),
       })
     ),
   });
@@ -134,8 +135,8 @@ export const updateOne = async (props: { entry: Entry }): Promise<Entry> => {
     where: { uuid: props.entry.uuid.toUpperCase() },
     data: {
       ...rest,
-      created_at: createdAt,
-      modified_at: modifiedAt,
+      created_at: dayjs.tz(createdAt).toDate(),
+      modified_at: dayjs.tz(modifiedAt).toDate(),
       tags: {
         connectOrCreate: tags.map((tag) => ({
           where: { name: tag },

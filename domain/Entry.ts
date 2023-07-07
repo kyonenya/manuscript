@@ -6,7 +6,7 @@ export type Entry = {
   starred: boolean;
   uuid: string;
   tags: string[]; // [] if empty
-  createdAt: string; // ISO8601 without fraction seconds
+  createdAt: string;
   modifiedAt: string;
 };
 
@@ -23,8 +23,8 @@ export const newEntry = (props: {
     starred: props.starred ?? false,
     uuid: props.uuid ?? crypto.randomUUID().replace(/-/g, '').toUpperCase(),
     tags: props.tags ?? [],
-    createdAt: dayjs(props.createdAt).format(), // current time if empty
-    modifiedAt: dayjs(props.modifiedAt).format(),
+    createdAt: dayjs(props.createdAt).format('YYYY-MM-DDTHH:mm:ss'),
+    modifiedAt: dayjs(props.modifiedAt).format('YYYY-MM-DDTHH:mm:ss'),
   };
 };
 
@@ -33,7 +33,7 @@ export const extractTagHistory = (posts: Entry[]): string[] => [
 ]; // uniq
 
 // 基準になる日時
-const baseDate = dayjs('2023-06-23T02:25:00+09:00');
+const baseDate = dayjs('2023-06-23T02:25:00');
 
 export const sampleEntries: Entry[] = [
   newEntry({

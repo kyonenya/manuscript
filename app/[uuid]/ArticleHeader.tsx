@@ -7,11 +7,11 @@ import {
   TrashIcon,
   StarIcon,
 } from '@heroicons/react/24/solid';
+import dayjs from 'dayjs';
 import { useRouter } from 'next/navigation';
 import { experimental_useFormStatus as useFormStatus } from 'react-dom';
 import { useForm, useWatch } from 'react-hook-form';
 import { Entry } from '../../domain/Entry';
-import dayjs from '../../infra/dayjs';
 import { Button } from '../_components/Button';
 import { IconButton } from '../_components/IconButton';
 import { IconCheckbox } from '../_components/IconCheckbox';
@@ -74,15 +74,11 @@ export const ArticleHeader = ({
         aria-label="Update Entry"
         disabled={pending || !updateAction}
         formAction={() =>
-          handleSubmit((formData: Form) =>
+          handleSubmit((formData: Form) => {
             updateAction?.({
-              entry: {
-                ...entry,
-                ...formData,
-                createdAt: dayjs(formData.createdAt).tz().format(),
-              },
-            })
-          )()
+              entry: { ...entry, ...formData },
+            });
+          })()
         }
       >
         {pending ? <Spinner /> : <CheckIcon />}
