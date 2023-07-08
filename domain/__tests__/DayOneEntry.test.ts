@@ -4,7 +4,7 @@ import { unescape } from '../DayOneEntry';
 
 describe('DayOneEntry', () => {
   it('unescape', () => {
-    equal(unescape('J\\. デリダ'), 'J. デリダ'); // TODO: あとでパスさせる
+    equal(unescape('J\\. デリダ'), 'J. デリダ');
     equal(unescape('一行目\\n二行目'), '一行目\n二行目');
     equal(unescape('一行目\n二行目'), '一行目\n二行目');
     equal(unescape('​*構成*​'), '*構成*'); // ゼロ幅スペースを削除
