@@ -1,8 +1,0 @@
-{
-  "extension": ["ts"],
-  "timeout": "20s",
-  "require": "ts-node/register"
-}
-/**
- * @see https://github.com/mochajs/mocha/blob/master/example/config/.mocharc.json
- */
