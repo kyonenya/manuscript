@@ -10,8 +10,8 @@ const toEntry = (row: PrismaEntry & { tags: Tag[] }): Entry =>
     starred: row.starred,
     uuid: row.uuid,
     tags: row.tags?.map((tag) => tag.name),
-    createdAt: row.created_at,
-    modifiedAt: row.modified_at,
+    createdAt: row.created_at.toISOString(),
+    modifiedAt: row.modified_at.toISOString(),
   });
 
 /**
@@ -20,8 +20,8 @@ const toEntry = (row: PrismaEntry & { tags: Tag[] }): Entry =>
 export const readMany = async (props: {
   tag?: string;
   keyword?: string;
-  since?: Date;
-  until?: Date;
+  since?: string;
+  until?: string;
   limit: number;
   offset?: number;
 }): Promise<Entry[]> => {

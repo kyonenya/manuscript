@@ -1,5 +1,4 @@
-import dayjs from '../infra/dayjs';
-import { Entry, newEntry } from './Entry';
+import { newEntry } from './Entry';
 
 export type DayOneEntry = {
   text: string;
@@ -38,16 +37,6 @@ export const toEntry = (row: DayOneEntry) =>
     tags: row.tags,
     starred: row.starred,
     uuid: row.uuid,
-    createdAt: row.creationDate,
+    createdAt: row.creationDate, // ISO8601 without fraction seconds
     modifiedAt: row.modifiedDate,
   });
-
-export const fromEntry = (row: Entry): DayOneEntry => ({
-  text: row.text,
-  tags: row.tags,
-  starred: row.starred,
-  uuid: row.uuid,
-  creationDate: dayjs(row.createdAt).utc().format(),
-  modifiedDate: dayjs(row.createdAt).utc().format(),
-  timeZone: 'Asia/Tokyo',
-});

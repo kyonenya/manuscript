@@ -7,11 +7,12 @@ import {
   TrashIcon,
   StarIcon,
 } from '@heroicons/react/24/solid';
+import { zonedTimeToUtc } from 'date-fns-tz';
 import { useRouter } from 'next/navigation';
 import { experimental_useFormStatus as useFormStatus } from 'react-dom';
 import { useForm, useWatch } from 'react-hook-form';
 import { Entry } from '../../domain/Entry';
-import dayjs from '../../infra/dayjs';
+import { formatTZ } from '../../domain/dateUtils';
 import { Button } from '../_components/Button';
 import { IconButton } from '../_components/IconButton';
 import { IconCheckbox } from '../_components/IconCheckbox';
@@ -36,7 +37,7 @@ export const ArticleHeader = ({
   const router = useRouter();
   const { register, setValue, control, handleSubmit } = useForm<Form>({
     defaultValues: {
-      createdAt: dayjs(entry.createdAt).format('YYYY-MM-DDTHH:mm'),
+      createdAt: formatTZ(entry.createdAt, "yyyy-MM-dd'T'HH:mm"),
       tags: entry.tags,
       starred: entry.starred,
     },
@@ -79,7 +80,10 @@ export const ArticleHeader = ({
               entry: {
                 ...entry,
                 ...formData,
-                createdAt: dayjs(formData.createdAt).tz().format(),
+                createdAt: zonedTimeToUtc(
+                  formData.createdAt,
+                  'Asia/Tokyo'
+                ).toISOString(),
               },
             })
           )()
@@ -102,7 +106,7 @@ export const ArticleHeader = ({
       <Popover
         triggerButton={
           <Button rightIcon={<ChevronDownIcon />} className="w-auto">
-            {dayjs(entry.createdAt).format('YYYY-MM-DD')}
+            {formatTZ(entry.createdAt, 'yyyy-MM-dd')}
           </Button>
         }
         side="bottom"

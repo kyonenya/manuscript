@@ -12,7 +12,7 @@ const customTheme: Record<
   h4: (props) => <h4 className="my-2 text-sm font-normal">{props.children}</h4>,
   blockquote: (props) => (
     <div className="pl-7">
-      <blockquote className="my-2 rounded-sm pt-1 px-1 bg-gray-100 dark:bg-gray-700">
+      <blockquote className="my-2 rounded-sm bg-gray-100 px-1 pt-1 dark:bg-gray-700">
         {props.children}
       </blockquote>
     </div>

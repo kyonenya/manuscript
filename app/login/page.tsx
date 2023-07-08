@@ -116,7 +116,7 @@ export default async function LoginPage() {
               </Button>
             </form>
             <div className="text-center">
-              <div className="my-3 flex items-center justify-center">
+              <div className="my-4 flex items-center justify-center">
                 <hr className="mx-3 flex-grow border-gray-300 dark:border-gray-500" />
                 <div className="text-gray-500 dark:text-gray-300">or</div>
                 <hr className="mx-3 flex-grow border-gray-300 dark:border-gray-500" />
