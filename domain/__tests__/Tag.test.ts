@@ -1,4 +1,5 @@
-import assert from 'assert';
+import { equal, deepEqual } from 'node:assert/strict';
+import { describe, it } from 'node:test';
 import { subMinutes } from 'date-fns';
 import { newEntry } from '../Entry';
 import { tagNameToId, entriesTagToABs } from '../Tag';
@@ -11,7 +12,7 @@ describe('Tag', () => {
       { id: 3, name: 'タグ3' },
     ];
     const name = 'タグ2';
-    assert.strictEqual(tagNameToId({ name, tags }), 2);
+    equal(tagNameToId({ name, tags }), 2);
   });
 
   it('entriesTagToABs', () => {
@@ -32,7 +33,7 @@ describe('Tag', () => {
       { id: 2, name: 'タグ2' },
       { id: 3, name: 'タグ3' },
     ];
-    assert.deepStrictEqual(entriesTagToABs({ entries, tags }), [
+    deepEqual(entriesTagToABs({ entries, tags }), [
       [entries[0].uuid, 1],
       [entries[1].uuid, 1],
       [entries[1].uuid, 2],

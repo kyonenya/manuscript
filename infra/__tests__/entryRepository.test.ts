@@ -1,4 +1,5 @@
-import assert from 'assert';
+import { equal, deepEqual } from 'node:assert/strict';
+import { describe, it, before, after, beforeEach, afterEach } from 'node:test';
 import { parseISO, subMinutes, addSeconds, subSeconds } from 'date-fns';
 import { newEntry } from '../../domain/Entry';
 import * as entryRepository from '../entryRepository';
@@ -28,8 +29,8 @@ describe('Query:entriesRepository', () => {
 
   it('readMany', async () => {
     const entries = await entryRepository.readMany({ limit: 1, offset: 1 });
-    assert.strictEqual(entries.length, 1);
-    assert.strictEqual(entries[0].text, entry2.text);
+    equal(entries.length, 1);
+    equal(entries[0].text, entry2.text);
   });
   it('readMany:offset', async () => {
     const entries = await entryRepository.readMany({
@@ -37,9 +38,9 @@ describe('Query:entriesRepository', () => {
       limit: 1,
       offset: 1,
     });
-    assert.strictEqual(entries.length, 1);
-    assert.strictEqual(entries[0].text, entry2.text);
-    assert.deepStrictEqual(entries[0].tags, entry2.tags);
+    equal(entries.length, 1);
+    equal(entries[0].text, entry2.text);
+    deepEqual(entries[0].tags, entry2.tags);
   });
   it('readMany:emptyKeyword', async () => {
     const entries = await entryRepository.readMany({
@@ -47,14 +48,14 @@ describe('Query:entriesRepository', () => {
       limit: 1,
     });
     // same as readMany
-    assert.strictEqual(entries[0].text, entry1.text);
+    equal(entries[0].text, entry1.text);
   });
   it('readMany:tag', async () => {
     const entries = await entryRepository.readMany({
       tag: 'タグ1',
       limit: 1,
     });
-    assert.strictEqual(entries[0].text, entry1.text);
+    equal(entries[0].text, entry1.text);
   });
   it('readMany:keyword+tag', async () => {
     const entries = await entryRepository.readMany({
@@ -62,7 +63,7 @@ describe('Query:entriesRepository', () => {
       keyword: '一つ前',
       limit: 1,
     });
-    assert.strictEqual(entries[0].text, entry2.text);
+    equal(entries[0].text, entry2.text);
   });
   it('readMany:since+until', async () => {
     const entries = await entryRepository.readMany({
@@ -70,24 +71,24 @@ describe('Query:entriesRepository', () => {
       until: subSeconds(parseISO(entry1.createdAt), 1).toISOString(),
       limit: 3,
     });
-    assert.strictEqual(entries.length, 1);
-    assert.strictEqual(entries[0].text, entry2.text);
+    equal(entries.length, 1);
+    equal(entries[0].text, entry2.text);
   });
 
   it('readOne', async () => {
     const entry = await entryRepository.readOne({ uuid: entry1.uuid });
-    assert.strictEqual(entry?.text, entry1.text);
+    equal(entry?.text, entry1.text);
   });
   it('readOne:empty', async () => {
     const result = await entryRepository.readOne({
       uuid: 'thisisadummyuuidthisisadummyuuid',
     });
-    assert.strictEqual(result, undefined);
+    equal(result, undefined);
   });
 
   it('readTagList', async () => {
     const tags = await entryRepository.readTagList();
-    assert.deepStrictEqual(tags, ['タグ1', 'タグ2']);
+    deepEqual(tags, ['タグ1', 'タグ2']);
   });
 
   after(async () => await entryRepository.deleteAll());
@@ -103,8 +104,8 @@ describe('Mutation:entriesRepository', () => {
     });
     await entryRepository.createOne({ entry });
     const readResult = await entryRepository.readOne({ uuid: entry.uuid });
-    assert.strictEqual(readResult?.text, entry.text);
-    assert.deepStrictEqual(readResult?.tags, entry.tags);
+    equal(readResult?.text, entry.text);
+    deepEqual(readResult?.tags, entry.tags);
   });
 
   it('createMany', async () => {
@@ -121,7 +122,7 @@ describe('Mutation:entriesRepository', () => {
       entries: [entry1, entry2],
     });
     const entries = await entryRepository.readMany({ limit: 2 });
-    assert.deepStrictEqual(entries, [entry1, entry2]);
+    deepEqual(entries, [entry1, entry2]);
   });
 
   it('updateOne', async () => {
@@ -139,8 +140,8 @@ describe('Mutation:entriesRepository', () => {
     const resultEntry = await entryRepository.updateOne({
       entry: updatedEntry,
     });
-    assert.strictEqual(resultEntry?.text, updatedEntry.text);
-    assert.deepStrictEqual(resultEntry?.tags, updatedEntry.tags);
+    equal(resultEntry?.text, updatedEntry.text);
+    deepEqual(resultEntry?.tags, updatedEntry.tags);
   });
 
   it('deleteOne', async () => {
@@ -151,7 +152,7 @@ describe('Mutation:entriesRepository', () => {
     await entryRepository.createOne({ entry });
     await entryRepository.deleteOne({ uuid: entry.uuid });
     const resultEntry = await entryRepository.readOne({ uuid: entry.uuid });
-    assert.strictEqual(resultEntry, undefined);
+    equal(resultEntry, undefined);
   });
 
   it('deleteAll', async () => {
@@ -168,7 +169,7 @@ describe('Mutation:entriesRepository', () => {
     await entryRepository.createOne({ entry: entry2 });
     await entryRepository.deleteAll();
     const entries = await entryRepository.readMany({ limit: 2 });
-    assert.strictEqual(entries.length, 0);
+    equal(entries.length, 0);
   });
 
   afterEach(async () => {

@@ -1,4 +1,5 @@
-import assert from 'assert';
+import { deepEqual } from 'node:assert/strict';
+import { describe, it, beforeEach, afterEach } from 'node:test';
 import { subMinutes } from 'date-fns';
 import { newEntry } from '../../domain/Entry';
 import * as entryRepository from '../entryRepository';
@@ -28,6 +29,12 @@ describe('entriesQueue', () => {
     await entryRepository.deleteAll();
   });
 
+  it('createMany:not queued', async () => {
+    // to compare exection time: queue should be slower (delayed)
+    const rowCounts = await entryRepository.createMany({ entries });
+    deepEqual(rowCounts, [4, 0]);
+  });
+
   it('createMany:queued', async () => {
     const rowCounts = await entriesQueue({
       func: entryRepository.createMany,
@@ -35,16 +42,10 @@ describe('entriesQueue', () => {
       each: 2,
       concurrency: Infinity,
     });
-    assert.deepStrictEqual(rowCounts, [
+    deepEqual(rowCounts, [
       [2, 0],
       [2, 0],
     ]);
-  });
-
-  it('createMany:not queued', async () => {
-    // to compare exection time: queue should be slower(delayed)
-    const rowCounts = await entryRepository.createMany({ entries });
-    assert.deepStrictEqual(rowCounts, [4, 0]);
   });
 
   afterEach(async () => {

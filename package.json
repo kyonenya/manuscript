@@ -13,7 +13,9 @@
     "prisma:generate": "prisma generate",
     "start": "next start",
     "test:domain": "cross-env TS_NODE_PROJECT=./tsconfig.cjs.json NODE_ENV=test mocha ./domain/__tests__/**.ts",
-    "test:infra": "cross-env TS_NODE_PROJECT=./tsconfig.cjs.json NODE_ENV=test mocha ./infra/__tests__/**.ts"
+    "test:domain2": "glob -c 'node --test --no-warnings --loader tsx' './domain/__tests__/**.ts'",
+    "test:infra": "cross-env TS_NODE_PROJECT=./tsconfig.cjs.json NODE_ENV=test mocha ./infra/__tests__/**.ts",
+    "test:infra2": "glob -c 'node --test --no-warnings --loader tsx' './infra/__tests__/**.ts'"
   },
   "dependencies": {
     "@heroicons/react": "^2.0.18",
@@ -41,7 +43,7 @@
   },
   "devDependencies": {
     "@types/mocha": "^9.1.1",
-    "@types/node": "^16.18.36",
+    "@types/node": "^18.16.19",
     "@types/react": "^18.2.13",
     "@types/react-dom": "^18.2.6",
     "@typescript-eslint/eslint-plugin": "^5.60.0",
@@ -50,12 +52,14 @@
     "eslint": "^8.43.0",
     "eslint-config-next": "^13.4.7",
     "eslint-config-prettier": "^8.8.0",
+    "glob": "^10.3.2",
     "mocha": "^9.2.2",
     "postcss": "^8.4.24",
     "prettier": "^2.8.8",
     "prettier-plugin-tailwindcss": "^0.3.0",
     "tailwindcss": "^3.3.2",
     "ts-node": "^10.9.1",
+    "tsx": "^3.12.7",
     "typescript": "^5.1.3"
   },
   "license": "MIT"
