@@ -1,15 +1,14 @@
-import {
-  createServerActionClient,
-  createServerComponentClient,
-} from '@supabase/auth-helpers-nextjs';
+import { createServerActionClient } from '@supabase/auth-helpers-nextjs';
 import { revalidatePath } from 'next/cache';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { Suspense } from 'react';
-import { Entry, sampleEntries } from '../domain/Entry';
+import { Entry } from '../domain/Entry';
+import { sampleEntries } from '../domain/sampleEntries';
 import { createMany, deleteAll, readMany } from '../infra/entryRepository';
 import { PostList, PostListSkelton } from './PostList';
 import { PostListHeader } from './PostListHeader';
+import { useLoginStatus } from './_hooks/useLoginStatus';
 
 export default async function IndexPage({
   searchParams,
@@ -24,11 +23,7 @@ export default async function IndexPage({
   const isSelectMode = !!searchParams.select;
   const isPreviewMode = !!searchParams.preview;
 
-  const supabase = createServerComponentClient({ cookies });
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
-  const isLoggedIn = !!session;
+  const { isLoggedIn } = await useLoginStatus();
 
   const signOutAction = async () => {
     'use server';

@@ -4,16 +4,14 @@ import {
   LockClosedIcon,
   UsersIcon,
 } from '@heroicons/react/24/outline';
-import {
-  createServerActionClient,
-  createServerComponentClient,
-} from '@supabase/auth-helpers-nextjs';
+import { createServerActionClient } from '@supabase/auth-helpers-nextjs';
 import { revalidatePath } from 'next/cache';
 import { cookies } from 'next/headers';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { Button } from '../_components/Button';
 import { Input } from '../_components/Input';
+import { useLoginStatus } from '../_hooks/useLoginStatus';
 
 /**
  * Login Page
@@ -21,11 +19,7 @@ import { Input } from '../_components/Input';
  * @see https://flowbite.com/blocks/marketing/login/
  */
 export default async function LoginPage() {
-  const supabase = createServerComponentClient({ cookies });
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
-  const isLoggedIn = !!session;
+  const { isLoggedIn } = await useLoginStatus();
 
   if (isLoggedIn) redirect('/');
 

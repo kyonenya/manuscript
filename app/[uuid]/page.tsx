@@ -1,14 +1,14 @@
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { revalidatePath } from 'next/cache';
-import { cookies } from 'next/headers';
 import { notFound, redirect } from 'next/navigation';
-import { Entry, sampleEntries, extractTagHistory } from '../../domain/Entry';
+import { Entry, extractTagHistory } from '../../domain/Entry';
+import { sampleEntries } from '../../domain/sampleEntries';
 import {
   deleteOne,
   readOne,
   readTagList,
   updateOne,
 } from '../../infra/entryRepository';
+import { useLoginStatus } from '../_hooks/useLoginStatus';
 import { Article } from './Article';
 import { ArticleHeader } from './ArticleHeader';
 
@@ -17,11 +17,7 @@ export default async function ArticlePage({
 }: {
   params: { uuid: string };
 }) {
-  const supabase = createServerComponentClient({ cookies });
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
-  const isLoggedIn = !!session;
+  const { isLoggedIn } = await useLoginStatus();
 
   const entry = isLoggedIn
     ? await readOne({ uuid })
