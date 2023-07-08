@@ -10,32 +10,21 @@ export type Entry = {
   modifiedAt: string;
 };
 
-export const newEntry = (
-  props: {
-    text: string;
-    starred?: boolean;
-    uuid?: string;
-    tags?: string[];
-    createdAt?: string; // current time if empty
-    modifiedAt?: string;
-  },
-  passDate = false
-): Entry => {
+export const newEntry = (props: {
+  text: string;
+  starred?: boolean;
+  uuid?: string;
+  tags?: string[];
+  createdAt?: string; // current time if empty
+  modifiedAt?: string;
+}): Entry => {
   return {
     text: props.text,
     starred: props.starred ?? false,
     uuid: props.uuid ?? crypto.randomUUID().replace(/-/g, '').toUpperCase(),
     tags: props.tags ?? [],
-    createdAt: props.createdAt
-      ? passDate
-        ? props.createdAt
-        : parseISO(props.createdAt).toISOString()
-      : new Date().toISOString(),
-    modifiedAt: props.modifiedAt
-      ? passDate
-        ? props.modifiedAt
-        : parseISO(props.modifiedAt).toISOString()
-      : new Date().toISOString(),
+    createdAt: props.createdAt ?? new Date().toISOString(),
+    modifiedAt: props.modifiedAt ?? new Date().toISOString(),
   };
 };
 
@@ -43,20 +32,16 @@ export const extractTagHistory = (posts: Entry[]): string[] => [
   ...new Set(posts.map((post) => post.tags).flat()),
 ]; // uniq
 
-// 基準になる日時
 const baseDate = parseISO('2023-06-23T02:25:00+09:00');
 
 export const sampleEntries: Entry[] = [
-  newEntry(
-    {
-      text: 'しかしながら何か知らぬが或る、計画的に私をつねに欺く、この上なく有力な、この上なく老獪な欺瞞者が存している。しからば、彼が私を欺くのならば、疑いなく私はまた存するのである。そして、できる限り多く彼は私を欺くがよい、しかし、私は或るものであると私の考えるであろう間は、彼は決して私が何ものでもないようにすることはできないであろう。かようにして、一切のことを十分に考量した結果、最後にこの命題、すなわち、**私は有る、私は存在する**、という命題は、私がこれを言表するたびごとに、あるいはこれを精神によって把握するたびごとに、必然的に真である、として立てられねばならぬ（[デカルト 省察 三木清訳](https://www.aozora.gr.jp/cards/001029/files/43291_21543.html)）',
-      tags: ['哲学', 'デカルト'],
-      createdAt: baseDate.toISOString(),
-      starred: true,
-      uuid: 'FE5133A9B3824B4C9D0222A9BA07C0AA',
-    },
-    true
-  ),
+  newEntry({
+    text: 'しかしながら何か知らぬが或る、計画的に私をつねに欺く、この上なく有力な、この上なく老獪な欺瞞者が存している。しからば、彼が私を欺くのならば、疑いなく私はまた存するのである。そして、できる限り多く彼は私を欺くがよい、しかし、私は或るものであると私の考えるであろう間は、彼は決して私が何ものでもないようにすることはできないであろう。かようにして、一切のことを十分に考量した結果、最後にこの命題、すなわち、**私は有る、私は存在する**、という命題は、私がこれを言表するたびごとに、あるいはこれを精神によって把握するたびごとに、必然的に真である、として立てられねばならぬ（[デカルト 省察 三木清訳](https://www.aozora.gr.jp/cards/001029/files/43291_21543.html)）',
+    tags: ['哲学', 'デカルト'],
+    createdAt: baseDate.toISOString(),
+    starred: true,
+    uuid: 'FE5133A9B3824B4C9D0222A9BA07C0AA',
+  }),
   newEntry({
     text: '吾輩は猫である。名前はまだ無い。\nどこで生れたかとんと見当がつかぬ。何でも薄暗いじめじめした所でニャーニャー泣いていた事だけは記憶している。吾輩はここで始めて人間というものを見た。しかもあとで聞くとそれは書生という人間中で一番獰悪な種族であったそうだ。この書生というのは時々我々を捕えて煮て食うという話である。しかしその当時は何という考もなかったから別段恐しいとも思わなかった。ただ彼の掌に載せられてスーと持ち上げられた時何だかフワフワした感じがあったばかりである。掌の上で少し落ちついて書生の顔を見たのがいわゆる人間というものの見始であろう。この時妙なものだと思った感じが今でも残っている。第一毛をもって装飾されべきはずの顔がつるつるしてまるで薬缶だ。その後猫にもだいぶ逢ったがこんな片輪には一度も出会わした事がない。のみならず顔の真中があまりに突起している。そうしてその穴の中から時々ぷうぷうと煙を吹く。どうも咽せぽくて実に弱った。これが人間の飲む煙草というものである事はようやくこの頃知った。（[夏目漱石 吾輩は猫である](https://www.aozora.gr.jp/cards/000148/files/789_14547.html)）',
     tags: ['文学', '夏目漱石'],

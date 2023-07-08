@@ -32,14 +32,11 @@ export const unescape = (text: string) =>
     .replace(/[\u200B-\u200D\uFEFF]/g, ''); // remove zero width space
 
 export const toEntry = (row: DayOneEntry) =>
-  newEntry(
-    {
-      text: unescape(row.text),
-      tags: row.tags,
-      starred: row.starred,
-      uuid: row.uuid,
-      createdAt: row.creationDate, // ISO8601 without fraction seconds
-      modifiedAt: row.modifiedDate,
-    },
-    true
-  );
+  newEntry({
+    text: unescape(row.text),
+    tags: row.tags,
+    starred: row.starred,
+    uuid: row.uuid,
+    createdAt: row.creationDate, // ISO8601 without fraction seconds
+    modifiedAt: row.modifiedDate,
+  });
