@@ -2,7 +2,7 @@
 
 import { InboxIcon } from '@heroicons/react/24/solid';
 import { PropsWithChildren, useState } from 'react';
-import { Entry } from '../domain/Entry';
+import { Entry, sortByCreatedAt } from '../domain/Entry';
 import { SearchQuery } from '../domain/SearchQuery';
 import { ListItem, ListItemSkelton } from './ListItem';
 import { Previews } from './Preview';
@@ -31,7 +31,11 @@ export const PostList = ({
   if (isPreviewMode && entries) {
     return (
       <Previews
-        entries={selectedEntries.length > 0 ? selectedEntries : entries}
+        entries={
+          selectedEntries.length > 0
+            ? sortByCreatedAt(selectedEntries)
+            : entries
+        }
       />
     );
   }

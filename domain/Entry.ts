@@ -28,13 +28,21 @@ export const newEntry = (props: {
   };
 };
 
-export const extractTagHistory = (posts: Entry[]): string[] => [
-  ...new Set(posts.map((post) => post.tags).flat()),
+export const extractTagHistory = (entries: Entry[]): string[] => [
+  ...new Set(entries.map((entry) => entry.tags).flat()),
 ]; // uniq
+
+export const sortByCreatedAt = (entries: Entry[]): Entry[] => {
+  return entries.sort((a, b) => {
+    if (a.createdAt < b.createdAt) return 1;
+    if (a.createdAt > b.createdAt) return -1;
+    return 0;
+  });
+};
 
 const baseDate = parseISO('2023-06-23T02:25:00+09:00');
 
-export const sampleEntries: Entry[] = [
+export const sampleEntries: Entry[] = sortByCreatedAt([
   newEntry({
     text: 'しかしながら何か知らぬが或る、計画的に私をつねに欺く、この上なく有力な、この上なく老獪な欺瞞者が存している。しからば、彼が私を欺くのならば、疑いなく私はまた存するのである。そして、できる限り多く彼は私を欺くがよい、しかし、私は或るものであると私の考えるであろう間は、彼は決して私が何ものでもないようにすることはできないであろう。かようにして、一切のことを十分に考量した結果、最後にこの命題、すなわち、**私は有る、私は存在する**、という命題は、私がこれを言表するたびごとに、あるいはこれを精神によって把握するたびごとに、必然的に真である、として立てられねばならぬ（[デカルト 省察 三木清訳](https://www.aozora.gr.jp/cards/001029/files/43291_21543.html)）',
     tags: ['哲学', 'デカルト'],
@@ -97,6 +105,4 @@ export const sampleEntries: Entry[] = [
     createdAt: subDays(baseDate, 360).toISOString(),
     uuid: '5586B972A80C4EF39963E19D752C4179',
   }),
-]
-  .slice()
-  .sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1));
+]);
