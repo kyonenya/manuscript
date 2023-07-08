@@ -18,16 +18,13 @@ https://manuscript.vercel.app
 
 ## 使い方
 
-<table>
-   <tr>
-      <td>検索と印刷</td>
-      <td>インポートと編集</td>
-   </tr>
-   <tr>
-      <td valign="top"><img alt="検索と印刷" src="https://github.com/kyonenya/manuscript/assets/62150154/c381510d-2536-416b-8883-738a40a96baa"/></td>
-      <td valign="top"><img alt="インポートと編集" src="https://github.com/kyonenya/manuscript/assets/62150154/7e69c977-08e3-4606-81e6-f94d7000e03e"/></td>
-   </tr>
-</table>
+### 検索と印刷
+
+![how-to-print](https://github.com/kyonenya/manuscript/assets/62150154/db909d61-a1b2-4720-be60-66af7c79cc12)
+
+### インポートとタグ編集
+
+![how-to-import](https://github.com/kyonenya/manuscript/assets/62150154/356715e5-7af9-4d27-99d8-e7644459987c)
 
 ## 旧バージョンとその反省
 
