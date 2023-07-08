@@ -1,6 +1,6 @@
 import { StarIcon } from '@heroicons/react/24/solid';
-import dayjs from 'dayjs';
 import { Entry } from '../domain/Entry';
+import { formatTZ } from '../domain/dateUtils';
 import { MarkdownText } from './_components/MarkdownText';
 
 export const Preview = (props: { entry: Entry }) => {
@@ -8,7 +8,7 @@ export const Preview = (props: { entry: Entry }) => {
     <div className="mx-auto max-w-3xl px-10 pt-10 text-gray-700 dark:bg-gray-800 dark:text-gray-300">
       <div className="mb-3 flex flex-row items-center space-x-3">
         <p className="text-xl text-gray-500 dark:text-gray-400">
-          {dayjs(props.entry.createdAt).format('YYYY-MM-DD HH:mm')}
+          {formatTZ(props.entry.createdAt, 'yyyy-MM-dd HH:mm')}
         </p>
 
         {props.entry.starred && (

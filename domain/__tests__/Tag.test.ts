@@ -1,5 +1,5 @@
 import assert from 'assert';
-import dayjs from 'dayjs';
+import { subMinutes } from 'date-fns';
 import { newEntry } from '../Entry';
 import { tagNameToId, entriesTagToABs } from '../Tag';
 
@@ -18,13 +18,13 @@ describe('Tag', () => {
     const entries = [
       newEntry({
         text: 'これは最新の記事です。',
-        createdAt: dayjs(),
+        createdAt: new Date().toISOString(),
         tags: ['タグ1'],
       }),
       newEntry({
         text: 'これは一つ前の記事です。',
         tags: ['タグ1', 'タグ2'],
-        createdAt: dayjs().subtract(1, 'm'),
+        createdAt: subMinutes(new Date(), 1).toISOString(),
       }),
     ];
     const tags = [

@@ -1,6 +1,6 @@
-import dayjs from 'dayjs';
 import { PropsWithChildren } from 'react';
 import { Entry } from '../../domain/Entry';
+import { formatTZ } from '../../domain/dateUtils';
 import { MarkdownText } from '../_components/MarkdownText';
 import { Skelton } from '../_components/Skelton';
 import { Tags } from '../_components/Tags';
@@ -19,7 +19,7 @@ export const Article = (props: { entry: Entry }) => {
       <MarkdownText>{props.entry.text}</MarkdownText>
       <div className="mt-3 flex flex-row space-x-4">
         <p className="text-gray-600 dark:text-gray-400">
-          {dayjs(props.entry.createdAt).format('YYYY-MM-DD')}
+          {formatTZ(props.entry.createdAt, 'yyyy-MM-dd')}
         </p>
         <Tags tags={props.entry.tags} />
       </div>

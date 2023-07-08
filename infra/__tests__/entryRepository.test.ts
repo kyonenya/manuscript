@@ -1,23 +1,23 @@
 import assert from 'assert';
-import dayjs from 'dayjs';
+import { parseISO, subMinutes, addSeconds, subSeconds } from 'date-fns';
 import { newEntry } from '../../domain/Entry';
 import * as entryRepository from '../entryRepository';
 
 describe('Query:entriesRepository', () => {
   const entry1 = newEntry({
     text: 'これは最新の記事です。',
-    createdAt: dayjs(),
+    createdAt: new Date().toISOString(),
     tags: ['タグ1'],
   });
   const entry2 = newEntry({
     text: 'これは一つ前の記事です。',
     tags: ['タグ1', 'タグ2'],
-    createdAt: dayjs().subtract(1, 'm'),
+    createdAt: subMinutes(new Date(), 1).toISOString(),
   });
   const entry3 = newEntry({
     text: 'これは二つ前の記事です。',
     tags: ['タグ1', 'タグ2', 'タグ3'],
-    createdAt: dayjs().subtract(2, 'm'),
+    createdAt: subMinutes(new Date(), 2).toISOString(),
   });
 
   before(async () => {
@@ -66,8 +66,8 @@ describe('Query:entriesRepository', () => {
   });
   it('readMany:since+until', async () => {
     const entries = await entryRepository.readMany({
-      since: dayjs(entry3.createdAt).add(1, 's').toDate(),
-      until: dayjs(entry1.createdAt).subtract(1, 's').toDate(),
+      since: addSeconds(parseISO(entry3.createdAt), 1).toISOString(),
+      until: subSeconds(parseISO(entry1.createdAt), 1).toISOString(),
       limit: 3,
     });
     assert.strictEqual(entries.length, 1);
@@ -115,7 +115,7 @@ describe('Mutation:entriesRepository', () => {
     const entry2 = newEntry({
       text: 'これは２つ目の記事です。',
       tags: ['タグ1', 'タグ2', 'タグ3'],
-      createdAt: dayjs().subtract(1, 's'),
+      createdAt: subMinutes(new Date(), 1).toISOString(),
     });
     await entryRepository.createMany({
       entries: [entry1, entry2],
@@ -158,7 +158,7 @@ describe('Mutation:entriesRepository', () => {
     const entry1 = newEntry({
       text: 'これは１つ目の記事です。',
       tags: ['タグ1'],
-      createdAt: dayjs().subtract(1, 's'),
+      createdAt: subMinutes(new Date(), 1).toISOString(),
     });
     const entry2 = newEntry({
       text: 'これは２つ目の記事です。',
