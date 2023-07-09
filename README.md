@@ -1,20 +1,19 @@
 ## これはなんのアプリですか
 
-自分が書き溜めている研究草稿を管理するための Web アプリ。  
-日記アプリ [Day One](https://dayoneapp.com) からの JSON インポートや記事の一括印刷に対応。
+自分が書き溜めている研究草稿を管理するための Web アプリ。日記アプリ [Day One](https://dayoneapp.com) からの JSON インポートや記事の一括印刷に対応。
 
-自分用のアプリなので認証をかけてあるが、  
+自分用のアプリなので認証をかけてありますが、  
 https://manuscript.vercel.app  
-からログインしなくてもデモ版が閲覧できる。
+よりログインしなくてもデモ版が閲覧できます。
 
 ## 使用技術
 
 - Next.js でフロントエンドとバックエンドをまとめて一つのアプリとして開発中
-  - バックエンドサーバーなるものを別個で立てたくないし、せっかくクラサバ両方 TypeScript で書いているのに API の型定義をわざわざフロント用に生成したくない
-- v2.0.0 にて next@13.4 の React Server Components と Server Actions に対応
-  - ついに API というものすら不要になった（rpc エンドポイントすら不要）
+  - バックエンドサーバーなるものを別個で立てたくないし、せっかくクラサバ両方 TypeScript で書いているのに API の型定義をフロント用にわざわざ生成したくない
+- [v2.0.0](https://github.com/kyonenya/manuscript/releases/tag/v2.0.0) にて next@13.4 の React Server Components と Server Actions に対応
+  - ついに API というものすら不要になった（内部的な  rpc エンドポイントすら存在しない）
   - [refactor: Next.js 13.4 App Router への移行 #21](https://github.com/kyonenya/manuscript/pull/21)
-- 使用技術：Next.js, ~~tRPC, Tanstack Query~~->Server Components & Server Actions, Prisma, PostgreSQL, ~~Chakra UI~~→Tailwind CSS, Vercel, Supabase Auth, Isomorphic JavaScript (Universal JavaScript)
+- 使用技術：Next.js, ~~tRPC, Tanstack Query~~→Server Components & Server Actions, Prisma, PostgreSQL, ~~Chakra UI~~→Tailwind CSS, Vercel, Supabase Auth, Isomorphic JavaScript (Universal JavaScript)
 
 ## 使い方
 
@@ -38,6 +37,6 @@ https://manuscript.vercel.app
   - フロントエンドの SPA。マークダウンエディタで記事を作成・編集できる
   - 使用技術：preact, TypeScript, styled-components, Vercel
   - 反省点：アプリが持つべき機能の開発方針が中途半端だった
-    - 日記アプリ [Day One](https://dayoneapp.com) のクローンアプリとして一通りの機能を実装し、Markdown エディタも用意して記事の作成や編集をできるようにした結果、記事データの二重管理になってしまいアプリを使わなくなった
+    - 日記アプリ [Day One](https://dayoneapp.com) のクローンアプリとして一通りの機能を実装し、Markdown エディタも用意して記事の作成や編集をできるようにした結果、記事データの二重管理に陥りアプリを使わなくなった
     - ゆえに ReadOnly に倒し、インポートと印刷のみの機能に絞った
     - [feat: アプリの方針そのものの見直し · Issue #6 · kyonenya/manuscript](https://github.com/kyonenya/manuscript/issues/6)
