@@ -5,7 +5,12 @@ import { redirect } from 'next/navigation';
 import { Suspense } from 'react';
 import { Entry } from '../domain/Entry';
 import { sampleEntries } from '../domain/sampleEntries';
-import { createMany, deleteAll, readMany } from '../infra/entryRepository';
+import {
+  createMany,
+  deleteAll,
+  readAllUuids,
+  readMany,
+} from '../infra/entryRepository';
 import { PostList, PostListSkelton } from './PostList';
 import { PostListHeader } from './PostListHeader';
 import { useLoginStatus } from './_hooks/useLoginStatus';
@@ -34,7 +39,10 @@ export default async function IndexPage({
 
   const importAction = async (props: { entries: Entry[] }) => {
     'use server';
-    await createMany(props);
+    const uuids = await readAllUuids();
+    await createMany({
+      entries: props.entries.filter((entry) => !uuids.includes(entry.uuid)), // duplicate exclusion
+    });
     revalidatePath('/');
   };
 

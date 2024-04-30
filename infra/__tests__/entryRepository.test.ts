@@ -86,6 +86,11 @@ describe('Query:entriesRepository', () => {
     equal(result, undefined);
   });
 
+  it('readAllUuids', async () => {
+    const uuids = await entryRepository.readAllUuids();
+    deepEqual(uuids, [entry1.uuid, entry2.uuid]);
+  });
+
   it('readTagList', async () => {
     const tags = await entryRepository.readTagList();
     deepEqual(tags, ['タグ1', 'タグ2']);

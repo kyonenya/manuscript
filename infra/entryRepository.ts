@@ -56,6 +56,13 @@ export const readOne = async (props: {
   return row ? toEntry(row) : undefined;
 };
 
+export async function readAllUuids(): Promise<string[]> {
+  const entries = await prisma.entry.findMany({
+    select: { uuid: true }, // uuid only
+  });
+  return entries.map((entry) => entry.uuid);
+}
+
 export const readTagList = async () => {
   const rows = await prisma.tag.findMany({});
   return rows.map((row) => row.name);
