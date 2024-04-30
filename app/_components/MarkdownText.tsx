@@ -1,5 +1,6 @@
 import { ReactNode, ReactElement } from 'react';
 import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 const customTheme: Record<
   string,
@@ -28,7 +29,9 @@ const customTheme: Record<
 };
 
 export const MarkdownText = (props: { children: string }) => {
-  const text = props.children.replaceAll(/\n/g, '\n\n');
-
-  return <ReactMarkdown components={customTheme}>{text}</ReactMarkdown>;
+  return (
+    <ReactMarkdown components={customTheme} remarkPlugins={[remarkGfm]}>
+      {props.children.replaceAll(/\n/g, '\n\n')}
+    </ReactMarkdown>
+  );
 };
