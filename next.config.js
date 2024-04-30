@@ -4,7 +4,10 @@
  * @type {import('next').NextConfig}
  **/
 module.exports = {
-  experimental: { serverActions: true },
+  experimental: {
+    serverActions: true,
+    serverActionsBodySizeLimit: '10mb',
+  },
   eslint: {
     dirs: ['app', 'domain', 'infra'],
     ignoreDuringBuilds: true,
