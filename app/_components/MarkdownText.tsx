@@ -20,8 +20,6 @@ const customTheme: Record<
   a: ({ children, ...props }) => (
     <a
       {...props}
-      target="_blank"
-      rel="noreferrer"
       className="text-blue-500 hover:text-blue-600 hover:underline dark:text-sky-500 dark:hover:text-sky-400"
     >
       {children}

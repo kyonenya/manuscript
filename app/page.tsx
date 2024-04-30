@@ -49,7 +49,7 @@ export default async function IndexPage({
       ? await readMany({
           tag: searchParams.tag,
           keyword: searchParams.keyword,
-          limit: 100,
+          limit: 300,
         })
       : sampleEntries;
 

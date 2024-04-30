@@ -16,7 +16,12 @@ const ArticleContainer = (props: PropsWithChildren) => (
 export const Article = (props: { entry: Entry }) => {
   return (
     <ArticleContainer>
-      <MarkdownText>{props.entry.text}</MarkdownText>
+      <MarkdownText>
+        {props.entry.text.replace(
+          /dayone:\/\/view\?entryId=([A-Z0-9]+)/g, // 記事内リンク
+          '/$1'
+        )}
+      </MarkdownText>
       <div className="mt-3 flex flex-row space-x-4">
         <p className="text-gray-600 dark:text-gray-400">
           {formatTZ(props.entry.createdAt, 'yyyy-MM-dd')}
