@@ -25,3 +25,18 @@ export const updateSearchParams = (props: {
     ? `${props.pathname}?${params.toString()}`
     : params.toString();
 };
+
+/**
+ * FileReader Promise wrapper
+ *
+ * @url https://qiita.com/tronicboy/items/69e4ddb03c10f53ff18c
+ */
+export const readFileAsText = (file: Blob): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = (event) => resolve(event.target?.result as string);
+    reader.onerror = (error) => reject(error);
+
+    reader.readAsText(file);
+  });
+};

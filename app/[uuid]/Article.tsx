@@ -18,7 +18,7 @@ export const Article = (props: { entry: Entry }) => {
     <ArticleContainer>
       <MarkdownText>
         {props.entry.text.replace(
-          /dayone:\/\/view\?entryId=([A-Z0-9]+)/g, // 記事内リンク
+          /dayone:\/\/view\?entryId=([A-Z0-9]+)/g, // Internal link
           '/$1'
         )}
       </MarkdownText>
