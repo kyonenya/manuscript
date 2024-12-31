@@ -4,7 +4,7 @@ import {
   LockClosedIcon,
   UsersIcon,
 } from '@heroicons/react/24/outline';
-import { revalidatePath } from 'next/cache';
+// import { revalidatePath } from 'next/cache';
 import Link from 'next/link';
 import { Button } from '../_components/Button';
 import { Input } from '../_components/Input';
@@ -15,11 +15,10 @@ import { Input } from '../_components/Input';
  * @see https://flowbite.com/blocks/marketing/login/
  */
 export default async function LoginPage() {
-  const signInAction = async (_formData: FormData) => {
-    // TODO: 実装する
-
-    revalidatePath('/');
-  };
+  // TODO: 実装する
+  // const signInAction = async (_formData: FormData) => {
+  //   'use server';
+  // };
 
   return (
     <section className="bg-gray-100 dark:bg-gray-700">
@@ -91,7 +90,7 @@ export default async function LoginPage() {
                 type="submit"
                 variant={{ color: 'emerald' }}
                 leftIcon={<LockClosedIcon />}
-                formAction={signInAction}
+                // formAction={signInAction}
               >
                 Sign in
               </Button>
