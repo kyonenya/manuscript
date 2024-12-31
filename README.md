@@ -40,3 +40,8 @@ https://manuscript.vercel.app
     - 日記アプリ [Day One](https://dayoneapp.com) のクローンアプリとして一通りの機能を実装し、Markdown エディタも用意して記事の作成や編集をできるようにした結果、記事データの二重管理に陥りアプリを使わなくなった
     - ゆえに ReadOnly に倒し、インポートと印刷のみの機能に絞った
     - [feat: アプリの方針そのものの見直し · Issue #6 · kyonenya/manuscript](https://github.com/kyonenya/manuscript/issues/6)
+
+## リンク
+
+- [Turso - manuscript](https://app.turso.tech/kyonenya/databases/manuscript)
+- [Vercel - manuscript](https://vercel.com/kyonenyas-projects/manuscript)
