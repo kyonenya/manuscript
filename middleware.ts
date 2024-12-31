@@ -4,6 +4,12 @@ export const config = {
   matcher: ['/:path*'],
 };
 
+/**
+ * Basic Authentication Middleware
+ *
+ * @see https://github.com/vercel/examples/blob/main/edge-middleware/basic-auth-password/middleware.ts
+ * @see https://qiita.com/yuuki-h/items/340a296e0b9b3b5753e1
+ */
 export function middleware(req: NextRequest) {
   const basicAuth = req.headers.get('authorization');
   const url = req.nextUrl;
