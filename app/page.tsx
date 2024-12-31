@@ -13,7 +13,7 @@ import {
 } from '../infra/entryRepository';
 import { PostList, PostListSkelton } from './PostList';
 import { PostListHeader } from './PostListHeader';
-import { useLoginStatus } from './_hooks/useLoginStatus';
+// import { useLoginStatus } from './_hooks/useLoginStatus';
 
 export default async function IndexPage({
   searchParams,
@@ -28,7 +28,8 @@ export default async function IndexPage({
   const isSelectMode = !!searchParams.select;
   const isPreviewMode = !!searchParams.preview;
 
-  const { isLoggedIn } = await useLoginStatus();
+  // const { isLoggedIn } = await useLoginStatus();
+  const isLoggedIn = true;
 
   const signOutAction = async () => {
     'use server';

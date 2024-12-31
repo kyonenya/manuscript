@@ -8,7 +8,7 @@ import {
   readTagList,
   updateOne,
 } from '../../infra/entryRepository';
-import { useLoginStatus } from '../_hooks/useLoginStatus';
+// import { useLoginStatus } from '../_hooks/useLoginStatus';
 import { Article } from './Article';
 import { ArticleHeader } from './ArticleHeader';
 
@@ -17,7 +17,8 @@ export default async function ArticlePage({
 }: {
   params: { uuid: string };
 }) {
-  const { isLoggedIn } = await useLoginStatus();
+  // const { isLoggedIn } = await useLoginStatus();
+  const isLoggedIn = true;
 
   const entry = isLoggedIn
     ? await readOne({ uuid })
