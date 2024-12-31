@@ -1,5 +1,5 @@
 
-import { createClient } from "@libsql/client";
+import { createClient } from "@libsql/client/web"; // @see https://github.com/tursodatabase/libsql-client-ts/issues/184#issuecomment-2025317522
 import { PrismaLibSQL } from "@prisma/adapter-libsql";
 import { PrismaClient } from "@prisma/client";
 
