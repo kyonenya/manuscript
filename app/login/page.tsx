@@ -4,14 +4,10 @@ import {
   LockClosedIcon,
   UsersIcon,
 } from '@heroicons/react/24/outline';
-// import { createServerActionClient } from '@supabase/auth-helpers-nextjs';
 import { revalidatePath } from 'next/cache';
-// import { cookies } from 'next/headers';
 import Link from 'next/link';
-// import { redirect } from 'next/navigation';
 import { Button } from '../_components/Button';
 import { Input } from '../_components/Input';
-// import { useLoginStatus } from '../_hooks/useLoginStatus';
 
 /**
  * Login Page
@@ -19,17 +15,8 @@ import { Input } from '../_components/Input';
  * @see https://flowbite.com/blocks/marketing/login/
  */
 export default async function LoginPage() {
-  // const { isLoggedIn } = await useLoginStatus();
-
-  // if (isLoggedIn) redirect('/');
-
-  const signInAction = async (formData: FormData) => {
-    //   'use server';
-    //   const supabase = createServerActionClient({ cookies });
-    //   await supabase.auth.signInWithPassword({
-    //     email: String(formData.get('email')),
-    //     password: String(formData.get('password')),
-    //   });
+  const signInAction = async (_formData: FormData) => {
+    // TODO: 実装する
 
     revalidatePath('/');
   };

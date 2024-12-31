@@ -1,10 +1,7 @@
-import { createServerActionClient } from '@supabase/auth-helpers-nextjs';
 import { revalidatePath } from 'next/cache';
-import { cookies } from 'next/headers';
-import { redirect } from 'next/navigation';
 import { Suspense } from 'react';
 import { Entry } from '../domain/Entry';
-import { sampleEntries } from '../domain/sampleEntries';
+// import { sampleEntries } from '../domain/sampleEntries';
 import {
   createMany,
   deleteAll,
@@ -13,7 +10,6 @@ import {
 } from '../infra/entryRepository';
 import { PostList, PostListSkelton } from './PostList';
 import { PostListHeader } from './PostListHeader';
-// import { useLoginStatus } from './_hooks/useLoginStatus';
 
 export default async function IndexPage({
   searchParams,
@@ -28,15 +24,9 @@ export default async function IndexPage({
   const isSelectMode = !!searchParams.select;
   const isPreviewMode = !!searchParams.preview;
 
-  // const { isLoggedIn } = await useLoginStatus();
-  const isLoggedIn = true;
-
-  const signOutAction = async () => {
-    'use server';
-    const supabase = createServerActionClient({ cookies });
-    await supabase.auth.signOut();
-    redirect('/login');
-  };
+  // TODO: 実装する
+  // const signOutAction = async () => {
+  // };
 
   const importAction = async (props: { entries: Entry[] }) => {
     'use server';
@@ -54,13 +44,11 @@ export default async function IndexPage({
   };
 
   const LazyPostList = async () => {
-    const entries = isLoggedIn
-      ? await readMany({
-          tag: searchParams.tag,
-          keyword: searchParams.keyword,
-          limit: 300,
-        })
-      : sampleEntries;
+    const entries = await readMany({
+      tag: searchParams.tag,
+      keyword: searchParams.keyword,
+      limit: 300,
+    });
 
     return (
       <PostList
@@ -77,9 +65,9 @@ export default async function IndexPage({
       {!isPreviewMode && (
         <PostListHeader
           isSelectMode={isSelectMode}
-          signOutAction={isLoggedIn ? signOutAction : undefined}
-          importAction={isLoggedIn ? importAction : undefined}
-          deleteAllAction={isLoggedIn ? deleteAllAction : undefined}
+          // signOutAction={signOutAction}
+          importAction={importAction}
+          deleteAllAction={deleteAllAction}
         />
       )}
       <Suspense fallback={<PostListSkelton />}>
