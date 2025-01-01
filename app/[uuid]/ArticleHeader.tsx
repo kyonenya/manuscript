@@ -8,7 +8,7 @@ import {
   StarIcon,
 } from '@heroicons/react/24/solid';
 import { zonedTimeToUtc } from 'date-fns-tz';
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { experimental_useFormStatus as useFormStatus } from 'react-dom';
 import { useForm, useWatch } from 'react-hook-form';
 import { Entry } from '../../domain/Entry';
@@ -34,7 +34,6 @@ export const ArticleHeader = ({
   updateAction?: (props: { entry: Entry }) => void;
   deleteAction?: () => Promise<void>;
 }) => {
-  const router = useRouter();
   const { register, setValue, control, handleSubmit } = useForm<Form>({
     defaultValues: {
       createdAt: formatTZ(entry.createdAt, "yyyy-MM-dd'T'HH:mm"),
@@ -97,9 +96,11 @@ export const ArticleHeader = ({
   return (
     <HeaderContainer>
       <IconsContainer>
-        <IconButton onClick={router.back}>
-          <ArrowLeftIcon />
-        </IconButton>
+        <Link href="/">
+          <IconButton>
+            <ArrowLeftIcon />
+          </IconButton>
+        </Link>
         <div aria-hidden className="w-10" />
       </IconsContainer>
 
