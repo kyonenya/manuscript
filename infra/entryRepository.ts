@@ -111,14 +111,16 @@ export const createMany = async (props: {
       })
     ),
   });
+
   const ABs = entriesTagToABs({ entries: props.entries, tags });
   const connectEntriesToTags =
     ABs.length > 0
       ? prisma.$executeRaw`
-    INSERT INTO "_EntryToTag" ("A", "B")
-    VALUES ${Prisma.join(ABs.map((ab) => Prisma.sql`(${Prisma.join(ab)})`))}
-    ON CONFLICT DO NOTHING;`
+        INSERT INTO "_EntryToTag" ("A", "B")
+        VALUES ${Prisma.join(ABs.map((ab) => Prisma.sql`(${Prisma.join(ab)})`))}
+        ON CONFLICT DO NOTHING;`
       : undefined;
+
   const [bp, tagsCount] = await prisma.$transaction(
     [createEntry, connectEntriesToTags].filter(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
