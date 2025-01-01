@@ -14,12 +14,13 @@ import { useForm, useWatch } from 'react-hook-form';
 import { Entry } from '../../domain/Entry';
 import { formatTZ } from '../../domain/dateUtils';
 import { Button } from '../_components/Button';
+import { HeaderContainer } from '../_components/HeaderContainer';
 import { IconButton } from '../_components/IconButton';
 import { IconCheckbox } from '../_components/IconCheckbox';
+import { IconsContainer } from '../_components/IconsContainer';
 import { Popover } from '../_components/Popover';
 import { Select } from '../_components/Select';
 import { Spinner } from '../_components/Spinner';
-import { HeaderContainer, IconsContainer } from '../_components/containers';
 
 type Form = Pick<Entry, 'createdAt' | 'tags' | 'starred'>;
 

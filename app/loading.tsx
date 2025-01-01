@@ -1,10 +1,10 @@
-import { SimpleHeader } from './SimpleHeader';
+import { HeaderSkelton } from './HeaderSkelton';
 import { Spinner } from './_components/Spinner';
 
 export default function Loading() {
   return (
     <>
-      <SimpleHeader />
+      <HeaderSkelton />
       <div className="mt-8 flex justify-center">
         <Spinner />
       </div>

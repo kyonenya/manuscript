@@ -2,11 +2,11 @@
 
 import { ArrowUpIcon } from '@heroicons/react/24/solid';
 import { experimental_useFormStatus as useFormStatus } from 'react-dom';
-import { DayOneData, toEntry } from '../../domain/DayOneEntry';
-import { Entry } from '../../domain/Entry';
-import { readFileAsText } from '../../domain/utils';
-import { IconButton } from './IconButton';
-import { Spinner } from './Spinner';
+import { DayOneData, toEntry } from '../domain/DayOneEntry';
+import { Entry } from '../domain/Entry';
+import { readFileAsText } from '../domain/utils';
+import { IconButton } from './_components/IconButton';
+import { Spinner } from './_components/Spinner';
 
 export const JsonFormInput = ({
   importAction,

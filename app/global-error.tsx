@@ -1,7 +1,7 @@
 'use client'; // Error components must be Client Components
 
 import { useEffect } from 'react';
-import { SimpleHeader } from './SimpleHeader';
+import { HeaderSkelton } from './HeaderSkelton';
 import { Button } from './_components/Button';
 
 /**
@@ -23,7 +23,7 @@ export default function GlobalError({
 
   return (
     <>
-      <SimpleHeader />
+      <HeaderSkelton />
       <div className="container mx-auto my-auto flex items-center px-6 py-12 lg:py-20">
         <div className="mx-auto flex max-w-sm flex-col items-center text-center">
           <p className="text-md font-medium text-rose-500">500 error</p>
