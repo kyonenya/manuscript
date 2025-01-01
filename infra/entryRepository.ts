@@ -63,9 +63,13 @@ export async function readAllUuids(): Promise<string[]> {
   return entries.map((entry) => entry.uuid);
 }
 
-export const readTagList = async () => {
+export const readTagList = async (): Promise<string[]> => {
   const rows = await prisma.tag.findMany({});
   return rows.map((row) => row.name);
+};
+
+export const readEntriesCount = async (): Promise<number> => {
+  return await prisma.entry.count();
 };
 
 /**

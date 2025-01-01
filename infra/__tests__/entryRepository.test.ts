@@ -96,6 +96,11 @@ describe('Query:entriesRepository', () => {
     deepEqual(tags, ['タグ1', 'タグ2']);
   });
 
+  it('readEntriesCount', async () => {
+    const count = await entryRepository.readEntriesCount();
+    equal(count, 2);
+  });
+
   after(async () => await entryRepository.deleteAll());
 });
 

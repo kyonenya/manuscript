@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { readEntriesCount } from './infra/entryRepository';
 
 /**
  * Exclude `_next` internals
@@ -15,10 +16,12 @@ export const config = {
  * @see https://github.com/vercel/examples/blob/main/edge-middleware/basic-auth-password/middleware.ts
  * @see https://qiita.com/yuuki-h/items/340a296e0b9b3b5753e1#%E8%A7%A3%E8%AA%AC-1
  */
-export function middleware(req: NextRequest) {
+export async function middleware(req: NextRequest) {
   if (req.nextUrl.pathname.startsWith('/demo')) {
     return NextResponse.next();
   }
+
+  const _count = await readEntriesCount(); // cold starts db
 
   const basicAuth = req.headers.get('authorization');
 

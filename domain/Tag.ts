@@ -6,6 +6,9 @@ export const tagNameToId = (props: {
   tags: Tag[];
 }): number | undefined => props.tags.find((tag) => props.name === tag.name)?.id;
 
+/**
+ * A: entry.uuid, B: tag.id
+ */
 export const entriesTagToABs = (props: { entries: Entry[]; tags: Tag[] }) => {
   return props.entries
     .map((entry) =>
