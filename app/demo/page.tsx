@@ -17,7 +17,9 @@ export default async function IndexPage({
 
   return (
     <>
-      {!isPreviewMode && <PostListHeader isSelectMode={isSelectMode} />}
+      {!isPreviewMode && (
+        <PostListHeader isSelectMode={isSelectMode} isDemoMode={true} />
+      )}
       <PostList
         entries={sampleEntries}
         searchQuery={{ keyword: searchParams.keyword, tag: searchParams.tag }}

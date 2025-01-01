@@ -1,13 +1,13 @@
 'use client';
 
 import {
-  ArrowLeftOnRectangleIcon,
   ArrowRightOnRectangleIcon,
   Cog8ToothIcon,
   EyeIcon,
   MagnifyingGlassIcon,
   Squares2X2Icon,
   TrashIcon,
+  UsersIcon,
 } from '@heroicons/react/24/solid';
 import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
@@ -24,7 +24,7 @@ import { HeaderContainer, IconsContainer } from './_components/containers';
 
 export const PostListHeader = (props: {
   isSelectMode?: boolean;
-  signOutAction?: () => void;
+  isDemoMode?: boolean;
   importAction?: (props: { entries: Entry[] }) => void;
   deleteAllAction?: () => void;
 }) => {
@@ -74,20 +74,19 @@ export const PostListHeader = (props: {
             <DeleteAllFormButton />
           </form>
           <form>
-            {props.signOutAction ? (
-              <Button
-                leftIcon={<ArrowLeftOnRectangleIcon />}
-                formAction={props.signOutAction}
-              >
-                Sign Out
-              </Button>
-            ) : (
-              <Link href="/login" passHref>
+            {props.isDemoMode ? (
+              <Link href="/" passHref>
                 <Button
                   variant={{ color: 'emerald' }}
                   leftIcon={<ArrowRightOnRectangleIcon />}
                 >
                   Sign In
+                </Button>
+              </Link>
+            ) : (
+              <Link href="/demo" passHref>
+                <Button type="button" leftIcon={<UsersIcon />}>
+                  Try Demo Version
                 </Button>
               </Link>
             )}

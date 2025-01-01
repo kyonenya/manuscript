@@ -23,10 +23,6 @@ export default async function IndexPage({
   const isSelectMode = !!searchParams.select;
   const isPreviewMode = !!searchParams.preview;
 
-  // TODO: 実装する
-  // const signOutAction = async () => {
-  // };
-
   const importAction = async (props: { entries: Entry[] }) => {
     'use server';
     const uuids = await readAllUuids();
@@ -64,7 +60,6 @@ export default async function IndexPage({
       {!isPreviewMode && (
         <PostListHeader
           isSelectMode={isSelectMode}
-          // signOutAction={signOutAction}
           importAction={importAction}
           deleteAllAction={deleteAllAction}
         />
