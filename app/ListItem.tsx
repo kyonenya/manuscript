@@ -76,7 +76,10 @@ export const ListItem = (props: {
       {props.isSelectMode ? (
         <SummaryComponent />
       ) : (
-        <Link href={`${props.isDemoMode ? 'demo' : ''}/${entry.uuid}`}>
+        <Link
+          href={`${props.isDemoMode ? 'demo' : ''}/${entry.uuid}`}
+          prefetch={false}
+        >
           <SummaryComponent />
         </Link>
       )}
