@@ -78,7 +78,7 @@ export const ListItem = (props: {
       ) : (
         <Link
           href={`${props.isDemoMode ? 'demo' : ''}/${entry.uuid}`}
-          prefetch={false}
+          prefetch={!!props.isDemoMode}
         >
           <SummaryComponent />
         </Link>
