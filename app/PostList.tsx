@@ -20,11 +20,13 @@ export const PostList = ({
   searchQuery,
   isPreviewMode = false,
   isSelectMode = false,
+  isDemoMode = false,
 }: {
   entries: Entry[];
   searchQuery?: SearchQuery | undefined;
   isPreviewMode?: boolean;
   isSelectMode?: boolean;
+  isDemoMode?: boolean;
 }) => {
   const [selectedEntries, setSelectedEntries] = useState<Entry[]>([]);
 
@@ -56,6 +58,7 @@ export const PostList = ({
               searchQuery={searchQuery}
               isSelectMode={isSelectMode}
               isSelected={isSelectMode && selectedEntries.includes(entry)}
+              isDemoMode={isDemoMode}
               onSelect={() =>
                 setSelectedEntries((prevEntries) => {
                   if (prevEntries.includes(entry)) {

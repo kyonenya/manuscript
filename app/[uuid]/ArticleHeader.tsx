@@ -26,11 +26,13 @@ type Form = Pick<Entry, 'createdAt' | 'tags' | 'starred'>;
 export const ArticleHeader = ({
   entry,
   tagHistory = [],
+  isDemoMode = false,
   updateAction,
   deleteAction,
 }: {
   entry: Entry;
   tagHistory?: string[];
+  isDemoMode?: boolean;
   updateAction?: (props: { entry: Entry }) => void;
   deleteAction?: () => Promise<void>;
 }) => {
@@ -96,7 +98,7 @@ export const ArticleHeader = ({
   return (
     <HeaderContainer>
       <IconsContainer>
-        <Link href="/">
+        <Link href={`/${isDemoMode ? 'demo' : ''}`}>
           <IconButton>
             <ArrowLeftIcon />
           </IconButton>

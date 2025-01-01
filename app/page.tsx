@@ -1,7 +1,6 @@
 import { revalidatePath } from 'next/cache';
 import { Suspense } from 'react';
 import { Entry } from '../domain/Entry';
-// import { sampleEntries } from '../domain/sampleEntries';
 import {
   createMany,
   deleteAll,

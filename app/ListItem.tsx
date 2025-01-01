@@ -49,6 +49,7 @@ export const ListItem = (props: {
   searchQuery: SearchQuery | undefined;
   isSelected: boolean;
   isSelectMode: boolean;
+  isDemoMode?: boolean;
   onSelect: () => void;
 }) => {
   const { entry } = props;
@@ -75,7 +76,7 @@ export const ListItem = (props: {
       {props.isSelectMode ? (
         <SummaryComponent />
       ) : (
-        <Link href={`/${entry.uuid.toLowerCase()}`}>
+        <Link href={`${props.isDemoMode ? 'demo' : ''}/${entry.uuid}`}>
           <SummaryComponent />
         </Link>
       )}
@@ -87,7 +88,11 @@ export const ListItem = (props: {
         {props.entry.starred && (
           <StarIcon className="w-5 text-yellow-400 dark:text-yellow-500" />
         )}
-        <Tags tags={entry.tags} searchedTag={props.searchQuery?.tag} />
+        <Tags
+          tags={entry.tags}
+          searchedTag={props.searchQuery?.tag}
+          isDemoMode={props.isDemoMode}
+        />
       </div>
     </button>
   );
