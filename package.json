@@ -5,11 +5,10 @@
   "scripts": {
     "tsc": "tsc -w",
     "build": "next build",
-    "vercel-build": "prisma generate && prisma db push && next build",
+    "vercel-build": "prisma generate && next build",
     "dev": "next dev",
     "fmt": "prettier --write **/*.{ts,tsx,json}",
     "lint": "next lint --fix",
-    "prisma:push": "prisma db push",
     "prisma:generate": "prisma generate",
     "start": "next start",
     "test:domain": "glob -c 'node --test --no-warnings --loader tsx' './domain/__tests__/**.ts'",

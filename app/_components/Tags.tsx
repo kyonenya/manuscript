@@ -15,6 +15,7 @@ export const Tags = (props: {
             props.searchedTag === tag ? '' : `?tag=${tag}`
           }`}
           key={tag}
+          prefetch={false}
         >
           <div
             className={twMerge(
