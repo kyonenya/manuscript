@@ -1,6 +1,8 @@
 'use client';
 
 import { XMarkIcon } from '@heroicons/react/24/solid';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import {
   cloneElement,
   forwardRef,
@@ -33,6 +35,8 @@ export const Input = forwardRef(function _Input(
   } & ComponentProps<'input'>,
   forwardedRef: ForwardedRef<HTMLInputElement>
 ) {
+  const pathname = usePathname();
+
   const internalRef = useRef<HTMLInputElement | null>(null);
   const ref = forwardedRef ?? internalRef;
 
@@ -65,15 +69,18 @@ export const Input = forwardRef(function _Input(
 
       {onSearch && (
         <div className="absolute right-1.5">
-          <IconButton
-            className="h-5 w-5 rounded-full"
-            onClick={() => {
-              if (!ref || !('current' in ref) || !ref.current) return;
-              ref.current.value = '';
-            }}
-          >
-            <XMarkIcon className="w-4" />
-          </IconButton>
+          {/* reset all searchParams */}
+          <Link href={pathname} passHref>
+            <IconButton
+              className="h-5 w-5 rounded-full"
+              onClick={() => {
+                if (!ref || !('current' in ref) || !ref.current) return;
+                ref.current.value = '';
+              }}
+            >
+              <XMarkIcon className="w-4" />
+            </IconButton>
+          </Link>
         </div>
       )}
     </div>

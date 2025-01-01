@@ -1,9 +1,10 @@
 ## これはなんのアプリですか
 
-自分が書き溜めている研究草稿を管理するための Web アプリ。日記アプリ [Day One](https://dayoneapp.com) からの JSON インポートや記事の一括印刷に対応。
+自分が書き溜めている研究草稿を管理するための Web アプリ。  
+日記アプリ [Day One](https://dayoneapp.com) からの JSON インポートや記事の一括印刷に対応している。
 
-自分用のアプリなので認証をかけてありますが、
-https://manuscript.vercel.app/demo
+自分用のアプリなので認証をかけてありますが、  
+https://manuscript.vercel.app/demo  
 よりログインしなくてもデモ版が閲覧できます。
 
 ## 使用技術
