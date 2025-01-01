@@ -12,18 +12,20 @@ export default async function IndexPage({
     preview?: string;
   };
 }) {
+  const isDemoMode = true;
+
   const isSelectMode = !!searchParams.select;
   const isPreviewMode = !!searchParams.preview;
 
   return (
     <>
       {!isPreviewMode && (
-        <PostListHeader isSelectMode={isSelectMode} isDemoMode={true} />
+        <PostListHeader isSelectMode={isSelectMode} isDemoMode={isDemoMode} />
       )}
       <PostList
         entries={sampleEntries}
         searchQuery={{ keyword: searchParams.keyword, tag: searchParams.tag }}
-        isDemoMode={true}
+        isDemoMode={isDemoMode}
       />
     </>
   );

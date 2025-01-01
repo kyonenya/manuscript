@@ -1,18 +1,26 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+/**
+ * Exclude `_next` internals
+ *
+ * @see https://github.com/vercel/next.js/discussions/41047#discussioncomment-3769637
+ */
 export const config = {
-  matcher: ['/:path*'],
+  matcher: ['/((?!api|static|favicon.ico|_next).*)'],
 };
 
 /**
  * Basic Authentication Middleware
  *
  * @see https://github.com/vercel/examples/blob/main/edge-middleware/basic-auth-password/middleware.ts
- * @see https://qiita.com/yuuki-h/items/340a296e0b9b3b5753e1
+ * @see https://qiita.com/yuuki-h/items/340a296e0b9b3b5753e1#%E8%A7%A3%E8%AA%AC-1
  */
 export function middleware(req: NextRequest) {
+  if (req.nextUrl.pathname.startsWith('/demo')) {
+    return NextResponse.next();
+  }
+
   const basicAuth = req.headers.get('authorization');
-  const url = req.nextUrl;
 
   if (basicAuth) {
     const authValue = basicAuth.split(' ')[1];
@@ -25,6 +33,7 @@ export function middleware(req: NextRequest) {
       return NextResponse.next();
     }
   }
+  const url = req.nextUrl;
   url.pathname = '/api/auth';
 
   return NextResponse.rewrite(url);

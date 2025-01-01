@@ -9,6 +9,8 @@ export default async function ArticlePage({
 }: {
   params: { uuid: string };
 }) {
+  const isDemoMode = true;
+
   const entry = sampleEntries.find(
     (entry) => entry.uuid === uuid.toUpperCase()
   );
@@ -18,8 +20,12 @@ export default async function ArticlePage({
 
   return (
     <>
-      <ArticleHeader entry={entry} tagHistory={tagHistory} isDemoMode={true} />
-      <Article entry={entry} />
+      <ArticleHeader
+        entry={entry}
+        tagHistory={tagHistory}
+        isDemoMode={isDemoMode}
+      />
+      <Article entry={entry} isDemoMode={isDemoMode} />
     </>
   );
 }

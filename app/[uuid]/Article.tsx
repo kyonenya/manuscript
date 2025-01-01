@@ -13,7 +13,7 @@ const ArticleContainer = (props: PropsWithChildren) => (
   </div>
 );
 
-export const Article = (props: { entry: Entry }) => {
+export const Article = (props: { entry: Entry; isDemoMode?: boolean }) => {
   return (
     <ArticleContainer>
       <MarkdownText>
@@ -26,7 +26,7 @@ export const Article = (props: { entry: Entry }) => {
         <p className="text-gray-600 dark:text-gray-400">
           {formatTZ(props.entry.createdAt, 'yyyy-MM-dd')}
         </p>
-        <Tags tags={props.entry.tags} />
+        <Tags tags={props.entry.tags} isDemoMode={props.isDemoMode} />
       </div>
     </ArticleContainer>
   );
