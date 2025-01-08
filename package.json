@@ -33,7 +33,7 @@
     "search-summary": "^1.1.2"
   },
   "devDependencies": {
-    "@types/node": "^18.16.19",
+    "@types/node": "^18.19.69",
     "@types/react": "^18.2.13",
     "@types/react-dom": "^18.2.6",
     "@typescript-eslint/eslint-plugin": "^5.60.0",
