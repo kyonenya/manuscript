@@ -10,6 +10,8 @@ import {
 import { Article } from './Article';
 import { ArticleHeader } from './ArticleHeader';
 
+export const dynamic = "force-dynamic";
+
 export default async function ArticlePage({
   params: { uuid },
 }: {
@@ -30,6 +32,7 @@ export default async function ArticlePage({
   const deleteAction = async () => {
     'use server';
     await deleteOne({ uuid });
+    revalidatePath(`/${uuid}`);
     revalidatePath('/');
     redirect('/');
   };

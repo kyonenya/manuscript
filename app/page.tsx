@@ -10,6 +10,8 @@ import {
 import { PostList, PostListSkelton } from './PostList';
 import { PostListHeader } from './PostListHeader';
 
+export const dynamic = "force-dynamic";
+
 export default async function IndexPage({
   searchParams,
 }: {
@@ -34,8 +36,14 @@ export default async function IndexPage({
 
   const deleteAllAction = async () => {
     'use server';
+    // 削除前に全UUIDを取得
+    const uuids = await readAllUuids();
     await deleteAll();
     revalidatePath('/');
+    // 各個別記事ページも再検証
+    uuids.forEach((uuid) => {
+      revalidatePath(`/${uuid}`);
+    });
   };
 
   const LazyPostList = async () => {
