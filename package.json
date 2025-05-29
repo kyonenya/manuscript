@@ -11,8 +11,8 @@
     "lint": "next lint --fix",
     "prisma:generate": "prisma generate",
     "start": "next start",
-    "test:domain": "glob -c 'node --test --no-warnings --loader tsx' './domain/__tests__/**.ts'",
-    "test:infra": "glob -c 'node --test --no-warnings --loader tsx' './infra/__tests__/**.ts'"
+    "test:domain": "glob -c 'node --test --no-warnings --import tsx' './domain/__tests__/**.ts'",
+    "test:infra": "glob -c 'node --test --no-warnings --import tsx' './infra/__tests__/**.ts'"
   },
   "dependencies": {
     "@heroicons/react": "^2.0.18",

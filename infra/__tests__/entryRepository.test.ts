@@ -88,7 +88,7 @@ describe('Query:entriesRepository', () => {
 
   it('readAllUuids', async () => {
     const uuids = await entryRepository.readAllUuids();
-    deepEqual(uuids, [entry1.uuid, entry2.uuid]);
+    deepEqual(uuids, [entry2.uuid, entry1.uuid]);
   });
 
   it('readTagList', async () => {
