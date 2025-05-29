@@ -12,7 +12,7 @@ import { PostListHeader } from './PostListHeader';
 
 export const dynamic = 'force-dynamic';
 
-export default async function IndexPage(props0: {
+export default async function IndexPage(props: {
   searchParams: Promise<{
     keyword?: string;
     tag?: string;
@@ -20,7 +20,7 @@ export default async function IndexPage(props0: {
     preview?: string;
   }>;
 }) {
-  const searchParams = await props0.searchParams;
+  const searchParams = await props.searchParams;
   const isSelectMode = !!searchParams.select;
   const isPreviewMode = !!searchParams.preview;
 

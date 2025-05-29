@@ -12,10 +12,10 @@ import { ArticleHeader } from './ArticleHeader';
 
 export const dynamic = 'force-dynamic';
 
-export default async function ArticlePage(props0: {
+export default async function ArticlePage(props: {
   params: Promise<{ uuid: string }>;
 }) {
-  const params = await props0.params;
+  const params = await props.params;
 
   const { uuid } = params;
 
