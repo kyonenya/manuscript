@@ -30,6 +30,7 @@ export default async function ArticlePage({
   const deleteAction = async () => {
     'use server';
     await deleteOne({ uuid });
+    revalidatePath(`/${uuid}`);
     revalidatePath('/');
     redirect('/');
   };
