@@ -10,6 +10,8 @@ import {
 import { Article } from './Article';
 import { ArticleHeader } from './ArticleHeader';
 
+export const dynamic = "force-dynamic";
+
 export default async function ArticlePage({
   params: { uuid },
 }: {

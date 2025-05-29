@@ -10,6 +10,8 @@ import {
 import { PostList, PostListSkelton } from './PostList';
 import { PostListHeader } from './PostListHeader';
 
+export const dynamic = "force-dynamic";
+
 export default async function IndexPage({
   searchParams,
 }: {
