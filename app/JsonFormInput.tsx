@@ -1,7 +1,7 @@
 'use client';
 
 import { ArrowUpIcon } from '@heroicons/react/24/solid';
-import { experimental_useFormStatus as useFormStatus } from 'react-dom';
+import { useFormStatus } from 'react-dom';
 import { DayOneData, toEntry } from '../domain/DayOneEntry';
 import { Entry } from '../domain/Entry';
 import { readFileAsText } from '../domain/utils';

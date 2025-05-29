@@ -11,7 +11,7 @@ import {
 } from '@heroicons/react/24/solid';
 import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { experimental_useFormStatus as useFormStatus } from 'react-dom';
+import { useFormStatus } from 'react-dom';
 import { Entry } from '../domain/Entry';
 import { updateSearchParams } from '../domain/utils';
 import { JsonFormInput } from './JsonFormInput';
