@@ -36,11 +36,11 @@
     "@types/node": "^18.19.69",
     "@types/react": "19.1.6",
     "@types/react-dom": "19.1.5",
-    "@typescript-eslint/eslint-plugin": "^5.60.0",
+    "@typescript-eslint/eslint-plugin": "^8.33.0",
     "autoprefixer": "^10.4.14",
     "eslint": "^8.43.0",
     "eslint-config-next": "15.3.2",
-    "eslint-config-prettier": "^8.8.0",
+    "eslint-config-prettier": "^10.1.5",
     "glob": "^10.3.2",
     "postcss": "^8.4.24",
     "prettier": "^2.8.8",
@@ -51,9 +51,5 @@
     "tsx": "^3.12.7",
     "typescript": "^5.1.6"
   },
-  "license": "MIT",
-  "overrides": {
-    "@types/react": "19.1.6",
-    "@types/react-dom": "19.1.5"
-  }
+  "license": "MIT"
 }

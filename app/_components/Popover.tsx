@@ -6,14 +6,14 @@ import {
   Trigger,
   Content,
   Close,
-  PopperContentProps,
+  PopoverContentProps,
 } from '@radix-ui/react-popover';
 import { ReactElement, ReactNode } from 'react';
 import { IconButton } from './IconButton';
 
 export const Popover = (props: {
-  triggerButton: ReactElement<any>;
-  side?: PopperContentProps['side'];
+  triggerButton: ReactElement;
+  side?: PopoverContentProps['side'];
   children?: ReactNode;
 }) => (
   <Root>

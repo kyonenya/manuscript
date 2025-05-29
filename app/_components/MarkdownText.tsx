@@ -4,7 +4,7 @@ import remarkGfm from 'remark-gfm';
 
 const customTheme: Record<
   string,
-  (props: { children?: ReactNode; [key: string]: unknown }) => ReactElement<any>
+  (props: { children?: ReactNode; [key: string]: unknown }) => ReactElement
 > = {
   p: (props) => <p className="pb-2 text-justify indent-4">{props.children}</p>,
   h1: (props) => <h1 className="my-4 text-lg">{props.children}</h1>,
