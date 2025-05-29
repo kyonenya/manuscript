@@ -10,18 +10,17 @@ import {
 import { PostList, PostListSkelton } from './PostList';
 import { PostListHeader } from './PostListHeader';
 
-export const dynamic = "force-dynamic";
+export const dynamic = 'force-dynamic';
 
-export default async function IndexPage({
-  searchParams,
-}: {
-  searchParams: {
+export default async function IndexPage(props: {
+  searchParams: Promise<{
     keyword?: string;
     tag?: string;
     select?: string;
     preview?: string;
-  };
+  }>;
 }) {
+  const searchParams = await props.searchParams;
   const isSelectMode = !!searchParams.select;
   const isPreviewMode = !!searchParams.preview;
 

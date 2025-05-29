@@ -28,8 +28,8 @@ export const Input = forwardRef(function _Input(
     children: _children,
     ...props
   }: {
-    leftIcon?: ReactElement;
-    leftIconButtonIcon?: ReactElement;
+    leftIcon?: ReactElement<any>;
+    leftIconButtonIcon?: ReactElement<any>;
     onSearch?: (value: string) => void;
     children?: undefined; // no children allowed
   } & ComponentProps<'input'>,

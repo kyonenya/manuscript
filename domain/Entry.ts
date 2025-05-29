@@ -1,5 +1,3 @@
-import crypto from 'crypto';
-
 export type Entry = {
   text: string;
   starred: boolean;

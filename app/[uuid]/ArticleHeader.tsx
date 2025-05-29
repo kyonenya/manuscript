@@ -9,7 +9,7 @@ import {
 } from '@heroicons/react/24/solid';
 import { zonedTimeToUtc } from 'date-fns-tz';
 import Link from 'next/link';
-import { experimental_useFormStatus as useFormStatus } from 'react-dom';
+import { useFormStatus } from 'react-dom';
 import { useForm, useWatch } from 'react-hook-form';
 import { Entry } from '../../domain/Entry';
 import { formatTZ } from '../../domain/dateUtils';

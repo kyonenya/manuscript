@@ -5,8 +5,9 @@
  **/
 module.exports = {
   experimental: {
-    serverActions: true,
-    serverActionsBodySizeLimit: '10mb',
+    serverActions: {
+      bodySizeLimit: '10mb',
+    },
   },
   eslint: {
     dirs: ['app', 'domain', 'infra'],

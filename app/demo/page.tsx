@@ -2,16 +2,15 @@ import { sampleEntries } from '../../domain/sampleEntries';
 import { PostList } from '../PostList';
 import { PostListHeader } from '../PostListHeader';
 
-export default async function IndexPage({
-  searchParams,
-}: {
-  searchParams: {
+export default async function IndexPage(props: {
+  searchParams: Promise<{
     keyword?: string;
     tag?: string;
     select?: string;
     preview?: string;
-  };
+  }>;
 }) {
+  const searchParams = await props.searchParams;
   const isDemoMode = true;
 
   const isSelectMode = !!searchParams.select;
