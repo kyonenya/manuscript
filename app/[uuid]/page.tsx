@@ -10,13 +10,15 @@ import {
 import { Article } from './Article';
 import { ArticleHeader } from './ArticleHeader';
 
-export const dynamic = "force-dynamic";
+export const dynamic = 'force-dynamic';
 
-export default async function ArticlePage({
-  params: { uuid },
-}: {
-  params: { uuid: string };
+export default async function ArticlePage(props0: {
+  params: Promise<{ uuid: string }>;
 }) {
+  const params = await props0.params;
+
+  const { uuid } = params;
+
   const entry = await readOne({ uuid });
   if (!entry) notFound();
 

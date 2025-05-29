@@ -4,11 +4,13 @@ import { sampleEntries } from '../../../domain/sampleEntries';
 import { Article } from '../../[uuid]/Article';
 import { ArticleHeader } from '../../[uuid]/ArticleHeader';
 
-export default async function ArticlePage({
-  params: { uuid },
-}: {
-  params: { uuid: string };
+export default async function ArticlePage(props: {
+  params: Promise<{ uuid: string }>;
 }) {
+  const params = await props.params;
+
+  const { uuid } = params;
+
   const isDemoMode = true;
 
   const entry = sampleEntries.find(

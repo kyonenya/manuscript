@@ -13,7 +13,7 @@ export const IconCheckbox = forwardRef(function _IconCheckbox(
     children,
     ...props
   }: {
-    children: ReactElement;
+    children: ReactElement<any>;
   } & ComponentProps<'input'>,
   ref: ForwardedRef<HTMLInputElement>
 ) {

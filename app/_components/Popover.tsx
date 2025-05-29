@@ -12,7 +12,7 @@ import { ReactElement, ReactNode } from 'react';
 import { IconButton } from './IconButton';
 
 export const Popover = (props: {
-  triggerButton: ReactElement;
+  triggerButton: ReactElement<any>;
   side?: PopperContentProps['side'];
   children?: ReactNode;
 }) => (

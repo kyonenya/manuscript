@@ -43,8 +43,8 @@ export const Button = forwardRef(function _Button(
     ...props
   }: {
     variant?: VariantProps<typeof button>;
-    leftIcon?: ReactElement;
-    rightIcon?: ReactElement;
+    leftIcon?: ReactElement<any>;
+    rightIcon?: ReactElement<any>;
   } & ComponentProps<'button'>,
   ref: ForwardedRef<HTMLButtonElement>
 ) {
