@@ -4,7 +4,7 @@
   "entry_script": "dev",
   "scripts": {
     "tsc": "tsc -w",
-    "build": "next build",
+    "build": "next build --turbopack",
     "vercel-build": "prisma generate && next build",
     "dev": "next dev --turbopack",
     "fmt": "prettier --write **/*.{ts,tsx,json}",

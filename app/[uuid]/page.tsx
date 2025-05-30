@@ -1,10 +1,11 @@
 import { revalidateTag } from 'next/cache';
 import { notFound, redirect } from 'next/navigation';
 import { Entry } from '../../domain/Entry';
-import { deleteOne, readTagList, updateOne } from '../../infra/entryRepository';
+import { deleteOne, updateOne } from '../../infra/entryRepository';
 import { Article } from './Article';
 import { ArticleHeader } from './ArticleHeader';
 import { getEntry } from './getEntry';
+import { getTagList } from './getTagList';
 
 export default async function ArticlePage(props: {
   params: Promise<{ uuid: string }>;
@@ -14,7 +15,7 @@ export default async function ArticlePage(props: {
   const entry = await getEntry(uuid);
   if (!entry) notFound();
 
-  const tagHistory = await readTagList();
+  const tagHistory = await getTagList();
 
   const updateAction = async (props: { entry: Entry }) => {
     'use server';
