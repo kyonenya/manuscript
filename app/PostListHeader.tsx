@@ -103,7 +103,7 @@ export const PostListHeader = (props: {
               searchParams,
               pathname,
               [value ? 'append' : 'remove']: { name: 'keyword', value },
-            })
+            }),
           )
         }
       />
@@ -119,7 +119,7 @@ export const PostListHeader = (props: {
                   pathname,
                   append: { name: 'preview', value: 'true' },
                   remove: { name: 'select' },
-                })
+                }),
               )
             }
           >
@@ -144,7 +144,7 @@ export const PostListHeader = (props: {
                   name: 'select',
                   value: 'true',
                 },
-              })
+              }),
             )
           }
         >

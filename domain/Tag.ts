@@ -16,7 +16,7 @@ export const entriesTagToABs = (props: { entries: Entry[]; tags: Tag[] }) => {
         entry.uuid,
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         tagNameToId({ name: tag, tags: props.tags })!,
-      ])
+      ]),
     )
     .flat();
 };

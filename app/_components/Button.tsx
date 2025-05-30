@@ -9,11 +9,11 @@ import { twMerge } from 'tailwind-merge';
 import { tv, VariantProps } from 'tailwind-variants';
 
 const button = tv({
-  base: 'flex w-full items-center justify-center rounded-md p-2 transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 disabled:cursor-not-allowed',
+  base: 'flex w-full items-center justify-center rounded-md p-2 transition-colors duration-200 ease-in-out focus:ring-2 focus:outline-none disabled:cursor-not-allowed',
   variants: {
     color: {
       default:
-        'bg-[#edf2f7] enabled:hover:bg-gray-200 disabled:opacity-60 dark:bg-gray-700 dark:text-gray-300 enabled:dark:hover:bg-gray-600 ',
+        'bg-[#edf2f7] enabled:hover:bg-gray-200 disabled:opacity-60 dark:bg-gray-700 dark:text-gray-300 enabled:dark:hover:bg-gray-600',
       warning:
         'bg-[#edf2f7] font-semibold text-red-500 enabled:hover:bg-gray-200 disabled:opacity-60 dark:bg-gray-700 dark:text-rose-500 enabled:dark:hover:bg-gray-600',
       emerald:
@@ -46,7 +46,7 @@ export const Button = forwardRef(function _Button(
     leftIcon?: ReactElement<any>;
     rightIcon?: ReactElement<any>;
   } & ComponentProps<'button'>,
-  ref: ForwardedRef<HTMLButtonElement>
+  ref: ForwardedRef<HTMLButtonElement>,
 ) {
   return (
     <button

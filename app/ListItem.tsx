@@ -69,7 +69,7 @@ export const ListItem = (props: {
       className={twMerge(
         listItemClassName,
         props.isSelected && 'bg-yellow-100 dark:bg-gray-600',
-        !props.isSelected && 'bg-white dark:bg-gray-800'
+        !props.isSelected && 'bg-white dark:bg-gray-800',
       )}
       onClick={props.isSelectMode ? props.onSelect : undefined}
     >
@@ -105,7 +105,7 @@ export const ListItemSkelton = () => (
   <div
     className={twMerge(
       listItemClassName,
-      'h-[150px] justify-center bg-white dark:bg-gray-800 lg:h-[200px]'
+      'h-[150px] justify-center bg-white lg:h-[200px] dark:bg-gray-800',
     )}
   >
     <Skelton />

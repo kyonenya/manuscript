@@ -1,6 +1,6 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
 
 /** @see https://stackoverflow.com/questions/63212723/using-dark-mode-in-react-select */
 @layer components {

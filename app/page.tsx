@@ -28,7 +28,7 @@ export default async function IndexPage(props: {
       return readMany({ tag, keyword, limit });
     },
     undefined,
-    { tags: ['entry'] }
+    { tags: ['entry'] },
   );
 
   const importAction = async (props: { entries: Entry[] }) => {

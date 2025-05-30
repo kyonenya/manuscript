@@ -50,7 +50,7 @@ export const PostList = ({
             (entry) =>
               (!searchQuery?.keyword ||
                 entry.text.includes(searchQuery.keyword)) &&
-              (!searchQuery?.tag || entry.tags.includes(searchQuery.tag))
+              (!searchQuery?.tag || entry.tags.includes(searchQuery.tag)),
           )
           .map((entry) => (
             <ListItem
@@ -63,7 +63,7 @@ export const PostList = ({
                 setSelectedEntries((prevEntries) => {
                   if (prevEntries.includes(entry)) {
                     return prevEntries.filter(
-                      (prevEntry) => prevEntry !== entry
+                      (prevEntry) => prevEntry !== entry,
                     );
                   }
                   return [entry, ...prevEntries];

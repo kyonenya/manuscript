@@ -84,10 +84,10 @@ export const ArticleHeader = ({
                 ...formData,
                 createdAt: zonedTimeToUtc(
                   formData.createdAt,
-                  'Asia/Tokyo'
+                  'Asia/Tokyo',
                 ).toISOString(),
               },
-            })
+            }),
           )()
         }
       >

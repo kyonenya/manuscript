@@ -23,7 +23,7 @@ export const IconButton = forwardRef(function _IconButton(
   }: {
     children: ReactElement<any>;
   } & ComponentProps<'button'>,
-  ref: ForwardedRef<HTMLButtonElement>
+  ref: ForwardedRef<HTMLButtonElement>,
 ) {
   const className = twMerge(iconButtonClassName, props.className);
 
@@ -32,7 +32,7 @@ export const IconButton = forwardRef(function _IconButton(
       {cloneElement(children, {
         className: twMerge(
           'm-auto w-5 text-gray-700 dark:text-gray-300',
-          children.props.className
+          children.props.className,
         ),
       })}
     </button>
