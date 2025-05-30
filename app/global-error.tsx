@@ -27,7 +27,7 @@ export default function GlobalError({
       <div className="container mx-auto my-auto flex items-center px-6 py-12 lg:py-20">
         <div className="mx-auto flex max-w-sm flex-col items-center text-center">
           <p className="text-md font-medium text-rose-500">500 error</p>
-          <h1 className="mt-3 text-2xl font-semibold text-gray-800 dark:text-white md:text-3xl">
+          <h1 className="mt-3 text-2xl font-semibold text-gray-800 md:text-3xl dark:text-white">
             Internal Server Error
           </h1>
           <p className="mt-4 text-gray-500 dark:text-gray-400">

@@ -22,7 +22,7 @@ export const Popover = (props: {
       side={props.side}
       className="transform-gpu rounded border border-gray-200 bg-white p-1 shadow-lg transition duration-200 ease-in-out dark:border-gray-600 dark:bg-gray-800"
     >
-      <Close className="absolute right-0.5 top-0.5" asChild>
+      <Close className="absolute top-0.5 right-0.5" asChild>
         <IconButton className="h-6 w-6 rounded-full">
           <XMarkIcon />
         </IconButton>

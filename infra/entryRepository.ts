@@ -110,7 +110,7 @@ export const createMany = async (props: {
         ...rest,
         created_at: createdAt,
         modified_at: modifiedAt,
-      })
+      }),
     ),
   });
 
@@ -126,8 +126,8 @@ export const createMany = async (props: {
   const [bp, tagsCount] = await prisma.$transaction(
     [createEntry, connectEntriesToTags].filter(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (v): v is PrismaPromise<any> => !!v
-    )
+      (v): v is PrismaPromise<any> => !!v,
+    ),
   );
   return [bp.count, tagsCount ?? 0];
 };

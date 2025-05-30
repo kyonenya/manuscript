@@ -14,7 +14,7 @@ export default async function ArticlePage(props: {
   const isDemoMode = true;
 
   const entry = sampleEntries.find(
-    (entry) => entry.uuid === uuid.toUpperCase()
+    (entry) => entry.uuid === uuid.toUpperCase(),
   );
   if (!entry) notFound();
 

@@ -33,7 +33,7 @@ export const Input = forwardRef(function _Input(
     onSearch?: (value: string) => void;
     children?: undefined; // no children allowed
   } & ComponentProps<'input'>,
-  forwardedRef: ForwardedRef<HTMLInputElement>
+  forwardedRef: ForwardedRef<HTMLInputElement>,
 ) {
   const pathname = usePathname();
 
@@ -59,10 +59,10 @@ export const Input = forwardRef(function _Input(
       <input
         {...props}
         className={twMerge(
-          'relative w-full rounded-r-md bg-transparent py-2 pl-3 pr-3 text-gray-700 focus:outline-none dark:text-gray-200',
+          'relative w-full rounded-r-md bg-transparent py-2 pr-3 pl-3 text-gray-700 focus:outline-none dark:text-gray-200',
           leftIcon && 'pl-10',
-          leftIconButtonIcon && 'pl-12 pr-2',
-          props.className
+          leftIconButtonIcon && 'pr-2 pl-12',
+          props.className,
         )}
         ref={ref}
       />

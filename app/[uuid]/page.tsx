@@ -18,12 +18,12 @@ export default async function ArticlePage(props: {
   const getCachedEntry = unstable_cache(
     async (uuid: string) => readOne({ uuid }),
     undefined,
-    { tags: ['entry'] }
+    { tags: ['entry'] },
   );
   const getCachedTagList = unstable_cache(
     async () => readTagList(),
     undefined,
-    { tags: ['entry'] }
+    { tags: ['entry'] },
   );
 
   const entry = await getCachedEntry(uuid);
