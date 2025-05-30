@@ -25,6 +25,7 @@ export const readMany = async (props: {
   limit: number;
   offset?: number;
 }): Promise<Entry[]> => {
+  console.log('readMany', props);
   const rows = await prisma.entry.findMany({
     where: {
       ...(props.keyword ? { text: { contains: props.keyword } } : {}),
@@ -49,6 +50,7 @@ export const readMany = async (props: {
 export const readOne = async (props: {
   uuid: string;
 }): Promise<Entry | undefined> => {
+  console.log('readOne', props.uuid);
   const row = await prisma.entry.findUnique({
     where: { uuid: props.uuid.toUpperCase() },
     include: { tags: true },
