@@ -7,7 +7,7 @@
     "build": "next build",
     "vercel-build": "prisma generate && next build",
     "dev": "next dev --turbopack",
-    "fmt": "prettier --write **/*.{ts,tsx,json,js,mjs}",
+    "fmt": "prettier --write **/*.{ts,tsx,json,js,mjs,css}",
     "lint": "next lint --fix",
     "prisma:generate": "prisma generate",
     "start": "next start",
