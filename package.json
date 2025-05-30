@@ -4,7 +4,7 @@
   "entry_script": "dev",
   "scripts": {
     "tsc": "tsc -w",
-    "build": "next build",
+    "build": "next build --turbopack",
     "vercel-build": "prisma generate && next build",
     "dev": "next dev --turbopack",
     "fmt": "prettier --write **/*.{ts,tsx,json}",
@@ -22,7 +22,7 @@
     "@radix-ui/react-popover": "^1.1.14",
     "date-fns": "^2.30.0",
     "date-fns-tz": "^2.0.0",
-    "next": "^15.3.2",
+    "next": "^15.4.0-canary.57",
     "prisma": "^6.1.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",

@@ -46,3 +46,4 @@ https://manuscript.vercel.app/demo
 
 - [Turso - manuscript](https://app.turso.tech/kyonenya/databases/manuscript)
 - [Vercel - manuscript](https://vercel.com/kyonenyas-projects/manuscript)
+  - [manuscript – Logs – Vercel](https://vercel.com/kyonenyas-projects/manuscript/logs)

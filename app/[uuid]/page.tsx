@@ -1,4 +1,4 @@
-import { revalidatePath } from 'next/cache';
+import { revalidateTag, unstable_cache } from 'next/cache';
 import { notFound, redirect } from 'next/navigation';
 import { Entry } from '../../domain/Entry';
 import {
@@ -10,32 +10,36 @@ import {
 import { Article } from './Article';
 import { ArticleHeader } from './ArticleHeader';
 
-export const dynamic = 'force-dynamic';
-
 export default async function ArticlePage(props: {
   params: Promise<{ uuid: string }>;
 }) {
-  const params = await props.params;
+  const { uuid } = await props.params;
 
-  const { uuid } = params;
+  const getCachedEntry = unstable_cache(
+    async (uuid: string) => readOne({ uuid }),
+    undefined,
+    { tags: ['entry'] }
+  );
+  const getCachedTagList = unstable_cache(
+    async () => readTagList(),
+    undefined,
+    { tags: ['entry'] }
+  );
 
-  const entry = await readOne({ uuid });
+  const entry = await getCachedEntry(uuid);
   if (!entry) notFound();
-
-  const tagHistory = await readTagList();
+  const tagHistory = await getCachedTagList();
 
   const updateAction = async (props: { entry: Entry }) => {
     'use server';
     await updateOne(props);
-    revalidatePath(`/${uuid}`);
-    revalidatePath('/');
+    revalidateTag('entry');
   };
 
   const deleteAction = async () => {
     'use server';
     await deleteOne({ uuid });
-    revalidatePath(`/${uuid}`);
-    revalidatePath('/');
+    revalidateTag('entry');
     redirect('/');
   };
 
