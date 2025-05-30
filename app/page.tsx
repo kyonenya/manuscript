@@ -7,8 +7,6 @@ import { PostList, PostListSkelton } from './PostList';
 import { PostListHeader } from './PostListHeader';
 import { getEntries } from './getEntries';
 
-export const revalidate = 60;
-
 export default async function IndexPage(props: {
   searchParams: Promise<{
     keyword?: string;

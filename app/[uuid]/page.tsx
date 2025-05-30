@@ -8,8 +8,6 @@ import { ArticleHeader } from './ArticleHeader';
 import { getEntry } from './getEntry';
 import { getTagList } from './getTagList';
 
-export const revalidate = 60;
-
 export default async function ArticlePage(props: {
   params: Promise<{ uuid: string }>;
 }) {
