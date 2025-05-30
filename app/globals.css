@@ -1,5 +1,12 @@
 @import "tailwindcss";
 
+@custom-variant sm (@media (min-width: 30em)); /* equivalent to 480px */
+@custom-variant md (@media (min-width: 42em)); /* equivalent to 672px */
+@custom-variant lg (@media (min-width: 62em)); /* equivalent to 992px */
+@custom-variant xl (@media (min-width: 80em)); /* equivalent to 1280px */
+
+@custom-variant print (@media print);
+
 /** @see https://stackoverflow.com/questions/63212723/using-dark-mode-in-react-select */
 @layer components {
   .react-select-container .react-select__control {
