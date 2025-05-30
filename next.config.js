@@ -8,6 +8,8 @@ module.exports = {
     serverActions: {
       bodySizeLimit: '10mb',
     },
+    dynamicIO: true,
+    useCache: true,
   },
   eslint: {
     dirs: ['app', 'domain', 'infra'],

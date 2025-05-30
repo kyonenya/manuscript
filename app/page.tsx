@@ -1,4 +1,4 @@
-import { revalidatePath } from 'next/cache';
+import { revalidateTag } from 'next/cache';
 import { Suspense } from 'react';
 import { Entry } from '../domain/Entry';
 import {
@@ -9,8 +9,7 @@ import {
 } from '../infra/entryRepository';
 import { PostList, PostListSkelton } from './PostList';
 import { PostListHeader } from './PostListHeader';
-
-export const dynamic = 'force-dynamic';
+import { getEntries } from './getEntries';
 
 export default async function IndexPage(props: {
   searchParams: Promise<{
@@ -30,23 +29,17 @@ export default async function IndexPage(props: {
     await createMany({
       entries: props.entries.filter((entry) => !uuids.includes(entry.uuid)), // duplicate exclusion
     });
-    revalidatePath('/');
+    revalidateTag('entry');
   };
 
   const deleteAllAction = async () => {
     'use server';
-    // 削除前に全UUIDを取得
-    const uuids = await readAllUuids();
     await deleteAll();
-    revalidatePath('/');
-    // 各個別記事ページも再検証
-    uuids.forEach((uuid) => {
-      revalidatePath(`/${uuid}`);
-    });
+    revalidateTag('entry');
   };
 
   const LazyPostList = async () => {
-    const entries = await readMany({
+    const entries = await getEntries({
       tag: searchParams.tag,
       keyword: searchParams.keyword,
       limit: 300,
