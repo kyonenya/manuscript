@@ -1,4 +1,3 @@
-'use cache';
 import { revalidateTag } from 'next/cache';
 import { notFound, redirect } from 'next/navigation';
 import { Entry } from '../../domain/Entry';

@@ -1,4 +1,3 @@
-'use cache';
 import { revalidateTag } from 'next/cache';
 import { Suspense } from 'react';
 import { Entry } from '../domain/Entry';
