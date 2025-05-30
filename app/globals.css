@@ -1,7 +1,5 @@
 @import "tailwindcss";
 
-@custom-variant dark (&:where(.dark, .dark *));
-
 /** @see https://stackoverflow.com/questions/63212723/using-dark-mode-in-react-select */
 @layer components {
   .react-select-container .react-select__control {
