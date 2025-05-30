@@ -8,12 +8,13 @@ export const getEntries = async (props: {
   limit?: number;
 }) => {
   const { tag, keyword, limit = 300 } = props;
-
-  return unstable_cache(
+  const fetcher = unstable_cache(
     async () => readMany({ tag, keyword, limit }),
     [tag ?? '', keyword ?? '', limit.toString()],
     {
       tags: ['entry'],
     }
-  )();
+  );
+
+  return fetcher();
 };

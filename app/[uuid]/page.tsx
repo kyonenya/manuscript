@@ -1,12 +1,7 @@
 import { revalidateTag } from 'next/cache';
 import { notFound, redirect } from 'next/navigation';
 import { Entry } from '../../domain/Entry';
-import {
-  deleteOne,
-  readOne,
-  readTagList,
-  updateOne,
-} from '../../infra/entryRepository';
+import { deleteOne, readTagList, updateOne } from '../../infra/entryRepository';
 import { Article } from './Article';
 import { ArticleHeader } from './ArticleHeader';
 import { getEntry } from './getEntry';
