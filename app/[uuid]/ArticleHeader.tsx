@@ -7,7 +7,7 @@ import {
   TrashIcon,
   StarIcon,
 } from '@heroicons/react/24/solid';
-import { zonedTimeToUtc } from 'date-fns-tz';
+import { fromZonedTime } from 'date-fns-tz';
 import Link from 'next/link';
 import { useFormStatus } from 'react-dom';
 import { useForm, useWatch } from 'react-hook-form';
@@ -82,8 +82,8 @@ export const ArticleHeader = ({
               entry: {
                 ...entry,
                 ...formData,
-                createdAt: zonedTimeToUtc(
-                  formData.createdAt,
+                createdAt: fromZonedTime(
+                  formData.createdAt, // local 時刻文字列
                   'Asia/Tokyo',
                 ).toISOString(),
               },

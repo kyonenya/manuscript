@@ -1,5 +1,5 @@
-import { format, parseISO } from 'date-fns';
-import { utcToZonedTime } from 'date-fns-tz';
+import { formatInTimeZone } from 'date-fns-tz';
+import { parseISO } from 'date-fns';
 
 export const formatTZ = (isoDateString: string, formatStr: string): string =>
-  format(utcToZonedTime(parseISO(isoDateString), 'Asia/Tokyo'), formatStr);
+  formatInTimeZone(parseISO(isoDateString), 'Asia/Tokyo', formatStr);
