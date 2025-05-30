@@ -1,12 +1,11 @@
-import { createClient } from '@libsql/client/web'; // @see https://github.com/tursodatabase/libsql-client-ts/issues/184#issuecomment-2025317522
 import { PrismaLibSQL } from '@prisma/adapter-libsql';
 import { PrismaClient } from '@prisma/client';
+import {} from '@libsql/client/web';
 
-const libsql = createClient({
+const adapter = new PrismaLibSQL({
   url: process.env.TURSO_DATABASE_URL ?? '',
   authToken: process.env.TURSO_AUTH_TOKEN,
 });
-const adapter = new PrismaLibSQL(libsql);
 
 /**
  * Best practice for instantiating PrismaClient with Next.js
