@@ -1,21 +1,34 @@
-import { revalidateTag } from 'next/cache';
+import { revalidateTag, unstable_cache } from 'next/cache';
 import { notFound, redirect } from 'next/navigation';
 import { Entry } from '../../domain/Entry';
-import { deleteOne, updateOne } from '../../infra/entryRepository';
+import {
+  deleteOne,
+  readOne,
+  readTagList,
+  updateOne,
+} from '../../infra/entryRepository';
 import { Article } from './Article';
 import { ArticleHeader } from './ArticleHeader';
-import { getEntry } from './getEntry';
-import { getTagList } from './getTagList';
 
 export default async function ArticlePage(props: {
   params: Promise<{ uuid: string }>;
 }) {
   const { uuid } = await props.params;
 
-  const entry = await getEntry(uuid);
-  if (!entry) notFound();
+  const getCachedEntry = unstable_cache(
+    async (uuid: string) => readOne({ uuid }),
+    undefined,
+    { tags: ['entry'] }
+  );
+  const getCachedTagList = unstable_cache(
+    async () => readTagList(),
+    undefined,
+    { tags: ['entry'] }
+  );
 
-  const tagHistory = await getTagList();
+  const entry = await getCachedEntry(uuid);
+  if (!entry) notFound();
+  const tagHistory = await getCachedTagList();
 
   const updateAction = async (props: { entry: Entry }) => {
     'use server';

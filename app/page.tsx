@@ -1,10 +1,14 @@
-import { revalidateTag } from 'next/cache';
+import { revalidateTag, unstable_cache } from 'next/cache';
 import { Suspense } from 'react';
 import { Entry } from '../domain/Entry';
-import { createMany, deleteAll, readAllUuids } from '../infra/entryRepository';
+import {
+  createMany,
+  deleteAll,
+  readAllUuids,
+  readMany,
+} from '../infra/entryRepository';
 import { PostList, PostListSkelton } from './PostList';
 import { PostListHeader } from './PostListHeader';
-import { getEntries } from './getEntries';
 
 export default async function IndexPage(props: {
   searchParams: Promise<{
@@ -17,6 +21,15 @@ export default async function IndexPage(props: {
   const searchParams = await props.searchParams;
   const isSelectMode = !!searchParams.select;
   const isPreviewMode = !!searchParams.preview;
+
+  const getCachedEntry = unstable_cache(
+    async (props: { tag?: string; keyword?: string; limit: number }) => {
+      const { tag, keyword, limit } = props;
+      return readMany({ tag, keyword, limit });
+    },
+    undefined,
+    { tags: ['entry'] }
+  );
 
   const importAction = async (props: { entries: Entry[] }) => {
     'use server';
@@ -34,7 +47,7 @@ export default async function IndexPage(props: {
   };
 
   const LazyPostList = async () => {
-    const entries = await getEntries({
+    const entries = await getCachedEntry({
       tag: searchParams.tag,
       keyword: searchParams.keyword,
       limit: 300,
