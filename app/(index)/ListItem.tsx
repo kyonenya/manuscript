@@ -2,11 +2,11 @@ import { StarIcon } from '@heroicons/react/24/solid';
 import Link from 'next/link';
 import { generateSummaryEntity, SummaryEntity } from 'search-summary';
 import { twMerge } from 'tailwind-merge';
-import { Entry } from '../domain/Entry';
-import { SearchQuery } from '../domain/SearchQuery';
-import { formatTZ } from '../domain/dateUtils';
-import { Skelton } from './_components/Skelton';
-import { Tags } from './_components/Tags';
+import { Entry } from '../../domain/Entry';
+import { SearchQuery } from '../../domain/SearchQuery';
+import { formatTZ } from '../../domain/dateUtils';
+import { Skelton } from '../_components/Skelton';
+import { Tags } from '../_components/Tags';
 
 const Summary = (props: { text: string }) => {
   const limit = 120;

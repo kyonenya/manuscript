@@ -1,7 +1,7 @@
 'use client';
 
 import {
-  ArrowRightOnRectangleIcon,
+  ArrowRightStartOnRectangleIcon,
   Cog8ToothIcon,
   EyeIcon,
   MagnifyingGlassIcon,
@@ -12,16 +12,16 @@ import {
 import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useFormStatus } from 'react-dom';
-import { Entry } from '../domain/Entry';
-import { updateSearchParams } from '../domain/utils';
+import { Entry } from '../../domain/Entry';
+import { updateSearchParams } from '../../domain/utils';
+import { Button } from '../_components/Button';
+import { HeaderContainer } from '../_components/HeaderContainer';
+import { IconButton } from '../_components/IconButton';
+import { IconsContainer } from '../_components/IconsContainer';
+import { Input } from '../_components/Input';
+import { Popover } from '../_components/Popover';
+import { Spinner } from '../_components/Spinner';
 import { JsonFormInput } from './JsonFormInput';
-import { Button } from './_components/Button';
-import { HeaderContainer } from './_components/HeaderContainer';
-import { IconButton } from './_components/IconButton';
-import { IconsContainer } from './_components/IconsContainer';
-import { Input } from './_components/Input';
-import { Popover } from './_components/Popover';
-import { Spinner } from './_components/Spinner';
 
 export const PostListHeader = (props: {
   isSelectMode?: boolean;
@@ -79,7 +79,7 @@ export const PostListHeader = (props: {
               <Link href="/" passHref>
                 <Button
                   variant={{ color: 'emerald' }}
-                  leftIcon={<ArrowRightOnRectangleIcon />}
+                  leftIcon={<ArrowRightStartOnRectangleIcon />}
                 >
                   Sign In
                 </Button>

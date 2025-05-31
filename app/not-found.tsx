@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { HeaderSkelton } from './HeaderSkelton';
+import { HeaderSkelton } from './(index)/HeaderSkelton';
 import { Button } from './_components/Button';
 
 /**

@@ -1,7 +1,7 @@
 'use client'; // Error components must be Client Components
 
 import { useEffect } from 'react';
-import { HeaderSkelton } from './HeaderSkelton';
+import { HeaderSkelton } from './(index)/HeaderSkelton';
 import { Button } from './_components/Button';
 
 /**

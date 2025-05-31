@@ -1,6 +1,6 @@
+import { PostList } from '../(index)/PostList';
+import { PostListHeader } from '../(index)/PostListHeader';
 import { sampleEntries } from '../../domain/sampleEntries';
-import { PostList } from '../PostList';
-import { PostListHeader } from '../PostListHeader';
 
 export default async function IndexPage(props: {
   searchParams: Promise<{

@@ -1,12 +1,12 @@
 import { revalidateTag, unstable_cache } from 'next/cache';
 import { Suspense } from 'react';
-import { Entry } from '../domain/Entry';
+import { Entry } from '../../domain/Entry';
 import {
   createMany,
   deleteAll,
   readAllUuids,
   readMany,
-} from '../infra/entryRepository';
+} from '../../infra/entryRepository';
 import { PostList, PostListSkelton } from './PostList';
 import { PostListHeader } from './PostListHeader';
 
