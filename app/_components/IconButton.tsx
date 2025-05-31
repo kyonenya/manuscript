@@ -4,6 +4,7 @@ import {
   forwardRef,
   ComponentProps,
   ForwardedRef,
+  SVGProps,
 } from 'react';
 import { twMerge } from 'tailwind-merge';
 
@@ -21,7 +22,7 @@ export const IconButton = forwardRef(function _IconButton(
     children,
     ...props
   }: {
-    children: ReactElement<any>;
+    children: ReactElement<SVGProps<SVGSVGElement>>;
   } & ComponentProps<'button'>,
   ref: ForwardedRef<HTMLButtonElement>,
 ) {

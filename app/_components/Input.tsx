@@ -10,6 +10,7 @@ import {
   ComponentProps,
   ForwardedRef,
   useRef,
+  SVGProps,
 } from 'react';
 import { twMerge } from 'tailwind-merge';
 import { IconButton } from './IconButton';
@@ -20,7 +21,7 @@ import { IconButton } from './IconButton';
  * You can add an icon or button inside the input component.
  * @see https://chakra-ui.com/docs/components/input/usage#add-elements-inside-input
  */
-export const Input = forwardRef(function _Input(
+export const Input = forwardRef(function Input(
   {
     leftIcon,
     leftIconButtonIcon,
@@ -28,8 +29,8 @@ export const Input = forwardRef(function _Input(
     children: _children,
     ...props
   }: {
-    leftIcon?: ReactElement<any>;
-    leftIconButtonIcon?: ReactElement<any>;
+    leftIcon?: ReactElement<SVGProps<SVGSVGElement>>;
+    leftIconButtonIcon?: ReactElement<SVGProps<SVGSVGElement>>;
     onSearch?: (value: string) => void;
     children?: undefined; // no children allowed
   } & ComponentProps<'input'>,
@@ -59,7 +60,7 @@ export const Input = forwardRef(function _Input(
       <input
         {...props}
         className={twMerge(
-          'relative w-full rounded-r-md bg-transparent py-2 px-3 md:px-10 text-gray-700 focus:outline-none dark:text-gray-200',
+          'relative w-full rounded-r-md bg-transparent px-3 py-2 text-gray-700 focus:outline-none md:px-10 dark:text-gray-200',
           leftIcon && 'pl-10 md:pl-10.5',
           leftIconButtonIcon && 'pr-2 pl-12 md:pl-12.5',
           props.className,

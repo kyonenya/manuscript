@@ -2,6 +2,7 @@ import {
   ComponentProps,
   ForwardedRef,
   ReactElement,
+  SVGProps,
   cloneElement,
   forwardRef,
 } from 'react';
@@ -13,7 +14,7 @@ export const IconCheckbox = forwardRef(function _IconCheckbox(
     children,
     ...props
   }: {
-    children: ReactElement<any>;
+    children: ReactElement<SVGProps<SVGSVGElement>>;
   } & ComponentProps<'input'>,
   ref: ForwardedRef<HTMLInputElement>,
 ) {

@@ -4,6 +4,7 @@ import {
   ForwardedRef,
   forwardRef,
   ReactElement,
+  SVGProps,
 } from 'react';
 import { twMerge } from 'tailwind-merge';
 import { tv, VariantProps } from 'tailwind-variants';
@@ -43,8 +44,8 @@ export const Button = forwardRef(function _Button(
     ...props
   }: {
     variant?: VariantProps<typeof button>;
-    leftIcon?: ReactElement<any>;
-    rightIcon?: ReactElement<any>;
+    leftIcon?: ReactElement<SVGProps<SVGSVGElement>>;
+    rightIcon?: ReactElement<SVGProps<SVGSVGElement>>;
   } & ComponentProps<'button'>,
   ref: ForwardedRef<HTMLButtonElement>,
 ) {
