@@ -1,4 +1,4 @@
-import { cloneElement, ReactElement, ComponentProps, SVGProps } from 'react';
+import { cloneElement } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 export const iconButtonClassName =
@@ -12,9 +12,9 @@ export const iconButtonClassName =
  */
 export const IconButton = (
   props: {
-    children: ReactElement<SVGProps<SVGSVGElement>>;
+    children: React.ReactElement<React.SVGProps<SVGSVGElement>>;
     ref?: React.Ref<HTMLButtonElement>;
-  } & ComponentProps<'button'>,
+  } & React.ComponentProps<'button'>,
 ) => {
   const { children, ref, ...rest } = props;
   const className = twMerge(iconButtonClassName, props.className);

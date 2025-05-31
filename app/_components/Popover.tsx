@@ -8,13 +8,12 @@ import {
   Close,
   PopoverContentProps,
 } from '@radix-ui/react-popover';
-import { ReactElement, ReactNode } from 'react';
 import { IconButton } from './IconButton';
 
 export const Popover = (props: {
-  triggerButton: ReactElement;
+  triggerButton: React.ReactElement;
   side?: PopoverContentProps['side'];
-  children?: ReactNode;
+  children?: React.ReactNode;
 }) => (
   <Root>
     <Trigger asChild>{props.triggerButton}</Trigger>

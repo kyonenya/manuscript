@@ -1,13 +1,13 @@
 'use client';
 
 import { InboxIcon } from '@heroicons/react/24/solid';
-import { PropsWithChildren, useState } from 'react';
+import { useState } from 'react';
 import { Entry, sortByCreatedAt } from '../domain/Entry';
 import { SearchQuery } from '../domain/SearchQuery';
 import { ListItem, ListItemSkelton } from './ListItem';
 import { Previews } from './Preview';
 
-const PostListContainer = (props: PropsWithChildren) => (
+const PostListContainer = (props: React.PropsWithChildren) => (
   <div className="mx-auto max-w-4xl py-3 md:py-6">
     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:gap-6">
       {props.children}

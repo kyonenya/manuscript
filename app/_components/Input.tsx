@@ -3,13 +3,7 @@
 import { XMarkIcon } from '@heroicons/react/24/solid';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import {
-  cloneElement,
-  ReactElement,
-  ComponentProps,
-  useRef,
-  SVGProps,
-} from 'react';
+import { cloneElement, useRef } from 'react';
 import { twMerge } from 'tailwind-merge';
 import { IconButton } from './IconButton';
 
@@ -21,12 +15,12 @@ import { IconButton } from './IconButton';
  */
 export const Input = (
   props: {
-    leftIcon?: ReactElement<SVGProps<SVGSVGElement>>;
-    leftIconButtonIcon?: ReactElement<SVGProps<SVGSVGElement>>;
+    leftIcon?: React.ReactElement<React.SVGProps<SVGSVGElement>>;
+    leftIconButtonIcon?: React.ReactElement<React.SVGProps<SVGSVGElement>>;
     onSearch?: (value: string) => void;
     children?: undefined; // no children allowed
     ref?: React.Ref<HTMLInputElement>;
-  } & ComponentProps<'input'>,
+  } & React.ComponentProps<'input'>,
 ) => {
   const {
     leftIcon,

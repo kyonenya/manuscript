@@ -1,11 +1,10 @@
-import { PropsWithChildren } from 'react';
 import { Entry } from '../../domain/Entry';
 import { formatTZ } from '../../domain/dateUtils';
 import { MarkdownText } from '../_components/MarkdownText';
 import { Skelton } from '../_components/Skelton';
 import { Tags } from '../_components/Tags';
 
-const ArticleContainer = (props: PropsWithChildren) => (
+const ArticleContainer = (props: React.PropsWithChildren) => (
   <div className="container mx-auto max-w-3xl flex-1 px-0 py-4">
     <div className="rounded-none bg-white p-6 text-gray-700 shadow-lg md:rounded-xl dark:bg-gray-800 dark:text-gray-300">
       {props.children}

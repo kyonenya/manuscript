@@ -1,12 +1,12 @@
-import { ComponentProps, ReactElement, SVGProps, cloneElement } from 'react';
+import { cloneElement } from 'react';
 import { twMerge } from 'tailwind-merge';
 import { iconButtonClassName } from './IconButton';
 
 export const IconCheckbox = (
   props: {
-    children: ReactElement<SVGProps<SVGSVGElement>>;
+    children: React.ReactElement<React.SVGProps<SVGSVGElement>>;
     ref?: React.Ref<HTMLInputElement>;
-  } & ComponentProps<'input'>,
+  } & React.ComponentProps<'input'>,
 ) => {
   const { children, ref, ...rest } = props;
 

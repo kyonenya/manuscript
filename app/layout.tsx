@@ -1,5 +1,4 @@
 import { Metadata } from 'next';
-import { PropsWithChildren } from 'react';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -7,7 +6,7 @@ export const metadata: Metadata = {
   description: '研究草稿管理アプリ',
 };
 
-export default function RootLayout(props: PropsWithChildren) {
+export default function RootLayout(props: React.PropsWithChildren) {
   return (
     <html lang="ja">
       <body>

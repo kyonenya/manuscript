@@ -1,4 +1,4 @@
-import { cloneElement, ComponentProps, ReactElement, SVGProps } from 'react';
+import { cloneElement } from 'react';
 import { twMerge } from 'tailwind-merge';
 import { tv, VariantProps } from 'tailwind-variants';
 
@@ -31,10 +31,10 @@ const button = tv({
 export const Button = (
   props: {
     variant?: VariantProps<typeof button>;
-    leftIcon?: ReactElement<SVGProps<SVGSVGElement>>;
-    rightIcon?: ReactElement<SVGProps<SVGSVGElement>>;
+    leftIcon?: React.ReactElement<React.SVGProps<SVGSVGElement>>;
+    rightIcon?: React.ReactElement<React.SVGProps<SVGSVGElement>>;
     ref?: React.Ref<HTMLButtonElement>;
-  } & ComponentProps<'button'>,
+  } & React.ComponentProps<'button'>,
 ) => {
   const { variant, leftIcon, rightIcon, children, ref, ...rest } = props;
 
