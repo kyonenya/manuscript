@@ -1,27 +1,19 @@
-import {
-  ComponentProps,
-  ForwardedRef,
-  ReactElement,
-  SVGProps,
-  cloneElement,
-  forwardRef,
-} from 'react';
+import { ComponentProps, ReactElement, SVGProps, cloneElement } from 'react';
 import { twMerge } from 'tailwind-merge';
 import { iconButtonClassName } from './IconButton';
 
-export const IconCheckbox = forwardRef(function _IconCheckbox(
-  {
-    children,
-    ...props
-  }: {
+export const IconCheckbox = (
+  props: {
     children: ReactElement<SVGProps<SVGSVGElement>>;
+    ref?: React.Ref<HTMLInputElement>;
   } & ComponentProps<'input'>,
-  ref: ForwardedRef<HTMLInputElement>,
-) {
+) => {
+  const { children, ref, ...rest } = props;
+
   return (
     <div className="grid place-items-center">
       <input
-        {...props}
+        {...rest}
         id="icon-checkbox"
         type="checkbox"
         className={twMerge(props.className, 'peer sr-only')}
@@ -41,4 +33,4 @@ export const IconCheckbox = forwardRef(function _IconCheckbox(
       </label>
     </div>
   );
-});
+};

@@ -1,4 +1,4 @@
-import { forwardRef, ForwardedRef } from 'react';
+import type { SelectInstance } from 'react-select';
 import CreatableSelect from 'react-select/creatable';
 
 type Option = { value: string; label: string };
@@ -6,16 +6,13 @@ type Option = { value: string; label: string };
 const toOptions = (values: string[]): Option[] =>
   values.map((value) => ({ value, label: value }));
 
-export const Select = forwardRef(function _Select(
-  props: {
-    name: string;
-    value: string[];
-    choices: string[];
-    onSelect: (values: string[]) => void;
-  },
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  ref: ForwardedRef<any>,
-) {
+export const Select = (props: {
+  name: string;
+  value: string[];
+  choices: string[];
+  onSelect: (values: string[]) => void;
+  ref?: React.Ref<SelectInstance<Option, true>>;
+}) => {
   return (
     <CreatableSelect
       isMulti
@@ -25,7 +22,7 @@ export const Select = forwardRef(function _Select(
       options={toOptions(props.choices)}
       className="react-select-container"
       classNamePrefix="react-select"
-      ref={ref}
+      ref={props.ref}
     />
   );
-});
+};

@@ -1,11 +1,4 @@
-import {
-  cloneElement,
-  ComponentProps,
-  ForwardedRef,
-  forwardRef,
-  ReactElement,
-  SVGProps,
-} from 'react';
+import { cloneElement, ComponentProps, ReactElement, SVGProps } from 'react';
 import { twMerge } from 'tailwind-merge';
 import { tv, VariantProps } from 'tailwind-variants';
 
@@ -35,23 +28,19 @@ const button = tv({
  * You can add left and right icons to the Button component using the leftIcon and rightIcon props respectively.
  * @see https://chakra-ui.com/docs/components/button#button-with-icon
  */
-export const Button = forwardRef(function _Button(
-  {
-    variant,
-    leftIcon,
-    rightIcon,
-    children,
-    ...props
-  }: {
+export const Button = (
+  props: {
     variant?: VariantProps<typeof button>;
     leftIcon?: ReactElement<SVGProps<SVGSVGElement>>;
     rightIcon?: ReactElement<SVGProps<SVGSVGElement>>;
+    ref?: React.Ref<HTMLButtonElement>;
   } & ComponentProps<'button'>,
-  ref: ForwardedRef<HTMLButtonElement>,
-) {
+) => {
+  const { variant, leftIcon, rightIcon, children, ref, ...rest } = props;
+
   return (
     <button
-      {...props}
+      {...rest}
       className={twMerge(button(variant), props.className)}
       ref={ref}
     >
@@ -66,4 +55,4 @@ export const Button = forwardRef(function _Button(
         })}
     </button>
   );
-});
+};

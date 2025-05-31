@@ -1,11 +1,4 @@
-import {
-  cloneElement,
-  ReactElement,
-  forwardRef,
-  ComponentProps,
-  ForwardedRef,
-  SVGProps,
-} from 'react';
+import { cloneElement, ReactElement, ComponentProps, SVGProps } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 export const iconButtonClassName =
@@ -17,19 +10,17 @@ export const iconButtonClassName =
  * An icon within in a button.
  * @see https://chakra-ui.com/docs/components/icon-button
  */
-export const IconButton = forwardRef(function _IconButton(
-  {
-    children,
-    ...props
-  }: {
+export const IconButton = (
+  props: {
     children: ReactElement<SVGProps<SVGSVGElement>>;
+    ref?: React.Ref<HTMLButtonElement>;
   } & ComponentProps<'button'>,
-  ref: ForwardedRef<HTMLButtonElement>,
-) {
+) => {
+  const { children, ref, ...rest } = props;
   const className = twMerge(iconButtonClassName, props.className);
 
   return (
-    <button {...props} className={className} ref={ref}>
+    <button {...rest} className={className} ref={ref}>
       {cloneElement(children, {
         className: twMerge(
           'm-auto w-5 text-gray-700 dark:text-gray-300',
@@ -38,4 +29,4 @@ export const IconButton = forwardRef(function _IconButton(
       })}
     </button>
   );
-});
+};

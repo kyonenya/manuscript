@@ -5,10 +5,8 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
   cloneElement,
-  forwardRef,
   ReactElement,
   ComponentProps,
-  ForwardedRef,
   useRef,
   SVGProps,
 } from 'react';
@@ -21,25 +19,28 @@ import { IconButton } from './IconButton';
  * You can add an icon or button inside the input component.
  * @see https://chakra-ui.com/docs/components/input/usage#add-elements-inside-input
  */
-export const Input = forwardRef(function Input(
-  {
-    leftIcon,
-    leftIconButtonIcon,
-    onSearch,
-    children: _children,
-    ...props
-  }: {
+export const Input = (
+  props: {
     leftIcon?: ReactElement<SVGProps<SVGSVGElement>>;
     leftIconButtonIcon?: ReactElement<SVGProps<SVGSVGElement>>;
     onSearch?: (value: string) => void;
     children?: undefined; // no children allowed
+    ref?: React.Ref<HTMLInputElement>;
   } & ComponentProps<'input'>,
-  forwardedRef: ForwardedRef<HTMLInputElement>,
-) {
+) => {
+  const {
+    leftIcon,
+    leftIconButtonIcon,
+    onSearch,
+    children: _children,
+    ref,
+    ...rest
+  } = props;
+
   const pathname = usePathname();
 
   const internalRef = useRef<HTMLInputElement | null>(null);
-  const ref = forwardedRef ?? internalRef;
+  const _ref = ref ?? internalRef;
 
   const InputComponent = (
     <div className="relative flex items-center rounded-md border border-gray-300 bg-white shadow-sm focus-within:ring-2 focus:outline-none dark:border-gray-500 dark:bg-gray-800">
@@ -58,14 +59,14 @@ export const Input = forwardRef(function Input(
       </div>
 
       <input
-        {...props}
+        {...rest}
         className={twMerge(
           'relative w-full rounded-r-md bg-transparent px-3 py-2 text-gray-700 focus:outline-none md:px-10 dark:text-gray-200',
           leftIcon && 'pl-10 md:pl-10.5',
           leftIconButtonIcon && 'pr-2 pl-12 md:pl-12.5',
           props.className,
         )}
-        ref={ref}
+        ref={_ref}
       />
 
       {onSearch && (
@@ -75,8 +76,8 @@ export const Input = forwardRef(function Input(
             <IconButton
               className="h-5 w-5 rounded-full"
               onClick={() => {
-                if (!ref || !('current' in ref) || !ref.current) return;
-                ref.current.value = '';
+                if (!_ref || !('current' in _ref) || !_ref.current) return;
+                _ref.current.value = '';
               }}
             >
               <XMarkIcon className="w-4" />
@@ -91,8 +92,8 @@ export const Input = forwardRef(function Input(
     <form
       onSubmit={(e) => {
         e.preventDefault();
-        if (!ref || !('current' in ref) || !ref.current) return;
-        onSearch?.(ref.current.value);
+        if (!_ref || !('current' in _ref) || !_ref.current) return;
+        onSearch?.(_ref.current.value);
       }}
     >
       {InputComponent}
@@ -100,4 +101,4 @@ export const Input = forwardRef(function Input(
   ) : (
     InputComponent
   );
-});
+};
