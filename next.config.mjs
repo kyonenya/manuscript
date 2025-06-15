@@ -3,7 +3,7 @@
 /**
  * @type {import('next').NextConfig}
  **/
-module.exports = {
+const config = {
   experimental: {
     serverActions: {
       bodySizeLimit: '10mb',
@@ -26,3 +26,5 @@ module.exports = {
   /** @see https://github.com/tursodatabase/libsql-client-ts/issues/184#issuecomment-2679453393 */
   serverExternalPackages: ['@prisma/adapter-libsql'],
 };
+
+export default config;
