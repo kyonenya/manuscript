@@ -5,7 +5,7 @@ import { MarkdownText } from '../_components/MarkdownText';
 
 export const Preview = (props: { entry: Entry }) => {
   return (
-    <div className="mx-auto max-w-3xl px-10 pt-10 text-gray-700 dark:bg-gray-800 dark:text-gray-300">
+    <div className="mx-auto max-w-3xl bg-white px-10 pt-10 text-gray-700 dark:bg-gray-800 dark:text-gray-300">
       <div className="mb-3 flex flex-row items-center space-x-3">
         <p className="text-xl text-gray-500 dark:text-gray-400">
           {formatTZ(props.entry.createdAt, 'yyyy-MM-dd HH:mm')}
@@ -17,7 +17,10 @@ export const Preview = (props: { entry: Entry }) => {
 
         <div className="flex flex-row space-x-2">
           {props.entry.tags.map((tag) => (
-            <div className="text-sm text-gray-500 dark:text-gray-400" key={tag}>
+            <div
+              className="rounded bg-gray-100 px-1.5 py-0.5 text-sm text-gray-600 not-dark:[print-color-adjust:exact] dark:bg-gray-700 dark:text-gray-400"
+              key={tag}
+            >
               #{tag}
             </div>
           ))}
