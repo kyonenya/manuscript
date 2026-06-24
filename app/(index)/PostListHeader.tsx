@@ -65,6 +65,7 @@ export const PostListHeader = (props: {
 
   return (
     <HeaderContainer>
+      <IconsContainer>
       <Popover
         side="bottom"
         triggerButton={
@@ -100,6 +101,25 @@ export const PostListHeader = (props: {
           </form>
         </div>
       </Popover>
+        <IconButton
+          aria-label="Toggle Sort Order"
+          className={isAscOrder ? activeIconButtonClassName : ''}
+          onClick={() =>
+            router.push(
+              updateSearchParams({
+                searchParams,
+                pathname,
+                [isAscOrder ? 'remove' : 'append']: {
+                  name: 'order',
+                  value: 'asc',
+                },
+              }),
+            )
+          }
+        >
+          {isAscOrder ? <BarsArrowUpIcon /> : <BarsArrowDownIcon />}
+        </IconButton>
+      </IconsContainer>
 
       <Input
         leftIconButtonIcon={<MagnifyingGlassIcon />}
@@ -151,24 +171,6 @@ export const PostListHeader = (props: {
           }
         >
           <Squares2X2Icon />
-        </IconButton>
-        <IconButton
-          aria-label="Toggle Sort Order"
-          className={isAscOrder ? activeIconButtonClassName : ''}
-          onClick={() =>
-            router.push(
-              updateSearchParams({
-                searchParams,
-                pathname,
-                [isAscOrder ? 'remove' : 'append']: {
-                  name: 'order',
-                  value: 'asc',
-                },
-              }),
-            )
-          }
-        >
-          {isAscOrder ? <BarsArrowUpIcon /> : <BarsArrowDownIcon />}
         </IconButton>
       </IconsContainer>
     </HeaderContainer>
