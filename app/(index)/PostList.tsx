@@ -21,14 +21,14 @@ export const PostList = ({
   isPreviewMode = false,
   isSelectMode = false,
   isDemoMode = false,
-  order = 'desc',
+  isAsc,
 }: {
   entries: Entry[];
   searchQuery?: SearchQuery | undefined;
   isPreviewMode?: boolean;
   isSelectMode?: boolean;
   isDemoMode?: boolean;
-  order?: 'asc' | 'desc';
+  isAsc?: boolean;
 }) => {
   const [selectedEntries, setSelectedEntries] = useState<Entry[]>([]);
 
@@ -37,7 +37,7 @@ export const PostList = ({
       <Previews
         entries={sortByCreatedAt(
           selectedEntries.length > 0 ? selectedEntries : entries,
-          order,
+          isAsc,
         )}
       />
     );
@@ -46,7 +46,7 @@ export const PostList = ({
   return (
     <PostListContainer>
       {entries.length > 0 &&
-        sortByCreatedAt(entries, order)
+        sortByCreatedAt(entries, isAsc)
           .filter(
             (entry) =>
               (!searchQuery?.keyword ||

@@ -60,7 +60,7 @@ export default async function IndexPage(props: {
         searchQuery={{ keyword: searchParams.keyword, tag: searchParams.tag }}
         isSelectMode={isSelectMode}
         isPreviewMode={isPreviewMode}
-        order={searchParams.order === 'asc' ? 'asc' : 'desc'}
+        isAsc={searchParams.order === 'asc'}
       />
     );
   };

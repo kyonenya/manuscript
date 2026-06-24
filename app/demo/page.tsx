@@ -28,7 +28,7 @@ export default async function IndexPage(props: {
         isSelectMode={isSelectMode}
         isPreviewMode={isPreviewMode}
         isDemoMode={isDemoMode}
-        order={searchParams.order === 'asc' ? 'asc' : 'desc'}
+        isAsc={searchParams.order === 'asc'}
       />
     </>
   );
