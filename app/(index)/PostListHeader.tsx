@@ -2,6 +2,8 @@
 
 import {
   ArrowRightStartOnRectangleIcon,
+  BarsArrowDownIcon,
+  BarsArrowUpIcon,
   Cog8ToothIcon,
   EyeIcon,
   MagnifyingGlassIcon,
@@ -23,6 +25,9 @@ import { Popover } from '../_components/Popover';
 import { Spinner } from '../_components/Spinner';
 import { JsonFormInput } from './JsonFormInput';
 
+const activeIconButtonClassName =
+  'bg-yellow-200 enabled:hover:bg-yellow-300 dark:bg-indigo-600 enabled:dark:hover:bg-indigo-500';
+
 export const PostListHeader = (props: {
   isSelectMode?: boolean;
   isDemoMode?: boolean;
@@ -32,6 +37,7 @@ export const PostListHeader = (props: {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const isAscOrder = searchParams.get('order') === 'asc';
 
   const DeleteAllFormButton = () => {
     const { pending } = useFormStatus();
@@ -130,11 +136,7 @@ export const PostListHeader = (props: {
         )}
         <IconButton
           aria-label="Toggle Select Mode"
-          className={
-            props.isSelectMode
-              ? 'bg-yellow-200 hover:bg-yellow-200 dark:bg-gray-500 dark:hover:bg-gray-500'
-              : ''
-          }
+          className={props.isSelectMode ? activeIconButtonClassName : ''}
           onClick={() =>
             router.push(
               updateSearchParams({
@@ -149,6 +151,24 @@ export const PostListHeader = (props: {
           }
         >
           <Squares2X2Icon />
+        </IconButton>
+        <IconButton
+          aria-label="Toggle Sort Order"
+          className={isAscOrder ? activeIconButtonClassName : ''}
+          onClick={() =>
+            router.push(
+              updateSearchParams({
+                searchParams,
+                pathname,
+                [isAscOrder ? 'remove' : 'append']: {
+                  name: 'order',
+                  value: 'asc',
+                },
+              }),
+            )
+          }
+        >
+          {isAscOrder ? <BarsArrowUpIcon /> : <BarsArrowDownIcon />}
         </IconButton>
       </IconsContainer>
     </HeaderContainer>
