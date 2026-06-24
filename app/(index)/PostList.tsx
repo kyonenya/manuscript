@@ -58,14 +58,15 @@ export const PostList = ({
               entry={entry}
               searchQuery={searchQuery}
               isSelectMode={isSelectMode}
-              isSelected={isSelectMode && selectedEntries.includes(entry)}
+              isSelected={
+                isSelectMode &&
+                selectedEntries.some((e) => e.uuid === entry.uuid)
+              }
               isDemoMode={isDemoMode}
               onSelect={() =>
                 setSelectedEntries((prevEntries) => {
-                  if (prevEntries.includes(entry)) {
-                    return prevEntries.filter(
-                      (prevEntry) => prevEntry !== entry,
-                    );
+                  if (prevEntries.some((e) => e.uuid === entry.uuid)) {
+                    return prevEntries.filter((e) => e.uuid !== entry.uuid);
                   }
                   return [entry, ...prevEntries];
                 })
