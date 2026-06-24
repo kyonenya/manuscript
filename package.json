@@ -12,7 +12,8 @@
     "prisma:generate": "prisma generate",
     "start": "next start",
     "test:domain": "glob -c 'node --test --no-warnings --import tsx' './domain/__tests__/**.ts'",
-    "test:infra": "glob -c 'node --test --no-warnings --import tsx' './infra/__tests__/**.ts'"
+    "test:infra": "glob -c 'node --env-file=.env.test --test --no-warnings --import tsx' './infra/__tests__/**.ts'",
+    "test:db-setup": "prisma migrate diff --from-empty --to-schema-datamodel prisma/schema.prisma --script | prisma db execute --stdin --url 'file:./prisma/test.db'"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",

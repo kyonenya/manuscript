@@ -31,5 +31,11 @@ yarn-error.log*
 .env.production.local
 .env
 
+# local test sqlite database
+/prisma/test.db
+/prisma/test.db-journal
+/prisma/test.db-wal
+/prisma/test.db-shm
+
 # cache
 tsconfig.tsbuildinfo

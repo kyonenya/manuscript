@@ -61,6 +61,7 @@ export const readOne = async (props: {
 export async function readAllUuids(): Promise<string[]> {
   const entries = await prisma.entry.findMany({
     select: { uuid: true }, // uuid only
+    orderBy: [{ created_at: 'desc' }, { uuid: 'asc' }],
   });
   return entries.map((entry) => entry.uuid);
 }
