@@ -14,7 +14,7 @@ const button = tv({
         'bg-emerald-500 text-white enabled:hover:bg-emerald-600 disabled:opacity-40 dark:bg-emerald-600 enabled:hover:dark:bg-emerald-500',
       blue: 'bg-blue-500 text-white enabled:hover:bg-blue-600 disabled:opacity-40 dark:bg-sky-600 enabled:hover:dark:bg-sky-500',
       danger:
-        'bg-red-500 text-white enabled:hover:bg-red-600 disabled:opacity-40 dark:bg-red-600 enabled:dark:hover:bg-red-500',
+        'bg-rose-500 text-white enabled:hover:bg-rose-500 disabled:opacity-40 dark:bg-rose-500 enabled:dark:hover:bg-rose-500',
     },
   },
   defaultVariants: {
