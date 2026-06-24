@@ -66,41 +66,41 @@ export const PostListHeader = (props: {
   return (
     <HeaderContainer>
       <IconsContainer>
-      <Popover
-        side="bottom"
-        triggerButton={
-          <IconButton>
-            <Cog8ToothIcon />
-          </IconButton>
-        }
-      >
-        <div className="flex max-w-[300px] flex-col space-y-4">
-          <form>
-            <JsonFormInput importAction={props.importAction} />
-          </form>
-          <form>
-            <DeleteAllFormButton />
-          </form>
-          <form>
-            {props.isDemoMode ? (
-              <Link href="/" passHref>
-                <Button
-                  variant={{ color: 'emerald' }}
-                  leftIcon={<ArrowRightStartOnRectangleIcon />}
-                >
-                  Sign In
-                </Button>
-              </Link>
-            ) : (
-              <Link href="/demo" passHref>
-                <Button type="button" leftIcon={<UsersIcon />}>
-                  Try Demo Version
-                </Button>
-              </Link>
-            )}
-          </form>
-        </div>
-      </Popover>
+        <Popover
+          side="bottom"
+          triggerButton={
+            <IconButton>
+              <Cog8ToothIcon />
+            </IconButton>
+          }
+        >
+          <div className="flex max-w-[300px] flex-col space-y-4">
+            <form>
+              <JsonFormInput importAction={props.importAction} />
+            </form>
+            <form>
+              <DeleteAllFormButton />
+            </form>
+            <form>
+              {props.isDemoMode ? (
+                <Link href="/" passHref>
+                  <Button
+                    variant={{ color: 'emerald' }}
+                    leftIcon={<ArrowRightStartOnRectangleIcon />}
+                  >
+                    Sign In
+                  </Button>
+                </Link>
+              ) : (
+                <Link href="/demo" passHref>
+                  <Button type="button" leftIcon={<UsersIcon />}>
+                    Try Demo Version
+                  </Button>
+                </Link>
+              )}
+            </form>
+          </div>
+        </Popover>
         <IconButton
           aria-label="Toggle Sort Order"
           className={isAscOrder ? activeIconButtonClassName : ''}
@@ -135,25 +135,21 @@ export const PostListHeader = (props: {
       />
 
       <IconsContainer>
-        {props.isSelectMode ? (
-          <IconButton
-            aria-label="Preview Mode"
-            onClick={() =>
-              router.push(
-                updateSearchParams({
-                  searchParams,
-                  pathname,
-                  append: { name: 'preview', value: 'true' },
-                  remove: { name: 'select' },
-                }),
-              )
-            }
-          >
-            <EyeIcon />
-          </IconButton>
-        ) : (
-          <div aria-hidden className="w-10" />
-        )}
+        <IconButton
+          aria-label="Preview Mode"
+          onClick={() =>
+            router.push(
+              updateSearchParams({
+                searchParams,
+                pathname,
+                append: { name: 'preview', value: 'true' },
+                remove: { name: 'select' },
+              }),
+            )
+          }
+        >
+          <EyeIcon />
+        </IconButton>
         <IconButton
           aria-label="Toggle Select Mode"
           className={props.isSelectMode ? activeIconButtonClassName : ''}
