@@ -34,7 +34,7 @@ const customTheme: Record<
     <hr className="mx-auto my-4 w-3/5 border-gray-300 dark:border-gray-600" />
   ),
   ul: (props) => (
-    <ul className="list-disc ml-1 py-2 pl-6 [&>li>p]:pb-0.5 [&>li>p]:indent-0">
+    <ul className="ml-1 list-disc py-2 pl-6 [&>li>p]:pb-0.5 [&>li>p]:indent-0">
       {props.children}
     </ul>
   ),

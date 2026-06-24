@@ -16,6 +16,7 @@ export default async function IndexPage(props: {
     tag?: string;
     select?: string;
     preview?: string;
+    order?: string;
   }>;
 }) {
   const searchParams = await props.searchParams;
@@ -59,6 +60,7 @@ export default async function IndexPage(props: {
         searchQuery={{ keyword: searchParams.keyword, tag: searchParams.tag }}
         isSelectMode={isSelectMode}
         isPreviewMode={isPreviewMode}
+        order={searchParams.order === 'asc' ? 'asc' : 'desc'}
       />
     );
   };

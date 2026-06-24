@@ -29,10 +29,12 @@ export const extractTagHistory = (entries: Entry[]): string[] => [
   ...new Set(entries.map((entry) => entry.tags).flat()),
 ]; // uniq
 
-export const sortByCreatedAt = (entries: Entry[]): Entry[] => {
-  return entries.sort((a, b) => {
-    if (a.createdAt < b.createdAt) return 1;
-    if (a.createdAt > b.createdAt) return -1;
+export const sortByCreatedAt = (
+  entries: Entry[],
+  order: 'asc' | 'desc' = 'desc',
+): Entry[] =>
+  [...entries].sort((a, b) => {
+    if (a.createdAt < b.createdAt) return order === 'desc' ? 1 : -1;
+    if (a.createdAt > b.createdAt) return order === 'desc' ? -1 : 1;
     return 0;
   });
-};
