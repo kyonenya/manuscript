@@ -8,6 +8,9 @@ const config = {
     serverActions: {
       bodySizeLimit: '10mb',
     },
+    staleTimes: {
+      dynamic: 180,
+    },
   },
   eslint: {
     dirs: ['app', 'domain', 'infra'],
