@@ -28,6 +28,30 @@ import { JsonFormInput } from './JsonFormInput';
 const activeIconButtonClassName =
   'bg-yellow-200 enabled:hover:bg-yellow-300 dark:bg-indigo-600 enabled:dark:hover:bg-indigo-500';
 
+const DeleteAllFormButton = (props: { deleteAllAction?: () => void }) => {
+  const { pending } = useFormStatus();
+  return (
+    <Button
+      variant={{ color: 'warning' }}
+      leftIcon={
+        pending ? (
+          <Spinner className="m-0 mr-2 fill-red-500 dark:fill-rose-500" />
+        ) : (
+          <TrashIcon />
+        )
+      }
+      disabled={pending || !props.deleteAllAction}
+      formAction={() => {
+        if (!window.confirm("Are you sure? You can't undo this action."))
+          return;
+        props.deleteAllAction?.();
+      }}
+    >
+      Delete All
+    </Button>
+  );
+};
+
 export const PostListHeader = (props: {
   isSelectMode?: boolean;
   isDemoMode?: boolean;
@@ -38,30 +62,6 @@ export const PostListHeader = (props: {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const isAscOrder = searchParams.get('order') === 'asc';
-
-  const DeleteAllFormButton = () => {
-    const { pending } = useFormStatus();
-    return (
-      <Button
-        variant={{ color: 'warning' }}
-        leftIcon={
-          pending ? (
-            <Spinner className="m-0 mr-2 fill-red-500 dark:fill-rose-500" />
-          ) : (
-            <TrashIcon />
-          )
-        }
-        disabled={pending || !props.deleteAllAction}
-        formAction={() => {
-          if (!window.confirm("Are you sure? You can't undo this action."))
-            return;
-          props.deleteAllAction?.();
-        }}
-      >
-        Delete All
-      </Button>
-    );
-  };
 
   return (
     <HeaderContainer>
@@ -79,7 +79,7 @@ export const PostListHeader = (props: {
               <JsonFormInput importAction={props.importAction} />
             </form>
             <form>
-              <DeleteAllFormButton />
+              <DeleteAllFormButton deleteAllAction={props.deleteAllAction} />
             </form>
             <form>
               {props.isDemoMode ? (

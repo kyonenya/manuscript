@@ -1,20 +1,14 @@
-import { FlatCompat } from '@eslint/eslintrc';
-import js from '@eslint/js';
 import { defineConfig } from 'eslint/config';
-
-const compat = new FlatCompat({
-  baseDirectory: import.meta.dirname,
-  recommendedConfig: js.configs.recommended,
-  allConfig: js.configs.all,
-});
+import nextVitals from 'eslint-config-next/core-web-vitals';
+import nextTs from 'eslint-config-next/typescript';
+import prettier from 'eslint-config-prettier/flat';
 
 export default defineConfig([
+  ...nextVitals,
+  ...nextTs,
+  prettier,
   {
-    extends: compat.extends(
-      'plugin:@typescript-eslint/recommended',
-      'next/core-web-vitals',
-      'prettier',
-    ),
+    files: ['app/**/*.{ts,tsx}', 'domain/**/*.ts', 'infra/**/*.ts'],
     rules: {
       'import/order': [
         'warn',
@@ -32,6 +26,5 @@ export default defineConfig([
         },
       ],
     },
-    ignores: ['**/*.js', '**/*.mjs'],
   },
 ]);
