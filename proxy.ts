@@ -1,13 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { readEntriesCount } from './infra/entryRepository';
 
 /**
- * Exclude `_next` internals
+ * Exclude routes that should not require Basic Auth.
  *
- * @see https://github.com/vercel/next.js/discussions/41047#discussioncomment-3769637
+ * @see https://nextjs.org/docs/app/api-reference/file-conventions/proxy#negative-matching
  */
 export const config = {
-  matcher: ['/((?!api|static|favicon.ico|_next).*)'],
+  matcher: [
+    '/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)',
+  ],
 };
 
 /**
@@ -20,8 +21,6 @@ export async function proxy(req: NextRequest) {
   if (req.nextUrl.pathname.startsWith('/demo')) {
     return NextResponse.next();
   }
-
-  const _count = await readEntriesCount(); // cold starts db
 
   const basicAuth = req.headers.get('authorization');
 
