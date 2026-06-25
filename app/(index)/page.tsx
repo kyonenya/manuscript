@@ -1,4 +1,4 @@
-import { revalidateTag, unstable_cache } from 'next/cache';
+import { cacheTag, updateTag } from 'next/cache';
 import { Suspense } from 'react';
 import { Entry } from '../../domain/Entry';
 import {
@@ -9,6 +9,18 @@ import {
 } from '../../infra/entryRepository';
 import { PostList, PostListSkelton } from './PostList';
 import { PostListHeader } from './PostListHeader';
+
+async function getCachedEntries(props: {
+  tag?: string;
+  keyword?: string;
+  limit: number;
+}) {
+  'use cache';
+  cacheTag('entry');
+
+  const { tag, keyword, limit } = props;
+  return readMany({ tag, keyword, limit });
+}
 
 export default async function IndexPage(props: {
   searchParams: Promise<{
@@ -23,32 +35,23 @@ export default async function IndexPage(props: {
   const isSelectMode = !!searchParams.select;
   const isPreviewMode = !!searchParams.preview;
 
-  const getCachedEntry = unstable_cache(
-    async (props: { tag?: string; keyword?: string; limit: number }) => {
-      const { tag, keyword, limit } = props;
-      return readMany({ tag, keyword, limit });
-    },
-    undefined,
-    { tags: ['entry'] },
-  );
-
   const importAction = async (props: { entries: Entry[] }) => {
     'use server';
     const uuids = await readAllUuids();
     await createMany({
       entries: props.entries.filter((entry) => !uuids.includes(entry.uuid)), // duplicate exclusion
     });
-    revalidateTag('entry');
+    updateTag('entry');
   };
 
   const deleteAllAction = async () => {
     'use server';
     await deleteAll();
-    revalidateTag('entry');
+    updateTag('entry');
   };
 
   const LazyPostList = async () => {
-    const entries = await getCachedEntry({
+    const entries = await getCachedEntries({
       tag: searchParams.tag,
       keyword: searchParams.keyword,
       limit: 300,

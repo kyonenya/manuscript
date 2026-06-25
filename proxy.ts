@@ -11,12 +11,12 @@ export const config = {
 };
 
 /**
- * Basic Authentication Middleware
+ * Basic Authentication Proxy
  *
  * @see https://github.com/vercel/examples/blob/main/edge-middleware/basic-auth-password/middleware.ts
  * @see https://qiita.com/yuuki-h/items/340a296e0b9b3b5753e1#%E8%A7%A3%E8%AA%AC-1
  */
-export async function middleware(req: NextRequest) {
+export async function proxy(req: NextRequest) {
   if (req.nextUrl.pathname.startsWith('/demo')) {
     return NextResponse.next();
   }

@@ -1,16 +1,31 @@
 import { notFound } from 'next/navigation';
+import { Suspense } from 'react';
 import { extractTagHistory } from '../../../domain/Entry';
 import { sampleEntries } from '../../../domain/sampleEntries';
-import { Article } from '../../[uuid]/Article';
-import { ArticleHeader } from '../../[uuid]/ArticleHeader';
+import { Article, ArticleSkelton } from '../../[uuid]/Article';
+import { ArticleHeader, ArticleHeaderEmpty } from '../../[uuid]/ArticleHeader';
 
-export default async function ArticlePage(props: {
+export default function DemoArticlePage(props: {
   params: Promise<{ uuid: string }>;
 }) {
-  const params = await props.params;
+  return (
+    <Suspense
+      fallback={
+        <>
+          <ArticleHeaderEmpty />
+          <ArticleSkelton />
+        </>
+      }
+    >
+      <DemoArticleContent params={props.params} />
+    </Suspense>
+  );
+}
 
-  const { uuid } = params;
-
+async function DemoArticleContent(props: {
+  params: Promise<{ uuid: string }>;
+}) {
+  const { uuid } = await props.params;
   const isDemoMode = true;
 
   const entry = sampleEntries.find(
