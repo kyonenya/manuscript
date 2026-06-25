@@ -53,15 +53,17 @@ const DeleteAllFormButton = (props: { deleteAllAction?: () => void }) => {
 };
 
 export const PostListHeader = (props: {
-  isSelectMode?: boolean;
   isDemoMode?: boolean;
   importAction?: (props: { entries: Entry[] }) => void;
   deleteAllAction?: () => void;
 }) => {
+  const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
-  const searchParams = useSearchParams();
   const isAscOrder = searchParams.get('order') === 'asc';
+  const isSelectMode = !!searchParams.get('select');
+
+  if (!!searchParams.get('preview')) return null; // hide in preview mode
 
   return (
     <HeaderContainer>
@@ -105,7 +107,9 @@ export const PostListHeader = (props: {
           aria-label="Toggle Sort Order"
           className={isAscOrder ? activeIconButtonClassName : ''}
           onClick={() =>
-            router.push(
+            window.history.replaceState(
+              null,
+              '',
               updateSearchParams({
                 searchParams,
                 pathname,
@@ -138,7 +142,9 @@ export const PostListHeader = (props: {
         <IconButton
           aria-label="Preview Mode"
           onClick={() =>
-            router.push(
+            window.history.pushState(
+              null,
+              '',
               updateSearchParams({
                 searchParams,
                 pathname,
@@ -152,13 +158,15 @@ export const PostListHeader = (props: {
         </IconButton>
         <IconButton
           aria-label="Toggle Select Mode"
-          className={props.isSelectMode ? activeIconButtonClassName : ''}
+          className={isSelectMode ? activeIconButtonClassName : ''}
           onClick={() =>
-            router.push(
+            window.history.replaceState(
+              null,
+              '',
               updateSearchParams({
                 searchParams,
                 pathname,
-                [props.isSelectMode ? 'remove' : 'append']: {
+                [isSelectMode ? 'remove' : 'append']: {
                   name: 'select',
                   value: 'true',
                 },
