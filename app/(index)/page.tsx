@@ -69,12 +69,14 @@ export default async function IndexPage(props: {
       entries: props.entries.filter((entry) => !uuids.includes(entry.uuid)), // duplicate exclusion
     });
     updateTag('entries');
+    updateTag('tags');
   };
 
   const deleteAllAction = async () => {
     'use server';
     await deleteAll();
     updateTag('entries');
+    updateTag('tags');
   };
 
   return (

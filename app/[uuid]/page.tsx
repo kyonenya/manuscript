@@ -1,6 +1,5 @@
-import { updateTag } from 'next/cache';
+import { cacheTag, updateTag } from 'next/cache';
 import { notFound, redirect } from 'next/navigation';
-import { connection } from 'next/server';
 import { Entry } from '../../domain/Entry';
 import {
   deleteOne,
@@ -11,26 +10,41 @@ import {
 import { Article } from './Article';
 import { ArticleHeader } from './ArticleHeader';
 
+async function getCachedEntry(props: { uuid: string }) {
+  'use cache';
+  cacheTag(`entry:${props.uuid.toUpperCase()}`);
+  return await readOne({ uuid: props.uuid });
+}
+
+async function getCachedTagHistory() {
+  'use cache';
+  cacheTag('tags');
+  return await readTagList();
+}
+
 export default async function ArticlePage(props: {
   params: Promise<{ uuid: string }>;
 }) {
-  await connection();
   const { uuid } = await props.params;
 
-  const entry = await readOne({ uuid });
+  const entry = await getCachedEntry({ uuid });
   if (!entry) notFound();
-  const tagHistory = await readTagList();
+  const tagHistory = await getCachedTagHistory();
 
   const updateAction = async (props: { entry: Entry }) => {
     'use server';
     await updateOne(props);
     updateTag('entries');
+    updateTag(`entry:${props.entry.uuid.toUpperCase()}`);
+    updateTag('tags');
   };
 
   const deleteAction = async () => {
     'use server';
     await deleteOne({ uuid });
     updateTag('entries');
+    updateTag(`entry:${uuid.toUpperCase()}`);
+    updateTag('tags');
     redirect('/');
   };
 
