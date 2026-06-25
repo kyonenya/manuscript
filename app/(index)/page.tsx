@@ -15,7 +15,7 @@ async function getCachedEntries(props: {
   limit: number;
 }) {
   'use cache';
-  cacheTag('entry');
+  cacheTag('entries');
   return readMany(props);
 }
 
@@ -43,13 +43,13 @@ export default async function IndexPage(props: {
     await createMany({
       entries: props.entries.filter((entry) => !uuids.includes(entry.uuid)), // duplicate exclusion
     });
-    updateTag('entry');
+    updateTag('entries');
   };
 
   const deleteAllAction = async () => {
     'use server';
     await deleteAll();
-    updateTag('entry');
+    updateTag('entries');
   };
 
   return (

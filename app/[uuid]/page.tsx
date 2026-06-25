@@ -24,13 +24,13 @@ export default async function ArticlePage(props: {
   const updateAction = async (props: { entry: Entry }) => {
     'use server';
     await updateOne(props);
-    updateTag('entry');
+    updateTag('entries');
   };
 
   const deleteAction = async () => {
     'use server';
     await deleteOne({ uuid });
-    updateTag('entry');
+    updateTag('entries');
     redirect('/');
   };
 
