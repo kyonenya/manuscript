@@ -24,10 +24,7 @@ async function CachedPostList(props: {
   searchParams: {
     keyword?: string;
     tag?: string;
-    order?: string;
   };
-  isSelectMode: boolean;
-  isPreviewMode: boolean;
 }) {
   const entries = await getCachedEntries({
     tag: props.searchParams.tag,
@@ -42,9 +39,6 @@ async function CachedPostList(props: {
         keyword: props.searchParams.keyword,
         tag: props.searchParams.tag,
       }}
-      isSelectMode={props.isSelectMode}
-      isPreviewMode={props.isPreviewMode}
-      isAsc={props.searchParams.order === 'asc'}
     />
   );
 }
@@ -53,14 +47,9 @@ export default async function IndexPage(props: {
   searchParams: Promise<{
     keyword?: string;
     tag?: string;
-    select?: string;
-    preview?: string;
-    order?: string;
   }>;
 }) {
   const searchParams = await props.searchParams;
-  const isSelectMode = !!searchParams.select;
-  const isPreviewMode = !!searchParams.preview;
 
   const importAction = async (props: { entries: Entry[] }) => {
     'use server';
@@ -81,19 +70,12 @@ export default async function IndexPage(props: {
 
   return (
     <>
-      {!isPreviewMode && (
-        <PostListHeader
-          isSelectMode={isSelectMode}
-          importAction={importAction}
-          deleteAllAction={deleteAllAction}
-        />
-      )}
+      <PostListHeader
+        importAction={importAction}
+        deleteAllAction={deleteAllAction}
+      />
       <Suspense fallback={<PostListSkelton />}>
-        <CachedPostList
-          searchParams={searchParams}
-          isSelectMode={isSelectMode}
-          isPreviewMode={isPreviewMode}
-        />
+        <CachedPostList searchParams={searchParams} />
       </Suspense>
     </>
   );

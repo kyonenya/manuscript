@@ -5,26 +5,24 @@ import { PostList } from '../(index)/PostList';
 import { PostListHeader } from '../(index)/PostListHeader';
 import { sampleEntries } from '../../domain/sampleEntries';
 
+/**
+ * Wrap this component in Suspense because of `useSearchParams`.
+ *
+ * @see https://nextjs.org/docs/app/api-reference/functions/use-search-params#prerendering
+ */
 export const DemoPostList = () => {
   const searchParams = useSearchParams();
-  const isPreviewMode = !!searchParams.get('preview');
-  const isSelectMode = !!searchParams.get('select');
 
   return (
     <>
-      {!isPreviewMode && (
-        <PostListHeader isSelectMode={isSelectMode} isDemoMode={true} />
-      )}
+      <PostListHeader isDemoMode={true} />
       <PostList
         entries={sampleEntries}
         searchQuery={{
           keyword: searchParams.get('keyword') ?? undefined,
           tag: searchParams.get('tag') ?? undefined,
         }}
-        isSelectMode={isSelectMode}
-        isPreviewMode={isPreviewMode}
         isDemoMode={true}
-        isAsc={searchParams.get('order') === 'asc'}
       />
     </>
   );

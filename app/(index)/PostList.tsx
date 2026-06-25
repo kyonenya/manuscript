@@ -1,6 +1,7 @@
 'use client';
 
 import { InboxIcon } from '@heroicons/react/24/solid';
+import { useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import { Entry, sortByCreatedAt } from '../../domain/Entry';
 import { SearchQuery } from '../../domain/SearchQuery';
@@ -18,18 +19,17 @@ const PostListContainer = (props: React.PropsWithChildren) => (
 export const PostList = ({
   entries,
   searchQuery,
-  isPreviewMode = false,
-  isSelectMode = false,
   isDemoMode = false,
-  isAsc,
 }: {
   entries: Entry[];
   searchQuery?: SearchQuery | undefined;
-  isPreviewMode?: boolean;
-  isSelectMode?: boolean;
   isDemoMode?: boolean;
-  isAsc?: boolean;
 }) => {
+  const searchParams = useSearchParams();
+  const isPreviewMode = !!searchParams.get('preview');
+  const isSelectMode = !!searchParams.get('select');
+  const isAsc = searchParams.get('order') === 'asc';
+
   const [selectedEntries, setSelectedEntries] = useState<Entry[]>([]);
 
   if (isPreviewMode && entries) {
