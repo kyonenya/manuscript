@@ -4,6 +4,9 @@ import { sampleEntries } from '../../../domain/sampleEntries';
 import { Article } from '../../[uuid]/Article';
 import { ArticleHeader } from '../../[uuid]/ArticleHeader';
 
+export const generateStaticParams = () =>
+  sampleEntries.map((entry) => ({ uuid: entry.uuid }));
+
 export default async function DemoArticlePage(props: {
   params: Promise<{ uuid: string }>;
 }) {
