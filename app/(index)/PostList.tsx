@@ -25,11 +25,12 @@ export const PostList = ({
   searchQuery?: SearchQuery | undefined;
   isDemoMode?: boolean;
 }) => {
-  const [selectedEntries, setSelectedEntries] = useState<Entry[]>([]);
   const searchParams = useSearchParams();
   const isPreviewMode = !!searchParams.get('preview');
   const isSelectMode = !!searchParams.get('select');
   const isAsc = searchParams.get('order') === 'asc';
+
+  const [selectedEntries, setSelectedEntries] = useState<Entry[]>([]);
 
   if (isPreviewMode && entries) {
     return (
