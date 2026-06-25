@@ -8,7 +8,7 @@ import {
   StarIcon,
 } from '@heroicons/react/24/solid';
 import { fromZonedTime } from 'date-fns-tz';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useFormStatus } from 'react-dom';
 import { useForm, useWatch } from 'react-hook-form';
 import { Entry } from '../../domain/Entry';
@@ -81,7 +81,6 @@ const UpdateFormButton = (props: {
 export const ArticleHeader = ({
   entry,
   tagHistory = [],
-  isDemoMode = false,
   updateAction,
   deleteAction,
 }: {
@@ -98,16 +97,15 @@ export const ArticleHeader = ({
       starred: entry.starred,
     },
   });
+  const router = useRouter();
   const tags = useWatch({ name: 'tags', control });
 
   return (
     <HeaderContainer>
       <IconsContainer>
-        <Link href={`/${isDemoMode ? 'demo' : ''}`}>
-          <IconButton>
-            <ArrowLeftIcon />
-          </IconButton>
-        </Link>
+        <IconButton type="button" onClick={() => router.back()}>
+          <ArrowLeftIcon />
+        </IconButton>
         <div aria-hidden className="w-10" />
       </IconsContainer>
 
