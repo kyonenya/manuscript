@@ -1,4 +1,5 @@
 import { cacheTag, updateTag } from 'next/cache';
+import { Suspense } from 'react';
 import { Entry } from '../../domain/Entry';
 import {
   createMany,
@@ -6,7 +7,7 @@ import {
   readAllUuids,
   readMany,
 } from '../../infra/entryRepository';
-import { PostList } from './PostList';
+import { PostList, PostListSkelton } from './PostList';
 import { PostListHeader } from './PostListHeader';
 
 async function getCachedEntries(props: {
@@ -17,6 +18,35 @@ async function getCachedEntries(props: {
   'use cache';
   cacheTag('entries');
   return readMany(props);
+}
+
+async function CachedPostList(props: {
+  searchParams: {
+    keyword?: string;
+    tag?: string;
+    order?: string;
+  };
+  isSelectMode: boolean;
+  isPreviewMode: boolean;
+}) {
+  const entries = await getCachedEntries({
+    tag: props.searchParams.tag,
+    keyword: props.searchParams.keyword,
+    limit: 300,
+  });
+
+  return (
+    <PostList
+      entries={entries}
+      searchQuery={{
+        keyword: props.searchParams.keyword,
+        tag: props.searchParams.tag,
+      }}
+      isSelectMode={props.isSelectMode}
+      isPreviewMode={props.isPreviewMode}
+      isAsc={props.searchParams.order === 'asc'}
+    />
+  );
 }
 
 export default async function IndexPage(props: {
@@ -31,11 +61,6 @@ export default async function IndexPage(props: {
   const searchParams = await props.searchParams;
   const isSelectMode = !!searchParams.select;
   const isPreviewMode = !!searchParams.preview;
-  const entries = await getCachedEntries({
-    tag: searchParams.tag,
-    keyword: searchParams.keyword,
-    limit: 300,
-  });
 
   const importAction = async (props: { entries: Entry[] }) => {
     'use server';
@@ -61,13 +86,13 @@ export default async function IndexPage(props: {
           deleteAllAction={deleteAllAction}
         />
       )}
-      <PostList
-        entries={entries}
-        searchQuery={{ keyword: searchParams.keyword, tag: searchParams.tag }}
-        isSelectMode={isSelectMode}
-        isPreviewMode={isPreviewMode}
-        isAsc={searchParams.order === 'asc'}
-      />
+      <Suspense fallback={<PostListSkelton />}>
+        <CachedPostList
+          searchParams={searchParams}
+          isSelectMode={isSelectMode}
+          isPreviewMode={isPreviewMode}
+        />
+      </Suspense>
     </>
   );
 }
