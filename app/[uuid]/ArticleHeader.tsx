@@ -24,6 +24,60 @@ import { Spinner } from '../_components/Spinner';
 
 type Form = Pick<Entry, 'createdAt' | 'tags' | 'starred'>;
 
+const DeleteFormButton = (props: { deleteAction?: () => Promise<void> }) => {
+  const { pending } = useFormStatus();
+  return (
+    <Button
+      variant={{ color: 'warning' }}
+      leftIcon={
+        pending ? (
+          <Spinner className="m-0 mr-2 fill-red-500 dark:fill-rose-500" />
+        ) : (
+          <TrashIcon />
+        )
+      }
+      disabled={pending || !props.deleteAction}
+      formAction={async () => {
+        if (!window.confirm("Are you sure? You can't undo this action."))
+          return;
+        await props.deleteAction?.();
+      }}
+    >
+      Delete
+    </Button>
+  );
+};
+
+const UpdateFormButton = (props: {
+  entry: Entry;
+  updateAction?: (props: { entry: Entry }) => void;
+  handleSubmit: ReturnType<typeof useForm<Form>>['handleSubmit'];
+}) => {
+  const { pending } = useFormStatus();
+  return (
+    <IconButton
+      aria-label="Update Entry"
+      disabled={pending || !props.updateAction}
+      formAction={() =>
+        props.handleSubmit((formData: Form) =>
+          props.updateAction?.({
+            entry: {
+              ...props.entry,
+              ...formData,
+              createdAt: fromZonedTime(
+                formData.createdAt, // local 時刻文字列
+                'Asia/Tokyo',
+              ).toISOString(),
+            },
+          }),
+        )()
+      }
+    >
+      {pending ? <Spinner /> : <CheckIcon />}
+    </IconButton>
+  );
+};
+
 export const ArticleHeader = ({
   entry,
   tagHistory = [],
@@ -45,56 +99,6 @@ export const ArticleHeader = ({
     },
   });
   const tags = useWatch({ name: 'tags', control });
-
-  const DeleteFormButton = () => {
-    const { pending } = useFormStatus();
-    return (
-      <Button
-        variant={{ color: 'warning' }}
-        leftIcon={
-          pending ? (
-            <Spinner className="m-0 mr-2 fill-red-500 dark:fill-rose-500" />
-          ) : (
-            <TrashIcon />
-          )
-        }
-        disabled={pending || !deleteAction}
-        formAction={async () => {
-          if (!window.confirm("Are you sure? You can't undo this action."))
-            return;
-          await deleteAction?.();
-        }}
-      >
-        Delete
-      </Button>
-    );
-  };
-
-  const UpdateFormButton = () => {
-    const { pending } = useFormStatus();
-    return (
-      <IconButton
-        aria-label="Update Entry"
-        disabled={pending || !updateAction}
-        formAction={() =>
-          handleSubmit((formData: Form) =>
-            updateAction?.({
-              entry: {
-                ...entry,
-                ...formData,
-                createdAt: fromZonedTime(
-                  formData.createdAt, // local 時刻文字列
-                  'Asia/Tokyo',
-                ).toISOString(),
-              },
-            }),
-          )()
-        }
-      >
-        {pending ? <Spinner /> : <CheckIcon />}
-      </IconButton>
-    );
-  };
 
   return (
     <HeaderContainer>
@@ -128,7 +132,7 @@ export const ArticleHeader = ({
             {...register('tags')}
           />
           <form>
-            <DeleteFormButton />
+            <DeleteFormButton deleteAction={deleteAction} />
           </form>
         </div>
       </Popover>
@@ -138,7 +142,11 @@ export const ArticleHeader = ({
           <StarIcon />
         </IconCheckbox>
         <form>
-          <UpdateFormButton />
+          <UpdateFormButton
+            entry={entry}
+            updateAction={updateAction}
+            handleSubmit={handleSubmit}
+          />
         </form>
       </IconsContainer>
     </HeaderContainer>

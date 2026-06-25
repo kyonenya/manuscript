@@ -13,16 +13,17 @@ export const Select = (props: {
   onSelect: (values: string[]) => void;
   ref?: React.Ref<SelectInstance<Option, true>>;
 }) => {
+  const { name, value, choices, onSelect, ref } = props;
   return (
     <CreatableSelect
       isMulti
-      name={props.name}
-      value={toOptions(props.value)}
-      onChange={(options) => props.onSelect(options.map((v) => v.value))}
-      options={toOptions(props.choices)}
+      name={name}
+      value={toOptions(value)}
+      onChange={(options) => onSelect(options.map((v) => v.value))}
+      options={toOptions(choices)}
       className="react-select-container"
       classNamePrefix="react-select"
-      ref={props.ref}
+      ref={ref}
     />
   );
 };

@@ -42,6 +42,17 @@ const SearchSummary = (props: { summary: SummaryEntity }) => {
   );
 };
 
+const SummaryContent = (props: {
+  text: string;
+  summary: SummaryEntity | undefined;
+}) => {
+  return props.summary ? (
+    <SearchSummary summary={props.summary} />
+  ) : (
+    <Summary text={props.text} />
+  );
+};
+
 const listItemClassName = 'flex flex-col rounded-xl p-6 shadow-lg text-left';
 
 export const ListItem = (props: {
@@ -61,9 +72,6 @@ export const ListItem = (props: {
       })
     : undefined;
 
-  const SummaryComponent = () =>
-    summary ? <SearchSummary summary={summary} /> : <Summary text={text} />;
-
   return (
     <button
       className={twMerge(
@@ -74,13 +82,13 @@ export const ListItem = (props: {
       onClick={props.isSelectMode ? props.onSelect : undefined}
     >
       {props.isSelectMode ? (
-        <SummaryComponent />
+        <SummaryContent text={text} summary={summary} />
       ) : (
         <Link
           href={`${props.isDemoMode ? 'demo' : ''}/${entry.uuid}`}
           prefetch={!!props.isDemoMode}
         >
-          <SummaryComponent />
+          <SummaryContent text={text} summary={summary} />
         </Link>
       )}
       <div className="mb-2" />
