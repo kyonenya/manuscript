@@ -9,9 +9,6 @@ const config = {
     serverActions: {
       bodySizeLimit: '10mb',
     },
-    staleTimes: {
-      dynamic: 180,
-    },
   },
 };
 
