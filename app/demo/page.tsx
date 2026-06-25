@@ -1,34 +1,11 @@
-import { PostList } from '../(index)/PostList';
-import { PostListHeader } from '../(index)/PostListHeader';
-import { sampleEntries } from '../../domain/sampleEntries';
+import { Suspense } from 'react';
+import { PostListSkelton } from '../(index)/PostList';
+import { DemoPostList } from './DemoPostList';
 
-export default async function DemoIndexPage(props: {
-  searchParams: Promise<{
-    keyword?: string;
-    tag?: string;
-    select?: string;
-    preview?: string;
-    order?: string;
-  }>;
-}) {
-  const searchParams = await props.searchParams;
-  const isDemoMode = true;
-  const isSelectMode = !!searchParams.select;
-  const isPreviewMode = !!searchParams.preview;
-
+export default function DemoIndexPage() {
   return (
-    <>
-      {!isPreviewMode && (
-        <PostListHeader isSelectMode={isSelectMode} isDemoMode={isDemoMode} />
-      )}
-      <PostList
-        entries={sampleEntries}
-        searchQuery={{ keyword: searchParams.keyword, tag: searchParams.tag }}
-        isSelectMode={isSelectMode}
-        isPreviewMode={isPreviewMode}
-        isDemoMode={isDemoMode}
-        isAsc={searchParams.order === 'asc'}
-      />
-    </>
+    <Suspense fallback={<PostListSkelton />}>
+      <DemoPostList />
+    </Suspense>
   );
 }
