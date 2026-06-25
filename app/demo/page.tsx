@@ -1,18 +1,16 @@
-import { Suspense } from 'react';
-import { HeaderSkelton } from '../(index)/HeaderSkelton';
-import { PostList, PostListSkelton } from '../(index)/PostList';
+import { PostList } from '../(index)/PostList';
 import { PostListHeader } from '../(index)/PostListHeader';
 import { sampleEntries } from '../../domain/sampleEntries';
 
-type SearchParams = {
-  keyword?: string;
-  tag?: string;
-  select?: string;
-  preview?: string;
-  order?: string;
-};
-
-async function DemoContent(props: { searchParams: Promise<SearchParams> }) {
+export default async function DemoIndexPage(props: {
+  searchParams: Promise<{
+    keyword?: string;
+    tag?: string;
+    select?: string;
+    preview?: string;
+    order?: string;
+  }>;
+}) {
   const searchParams = await props.searchParams;
   const isDemoMode = true;
   const isSelectMode = !!searchParams.select;
@@ -32,22 +30,5 @@ async function DemoContent(props: { searchParams: Promise<SearchParams> }) {
         isAsc={searchParams.order === 'asc'}
       />
     </>
-  );
-}
-
-export default function DemoIndexPage(props: {
-  searchParams: Promise<SearchParams>;
-}) {
-  return (
-    <Suspense
-      fallback={
-        <>
-          <HeaderSkelton />
-          <PostListSkelton />
-        </>
-      }
-    >
-      <DemoContent searchParams={props.searchParams} />
-    </Suspense>
   );
 }

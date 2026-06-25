@@ -1,5 +1,4 @@
 import { cacheTag, updateTag } from 'next/cache';
-import { Suspense } from 'react';
 import { Entry } from '../../domain/Entry';
 import {
   createMany,
@@ -7,7 +6,7 @@ import {
   readAllUuids,
   readMany,
 } from '../../infra/entryRepository';
-import { PostList, PostListSkelton } from './PostList';
+import { PostList } from './PostList';
 import { PostListHeader } from './PostListHeader';
 
 async function getCachedEntries(props: {
@@ -17,9 +16,7 @@ async function getCachedEntries(props: {
 }) {
   'use cache';
   cacheTag('entry');
-
-  const { tag, keyword, limit } = props;
-  return readMany({ tag, keyword, limit });
+  return readMany(props);
 }
 
 export default async function IndexPage(props: {
@@ -34,6 +31,11 @@ export default async function IndexPage(props: {
   const searchParams = await props.searchParams;
   const isSelectMode = !!searchParams.select;
   const isPreviewMode = !!searchParams.preview;
+  const entries = await getCachedEntries({
+    tag: searchParams.tag,
+    keyword: searchParams.keyword,
+    limit: 300,
+  });
 
   const importAction = async (props: { entries: Entry[] }) => {
     'use server';
@@ -50,24 +52,6 @@ export default async function IndexPage(props: {
     updateTag('entry');
   };
 
-  const LazyPostList = async () => {
-    const entries = await getCachedEntries({
-      tag: searchParams.tag,
-      keyword: searchParams.keyword,
-      limit: 300,
-    });
-
-    return (
-      <PostList
-        entries={entries}
-        searchQuery={{ keyword: searchParams.keyword, tag: searchParams.tag }}
-        isSelectMode={isSelectMode}
-        isPreviewMode={isPreviewMode}
-        isAsc={searchParams.order === 'asc'}
-      />
-    );
-  };
-
   return (
     <>
       {!isPreviewMode && (
@@ -77,9 +61,13 @@ export default async function IndexPage(props: {
           deleteAllAction={deleteAllAction}
         />
       )}
-      <Suspense fallback={<PostListSkelton />}>
-        <LazyPostList />
-      </Suspense>
+      <PostList
+        entries={entries}
+        searchQuery={{ keyword: searchParams.keyword, tag: searchParams.tag }}
+        isSelectMode={isSelectMode}
+        isPreviewMode={isPreviewMode}
+        isAsc={searchParams.order === 'asc'}
+      />
     </>
   );
 }
