@@ -12,16 +12,22 @@ import { sampleEntries } from '../../domain/sampleEntries';
  */
 export const DemoPostList = () => {
   const searchParams = useSearchParams();
+  const searchQuery = {
+    keyword: searchParams.get('keyword') ?? undefined,
+    tag: searchParams.get('tag') ?? undefined,
+  };
 
   return (
     <>
       <PostListHeader isDemoMode={true} />
       <PostList
-        entries={sampleEntries}
-        searchQuery={{
-          keyword: searchParams.get('keyword') ?? undefined,
-          tag: searchParams.get('tag') ?? undefined,
-        }}
+        entries={sampleEntries.filter(
+          (entry) =>
+            (!searchQuery.keyword ||
+              entry.text.includes(searchQuery.keyword)) &&
+            (!searchQuery.tag || entry.tags.includes(searchQuery.tag)),
+        )}
+        searchQuery={searchQuery}
         isDemoMode={true}
       />
     </>
