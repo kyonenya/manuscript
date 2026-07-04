@@ -71,7 +71,7 @@ export const PostListHeader = (props: {
         <Popover
           side="bottom"
           triggerButton={
-            <IconButton>
+            <IconButton aria-label="Settings">
               <Cog8ToothIcon />
             </IconButton>
           }

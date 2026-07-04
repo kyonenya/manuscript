@@ -10,7 +10,7 @@ export const HeaderSkelton = () => {
 
   return (
     <HeaderContainer>
-      <IconButton onClick={router.back}>
+      <IconButton aria-label="Back" onClick={router.back}>
         <ArrowLeftIcon />
       </IconButton>
     </HeaderContainer>

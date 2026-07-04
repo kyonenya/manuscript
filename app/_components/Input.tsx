@@ -44,7 +44,7 @@ export const Input = (
             className: twMerge('w-5', leftIcon.props.className),
           })}
         {leftIconButtonIcon && (
-          <IconButton className="z-10 p-0">
+          <IconButton aria-label="Search" className="z-10 p-0">
             {cloneElement(leftIconButtonIcon, {
               className: twMerge('w-5', leftIconButtonIcon.props.className),
             })}
@@ -68,6 +68,7 @@ export const Input = (
           {/* reset all searchParams */}
           <Link href={pathname} passHref>
             <IconButton
+              aria-label="Clear Search"
               className="h-5 w-5 rounded-full"
               onClick={() => {
                 if (!_ref || !('current' in _ref) || !_ref.current) return;
