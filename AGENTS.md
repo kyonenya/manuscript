@@ -2,14 +2,11 @@
 
 ## URLパス
 
-- /
-  - 記事一覧ページ
-- /[uuid]
-  - 個別記事ページ
-- /demo
-  - 記事一覧ページのデモ版
-- /demo/[uuid]
-  - 個別記事ページのデモ版
+- `/`：記事一覧ページ
+  - searchParams で制御している `PostList` の逆順ソートやプレビュー表示は server component だと遅いので client component にしている
+- `/[uuid]`：個別記事ページ
+- `/demo`：記事一覧ページのデモ版
+- `/demo/[uuid]`：個別記事ページのデモ版
 
 ## Next.js DevTools MCP
 

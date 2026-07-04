@@ -11,7 +11,6 @@ export default async function DemoArticlePage(props: {
   params: Promise<{ uuid: string }>;
 }) {
   const { uuid } = await props.params;
-  const isDemoMode = true;
 
   const entry = sampleEntries.find(
     (entry) => entry.uuid === uuid.toUpperCase(),
@@ -22,12 +21,8 @@ export default async function DemoArticlePage(props: {
 
   return (
     <>
-      <ArticleHeader
-        entry={entry}
-        tagHistory={tagHistory}
-        isDemoMode={isDemoMode}
-      />
-      <Article entry={entry} isDemoMode={isDemoMode} />
+      <ArticleHeader entry={entry} tagHistory={tagHistory} isDemoMode={true} />
+      <Article entry={entry} isDemoMode={true} />
     </>
   );
 }
