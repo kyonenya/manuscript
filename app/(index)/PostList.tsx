@@ -46,34 +46,26 @@ export const PostList = ({
   return (
     <PostListContainer>
       {entries.length > 0 &&
-        sortByCreatedAt(entries, isAsc)
-          .filter(
-            (entry) =>
-              (!searchQuery?.keyword ||
-                entry.text.includes(searchQuery.keyword)) &&
-              (!searchQuery?.tag || entry.tags.includes(searchQuery.tag)),
-          )
-          .map((entry) => (
-            <ListItem
-              entry={entry}
-              searchQuery={searchQuery}
-              isSelectMode={isSelectMode}
-              isSelected={
-                isSelectMode &&
-                selectedEntries.some((e) => e.uuid === entry.uuid)
-              }
-              isDemoMode={isDemoMode}
-              onSelect={() =>
-                setSelectedEntries((prevEntries) => {
-                  if (prevEntries.some((e) => e.uuid === entry.uuid)) {
-                    return prevEntries.filter((e) => e.uuid !== entry.uuid);
-                  }
-                  return [entry, ...prevEntries];
-                })
-              }
-              key={entry.uuid}
-            />
-          ))}
+        sortByCreatedAt(entries, isAsc).map((entry) => (
+          <ListItem
+            entry={entry}
+            searchQuery={searchQuery}
+            isSelectMode={isSelectMode}
+            isSelected={
+              isSelectMode && selectedEntries.some((e) => e.uuid === entry.uuid)
+            }
+            isDemoMode={isDemoMode}
+            onSelect={() =>
+              setSelectedEntries((prevEntries) => {
+                if (prevEntries.some((e) => e.uuid === entry.uuid)) {
+                  return prevEntries.filter((e) => e.uuid !== entry.uuid);
+                }
+                return [entry, ...prevEntries];
+              })
+            }
+            key={entry.uuid}
+          />
+        ))}
       {entries.length === 0 && (
         <div className="col-span-2 py-6 text-center text-gray-500 dark:text-gray-300">
           <div className="flex flex-col items-center justify-center space-y-4">

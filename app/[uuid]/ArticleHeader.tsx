@@ -103,7 +103,7 @@ export const ArticleHeader = ({
   return (
     <HeaderContainer>
       <IconsContainer>
-        <IconButton type="button" onClick={() => router.back()}>
+        <IconButton aria-label="Back" type="button" onClick={router.back}>
           <ArrowLeftIcon />
         </IconButton>
         <div aria-hidden className="w-10" />
@@ -155,13 +155,17 @@ export const ArticleHeaderEmpty = () => {
   return (
     <HeaderContainer>
       <IconsContainer>
-        <IconButton>
+        <IconButton aria-label="Back">
           <ArrowLeftIcon />
         </IconButton>
         <div aria-hidden className="w-10" />
       </IconsContainer>
 
-      <Button rightIcon={<ChevronDownIcon />} className="w-auto">
+      <Button
+        aria-label="Entry Date"
+        rightIcon={<ChevronDownIcon />}
+        className="w-auto"
+      >
         <div className="w-20" />
       </Button>
 

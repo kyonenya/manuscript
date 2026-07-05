@@ -8,14 +8,14 @@ import { formatTZ } from '../../domain/dateUtils';
 import { Skelton } from '../_components/Skelton';
 import { Tags } from '../_components/Tags';
 
-const Summary = (props: { text: string }) => {
-  const limit = 120;
+const LIMIT = 120;
 
+const Summary = (props: { text: string }) => {
   return (
     <div>
       <p className="text-gray-700 dark:text-gray-300">
-        {props.text.length > limit
-          ? `${props.text.substring(0, limit)}...`
+        {props.text.length > LIMIT
+          ? `${props.text.substring(0, LIMIT)}...`
           : props.text}
       </p>
     </div>
@@ -67,8 +67,8 @@ export const ListItem = (props: {
   const text = entry.text.replaceAll(/\n/g, ' ');
   const summary = props.searchQuery?.keyword
     ? generateSummaryEntity(text, props.searchQuery.keyword, {
-        maxLength: 120,
-        beforeLength: 50,
+        maxLength: LIMIT,
+        beforeLength: LIMIT / 2 - 10,
       })
     : undefined;
 

@@ -34,8 +34,8 @@ export const updateSearchParams = (props: {
 export const readFileAsText = (file: Blob): Promise<string> => {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
-    reader.onload = (event) => resolve(event.target?.result as string);
-    reader.onerror = (error) => reject(error);
+    reader.addEventListener('load', (e) => resolve(e.target?.result as string));
+    reader.addEventListener('error', (_e) => reject(reader.error));
 
     reader.readAsText(file);
   });
